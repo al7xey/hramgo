@@ -245,36 +245,51 @@ function getSearchTerms(query?: string) {
   return Array.from(new Set([query, normalized, ...words])).filter(Boolean).slice(0, 8);
 }
 
+function buildSearchWhere(query: string, terms: string[]): Prisma.TempleWhereInput {
+  const phraseFilters = searchFieldFilters(query);
+  const wordTerms = terms.filter((term) => normalizeSearch(term) !== normalizeSearch(query));
+  const wordFilter =
+    wordTerms.length > 1
+      ? {
+          AND: wordTerms.map((term) => ({
+            OR: searchFieldFilters(term)
+          }))
+        }
+      : undefined;
+
+  if (wordFilter) {
+    return { OR: [{ OR: phraseFilters }, wordFilter] };
+  }
+
+  return { OR: phraseFilters };
+}
+
+function searchFieldFilters(term: string): Prisma.TempleWhereInput[] {
+  const filter = { contains: term, mode: "insensitive" as const };
+
+  return [
+    { name: filter },
+    { shortName: filter },
+    { address: filter },
+    { district: filter },
+    { metro: filter },
+    { vicariate: filter },
+    { deanery: filter },
+    { description: filter },
+    { objectType: filter },
+    { affiliation: filter },
+    { transitStations: { some: { station: filter } } },
+    { transitStations: { some: { lineName: filter } } },
+    { clergy: { some: { name: filter } } },
+    { clergy: { some: { role: filter } } },
+    { parishServices: { some: { title: filter } } },
+    { parishServices: { some: { description: filter } } }
+  ];
+}
+
 async function fetchDbTemples(input: TempleSearchInput = {}) {
   const queryTerms = getSearchTerms(input.query);
-  const contains = input.query
-    ? {
-        contains: input.query,
-        mode: "insensitive" as const
-      }
-    : undefined;
-  const queryOrFilters = queryTerms.flatMap((term): Prisma.TempleWhereInput[] => {
-    const termContains = { contains: term, mode: "insensitive" as const };
-
-    return [
-      { name: termContains },
-      { shortName: termContains },
-      { address: termContains },
-      { district: termContains },
-      { metro: termContains },
-      { vicariate: termContains },
-      { deanery: termContains },
-      { description: termContains },
-      { objectType: termContains },
-      { affiliation: termContains },
-      { transitStations: { some: { station: termContains } } },
-      { transitStations: { some: { lineName: termContains } } },
-      { clergy: { some: { name: termContains } } },
-      { clergy: { some: { role: termContains } } },
-      { parishServices: { some: { title: termContains } } },
-      { parishServices: { some: { description: termContains } } }
-    ];
-  });
+  const queryFilter = input.query ? buildSearchWhere(input.query, queryTerms) : undefined;
   const andFilters: Prisma.TempleWhereInput[] = [];
 
   if (input.metro?.length) {
@@ -298,7 +313,7 @@ async function fetchDbTemples(input: TempleSearchInput = {}) {
     where: {
       moderationStatus: "PUBLISHED",
       ...(input.ids?.length ? { id: { in: input.ids } } : {}),
-      ...(input.query ? { OR: queryOrFilters.length ? queryOrFilters : [{ name: contains }] } : {}),
+      ...(queryFilter ? queryFilter : {}),
       ...(input.district?.length ? { district: { in: input.district } } : {}),
       ...(input.metroLine?.length ? { transitStations: { some: { lineId: { in: input.metroLine } } } } : {}),
       ...(andFilters.length ? { AND: andFilters } : {}),
