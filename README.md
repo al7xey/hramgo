@@ -1,22 +1,36 @@
 # HramGo
 
-HramGo is a mobile-first православный помощник для поиска храмов РПЦ Москвы. MVP includes a catalog, temple pages, map view, favorites, visitor impressions, moderation/admin surfaces, representative surfaces, Prisma/PostGIS schema, seed data, Docker Compose infrastructure, and an evidence-first ingestion pipeline scaffold.
+HramGo — сервис для поиска православных храмов Москвы: каталог, карта, расписания богослужений, адреса, метро, МЦД, контакты, фото, избранное и отзывы.
 
-## Stack
+Продакшен: [https://hramgo.ru](https://hramgo.ru)
+
+## Что внутри
+
+- Главная страница с поиском храмов.
+- Каталог `/temples` с фильтрами, пагинацией и карточками храмов.
+- Страница храма `/temples/[slug]` с фото, расписанием, контактами, духовенством, приходскими направлениями и отзывами.
+- Карта `/map` с маркерами храмов и маршрутами.
+- Авторизация, профиль, избранное и отзывы.
+- Админ-раздел и раздел представителя храма.
+- SEO: metadata, Open Graph, Twitter Cards, `robots.txt`, `sitemap.xml`, JSON-LD.
+- Импорт и обновление данных из официальных источников.
+
+## Стек
 
 - Next.js 15, React 19, TypeScript, App Router
-- Tailwind CSS with CSS variables, shadcn/ui-style local components, Framer Motion-ready setup
-- Prisma, PostgreSQL, PostGIS
-- NextAuth/Auth.js-style email demo auth
-- Zod validation
-- S3-compatible storage contract for photos
-- Docker Compose with PostgreSQL/PostGIS, MinIO, Redis
+- Tailwind CSS
+- Prisma
+- PostgreSQL / PostGIS
+- NextAuth
+- Zod
+- Docker / Docker Compose
+- S3-compatible storage для фотографий
 
-## Quick Start
+## Быстрый старт
 
 ```bash
+npm ci
 cp .env.example .env
-npm install
 docker compose up -d
 npm run db:generate
 npm run db:push
@@ -24,121 +38,85 @@ npm run db:seed
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Локально сайт откроется на [http://localhost:3000](http://localhost:3000).
 
-For an immediate UI preview without a database, keep `USE_DEMO_DATA=true` in `.env`. Set `USE_DEMO_DATA=false` to force Prisma-backed reads.
+## Переменные окружения
 
-## Environment
+Создайте `.env` на основе `.env.example`.
 
-Copy `.env.example` to `.env` and fill production values:
+Основные переменные:
 
-- `DATABASE_URL` for PostgreSQL/PostGIS
-- `NEXTAUTH_SECRET`, `NEXTAUTH_URL`
-- `EMAIL_SERVER`, `EMAIL_FROM` if enabling magic links
-- `S3_ENDPOINT`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, `S3_BUCKET`, `S3_PUBLIC_URL`
-- `MAPS_API_KEY`, `GEOCODER_API_KEY`
-- `LLM_PROVIDER`, `LLM_API_KEY`
-- `REVIEW_MODERATION_REQUIRED`, `AUTO_APPROVE_SAFE_REVIEWS`
+- `DATABASE_URL` — подключение к PostgreSQL.
+- `NEXTAUTH_SECRET` — секрет NextAuth.
+- `NEXTAUTH_URL` — URL приложения.
+- `USE_DEMO_DATA` — dev fallback для демо-данных.
+- `S3_ENDPOINT`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, `S3_BUCKET`, `S3_PUBLIC_URL` — хранилище фото.
+- `YOOKASSA_SHOP_ID`, `YOOKASSA_SECRET_KEY` — платежи через ЮKassa.
+- `MAPS_API_KEY`, `GEOCODER_API_KEY` — карты и геокодирование.
 
-API keys must stay server-side.
+Секреты нельзя коммитить в репозиторий.
 
-## Database
-
-The Prisma schema defines users, roles, temples, sources, evidence, photos, favorites, visitor impressions, reports, replies, representatives, edit suggestions, import jobs, import logs, and moderation logs.
+## Команды
 
 ```bash
-npm run db:migrate
+npm run dev
+npm run typecheck
+npm run lint
+npm run build
+npm run start
+```
+
+База данных:
+
+```bash
+npm run db:generate
+npm run db:push
 npm run db:seed
 ```
 
-The schema includes a PostGIS `geometry(Point, 4326)` field as an unsupported Prisma type. Add a production migration for `CREATE EXTENSION IF NOT EXISTS postgis;` and a GiST index on `Temple.location`.
-
-## Docker Compose
-
-```bash
-docker compose up -d
-```
-
-Services:
-
-- PostgreSQL with PostGIS on `localhost:5432`
-- MinIO on `localhost:9000`, console on `localhost:9001`
-- Redis on `localhost:6379`
-
-## Auth And Roles
-
-Roles are defined as:
-
-- `USER`
-- `MODERATOR`
-- `ADMIN`
-- `TEMPLE_REPRESENTATIVE`
-
-The MVP ships with demo email credentials for development. In production, replace demo credential auth with email magic links or an approved identity provider and enforce role checks on every admin and representative mutation.
-
-## Themes
-
-The app supports light, dark, and system themes through CSS variables and Tailwind dark mode. Light mode is the default and uses a white background. The theme selector is in `/profile` and `/profile/settings`; it persists to `localStorage` in the MVP and has a `/api/me/theme` endpoint for database persistence.
-
-## Favorites
-
-The UI stores favorites locally for instant MVP use and exposes:
-
-- `POST /api/favorites`
-- `DELETE /api/favorites/[templeId]`
-- `GET /api/me/favorites`
-
-Connect these handlers to the Prisma `Favorite` model when user sessions are enforced.
-
-## Visitor Impressions
-
-The interface uses soft wording: “Впечатления посетителей”, “Поделиться впечатлением”, “Полезные заметки”. Internally the model is `Review`. Submissions are validated with Zod and routed through a moderation policy before publication.
-
-Core endpoints:
-
-- `GET /api/temples/[slug]/reviews`
-- `POST /api/temples/[slug]/reviews`
-- `POST /api/reviews/[reviewId]/helpful`
-- `POST /api/reviews/[reviewId]/report`
-
-## Moderation
-
-Admin pages live under `/admin`. The schema supports review approval/rejection/hiding, reports, photo moderation, representative approval, and a moderation log. The MVP routes return consistent JSON stubs ready to connect to Prisma transactions.
-
-## Maps
-
-The MVP uses a responsive local map visualization and route links to Yandex Maps. To connect 2GIS MapGL or Yandex Maps, keep API keys in server env, expose only safe public config, and replace `src/components/map/temple-map.tsx` with the provider adapter.
-
-## S3 Photos
-
-Photo upload limits are configured by:
-
-- `MAX_REVIEW_PHOTOS`
-- `MAX_UPLOAD_SIZE_MB`
-
-Only `image/jpeg`, `image/png`, and `image/webp` are accepted by the storage contract. Strip EXIF data in the upload worker before approval.
-
-## LLM Ingestion Pipeline
-
-Scripts are scaffolded in `scripts/`:
+Импорт и обновление храмов:
 
 ```bash
 npm run import:official-list
-npm run discover:websites
-npm run crawl:temple
-npm run extract:llm
 npm run geocode:temples
-npm run moderation:queue
+npm run crawl:temple
 npm run recalculate:ratings
-npm run sync:temple-sources
-npm run check:stale-data
 ```
 
-The LLM prompt is in `src/lib/llm/temple-extraction-prompt.ts`. It requires JSON-only output, no invented data, field-level evidence, confidence values, and manual review for uncertain photos.
+## Архитектура
 
-## Routes
+Проект использует FSD-подобную структуру для Next.js App Router:
 
-Public:
+- `src/app` — маршруты, layouts, API routes, metadata, sitemap и robots.
+- `src/features` — доменная логика и типы.
+- `src/components` — UI-компоненты, виджеты и композиции страниц.
+- `src/lib` — инфраструктура: Prisma, auth, env, storage, API helpers.
+- `src/types` — глобальные типы.
+- `scripts` — импорт, геокодирование, crawl и служебные задачи.
+- `prisma` — схема и seed.
+
+Подробный аудит архитектуры: [docs/fsd-audit.md](docs/fsd-audit.md).
+
+## SEO
+
+В проекте настроены:
+
+- уникальные `title` и `description` для основных страниц;
+- Open Graph и Twitter Cards;
+- `sitemap.xml`;
+- `robots.txt`;
+- JSON-LD для сайта, организации и страниц храмов;
+- Google Search Console verification;
+- Yandex verification file.
+
+Публичные SEO-адреса:
+
+- [https://hramgo.ru/sitemap.xml](https://hramgo.ru/sitemap.xml)
+- [https://hramgo.ru/robots.txt](https://hramgo.ru/robots.txt)
+
+## Основные маршруты
+
+Публичные:
 
 - `/`
 - `/temples`
@@ -146,38 +124,52 @@ Public:
 - `/temples/[slug]/reviews`
 - `/map`
 - `/favorites`
+- `/support`
 - `/login`
 - `/profile`
-- `/profile/reviews`
-- `/profile/favorites`
-- `/profile/settings`
 
-Admin:
+Админ:
 
 - `/admin`
 - `/admin/temples`
 - `/admin/reviews`
-- `/admin/review-reports`
-- `/admin/users`
 - `/admin/imports`
-- `/admin/moderation`
 - `/admin/photos`
-- `/admin/representatives`
+- `/admin/users`
 
-Representative:
+Представитель храма:
 
 - `/representative`
 - `/representative/temples`
 - `/representative/reviews`
 - `/representative/suggestions`
 
-## Production Checklist
+## Деплой
 
-- Replace demo auth with verified email/OAuth auth.
-- Enforce role checks in all admin and representative route handlers.
-- Add real map provider integration.
-- Move favorites and review actions from demo/local mode to Prisma transactions.
-- Add S3 presigned upload implementation and EXIF stripping worker.
-- Add PostGIS migration for location index.
-- Add automated tests for validation, moderation policy, and API permissions.
-- Review all seed data against official sources before public deployment.
+Текущий продакшен работает на Docker-контейнере приложения. Основная схема:
+
+```bash
+npm run build
+```
+
+Далее runtime-артефакты копируются на сервер и контейнер перезапускается. Подробности лежат в [DEPLOY_VPS.md](DEPLOY_VPS.md).
+
+## Проверка перед релизом
+
+```bash
+npm run typecheck
+npm run lint
+npm run build
+```
+
+После деплоя проверить:
+
+- [https://hramgo.ru](https://hramgo.ru)
+- [https://hramgo.ru/temples](https://hramgo.ru/temples)
+- [https://hramgo.ru/map](https://hramgo.ru/map)
+- [https://hramgo.ru/sitemap.xml](https://hramgo.ru/sitemap.xml)
+- [https://hramgo.ru/robots.txt](https://hramgo.ru/robots.txt)
+
+## Статус
+
+Проект находится в production-ready стадии: основной пользовательский сценарий, каталог, карта, страницы храмов, избранное, отзывы, SEO и деплой уже собраны. Дальнейшие улучшения стоит делать отдельными итерациями: расширение базы храмов, улучшение качества фото, посадочные SEO-страницы по метро/районам и автоматические тесты.
