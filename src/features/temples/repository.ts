@@ -114,6 +114,7 @@ function scoreTempleSearch(temple: TempleView, query: string) {
   const metro = normalizeSearch(temple.metro ?? "");
   const transit = temple.transit.map((item) => `${normalizeSearch(item.station)} ${normalizeSearch(item.line.name)} ${item.line.system}`).join(" ");
   const services = temple.parishServices.map((item) => `${normalizeSearch(item.title)} ${normalizeSearch(item.description)}`).join(" ");
+  const terms = getSearchTerms(query);
 
   let score = 0;
   if (shortName === query || name === query) score += 1200;
@@ -123,6 +124,12 @@ function scoreTempleSearch(temple: TempleView, query: string) {
   if (transit.includes(query) || metro.includes(query)) score += 320;
   if (district.includes(query)) score += 180;
   if (services.includes(query)) score += 90;
+  for (const term of terms) {
+    if (name.includes(term) || shortName.includes(term)) score += 120;
+    if (address.includes(term)) score += 80;
+    if (transit.includes(term) || metro.includes(term)) score += 70;
+    if (district.includes(term)) score += 50;
+  }
   score += Math.min(80, temple.approvedReviewsCount * 5);
   score += temple.averageHelpfulnessRating;
   return score;
@@ -242,7 +249,7 @@ function getSearchTerms(query?: string) {
   const words = normalized
     .split(/\s+/u)
     .filter((word) => word.length >= 3 && !["храм", "церковь", "улица", "метро", "мцд", "москва"].includes(word));
-  return Array.from(new Set([query, normalized, ...words])).filter(Boolean).slice(0, 8);
+  return Array.from(new Set([query, normalized, ...words.flatMap(expandSearchTerm)])).filter(Boolean).slice(0, 16);
 }
 
 function buildSearchWhere(query: string, terms: string[]): Prisma.TempleWhereInput {
@@ -285,6 +292,23 @@ function searchFieldFilters(term: string): Prisma.TempleWhereInput[] {
     { parishServices: { some: { title: filter } } },
     { parishServices: { some: { description: filter } } }
   ];
+}
+
+function expandSearchTerm(term: string) {
+  const normalized = normalizeSearch(term);
+  const variants = [normalized];
+  const stripped = normalized.replace(/(ого|ему|ыми|ими|ая|яя|ое|ее|ий|ый|ой|ом|ем|ам|ям|ах|ях|ов|ев|ей|ия|иям|ию|ии|ия|ью|а|я|ы|и|е|у|ю|о)$/u, "");
+
+  if (stripped.length >= 4) {
+    variants.push(stripped);
+  }
+
+  if (normalized.endsWith("ий") && normalized.length > 4) {
+    variants.push(`${normalized.slice(0, -2)}ия`);
+    variants.push(`${normalized.slice(0, -2)}ий`);
+  }
+
+  return variants;
 }
 
 async function fetchDbTemples(input: TempleSearchInput = {}) {

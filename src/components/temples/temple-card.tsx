@@ -16,7 +16,7 @@ export function TempleCard({ temple }: { temple: TempleView }) {
       <Link
         href={detailsHref}
         className="absolute inset-0 z-10 rounded-glass focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-        aria-label={`Открыть храм: ${temple.shortName ?? temple.name}`}
+        aria-label={`Открыть храм: ${temple.name}`}
       />
       <div className="absolute right-1.5 top-1.5 z-30">
         <FavoriteButton templeId={temple.id} compact />
@@ -34,7 +34,7 @@ export function TempleCard({ temple }: { temple: TempleView }) {
         </div>
 
         <div className="grid min-w-0 grid-rows-[auto_auto_1fr] py-1">
-          <h2 className="line-clamp-2 min-h-10 pr-12 text-base font-semibold leading-5">{temple.shortName ?? temple.name}</h2>
+          <h2 className="line-clamp-2 min-h-10 pr-12 text-base font-semibold leading-5">{temple.name}</h2>
 
           <div className="mt-2 min-h-8">
             <TransitSummary transit={temple.transit} />
