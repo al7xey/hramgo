@@ -4,6 +4,7 @@ const links = [
   { href: "/legal/privacy", label: "Политика конфиденциальности" },
   { href: "/legal/personal-data-consent", label: "Согласие на ПДн" },
   { href: "/legal/terms", label: "Условия" },
+  { href: "/legal/offer", label: "Публичная оферта" },
   { href: "/legal/cookies", label: "Cookies" }
 ];
 
