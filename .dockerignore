@@ -1,0 +1,11 @@
+.git
+.next
+node_modules
+tmp
+npm-debug.log
+.next-dev-live.log
+.next-dev.err.log
+.next-dev.log
+tsconfig.tsbuildinfo
+prisma/dev.db
+docker-compose.yml

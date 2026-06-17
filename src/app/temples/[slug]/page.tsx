@@ -1,0 +1,522 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import type { ReactNode } from "react";
+import { BookOpenText, ChevronDown, Clock3, ExternalLink, History, Map, ShieldCheck, UsersRound } from "lucide-react";
+import { notFound } from "next/navigation";
+
+import { FavoriteButton } from "@/components/favorites/favorite-button";
+import { TempleMap } from "@/components/map/temple-map";
+import { ReviewCard } from "@/components/reviews/review-card";
+import { ReviewForm } from "@/components/reviews/review-form";
+import { ReviewSummary } from "@/components/reviews/review-summary";
+import { TempleGallery } from "@/components/temples/temple-gallery";
+import { TemplePhoto } from "@/components/temples/temple-photo";
+import { TransitSummary } from "@/components/temples/transit-chip";
+import { Button } from "@/components/ui/button";
+import { EmptyState } from "@/components/ui/empty-state";
+import { LiquidGlassCard } from "@/components/ui/liquid-glass-card";
+import { getParishServiceLabel } from "@/features/temples/parish-services";
+import { getTempleBySlug } from "@/features/temples/repository";
+import type { TempleParishServiceView, TempleView } from "@/features/temples/types";
+import { formatDate } from "@/lib/utils";
+
+type SearchParams = Record<string, string | string[] | undefined>;
+
+function getParam(params: SearchParams, key: string) {
+  const value = params[key];
+  return Array.isArray(value) ? value[0] : value;
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const temple = await getTempleBySlug(slug);
+
+  if (!temple) {
+    return { title: "Храм не найден" };
+  }
+
+  return {
+    title: temple.shortName ?? temple.name,
+    description: temple.description ?? `Фото, расписание и контакты: ${temple.name}`,
+    alternates: {
+      canonical: `/temples/${temple.slug}`
+    },
+    openGraph: {
+      title: `${temple.shortName ?? temple.name} | HramGo`,
+      description: temple.description ?? "Фото, расписание и контакты храма.",
+      url: `https://hramgo.ru/temples/${temple.slug}`,
+      type: "article",
+      images: temple.photos[0]?.imageUrl ? [temple.photos[0].imageUrl] : [{ url: "/opengraph-image", width: 1200, height: 630 }]
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${temple.shortName ?? temple.name} | HramGo`,
+      description: temple.description ?? "Фото, расписание и контакты храма.",
+      images: temple.photos[0]?.imageUrl ? [temple.photos[0].imageUrl] : ["/twitter-image"]
+    }
+  };
+}
+
+export default async function TemplePage({
+  params,
+  searchParams
+}: {
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<SearchParams>;
+}) {
+  const [{ slug }, query] = await Promise.all([params, searchParams]);
+  const temple = await getTempleBySlug(slug);
+
+  if (!temple) {
+    notFound();
+  }
+
+  const returnTo = getParam(query, "returnTo");
+  const mapHref = returnTo?.startsWith("/map") ? returnTo : `/map?temple=${temple.slug}`;
+  const reviewsHref = `/temples/${temple.slug}/reviews?returnTo=${encodeURIComponent(mapHref)}`;
+  const structuredData = getTempleStructuredData(temple);
+  const displayAddress = formatTempleAddress(temple.address);
+  const templeDescription = getTempleDescription(temple);
+
+  return (
+    <div className="mx-auto grid max-w-5xl gap-5">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <section className="grid gap-5">
+        <div className="grid gap-4 lg:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.95fr)]">
+          <TempleGallery photos={temple.photos} name={temple.name} />
+
+          <LiquidGlassCard className="grid content-start gap-4 p-5">
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <h1 className="break-words text-2xl font-semibold leading-tight md:text-3xl">{temple.name}</h1>
+                <p className="mt-3 text-sm leading-6 text-muted-foreground">{displayAddress}</p>
+              </div>
+              <FavoriteButton templeId={temple.id} compact />
+            </div>
+
+            <TransitSummary transit={temple.transit} limit={3} />
+
+            {templeDescription && <p className="text-sm leading-7 text-muted-foreground">{templeDescription}</p>}
+
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+              <Button asChild>
+                <Link href={mapHref}>
+                  <Map className="size-5" aria-hidden />
+                  Карта
+                </Link>
+              </Button>
+              {temple.websiteUrl && (
+                <Button asChild variant="outline">
+                  <a href={temple.websiteUrl} target="_blank" rel="noreferrer">
+                    <ExternalLink className="size-5" aria-hidden />
+                    Сайт храма
+                  </a>
+                </Button>
+              )}
+            </div>
+          </LiquidGlassCard>
+        </div>
+
+        <div className="grid gap-3">
+          <DetailsCard title="Расписание" icon={<BookOpenText className="size-5" aria-hidden />}>
+            <ScheduleSummary text={temple.scheduleSummary} />
+            <LinkRow href={temple.scheduleSourceUrl ?? temple.websiteUrl} label="Проверить актуальное расписание" fullWidth />
+          </DetailsCard>
+
+          <DetailsCard title="История, святыни и фото" icon={<History className="size-5" aria-hidden />}>
+            <PhotoStrip photos={temple.photos} />
+            <InfoBlock title="История" text={temple.historySummary ?? temple.description ?? "История храма пока не добавлена."} />
+            <InfoBlock
+              title="Святыни и особенности"
+              text={temple.shrines ?? "Сведения о святынях и особенностях лучше уточнить на официальном сайте."}
+            />
+            <LinkRow href={temple.websiteUrl} label="Подробнее на сайте" />
+          </DetailsCard>
+
+          <DetailsCard title="Духовенство" icon={<UsersRound className="size-5" aria-hidden />}>
+            {temple.clergy.length > 0 ? (
+              <div className="grid gap-2">
+                {temple.clergy.map((person) => (
+                  <div key={`${person.name}-${person.role}`} className="rounded-[20px] bg-muted p-4">
+                    <p className="font-semibold">{person.name}</p>
+                    <p className="mt-1 text-sm text-muted-foreground">{[person.rank, person.role].filter(Boolean).join(" · ")}</p>
+                    {person.details && <p className="mt-2 text-sm leading-6 text-muted-foreground">{person.details}</p>}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm leading-6 text-muted-foreground">Информация о духовенстве пока не добавлена.</p>
+            )}
+          </DetailsCard>
+
+          <DetailsCard title="Социальные сети и контакты" icon={<ExternalLink className="size-5" aria-hidden />}>
+            <div className="grid gap-2 sm:grid-cols-2">
+              <MetaLine label="Телефон" value={temple.phone} />
+              <MetaLine label="Email" value={temple.email} />
+            </div>
+            {temple.socialLinks.length > 0 && (
+              <div className="mt-3 flex flex-wrap gap-2">
+                {temple.socialLinks.map((link, index) => (
+                  <a
+                    key={`${link.type}-${link.label}-${link.url}-${index}`}
+                    href={link.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex min-h-11 items-center gap-2 rounded-[18px] border border-transparent bg-primary-soft px-4 text-sm font-semibold text-primary transition-colors hover:bg-primary/10"
+                  >
+                    <ExternalLink className="size-4" aria-hidden />
+                    {link.label}
+                  </a>
+                ))}
+              </div>
+            )}
+          </DetailsCard>
+
+          <ParishServicesOverview temple={temple} />
+
+          <DetailsCard title="Служебная информация" icon={<ShieldCheck className="size-5" aria-hidden />}>
+            <div className="grid gap-2 sm:grid-cols-2">
+              <MetaLine label="Район" value={temple.district} />
+              <MetaLine label="Тип объекта" value={temple.objectType} />
+              <MetaLine label="Благочиние" value={temple.deanery} />
+              <MetaLine label="Викариатство" value={temple.vicariate} />
+              <MetaLine label="Дата проверки" value={formatDate(temple.lastVerifiedAt)} />
+            </div>
+          </DetailsCard>
+        </div>
+
+        <section className="grid gap-3">
+          <h2 className="text-xl font-semibold">Карта</h2>
+          <TempleMap temples={[temple]} activeSlug={temple.slug} />
+        </section>
+
+        <section className="grid gap-3">
+          <div className="flex items-center justify-between gap-3">
+            <h2 className="text-xl font-semibold">Отзывы</h2>
+            <Button asChild variant="ghost" size="sm">
+              <Link href={reviewsHref}>Все</Link>
+            </Button>
+          </div>
+          <ReviewSummary temple={temple} />
+          {temple.reviews.length > 0 ? (
+            <div className="grid gap-3">
+              {temple.reviews.slice(0, 2).map((review) => (
+                <ReviewCard key={review.id} review={review} />
+              ))}
+            </div>
+          ) : (
+            <EmptyState icon={ShieldCheck} title="Пока нет отзывов" description="Можно первым оставить отзыв для других посетителей." />
+          )}
+          <ReviewForm templeId={temple.id} />
+        </section>
+      </section>
+    </div>
+  );
+}
+
+function DetailsCard({ title, icon, children, defaultOpen = false }: { title: string; icon: ReactNode; children: ReactNode; defaultOpen?: boolean }) {
+  return (
+    <details className="details-panel glass rounded-glass p-5" open={defaultOpen}>
+      <summary className="flex cursor-pointer items-center justify-between gap-3">
+        <span className="flex items-center gap-3 text-lg font-semibold">
+          <span className="text-primary">{icon}</span>
+          {title}
+        </span>
+        <ChevronDown className="size-5 text-muted-foreground" aria-hidden />
+      </summary>
+      <div className="mt-4 grid gap-4">{children}</div>
+    </details>
+  );
+}
+
+function InfoBlock({ title, text }: { title: string; text: string }) {
+  return (
+    <div>
+      <h3 className="font-semibold">{title}</h3>
+      <p className="mt-1 text-sm leading-7 text-muted-foreground">{text}</p>
+    </div>
+  );
+}
+
+function MetaLine({ label, value }: { label: string; value?: string | null }) {
+  return (
+    <div className="rounded-[20px] bg-muted p-4">
+      <p className="text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground">{label}</p>
+      <p className="mt-1 text-sm font-medium">{value ?? "не указано"}</p>
+    </div>
+  );
+}
+
+function LinkRow({ href, label, fullWidth = false }: { href?: string | null; label: string; fullWidth?: boolean }) {
+  if (!href) {
+    return null;
+  }
+
+  return (
+    <Button asChild variant="outline" className={fullWidth ? "w-full" : "w-full sm:w-fit"}>
+      <a href={href} target="_blank" rel="noreferrer">
+        <ExternalLink className="size-5" aria-hidden />
+        {label}
+      </a>
+    </Button>
+  );
+}
+
+function PhotoStrip({ photos }: { photos: TempleView["photos"] }) {
+  if (photos.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className="flex gap-2 overflow-x-auto pb-1">
+      {photos.slice(0, 8).map((photo) => (
+        <TemplePhoto key={photo.id} src={photo.imageUrl} alt={photo.alt} className="aspect-[4/3] w-28 shrink-0 rounded-[18px]" />
+      ))}
+    </div>
+  );
+}
+
+function ScheduleSummary({ text }: { text?: string | null }) {
+  const fallback = "Расписание лучше уточнить на официальном сайте храма перед посещением.";
+  const groups = buildScheduleGroups(text ?? fallback);
+
+  return (
+    <div className="grid gap-3">
+      <div className="grid gap-3 md:grid-cols-2">
+        {groups.map((group) => (
+          <div key={group.title} className="rounded-[22px] bg-muted/70 p-4">
+            <h3 className="text-sm font-semibold">{group.title}</h3>
+            <div className="mt-3 grid gap-2">
+              {group.items.map((item, index) => (
+                <ScheduleItem key={`${group.title}-${item}-${index}`} item={item} />
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="rounded-[22px] bg-primary-soft p-4">
+        <p className="text-sm leading-6 text-muted-foreground">
+          Перед поездкой проверьте актуальное расписание на официальном сайте храма или по контактам прихода.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function ScheduleItem({ item }: { item: string }) {
+  const match = item.match(/(\d{1,2})[.:](\d{2})/u);
+  const time = match ? `${match[1]}:${match[2]}` : null;
+  const label = match
+    ? item
+        .replace(match[0], "")
+        .replace(/^[\s\u2014\u2013-]+/u, "")
+        .replace(/^\u0415\u0436\u0435\u043d\u0435\u0434\u0435\u043b\u044c\u043d\u043e\s+\u043f\u043e\s+[^\u2014\u2013-]+[\u2014\u2013-]\s*/iu, "")
+        .trim()
+    : item;
+
+  return (
+    <div className="flex gap-3 rounded-[16px] bg-background/70 p-3">
+      <span className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-primary-soft text-primary">
+        <Clock3 className="size-4" aria-hidden />
+      </span>
+      <p className="min-w-0 text-sm leading-6 text-muted-foreground">
+        {time && <span className="mr-2 font-semibold text-foreground">{time}</span>}
+        {label}
+      </p>
+    </div>
+  );
+}
+
+const WEEKDAY_WORDS = ["\u0431\u0443\u0434\u043d", "\u043f\u043e\u043d\u0435\u0434\u0435\u043b", "\u0432\u0442\u043e\u0440\u043d\u0438\u043a", "\u0441\u0440\u0435\u0434", "\u0447\u0435\u0442\u0432\u0435\u0440", "\u043f\u044f\u0442\u043d\u0438\u0446"];
+const WEEKEND_WORDS = ["\u0441\u0443\u0431\u0431\u043e\u0442", "\u0432\u043e\u0441\u043a\u0440\u0435\u0441", "\u0432\u044b\u0445\u043e\u0434\u043d", "\u043f\u0440\u0430\u0437\u0434\u043d\u0438\u043a"];
+
+function splitSchedule(text: string) {
+  const normalized = text.replace(/\s+/g, " ").trim();
+  const parts: string[] = [];
+
+  for (const sentence of normalized.split(/(?<=\.)\s+|;\s+/)) {
+    const cleanSentence = sentence.trim();
+    if (!cleanSentence) continue;
+    const suffix = cleanSentence.match(/\s+[\u2014\u2013-]\s+(.+)$/u)?.[1]?.trim();
+    const segments = cleanSentence.split(/\s+\/\s+/).map((item) => item.trim()).filter(Boolean);
+
+    segments.forEach((segment, index) => {
+      const needsSuffix = suffix && index < segments.length - 1 && !/[\u2014\u2013-]/u.test(segment);
+      parts.push(needsSuffix ? `${segment} \u2014 ${suffix}` : segment);
+    });
+  }
+
+  return parts.length > 0 ? parts : [normalized];
+}
+
+function hasAnyWord(text: string, words: string[]) {
+  return words.some((word) => text.includes(word));
+}
+
+function scheduleBucket(item: string) {
+  const lower = item.toLowerCase();
+  const hasWeekday = hasAnyWord(lower, WEEKDAY_WORDS);
+  const hasWeekend = hasAnyWord(lower, WEEKEND_WORDS);
+
+  if (hasWeekday && !hasWeekend) return "weekday";
+  if (hasWeekend && !hasWeekday) return "weekend";
+  if (hasWeekend) return "weekend";
+  if (hasWeekday) return "weekday";
+  return "common";
+}
+
+function cleanScheduleItem(item: string) {
+  return item
+    .replace(/\([^)]*\)/g, (part) => {
+      const lower = part.toLowerCase();
+      return hasAnyWord(lower, [...WEEKDAY_WORDS, ...WEEKEND_WORDS]) ? "" : part;
+    })
+    .replace(/\s{2,}/g, " ")
+    .replace(/\s+([,.;])/g, "$1")
+    .trim();
+}
+
+function uniqueScheduleItems(items: string[]) {
+  const seen = new Set<string>();
+  return items
+    .map(cleanScheduleItem)
+    .filter((item) => /\d{1,2}[.:]\d{2}/u.test(item))
+    .filter((item) => {
+      const key = item.toLowerCase();
+      if (!item || seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .slice(0, 4);
+}
+
+function buildScheduleGroups(text: string) {
+  const items = splitSchedule(text);
+  const weekday: string[] = [];
+  const weekend: string[] = [];
+  const common: string[] = [];
+
+  for (const item of items) {
+    const bucket = scheduleBucket(item);
+    if (bucket === "weekday") weekday.push(item);
+    else if (bucket === "weekend") weekend.push(item);
+    else common.push(item);
+  }
+
+  const fallback = ["\u0418\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u044f \u0443\u0442\u043e\u0447\u043d\u044f\u0435\u0442\u0441\u044f"];
+  const weekdayItems = uniqueScheduleItems(weekday.length > 0 ? weekday : common);
+  const weekendItems = uniqueScheduleItems(weekend.length > 0 ? weekend : []);
+
+  return [
+    { title: "\u0411\u0443\u0434\u043d\u0438", items: weekdayItems.length > 0 ? weekdayItems : fallback },
+    { title: "\u0412\u044b\u0445\u043e\u0434\u043d\u044b\u0435", items: weekendItems.length > 0 ? weekendItems : fallback }
+  ];
+}
+
+const serviceOverviewKinds: TempleParishServiceView["kind"][] = ["sundaySchool", "youth", "social", "meetings"];
+
+function ParishServicesOverview({ temple }: { temple: TempleView }) {
+  return (
+    <DetailsCard title="При храме" icon={<BookOpenText className="size-5" aria-hidden />}>
+      <div className="grid gap-3 md:grid-cols-2">
+        {serviceOverviewKinds.map((kind) => {
+          const service = temple.parishServices.find((item) => item.kind === kind);
+          const description =
+            kind === "sundaySchool" ? temple.sundaySchoolDescription || service?.description : service?.description;
+          const sourceUrl = kind === "sundaySchool" ? temple.sundaySchoolSourceUrl || service?.sourceUrl : service?.sourceUrl;
+
+          return (
+            <details key={kind} className="details-panel rounded-[22px] bg-muted/70 p-4">
+              <summary className="flex cursor-pointer items-center justify-between gap-3">
+                <h3 className="font-semibold">{getParishServiceLabel(kind)}</h3>
+                <ChevronDown className="size-4 shrink-0 text-muted-foreground" aria-hidden />
+              </summary>
+              <p className="mt-3 text-sm leading-6 text-muted-foreground">{description || "Информация уточняется."}</p>
+              {sourceUrl && (
+                <a href={sourceUrl} target="_blank" rel="noreferrer" className="mt-3 inline-flex text-sm font-medium text-primary">
+                  Источник
+                </a>
+              )}
+            </details>
+          );
+        })}
+      </div>
+    </DetailsCard>
+  );
+}
+
+function formatTempleAddress(address?: string | null) {
+  return (address ?? "")
+    .replace(/^\s*\d{6},?\s*/u, "")
+    .replace(/^(г\.?\s*)?Москва,?\s*/iu, "")
+    .trim();
+}
+
+function getTempleDescription(temple: TempleView) {
+  const description = temple.description?.trim();
+  const hasActivityText = description
+    ? /воскресн|молод[её]ж|социальн|приходск|миссионер|катехиз|деятельност/i.test(description)
+    : false;
+
+  if (description && !hasActivityText) {
+    return description;
+  }
+
+  return temple.historySummary?.trim() || null;
+}
+
+function getTempleStructuredData(temple: TempleView) {
+  const address = formatTempleAddress(temple.address);
+  const description = getTempleDescription(temple);
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Church",
+        "@id": `https://hramgo.ru/temples/${temple.slug}#church`,
+        name: temple.name,
+    alternateName: temple.shortName ?? undefined,
+    description: description ?? undefined,
+    url: `https://hramgo.ru/temples/${temple.slug}`,
+    image: temple.photos.map((photo) => photo.imageUrl).slice(0, 8),
+    telephone: temple.phone ?? undefined,
+    email: temple.email ?? undefined,
+    address: address
+      ? {
+          "@type": "PostalAddress",
+          streetAddress: address,
+          addressLocality: "Москва",
+          addressCountry: "RU"
+        }
+      : undefined,
+    geo:
+      temple.latitude && temple.longitude
+        ? {
+            "@type": "GeoCoordinates",
+            latitude: temple.latitude,
+            longitude: temple.longitude
+          }
+        : undefined,
+    sameAs: temple.socialLinks.map((link) => link.url),
+    aggregateRating:
+      temple.approvedReviewsCount > 0
+        ? {
+            "@type": "AggregateRating",
+            ratingValue: Math.max(1, temple.averageHelpfulnessRating || 1),
+            reviewCount: temple.approvedReviewsCount
+          }
+        : undefined
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `https://hramgo.ru/temples/${temple.slug}#breadcrumb`,
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Главная", item: "https://hramgo.ru" },
+          { "@type": "ListItem", position: 2, name: "Храмы Москвы", item: "https://hramgo.ru/temples" },
+          { "@type": "ListItem", position: 3, name: temple.shortName ?? temple.name, item: `https://hramgo.ru/temples/${temple.slug}` }
+        ]
+      }
+    ]
+  };
+}

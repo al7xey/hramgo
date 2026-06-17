@@ -1,0 +1,555 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  MODERATOR
+  ADMIN
+  TEMPLE_REPRESENTATIVE
+}
+
+enum UserStatus {
+  ACTIVE
+  BLOCKED
+  DELETED
+}
+
+enum ThemePreference {
+  LIGHT
+  DARK
+  SYSTEM
+}
+
+enum TempleModerationStatus {
+  DRAFT
+  REVIEW
+  PUBLISHED
+  REJECTED
+}
+
+enum SundaySchoolStatus {
+  YES
+  NO
+  UNKNOWN
+}
+
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  HIDDEN
+  NEEDS_REVIEW
+}
+
+enum ReviewVisitType {
+  SERVICE
+  EXCURSION
+  SUNDAY_SCHOOL
+  PERSONAL_VISIT
+  EVENT
+  OTHER
+}
+
+enum ReportStatus {
+  OPEN
+  RESOLVED
+  REJECTED
+}
+
+enum RepresentativeStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum PhotoModerationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  HIDDEN
+  NEEDS_REVIEW
+}
+
+enum CopyrightStatus {
+  OFFICIAL_SITE
+  PERMISSION_NEEDED
+  OPEN_LICENSE
+  MANUAL_REVIEW
+  USER_UPLOADED
+}
+
+model User {
+  id                 String          @id @default(cuid())
+  email              String?         @unique
+  emailVerified      DateTime?
+  passwordHash       String?
+  name               String?
+  image              String?
+  role               Role            @default(USER)
+  status             UserStatus      @default(ACTIVE)
+  themePreference    ThemePreference @default(LIGHT)
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+
+  accounts                   Account[]
+  sessions                   Session[]
+  favorites                  Favorite[]
+  reviews                    Review[]
+  reviewHelpfulVotes         ReviewHelpfulVote[]
+  reviewReports              ReviewReport[]            @relation("ReviewReportAuthor")
+  resolvedReviewReports      ReviewReport[]            @relation("ReviewReportResolver")
+  replies                    ReviewReply[]
+  representativeClaims       TempleRepresentative[]     @relation("RepresentativeUser")
+  verifiedRepresentatives    TempleRepresentative[]     @relation("RepresentativeVerifier")
+  templeEditSuggestions      TempleEditSuggestion[]     @relation("SuggestionAuthor")
+  resolvedTempleSuggestions  TempleEditSuggestion[]     @relation("SuggestionResolver")
+  moderationLogs             ModerationLog[]            @relation("ModeratorLogs")
+
+  @@index([role])
+  @@index([status])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Temple {
+  id                         String                 @id @default(cuid())
+  slug                       String                 @unique
+  name                       String
+  shortName                  String?
+  description                String?                @db.Text
+  address                    String?
+  district                   String?
+  metro                      String?
+  latitude                   Float?
+  longitude                  Float?
+  location                   Unsupported("geometry(Point, 4326)")?
+  websiteUrl                 String?
+  phone                      String?
+  email                      String?
+  rectorName                 String?
+  vicariate                  String?
+  deanery                    String?
+  objectType                 String?
+  affiliation                String?
+  historySummary             String?                @db.Text
+  shrinesSummary             String?                @db.Text
+  scheduleSummary            String?                @db.Text
+  scheduleSourceUrl          String?
+  sundaySchoolStatus         SundaySchoolStatus     @default(UNKNOWN)
+  sundaySchoolDescription    String?                @db.Text
+  sundaySchoolSourceUrl      String?
+  sundaySchoolConfidence     Float?
+  sourcePrimaryUrl           String?
+  dataConfidence             Float                  @default(0)
+  moderationStatus           TempleModerationStatus @default(DRAFT)
+  averageHelpfulnessRating   Float                  @default(0)
+  reviewsCount               Int                    @default(0)
+  approvedReviewsCount       Int                    @default(0)
+  rating5Count               Int                    @default(0)
+  rating4Count               Int                    @default(0)
+  rating3Count               Int                    @default(0)
+  rating2Count               Int                    @default(0)
+  rating1Count               Int                    @default(0)
+  lastCrawledAt              DateTime?
+  lastVerifiedAt             DateTime?
+  createdAt                  DateTime               @default(now())
+  updatedAt                  DateTime               @updatedAt
+
+  photos          TemplePhoto[]
+  sources         TempleSource[]
+  evidences       TempleFieldEvidence[]
+  socialLinks     TempleSocialLink[]
+  clergy          TempleClergy[]
+  parishServices  TempleParishService[]
+  transitStations TempleTransit[]
+  favorites       Favorite[]
+  reviews         Review[]
+  representatives TempleRepresentative[]
+  suggestions     TempleEditSuggestion[]
+
+  @@index([name])
+  @@index([district])
+  @@index([metro])
+  @@index([sundaySchoolStatus])
+  @@index([moderationStatus])
+  @@index([lastVerifiedAt])
+}
+
+model TempleSocialLink {
+  id        String   @id @default(cuid())
+  templeId  String
+  label     String
+  url       String
+  type      String
+  createdAt DateTime @default(now())
+
+  temple Temple @relation(fields: [templeId], references: [id], onDelete: Cascade)
+
+  @@index([templeId])
+  @@index([type])
+}
+
+model TempleClergy {
+  id        String   @id @default(cuid())
+  templeId  String
+  name      String
+  rank      String?
+  role      String
+  details   String?  @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  temple Temple @relation(fields: [templeId], references: [id], onDelete: Cascade)
+
+  @@index([templeId])
+}
+
+model TempleParishService {
+  id          String   @id @default(cuid())
+  templeId    String
+  kind        String
+  title       String
+  description String   @db.Text
+  sourceUrl   String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  temple Temple @relation(fields: [templeId], references: [id], onDelete: Cascade)
+
+  @@index([templeId])
+  @@index([kind])
+}
+
+model TempleTransit {
+  id             String   @id @default(cuid())
+  templeId       String
+  station        String
+  lineId         String
+  lineName       String
+  lineColor      String
+  system         String
+  distanceMeters Int
+  walkMinutes    Int
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  temple Temple @relation(fields: [templeId], references: [id], onDelete: Cascade)
+
+  @@index([templeId])
+  @@index([lineId])
+  @@index([station])
+}
+
+model TemplePhoto {
+  id                String                @id @default(cuid())
+  templeId          String
+  imageUrl          String
+  storageKey        String?
+  sourceUrl         String?
+  alt               String?
+  copyrightStatus   CopyrightStatus       @default(MANUAL_REVIEW)
+  moderationStatus  PhotoModerationStatus @default(PENDING)
+  isMain            Boolean               @default(false)
+  isApproved        Boolean               @default(false)
+  createdAt         DateTime              @default(now())
+
+  temple Temple @relation(fields: [templeId], references: [id], onDelete: Cascade)
+
+  @@index([templeId])
+  @@index([moderationStatus])
+}
+
+model TempleSource {
+  id            String   @id @default(cuid())
+  templeId      String
+  url           String
+  sourceType    String
+  rawTitle      String?
+  rawText       String?  @db.Text
+  extractedJson Json?
+  confidence    Float    @default(0)
+  crawledAt     DateTime @default(now())
+
+  temple Temple @relation(fields: [templeId], references: [id], onDelete: Cascade)
+
+  @@index([templeId])
+  @@index([sourceType])
+}
+
+model TempleFieldEvidence {
+  id            String   @id @default(cuid())
+  templeId      String
+  fieldName     String
+  value         String?  @db.Text
+  sourceUrl     String
+  quote         String?  @db.Text
+  confidence    Float    @default(0)
+  lastCheckedAt DateTime?
+  createdAt     DateTime @default(now())
+
+  temple Temple @relation(fields: [templeId], references: [id], onDelete: Cascade)
+
+  @@index([templeId])
+  @@index([fieldName])
+}
+
+model Favorite {
+  userId    String
+  templeId  String
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  temple Temple @relation(fields: [templeId], references: [id], onDelete: Cascade)
+
+  @@id([userId, templeId])
+  @@index([userId])
+  @@index([templeId])
+}
+
+model Review {
+  id                   String          @id @default(cuid())
+  templeId             String
+  userId               String
+  rating               Int
+  text                 String          @db.Text
+  visitType            ReviewVisitType
+  visitDate            DateTime?
+  accessibilityRating  Int?
+  territoryRating      Int?
+  informationRating    Int?
+  sundaySchoolRating   Int?
+  status               ReviewStatus    @default(PENDING)
+  moderationReason     String?
+  moderatorComment     String?         @db.Text
+  helpfulCount         Int             @default(0)
+  reportsCount         Int             @default(0)
+  hasPhotos            Boolean         @default(false)
+  publishedAt          DateTime?
+  createdAt            DateTime        @default(now())
+  updatedAt            DateTime        @updatedAt
+  editedAt             DateTime?
+
+  temple       Temple              @relation(fields: [templeId], references: [id], onDelete: Cascade)
+  user         User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  photos       ReviewPhoto[]
+  tags         ReviewTagOnReview[]
+  helpfulVotes ReviewHelpfulVote[]
+  reports      ReviewReport[]
+  replies      ReviewReply[]
+
+  @@index([templeId])
+  @@index([userId])
+  @@index([status])
+  @@index([rating])
+  @@index([createdAt])
+}
+
+model ReviewPhoto {
+  id         String                @id @default(cuid())
+  reviewId   String
+  imageUrl   String
+  storageKey String?
+  alt        String?
+  status     PhotoModerationStatus @default(PENDING)
+  createdAt  DateTime              @default(now())
+
+  review Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+
+  @@index([reviewId])
+  @@index([status])
+}
+
+model ReviewTag {
+  id      String              @id @default(cuid())
+  name    String
+  slug    String              @unique
+  reviews ReviewTagOnReview[]
+}
+
+model ReviewTagOnReview {
+  reviewId String
+  tagId    String
+
+  review Review    @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  tag    ReviewTag @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([reviewId, tagId])
+}
+
+model ReviewHelpfulVote {
+  reviewId  String
+  userId    String
+  createdAt DateTime @default(now())
+
+  review Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([reviewId, userId])
+}
+
+model ReviewReport {
+  id           String       @id @default(cuid())
+  reviewId     String
+  userId       String
+  reason       String
+  comment      String?      @db.Text
+  status       ReportStatus @default(OPEN)
+  createdAt    DateTime     @default(now())
+  resolvedAt   DateTime?
+  resolvedById String?
+
+  review     Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  user       User   @relation("ReviewReportAuthor", fields: [userId], references: [id], onDelete: Cascade)
+  resolvedBy User?  @relation("ReviewReportResolver", fields: [resolvedById], references: [id], onDelete: SetNull)
+
+  @@index([reviewId])
+  @@index([userId])
+  @@index([status])
+}
+
+model ReviewReply {
+  id               String       @id @default(cuid())
+  reviewId         String
+  userId           String
+  text             String       @db.Text
+  status           ReviewStatus @default(PENDING)
+  moderatorComment String?      @db.Text
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  publishedAt      DateTime?
+
+  review Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([reviewId])
+  @@index([userId])
+  @@index([status])
+}
+
+model TempleRepresentative {
+  id           String               @id @default(cuid())
+  userId       String
+  templeId     String
+  status       RepresentativeStatus @default(PENDING)
+  verifiedById String?
+  createdAt    DateTime             @default(now())
+  verifiedAt   DateTime?
+
+  user       User   @relation("RepresentativeUser", fields: [userId], references: [id], onDelete: Cascade)
+  temple     Temple @relation(fields: [templeId], references: [id], onDelete: Cascade)
+  verifiedBy User?  @relation("RepresentativeVerifier", fields: [verifiedById], references: [id], onDelete: SetNull)
+
+  @@unique([userId, templeId])
+  @@index([status])
+}
+
+model TempleEditSuggestion {
+  id           String               @id @default(cuid())
+  templeId     String
+  userId       String
+  fieldName    String
+  oldValue     String?              @db.Text
+  newValue     String?              @db.Text
+  sourceUrl    String?
+  comment      String?              @db.Text
+  status       RepresentativeStatus @default(PENDING)
+  createdAt    DateTime             @default(now())
+  resolvedAt   DateTime?
+  resolvedById String?
+
+  temple     Temple @relation(fields: [templeId], references: [id], onDelete: Cascade)
+  user       User   @relation("SuggestionAuthor", fields: [userId], references: [id], onDelete: Cascade)
+  resolvedBy User?  @relation("SuggestionResolver", fields: [resolvedById], references: [id], onDelete: SetNull)
+
+  @@index([templeId])
+  @@index([userId])
+  @@index([status])
+}
+
+model ImportJob {
+  id         String      @id @default(cuid())
+  type       String
+  status     String
+  startedAt  DateTime?
+  finishedAt DateTime?
+  stats      Json?
+  error      String?     @db.Text
+  createdAt  DateTime    @default(now())
+
+  logs ImportLog[]
+
+  @@index([type])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model ImportLog {
+  id          String   @id @default(cuid())
+  importJobId String
+  level       String
+  message     String   @db.Text
+  metadata    Json?
+  createdAt   DateTime @default(now())
+
+  importJob ImportJob @relation(fields: [importJobId], references: [id], onDelete: Cascade)
+
+  @@index([importJobId])
+  @@index([level])
+}
+
+model ModerationLog {
+  id          String   @id @default(cuid())
+  moderatorId String
+  entityType  String
+  entityId    String
+  action      String
+  reason      String?
+  metadata    Json?
+  createdAt   DateTime @default(now())
+
+  moderator User @relation("ModeratorLogs", fields: [moderatorId], references: [id], onDelete: Cascade)
+
+  @@index([moderatorId])
+  @@index([entityType, entityId])
+  @@index([createdAt])
+}
