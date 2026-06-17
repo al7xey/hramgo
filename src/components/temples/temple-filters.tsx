@@ -58,12 +58,18 @@ export function TempleFilters({
 
   return (
     <div className="grid gap-3">
-      <Button type="button" variant="outline" size="lg" className="justify-between bg-white hover:bg-white dark:bg-white dark:text-[#172033]" onClick={() => setIsOpen((value) => !value)}>
+      <Button
+        type="button"
+        variant="outline"
+        size="lg"
+        className="justify-between bg-white hover:bg-white dark:border-white/15 dark:bg-[#102233] dark:text-slate-100 dark:hover:bg-[#102233]"
+        onClick={() => setIsOpen((value) => !value)}
+      >
         <span className="flex items-center gap-2">
           <SlidersHorizontal className="size-4" aria-hidden />
           Фильтры
           {activeFiltersCount > 0 && (
-            <span className="inline-flex min-w-6 items-center justify-center rounded-full bg-primary px-2 py-0.5 text-xs text-white">
+            <span className="inline-flex min-w-6 items-center justify-center rounded-full bg-primary px-2 py-0.5 text-xs text-white dark:text-[#081522]">
               {activeFiltersCount}
             </span>
           )}
@@ -72,7 +78,7 @@ export function TempleFilters({
       </Button>
 
       {isOpen && (
-        <LiquidGlassCard className="bg-white p-4 dark:bg-white dark:text-[#172033]">
+        <LiquidGlassCard className="p-4 dark:bg-[#102233] dark:text-slate-100">
           <form action="/temples" className="grid gap-4">
             <input type="hidden" name="query" value={defaultValues.query ?? ""} />
 
@@ -165,7 +171,7 @@ function FilterGroup({ title, children }: { title: string; children: ReactNode }
 
 function DetailsGroup({ title, count, children }: { title: string; count: number; children: ReactNode }) {
   return (
-    <details className="details-panel rounded-[22px] border border-card-border bg-white p-3">
+    <details className="details-panel rounded-[22px] border border-card-border bg-white p-3 dark:border-white/15 dark:bg-[#0d1d2c]">
       <summary className="flex cursor-pointer items-center justify-between gap-3 text-sm font-semibold text-foreground">
         <span>{title}</span>
         <span className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
@@ -196,8 +202,8 @@ function Check({
   return (
     <label
       className={cn(
-        "inline-flex min-h-10 max-w-full cursor-pointer items-center gap-2 rounded-[18px] border border-card-border bg-white px-3 text-sm transition hover:border-card-border hover:bg-white",
-        defaultChecked && "border-foreground/25 bg-white"
+        "inline-flex min-h-10 max-w-full cursor-pointer items-center gap-2 rounded-[18px] border border-card-border bg-white px-3 text-sm transition hover:border-card-border hover:bg-white dark:border-white/15 dark:bg-[#0d1d2c] dark:text-slate-100 dark:hover:bg-[#0d1d2c]",
+        defaultChecked && "border-foreground/25 bg-white dark:border-sky-300/45 dark:bg-sky-400/10"
       )}
     >
       <input type="checkbox" name={name} value={value} defaultChecked={defaultChecked} className="size-4 accent-primary" />

@@ -9,6 +9,7 @@ import { TempleMap } from "@/components/map/temple-map";
 import { ReviewCard } from "@/components/reviews/review-card";
 import { ReviewForm } from "@/components/reviews/review-form";
 import { ReviewSummary } from "@/components/reviews/review-summary";
+import { BackToSearchButton } from "@/components/temples/back-to-search-button";
 import { TempleGallery } from "@/components/temples/temple-gallery";
 import { TemplePhoto } from "@/components/temples/temple-photo";
 import { TransitSummary } from "@/components/temples/transit-chip";
@@ -79,10 +80,11 @@ export default async function TemplePage({
   const templeDescription = getTempleDescription(temple);
 
   return (
-    <div className="mx-auto grid max-w-5xl gap-5">
+    <div className="mx-auto grid max-w-6xl gap-5">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       <section className="grid gap-5">
-        <div className="grid gap-4 lg:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.95fr)]">
+        <BackToSearchButton />
+        <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1.08fr)_minmax(360px,0.92fr)]">
           <TempleGallery photos={temple.photos} name={temple.name} />
 
           <LiquidGlassCard className="grid content-start gap-4 p-5">
