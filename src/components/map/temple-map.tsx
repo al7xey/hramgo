@@ -127,12 +127,12 @@ export function TempleMap({ temples, activeSlug }: { temples: TempleMapView[]; a
   }, [activeTemple?.latitude, activeTemple?.longitude, mapReady]);
 
   return (
-    <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_360px]">
+    <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
       <LiquidGlassCard className="overflow-hidden p-2">
-        <div ref={mapNodeRef} className="aspect-square w-full overflow-hidden rounded-[24px] bg-muted lg:aspect-auto lg:h-[620px]" />
+        <div ref={mapNodeRef} className="aspect-square w-full overflow-hidden rounded-[24px] bg-muted lg:aspect-auto lg:h-[640px]" />
       </LiquidGlassCard>
 
-      <div className="grid gap-3 self-start">
+      <div className="grid gap-3 self-start lg:sticky lg:top-24">
         {activeTemple && <TempleMapBottomSheet temple={activeTemple} />}
       </div>
     </div>

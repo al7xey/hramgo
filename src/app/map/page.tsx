@@ -60,13 +60,15 @@ export default async function MapPage({ searchParams }: { searchParams: Promise<
     }));
 
   return (
-    <div className="grid gap-4">
-      <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_360px] md:items-end">
+    <div className="grid gap-5">
+      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
         <div>
           <h1 className="text-2xl font-semibold md:text-3xl">Карта храмов Москвы</h1>
-          <p className="mt-1 text-sm text-muted-foreground">Показано храмов: {temples.length}</p>
+          <p className="mt-2 text-sm text-muted-foreground">Показано храмов: {temples.length}</p>
         </div>
-        <TempleSearchBar action="/map" defaultValue={parsed.query} />
+        <div className="lg:pt-1">
+          <TempleSearchBar action="/map" defaultValue={parsed.query} />
+        </div>
       </div>
       <TempleMap temples={temples} activeSlug={getParam(params, "temple")} />
     </div>
