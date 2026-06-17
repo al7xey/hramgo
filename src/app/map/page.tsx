@@ -6,7 +6,7 @@ import { listTemples } from "@/features/temples/repository";
 import { templeSearchSchema } from "@/features/temples/validation";
 
 export const metadata: Metadata = {
-  title: "Карта храмов Москвы — храмы рядом с вами",
+  title: "Карта храмов Москвы — поиск по адресу, метро и МЦД",
   description:
     "Интерактивная карта православных храмов Москвы: реальные адреса, ближайшее метро и МЦД, маршруты, официальные сайты и контакты.",
   keywords: ["карта храмов Москвы", "храм рядом", "церковь рядом", "храмы рядом с метро", "православные храмы Москвы"],
@@ -63,8 +63,8 @@ export default async function MapPage({ searchParams }: { searchParams: Promise<
     <div className="grid gap-4">
       <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_360px] md:items-end">
         <div>
-          <h1 className="text-2xl font-semibold md:text-3xl">Карта храмов</h1>
-          <p className="mt-1 text-sm text-muted-foreground">Найдено на карте: {temples.length}</p>
+          <h1 className="text-2xl font-semibold md:text-3xl">Карта храмов Москвы</h1>
+          <p className="mt-1 text-sm text-muted-foreground">Показано храмов: {temples.length}</p>
         </div>
         <TempleSearchBar action="/map" defaultValue={parsed.query} />
       </div>

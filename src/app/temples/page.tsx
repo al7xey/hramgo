@@ -7,7 +7,7 @@ import { getDistricts, getMetroLines, getMetroOptions, getParishServiceKinds, li
 import { templeSearchSchema, type TempleSearchSchema } from "@/features/temples/validation";
 
 export const metadata: Metadata = {
-  title: "Храмы Москвы — каталог, расписание, адреса и метро",
+  title: "Поиск храмов Москвы — адреса, метро, МЦД и расписания",
   description:
     "Каталог православных храмов Москвы: поиск по названию, адресу, району, метро, МЦД, расписанию богослужений, фото и приходской жизни.",
   keywords: ["храмы Москвы", "православные храмы Москвы", "расписание храма", "богослужения в храме", "храмы рядом с метро", "церкви Москвы"],
@@ -66,9 +66,9 @@ export default async function TemplesPage({ searchParams }: { searchParams: Prom
       <div className="grid gap-5 lg:grid-cols-[320px_1fr]">
         <aside className="grid gap-4 lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:self-start lg:overflow-y-auto lg:pr-1">
           <div>
-            <h1 className="text-2xl font-semibold md:text-3xl">Поиск храмов</h1>
+            <h1 className="text-2xl font-semibold md:text-3xl">Поиск храмов Москвы</h1>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">
-              Название, район, станции, линии метро и приходские направления.
+              Ищите по названию, улице, району, метро, МЦД, расписанию и приходской деятельности.
             </p>
           </div>
           <TempleSearchBar defaultValue={parsed.query} autoFocus />

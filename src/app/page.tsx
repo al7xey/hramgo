@@ -10,21 +10,21 @@ import { LiquidGlassCard } from "@/components/ui/liquid-glass-card";
 import { listTemples } from "@/features/temples/repository";
 
 export const metadata: Metadata = {
-  title: "HramGo — храмы Москвы, расписание богослужений и карта",
+  title: "HramGo — поиск храмов Москвы рядом с метро и МЦД",
   description:
-    "Найдите православный храм в Москве рядом с метро или МЦД: адрес, расписание богослужений, официальный сайт, фото, контакты и маршрут на карте.",
+    "Найдите храм в Москве по названию, улице, району, метро или МЦД. Адреса, расписания, контакты, фото и карта.",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "HramGo — храмы Москвы рядом",
-    description: "Каталог православных храмов Москвы: расписания, адреса, метро, МЦД, фото, контакты и карта.",
+    title: "HramGo — поиск храмов Москвы рядом",
+    description: "Храмы Москвы по названию, улице, метро и МЦД: расписания, адреса, контакты, фото и карта.",
     url: "https://hramgo.ru",
     type: "website",
     images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "HramGo — храмы Москвы" }]
   },
   twitter: {
     card: "summary_large_image",
-    title: "HramGo — храмы Москвы рядом",
-    description: "Храмы Москвы, расписание богослужений, адреса, метро, МЦД и карта.",
+    title: "HramGo — поиск храмов Москвы рядом",
+    description: "Поиск храмов Москвы по названию, улице, метро, МЦД, расписанию и контактам.",
     images: ["/twitter-image"]
   }
 };
@@ -47,10 +47,10 @@ export default async function HomePage() {
               HramGo
             </div>
             <h1 className="mt-5 max-w-4xl break-words text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl">
-              Найдите храм рядом
+              Найдите храм в Москве
             </h1>
             <p className="mt-4 max-w-2xl text-base leading-7 text-muted-foreground lg:text-lg">
-              Поиск храмов Москвы, расписаний, контактов, метро, МЦД и карты.
+              Введите название, улицу, район, станцию метро или МЦД. HramGo покажет ближайшие храмы, адреса, расписания и маршрут.
             </p>
             <div className="mt-5">
               <TempleSearchBar />

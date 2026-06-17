@@ -20,7 +20,7 @@ export function TempleSearchBar({
           name="query"
           defaultValue={defaultValue}
           autoFocus={autoFocus}
-          placeholder="Название, метро или район"
+          placeholder="Название, улица, метро или МЦД"
           className="h-12 w-full min-w-0 rounded-[22px] border border-card-border bg-card px-12 text-base outline-none transition placeholder:text-muted-foreground focus:border-primary focus:ring-4 focus:ring-primary-soft"
         />
       </label>

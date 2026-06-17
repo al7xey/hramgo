@@ -80,12 +80,14 @@ function filterDemoTemples(input: TempleSearchInput = {}) {
     return true;
   });
 
-  temples = sortTemples(temples, input.sort);
+  temples = sortTemples(temples, input.sort, input.query);
 
   return temples;
 }
 
-function sortTemples(temples: TempleView[], sort: TempleSearchInput["sort"] = "relevance") {
+function sortTemples(temples: TempleView[], sort: TempleSearchInput["sort"] = "relevance", query?: string) {
+  const normalizedQuery = query ? normalizeSearch(query) : "";
+
   return [...temples].sort((a, b) => {
     switch (sort) {
       case "alphabet":
@@ -95,9 +97,46 @@ function sortTemples(temples: TempleView[], sort: TempleSearchInput["sort"] = "r
       case "impressions":
         return b.approvedReviewsCount - a.approvedReviewsCount || b.averageHelpfulnessRating - a.averageHelpfulnessRating;
       default:
-        return b.averageHelpfulnessRating - a.averageHelpfulnessRating;
+        if (normalizedQuery) {
+          return scoreTempleSearch(b, normalizedQuery) - scoreTempleSearch(a, normalizedQuery);
+        }
+
+        return a.name.localeCompare(b.name, "ru");
     }
   });
+}
+
+function scoreTempleSearch(temple: TempleView, query: string) {
+  const name = normalizeSearch(temple.name);
+  const shortName = normalizeSearch(temple.shortName ?? "");
+  const address = normalizeAddressForSearch(temple.address ?? "");
+  const district = normalizeSearch(temple.district ?? "");
+  const metro = normalizeSearch(temple.metro ?? "");
+  const transit = temple.transit.map((item) => `${normalizeSearch(item.station)} ${normalizeSearch(item.line.name)} ${item.line.system}`).join(" ");
+  const services = temple.parishServices.map((item) => `${normalizeSearch(item.title)} ${normalizeSearch(item.description)}`).join(" ");
+
+  let score = 0;
+  if (shortName === query || name === query) score += 1200;
+  if (shortName.startsWith(query) || name.startsWith(query)) score += 800;
+  if (shortName.includes(query) || name.includes(query)) score += 500;
+  if (address.includes(query)) score += 360;
+  if (transit.includes(query) || metro.includes(query)) score += 320;
+  if (district.includes(query)) score += 180;
+  if (services.includes(query)) score += 90;
+  score += Math.min(80, temple.approvedReviewsCount * 5);
+  score += temple.averageHelpfulnessRating;
+  return score;
+}
+
+function normalizeAddressForSearch(value: string) {
+  return normalizeSearch(value)
+    .replace(/\bулица\b/g, "ул")
+    .replace(/\bпроспект\b/g, "пр т")
+    .replace(/\bпереулок\b/g, "пер")
+    .replace(/\bбульвар\b/g, "бул")
+    .replace(/\bмосква\b/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 function mapDbTemple(temple: Awaited<ReturnType<typeof fetchDbTemples>>[number]): TempleView {
@@ -194,13 +233,48 @@ function mapDbTemple(temple: Awaited<ReturnType<typeof fetchDbTemples>>[number])
   };
 }
 
+function getSearchTerms(query?: string) {
+  if (!query) {
+    return [];
+  }
+
+  const normalized = normalizeAddressForSearch(query);
+  const words = normalized
+    .split(/\s+/u)
+    .filter((word) => word.length >= 3 && !["храм", "церковь", "улица", "метро", "мцд", "москва"].includes(word));
+  return Array.from(new Set([query, normalized, ...words])).filter(Boolean).slice(0, 8);
+}
+
 async function fetchDbTemples(input: TempleSearchInput = {}) {
+  const queryTerms = getSearchTerms(input.query);
   const contains = input.query
     ? {
         contains: input.query,
         mode: "insensitive" as const
       }
     : undefined;
+  const queryOrFilters = queryTerms.flatMap((term): Prisma.TempleWhereInput[] => {
+    const termContains = { contains: term, mode: "insensitive" as const };
+
+    return [
+      { name: termContains },
+      { shortName: termContains },
+      { address: termContains },
+      { district: termContains },
+      { metro: termContains },
+      { vicariate: termContains },
+      { deanery: termContains },
+      { description: termContains },
+      { objectType: termContains },
+      { affiliation: termContains },
+      { transitStations: { some: { station: termContains } } },
+      { transitStations: { some: { lineName: termContains } } },
+      { clergy: { some: { name: termContains } } },
+      { clergy: { some: { role: termContains } } },
+      { parishServices: { some: { title: termContains } } },
+      { parishServices: { some: { description: termContains } } }
+    ];
+  });
   const andFilters: Prisma.TempleWhereInput[] = [];
 
   if (input.metro?.length) {
@@ -224,28 +298,7 @@ async function fetchDbTemples(input: TempleSearchInput = {}) {
     where: {
       moderationStatus: "PUBLISHED",
       ...(input.ids?.length ? { id: { in: input.ids } } : {}),
-      ...(input.query
-        ? {
-            OR: [
-              { name: contains },
-              { shortName: contains },
-              { address: contains },
-              { district: contains },
-              { metro: contains },
-              { vicariate: contains },
-              { deanery: contains },
-              { description: contains },
-              { objectType: contains },
-              { affiliation: contains },
-              { transitStations: { some: { station: contains } } },
-              { transitStations: { some: { lineName: contains } } },
-              { clergy: { some: { name: contains } } },
-              { clergy: { some: { role: contains } } },
-              { parishServices: { some: { title: contains } } },
-              { parishServices: { some: { description: contains } } }
-            ]
-          }
-        : {}),
+      ...(input.query ? { OR: queryOrFilters.length ? queryOrFilters : [{ name: contains }] } : {}),
       ...(input.district?.length ? { district: { in: input.district } } : {}),
       ...(input.metroLine?.length ? { transitStations: { some: { lineId: { in: input.metroLine } } } } : {}),
       ...(andFilters.length ? { AND: andFilters } : {}),
@@ -288,7 +341,7 @@ export async function listTemples(input: TempleSearchInput = {}) {
 
   try {
     const temples = await fetchDbTemples(input);
-    return sortTemples(temples.map(mapDbTemple), input.sort);
+    return sortTemples(temples.map(mapDbTemple), input.sort, input.query);
   } catch (error) {
     if (env.USE_DEMO_DATA === "false") {
       throw error;
