@@ -6,7 +6,7 @@ export function TempleGallery({ photos, name }: { photos: TemplePhotoView[]; nam
   const mainPhoto = photos[0];
 
   return (
-    <LiquidGlassCard className="overflow-hidden p-2">
+    <LiquidGlassCard className="h-fit overflow-hidden p-2 lg:self-start">
       <div className="relative aspect-[4/3] w-full bg-muted md:aspect-[16/9]">
         {mainPhoto ? (
           <TemplePhoto src={mainPhoto.imageUrl} alt={mainPhoto.alt} priority className="absolute inset-0 rounded-[22px]" />

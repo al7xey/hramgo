@@ -36,9 +36,13 @@ export const metadata: Metadata = {
     canonical: siteUrl
   },
   icons: {
-    icon: [{ url: "/favicon.ico", type: "image/svg+xml", sizes: "any" }],
-    shortcut: "/favicon.ico",
-    apple: [{ url: "/favicon.ico", type: "image/svg+xml" }]
+    icon: [
+      { url: "/favicon.ico", type: "image/x-icon", sizes: "any" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/icon-192.png", type: "image/png", sizes: "192x192" }
+    ],
+    shortcut: [{ url: "/favicon.ico", type: "image/x-icon" }],
+    apple: [{ url: "/apple-touch-icon.png", type: "image/png", sizes: "180x180" }]
   },
   robots: {
     index: true,
@@ -107,7 +111,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         "@id": `${siteUrl}/#organization`,
         name: "HramGo",
         url: siteUrl,
-        logo: `${siteUrl}/favicon.ico`
+        logo: `${siteUrl}/icon-512.png`
       }
     ]
   };
