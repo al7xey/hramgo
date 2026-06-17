@@ -15,6 +15,16 @@ const siteUrl = "https://hramgo.ru";
 const siteDescription =
   "HramGo помогает найти православные храмы Москвы: адреса, ближайшее метро, расписания богослужений, контакты, фото и карту.";
 
+const themeInitScript = `
+try {
+  var theme = localStorage.getItem("hramgo-theme") || "light";
+  var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  var isDark = theme === "dark" || (theme === "system" && prefersDark);
+  document.documentElement.classList.toggle("dark", isDark);
+  document.documentElement.dataset.theme = theme;
+} catch (_) {}
+`;
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   applicationName: "HramGo",
@@ -119,6 +129,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="ru" suppressHydrationWarning>
       <body className={`${montserrat.variable} font-sans antialiased`}>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
         <Providers>
           <AppShell>{children}</AppShell>

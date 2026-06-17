@@ -22,11 +22,26 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const root = document.documentElement;
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const prefersDark = mediaQuery.matches;
     const shouldUseDark = theme === "dark" || (theme === "system" && prefersDark);
 
     root.classList.toggle("dark", shouldUseDark);
     root.dataset.theme = theme;
+
+    if (theme !== "system") {
+      return;
+    }
+
+    const handleSystemThemeChange = (event: MediaQueryListEvent) => {
+      root.classList.toggle("dark", event.matches);
+    };
+
+    mediaQuery.addEventListener("change", handleSystemThemeChange);
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleSystemThemeChange);
+    };
   }, [theme]);
 
   return <ThemeContext.Provider value={{ theme, setTheme }}>{children}</ThemeContext.Provider>;
