@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import type { ReactNode } from "react";
 
 import { TempleMapBottomSheet } from "@/components/map/temple-map-bottom-sheet";
 import { LiquidGlassCard } from "@/components/ui/liquid-glass-card";
@@ -38,7 +39,7 @@ declare global {
 
 const MOSCOW_CENTER: [number, number] = [55.751244, 37.618423];
 
-export function TempleMap({ temples, activeSlug }: { temples: TempleMapView[]; activeSlug?: string }) {
+export function TempleMap({ temples, activeSlug, sidebarTop }: { temples: TempleMapView[]; activeSlug?: string; sidebarTop?: ReactNode }) {
   const points = useMemo(() => temples.filter((temple) => temple.latitude && temple.longitude), [temples]);
   const pointsKey = useMemo(() => points.map((temple) => `${temple.id}:${temple.latitude}:${temple.longitude}`).join("|"), [points]);
   const initialTemple = points.find((temple) => temple.slug === activeSlug) ?? points[0];
@@ -132,7 +133,8 @@ export function TempleMap({ temples, activeSlug }: { temples: TempleMapView[]; a
         <div ref={mapNodeRef} className="aspect-square w-full overflow-hidden rounded-[24px] bg-muted lg:aspect-auto lg:h-[640px]" />
       </LiquidGlassCard>
 
-      <div className="grid gap-3 self-start lg:sticky lg:top-24">
+      <div className="grid gap-4 self-start lg:sticky lg:top-24">
+        {sidebarTop}
         {activeTemple && <TempleMapBottomSheet temple={activeTemple} />}
       </div>
     </div>
