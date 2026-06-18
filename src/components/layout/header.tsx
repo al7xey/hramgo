@@ -12,7 +12,7 @@ const navItems = [
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-[220] border-b border-card-border bg-background/94 backdrop-blur-xl">
+    <header className="fixed inset-x-0 top-0 z-[1000] bg-background/94 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2 rounded-full font-semibold hover:no-underline active:scale-100" aria-label="HramGo">
           <span className="flex size-10 items-center justify-center rounded-[18px] bg-primary-soft text-primary">
