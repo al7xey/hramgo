@@ -19,7 +19,7 @@ export default function SupportPage() {
       <LiquidGlassCard className="grid gap-3 p-5">
         <h2 className="text-xl font-semibold">Безопасность платежа</h2>
         <p className="text-sm leading-6 text-muted-foreground">
-          Оплата проходит на стороне ЮKassa. HramGo не хранит данные банковских карт.
+          Оплата проходит на стороне Robokassa. HramGo не хранит данные банковских карт.
         </p>
       </LiquidGlassCard>
     </div>

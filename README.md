@@ -51,7 +51,7 @@ npm run dev
 - `NEXTAUTH_URL` — URL приложения.
 - `USE_DEMO_DATA` — dev fallback для демо-данных.
 - `S3_ENDPOINT`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, `S3_BUCKET`, `S3_PUBLIC_URL` — хранилище фото.
-- `YOOKASSA_SHOP_ID`, `YOOKASSA_SECRET_KEY` — платежи через ЮKassa.
+- `ROBOKASSA_MERCHANT_LOGIN`, `ROBOKASSA_PASSWORD_1`, `ROBOKASSA_PASSWORD_2` — платежи поддержки через Robokassa.
 - `MAPS_API_KEY`, `GEOCODER_API_KEY` — карты и геокодирование.
 
 Секреты нельзя коммитить в репозиторий.

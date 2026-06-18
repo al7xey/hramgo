@@ -1,8 +1,10 @@
+import { createHash, randomInt } from "node:crypto";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
-import { env } from "@/lib/env";
 import { badRequest } from "@/lib/api/response";
+import { prisma } from "@/lib/db/prisma";
+import { env } from "@/lib/env";
 
 const paymentSchema = z.object({
   amount: z.coerce.number().min(50).max(150000),
@@ -22,6 +24,18 @@ function isRateLimited(key: string) {
   return requests.length > 5;
 }
 
+function formatAmount(amount: number) {
+  return amount.toFixed(2);
+}
+
+function createSignature(parts: string[]) {
+  return createHash(env.ROBOKASSA_HASH_ALGORITHM).update(parts.join(":")).digest("hex");
+}
+
+function createInvoiceId() {
+  return `${Date.now()}${randomInt(100, 999)}`;
+}
+
 export async function POST(request: Request) {
   try {
     const payload = paymentSchema.parse(await request.json());
@@ -31,65 +45,40 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "Слишком много попыток. Попробуйте позже." }, { status: 429 });
     }
 
-    if (!env.YOOKASSA_SHOP_ID || !env.YOOKASSA_SECRET_KEY) {
-      return NextResponse.json({ message: "Оплата временно недоступна" }, { status: 503 });
+    if (!env.ROBOKASSA_MERCHANT_LOGIN || !env.ROBOKASSA_PASSWORD_1) {
+      return NextResponse.json({ message: "Оплата через Robokassa временно недоступна." }, { status: 503 });
     }
 
-    const body: Record<string, unknown> = {
-      amount: {
-        value: payload.amount.toFixed(2),
-        currency: "RUB"
-      },
-      capture: true,
-      description: "Поддержка проекта HramGo",
-      confirmation: {
-        type: "redirect",
-        return_url: `${env.APP_DOMAIN}/support?status=success`
-      },
-      metadata: {
-        project: "hramgo",
-        email: payload.email
-      },
-      receipt:
-        env.YOOKASSA_RECEIPTS_ENABLED === "true"
-          ? {
-              customer: {
-                email: payload.email
-              },
-              items: [
-                {
-                  description: "Поддержка проекта HramGo",
-                  quantity: "1.00",
-                  amount: {
-                    value: payload.amount.toFixed(2),
-                    currency: "RUB"
-                  },
-                  vat_code: Number(env.YOOKASSA_VAT_CODE),
-                  payment_subject: env.YOOKASSA_PAYMENT_SUBJECT,
-                  payment_mode: "full_payment"
-                }
-              ]
-            }
-          : undefined
-    };
+    const amount = formatAmount(payload.amount);
+    const invoiceId = createInvoiceId();
+    const description = "Поддержка проекта HramGo";
+    const signature = createSignature([env.ROBOKASSA_MERCHANT_LOGIN, amount, invoiceId, env.ROBOKASSA_PASSWORD_1]);
 
-    const response = await fetch("https://api.yookassa.ru/v3/payments", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        "idempotence-key": crypto.randomUUID(),
-        authorization: `Basic ${Buffer.from(`${env.YOOKASSA_SHOP_ID}:${env.YOOKASSA_SECRET_KEY}`).toString("base64")}`
-      },
-      body: JSON.stringify(body)
+    await prisma.supportPayment.create({
+      data: {
+        provider: "robokassa",
+        providerInvoiceId: invoiceId,
+        amount: payload.amount,
+        email: payload.email,
+        signature,
+        status: "PENDING"
+      }
     });
 
-    const result = (await response.json()) as { confirmation?: { confirmation_url?: string }; description?: string };
+    const paymentUrl = new URL("https://auth.robokassa.ru/Merchant/Index.aspx");
+    paymentUrl.searchParams.set("MerchantLogin", env.ROBOKASSA_MERCHANT_LOGIN);
+    paymentUrl.searchParams.set("OutSum", amount);
+    paymentUrl.searchParams.set("InvId", invoiceId);
+    paymentUrl.searchParams.set("Description", description);
+    paymentUrl.searchParams.set("SignatureValue", signature);
+    paymentUrl.searchParams.set("Culture", "ru");
+    paymentUrl.searchParams.set("Email", payload.email);
 
-    if (!response.ok || !result.confirmation?.confirmation_url) {
-      return NextResponse.json({ message: result.description ?? "Не удалось создать платеж" }, { status: 502 });
+    if (env.ROBOKASSA_IS_TEST === "true") {
+      paymentUrl.searchParams.set("IsTest", "1");
     }
 
-    return NextResponse.json({ confirmationUrl: result.confirmation.confirmation_url });
+    return NextResponse.json({ confirmationUrl: paymentUrl.toString() });
   } catch (error) {
     return badRequest(error);
   }

@@ -537,6 +537,25 @@ model ImportLog {
   @@index([level])
 }
 
+model SupportPayment {
+  id                String    @id @default(cuid())
+  provider          String    @default("robokassa")
+  providerInvoiceId String    @unique
+  amount            Float
+  email             String
+  status            String    @default("PENDING")
+  signature         String?
+  rawPayload        Json?
+  paidAt            DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@index([provider])
+  @@index([status])
+  @@index([email])
+  @@index([createdAt])
+}
+
 model ModerationLog {
   id          String   @id @default(cuid())
   moderatorId String

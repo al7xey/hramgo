@@ -18,6 +18,44 @@ type MetroLineSource = {
   }[];
 };
 
+type StationCandidate = {
+  station: string;
+  latitude: number;
+  longitude: number;
+  line: (typeof metroLines)[number];
+};
+
+const extraMcdStations: StationCandidate[] = [
+  { station: "Белорусская", latitude: 55.7767, longitude: 37.5823, line: getLineById("D1") },
+  { station: "Беговая", latitude: 55.7736, longitude: 37.5456, line: getLineById("D1") },
+  { station: "Кунцевская", latitude: 55.7307, longitude: 37.4459, line: getLineById("D1") },
+  { station: "Славянский бульвар", latitude: 55.7296, longitude: 37.4706, line: getLineById("D1") },
+  { station: "Савеловская", latitude: 55.7941, longitude: 37.5889, line: getLineById("D1") },
+  { station: "Окружная", latitude: 55.8473, longitude: 37.5716, line: getLineById("D1") },
+  { station: "Покровское", latitude: 55.602778, longitude: 37.631667, line: getLineById("D2") },
+  { station: "Царицыно", latitude: 55.6207, longitude: 37.6694, line: getLineById("D2") },
+  { station: "Текстильщики", latitude: 55.7088, longitude: 37.7316, line: getLineById("D2") },
+  { station: "Курская", latitude: 55.7585, longitude: 37.6597, line: getLineById("D2") },
+  { station: "Рижская", latitude: 55.7924, longitude: 37.6342, line: getLineById("D2") },
+  { station: "Дмитровская", latitude: 55.8078, longitude: 37.5811, line: getLineById("D2") },
+  { station: "Щукинская", latitude: 55.8094, longitude: 37.4646, line: getLineById("D2") },
+  { station: "Тушинская", latitude: 55.8252, longitude: 37.4369, line: getLineById("D2") },
+  { station: "Волоколамская", latitude: 55.835, longitude: 37.3822, line: getLineById("D2") },
+  { station: "Ховрино", latitude: 55.8785, longitude: 37.4862, line: getLineById("D3") },
+  { station: "Лихоборы", latitude: 55.8472, longitude: 37.5515, line: getLineById("D3") },
+  { station: "Электрозаводская", latitude: 55.7816, longitude: 37.703, line: getLineById("D3") },
+  { station: "Авиамоторная", latitude: 55.7519, longitude: 37.716, line: getLineById("D3") },
+  { station: "Нижегородская", latitude: 55.7317, longitude: 37.7282, line: getLineById("D4") },
+  { station: "Серп и Молот", latitude: 55.747, longitude: 37.681, line: getLineById("D4") },
+  { station: "Кутузовская", latitude: 55.7397, longitude: 37.5355, line: getLineById("D4") },
+  { station: "Поклонная", latitude: 55.7355, longitude: 37.5199, line: getLineById("D4") },
+  { station: "Минская", latitude: 55.7247, longitude: 37.4978, line: getLineById("D4") }
+];
+
+function getLineById(id: string) {
+  return metroLines.find((line) => line.id === id) ?? metroLines[0];
+}
+
 function parseArgs() {
   const args = new Map<string, string | boolean>();
 
@@ -104,7 +142,12 @@ async function loadStations() {
       }));
   });
 
-  return stations;
+  const byKey = new Map<string, StationCandidate>();
+  [...stations, ...extraMcdStations].forEach((station) => {
+    byKey.set(`${station.station}-${station.line.id}`, station);
+  });
+
+  return Array.from(byKey.values());
 }
 
 async function main() {

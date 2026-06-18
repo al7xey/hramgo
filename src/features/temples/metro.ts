@@ -20,7 +20,8 @@ export const metroLines: TransitLineView[] = [
   { id: "D1", name: "МЦД-1 Белорусско-Савеловский", color: "#F6A800", system: "mcd" },
   { id: "D2", name: "МЦД-2 Курско-Рижский", color: "#E94282", system: "mcd" },
   { id: "D3", name: "МЦД-3 Ленинградско-Казанский", color: "#DE6F2C", system: "mcd" },
-  { id: "D4", name: "МЦД-4 Калужско-Нижегородский", color: "#43A047", system: "mcd" }
+  { id: "D4", name: "МЦД-4 Калужско-Нижегородский", color: "#00A88E", system: "mcd" },
+  { id: "D5", name: "МЦД-5 Ярославско-Павелецкий", color: "#8CC63E", system: "mcd" }
 ];
 
 export function getMetroLine(id: string) {

@@ -19,6 +19,7 @@
     "crawl:temple": "tsx scripts/crawl-temple.ts",
     "extract:llm": "tsx scripts/extract-llm.ts",
     "geocode:temples": "tsx scripts/geocode-temples.ts",
+    "audit:temple-data": "tsx scripts/audit-temple-data.ts",
     "moderation:queue": "tsx scripts/moderation-queue.ts",
     "recalculate:ratings": "tsx scripts/recalculate-ratings.ts",
     "sync:temple-sources": "tsx scripts/sync-temple-sources.ts",

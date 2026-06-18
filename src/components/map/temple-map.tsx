@@ -8,26 +8,28 @@ import { LiquidGlassCard } from "@/components/ui/liquid-glass-card";
 import type { TempleMapView } from "@/features/temples/types";
 
 type YMap = {
-  geoObjects: { add: (object: YClusterer) => void };
+  geoObjects: { add: (object: YObjectManager) => void };
   setBounds: (bounds: unknown, options: Record<string, unknown>) => void;
   panTo: (coords: [number, number], options: Record<string, unknown>) => void;
 };
 
-type YClusterer = {
-  add: (objects: YPlacemark[]) => void;
-  removeAll: () => void;
-  getBounds: () => unknown;
+type YMapEvent = {
+  get: (key: string) => unknown;
 };
 
-type YPlacemark = {
-  events: { add: (eventName: string, handler: () => void) => void };
+type YObjectManager = {
+  add: (objects: unknown) => void;
+  removeAll: () => void;
+  getBounds: () => unknown;
+  objects: {
+    events: { add: (eventName: string, handler: (event: YMapEvent) => void) => void };
+  };
 };
 
 type YMapsApi = {
   ready: (handler: () => void) => void;
-  Map: new (node: HTMLElement, state: Record<string, unknown>) => YMap;
-  Clusterer: new (options: Record<string, unknown>) => YClusterer;
-  Placemark: new (coords: [number, number], properties: Record<string, unknown>, options: Record<string, unknown>) => YPlacemark;
+  Map: new (node: HTMLElement, state: Record<string, unknown>, options?: Record<string, unknown>) => YMap;
+  ObjectManager: new (options: Record<string, unknown>) => YObjectManager;
 };
 
 declare global {
@@ -42,14 +44,24 @@ const MOSCOW_CENTER: [number, number] = [55.751244, 37.618423];
 export function TempleMap({ temples, activeSlug, sidebarTop }: { temples: TempleMapView[]; activeSlug?: string; sidebarTop?: ReactNode }) {
   const points = useMemo(() => temples.filter((temple) => temple.latitude && temple.longitude), [temples]);
   const pointsKey = useMemo(() => points.map((temple) => `${temple.id}:${temple.latitude}:${temple.longitude}`).join("|"), [points]);
+  const slugById = useMemo(() => new Map(points.map((temple) => [temple.id, temple.slug])), [points]);
   const initialTemple = points.find((temple) => temple.slug === activeSlug) ?? points[0];
   const [selectedSlug, setSelectedSlug] = useState(activeSlug ?? initialTemple?.slug);
   const [mapReady, setMapReady] = useState(false);
   const mapNodeRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<YMap | null>(null);
-  const clustererRef = useRef<YClusterer | null>(null);
+  const objectManagerRef = useRef<YObjectManager | null>(null);
   const fittedPointsKeyRef = useRef<string | null>(null);
+  const slugByIdRef = useRef(slugById);
   const activeTemple = points.find((temple) => temple.slug === selectedSlug) ?? initialTemple;
+
+  useEffect(() => {
+    slugByIdRef.current = slugById;
+  }, [slugById]);
+
+  useEffect(() => {
+    setSelectedSlug(activeSlug ?? initialTemple?.slug);
+  }, [activeSlug, initialTemple?.slug]);
 
   useEffect(() => {
     let cancelled = false;
@@ -62,17 +74,31 @@ export function TempleMap({ temples, activeSlug, sidebarTop }: { temples: Temple
 
         const center: [number, number] =
           activeTemple?.latitude && activeTemple.longitude ? [activeTemple.latitude, activeTemple.longitude] : MOSCOW_CENTER;
-        mapRef.current = new ymaps.Map(mapNodeRef.current, {
-          center,
-          zoom: points.length > 1 ? 10 : 15,
-          controls: ["zoomControl", "geolocationControl", "fullscreenControl"]
+        mapRef.current = new ymaps.Map(
+          mapNodeRef.current,
+          {
+            center,
+            zoom: points.length > 1 ? 10 : 15,
+            controls: ["zoomControl", "geolocationControl", "fullscreenControl"]
+          },
+          { suppressMapOpenBlock: true }
+        );
+        objectManagerRef.current = new ymaps.ObjectManager({
+          clusterize: true,
+          gridSize: 48,
+          clusterDisableClickZoom: false,
+          geoObjectOpenBalloonOnClick: false,
+          clusterOpenBalloonOnClick: false
         });
-        clustererRef.current = new ymaps.Clusterer({
-          preset: "islands#blueClusterIcons",
-          groupByCoordinates: false,
-          clusterDisableClickZoom: false
+        objectManagerRef.current.objects.events.add("click", (event) => {
+          const objectId = String(event.get("objectId") ?? "");
+          const slug = slugByIdRef.current.get(objectId);
+
+          if (slug) {
+            setSelectedSlug(slug);
+          }
         });
-        mapRef.current.geoObjects.add(clustererRef.current);
+        mapRef.current.geoObjects.add(objectManagerRef.current);
         setMapReady(true);
       })
       .catch(() => setMapReady(false));
@@ -83,48 +109,46 @@ export function TempleMap({ temples, activeSlug, sidebarTop }: { temples: Temple
   }, [activeTemple?.latitude, activeTemple?.longitude, points.length]);
 
   useEffect(() => {
-    if (!mapReady || !window.ymaps || !clustererRef.current) {
+    if (!mapReady || !objectManagerRef.current) {
       return;
     }
 
-    const ymaps = window.ymaps;
-    clustererRef.current.removeAll();
-    const placemarks = points.map((temple) => {
-      const coords: [number, number] = [temple.latitude ?? MOSCOW_CENTER[0], temple.longitude ?? MOSCOW_CENTER[1]];
-      const placemark = new ymaps.Placemark(
-        coords,
-        {
-          hintContent: temple.shortName ?? temple.name,
-          balloonContentHeader: temple.shortName ?? temple.name,
-          balloonContentBody: temple.address ?? "",
-          balloonContentFooter: `<a href="/temples/${temple.slug}">Перейти к храму</a>`
+    objectManagerRef.current.removeAll();
+    objectManagerRef.current.add({
+      type: "FeatureCollection",
+      features: points.map((temple) => ({
+        type: "Feature",
+        id: temple.id,
+        geometry: {
+          type: "Point",
+          coordinates: [temple.latitude, temple.longitude]
         },
-        {
-          preset: temple.slug === selectedSlug ? "islands#greenIcon" : "islands#blueIcon"
+        properties: {
+          hintContent: temple.shortName ?? temple.name,
+          balloonContent: ""
+        },
+        options: {
+          preset: "islands#blueIcon",
+          iconColor: "#4b9fe1"
         }
-      );
-
-      placemark.events.add("click", () => setSelectedSlug(temple.slug));
-      return placemark;
+      }))
     });
 
-    clustererRef.current.add(placemarks);
-
     if (points.length > 1 && fittedPointsKeyRef.current !== pointsKey) {
-      const bounds = clustererRef.current.getBounds();
+      const bounds = objectManagerRef.current.getBounds();
       if (bounds && mapRef.current) {
-        mapRef.current.setBounds(bounds, { checkZoomRange: true, zoomMargin: 32 });
+        mapRef.current.setBounds(bounds, { checkZoomRange: true, zoomMargin: 42 });
         fittedPointsKeyRef.current = pointsKey;
       }
     }
-  }, [mapReady, points, pointsKey, selectedSlug]);
+  }, [mapReady, points, pointsKey]);
 
   useEffect(() => {
     if (!mapReady || !activeTemple?.latitude || !activeTemple.longitude || !mapRef.current) {
       return;
     }
 
-    mapRef.current.panTo([activeTemple.latitude, activeTemple.longitude], { flying: false, duration: 250 });
+    mapRef.current.panTo([activeTemple.latitude, activeTemple.longitude], { flying: false, duration: 220 });
   }, [activeTemple?.latitude, activeTemple?.longitude, mapReady]);
 
   return (

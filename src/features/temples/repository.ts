@@ -26,8 +26,11 @@ function filterDemoTemples(input: TempleSearchInput = {}) {
         temple.description,
         temple.historySummary,
         temple.shrines,
+        temple.scheduleSummary,
+        temple.scheduleSourceUrl,
+        temple.socialLinks.map((item) => `${item.label} ${item.url} ${item.type}`).join(" "),
         temple.parishServices.map((item) => `${item.title} ${item.description}`).join(" "),
-        temple.clergy.map((item) => `${item.name} ${item.role}`).join(" ")
+        temple.clergy.map((item) => `${item.name} ${item.rank ?? ""} ${item.role} ${item.details ?? ""}`).join(" ")
       ]
         .filter(Boolean)
         .join(" ")
@@ -112,23 +115,35 @@ function scoreTempleSearch(temple: TempleView, query: string) {
   const address = normalizeAddressForSearch(temple.address ?? "");
   const district = normalizeSearch(temple.district ?? "");
   const metro = normalizeSearch(temple.metro ?? "");
+  const transitStations = temple.transit.map((item) => normalizeSearch(item.station));
   const transit = temple.transit.map((item) => `${normalizeSearch(item.station)} ${normalizeSearch(item.line.name)} ${item.line.system}`).join(" ");
   const services = temple.parishServices.map((item) => `${normalizeSearch(item.title)} ${normalizeSearch(item.description)}`).join(" ");
+  const schedule = normalizeSearch(temple.scheduleSummary ?? "");
+  const content = normalizeSearch([temple.description, temple.historySummary, temple.shrines].filter(Boolean).join(" "));
+  const clergy = temple.clergy.map((item) => normalizeSearch(`${item.name} ${item.rank ?? ""} ${item.role} ${item.details ?? ""}`)).join(" ");
   const terms = getSearchTerms(query);
 
   let score = 0;
   if (shortName === query || name === query) score += 1200;
+  if (transitStations.some((station) => station === query)) score += 900;
   if (shortName.startsWith(query) || name.startsWith(query)) score += 800;
+  if (transitStations.some((station) => station.startsWith(query))) score += 650;
   if (shortName.includes(query) || name.includes(query)) score += 500;
   if (address.includes(query)) score += 360;
   if (transit.includes(query) || metro.includes(query)) score += 320;
   if (district.includes(query)) score += 180;
   if (services.includes(query)) score += 90;
+  if (schedule.includes(query)) score += 90;
+  if (content.includes(query)) score += 80;
+  if (clergy.includes(query)) score += 70;
   for (const term of terms) {
     if (name.includes(term) || shortName.includes(term)) score += 120;
+    if (transitStations.some((station) => station === term)) score += 220;
     if (address.includes(term)) score += 80;
     if (transit.includes(term) || metro.includes(term)) score += 70;
     if (district.includes(term)) score += 50;
+    if (schedule.includes(term) || services.includes(term)) score += 35;
+    if (content.includes(term) || clergy.includes(term)) score += 25;
   }
   score += Math.min(80, temple.approvedReviewsCount * 5);
   score += temple.averageHelpfulnessRating;
@@ -283,14 +298,27 @@ function searchFieldFilters(term: string): Prisma.TempleWhereInput[] {
     { vicariate: filter },
     { deanery: filter },
     { description: filter },
+    { historySummary: filter },
+    { shrinesSummary: filter },
+    { scheduleSummary: filter },
+    { scheduleSourceUrl: filter },
     { objectType: filter },
     { affiliation: filter },
+    { websiteUrl: filter },
+    { phone: filter },
+    { email: filter },
     { transitStations: { some: { station: filter } } },
     { transitStations: { some: { lineName: filter } } },
     { clergy: { some: { name: filter } } },
+    { clergy: { some: { rank: filter } } },
     { clergy: { some: { role: filter } } },
+    { clergy: { some: { details: filter } } },
     { parishServices: { some: { title: filter } } },
-    { parishServices: { some: { description: filter } } }
+    { parishServices: { some: { description: filter } } },
+    { socialLinks: { some: { label: filter } } },
+    { socialLinks: { some: { url: filter } } },
+    { sources: { some: { rawTitle: filter } } },
+    { sources: { some: { rawText: filter } } }
   ];
 }
 
