@@ -45,23 +45,22 @@ export function TempleMap({ temples, activeSlug, sidebarTop }: { temples: Temple
   const points = useMemo(() => temples.filter((temple) => temple.latitude && temple.longitude), [temples]);
   const pointsKey = useMemo(() => points.map((temple) => `${temple.id}:${temple.latitude}:${temple.longitude}`).join("|"), [points]);
   const slugById = useMemo(() => new Map(points.map((temple) => [temple.id, temple.slug])), [points]);
-  const initialTemple = points.find((temple) => temple.slug === activeSlug) ?? points[0];
-  const [selectedSlug, setSelectedSlug] = useState(activeSlug ?? initialTemple?.slug);
+  const [selectedSlug, setSelectedSlug] = useState(activeSlug);
   const [mapReady, setMapReady] = useState(false);
   const mapNodeRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<YMap | null>(null);
   const objectManagerRef = useRef<YObjectManager | null>(null);
   const fittedPointsKeyRef = useRef<string | null>(null);
   const slugByIdRef = useRef(slugById);
-  const activeTemple = points.find((temple) => temple.slug === selectedSlug) ?? initialTemple;
+  const activeTemple = points.find((temple) => temple.slug === selectedSlug);
 
   useEffect(() => {
     slugByIdRef.current = slugById;
   }, [slugById]);
 
   useEffect(() => {
-    setSelectedSlug(activeSlug ?? initialTemple?.slug);
-  }, [activeSlug, initialTemple?.slug]);
+    setSelectedSlug(activeSlug);
+  }, [activeSlug]);
 
   useEffect(() => {
     let cancelled = false;

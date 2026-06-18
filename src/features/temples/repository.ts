@@ -90,6 +90,7 @@ function filterDemoTemples(input: TempleSearchInput = {}) {
 
 function sortTemples(temples: TempleView[], sort: TempleSearchInput["sort"] = "relevance", query?: string) {
   const normalizedQuery = query ? normalizeSearch(query) : "";
+  const lineIds = getLineIdsFromSearch(query, getSearchTerms(query));
 
   return [...temples].sort((a, b) => {
     switch (sort) {
@@ -101,7 +102,7 @@ function sortTemples(temples: TempleView[], sort: TempleSearchInput["sort"] = "r
         return b.approvedReviewsCount - a.approvedReviewsCount || b.averageHelpfulnessRating - a.averageHelpfulnessRating;
       default:
         if (normalizedQuery) {
-          return scoreTempleSearch(b, normalizedQuery) - scoreTempleSearch(a, normalizedQuery);
+          return scoreTempleSearch(b, normalizedQuery, lineIds) - scoreTempleSearch(a, normalizedQuery, lineIds);
         }
 
         return a.name.localeCompare(b.name, "ru");
@@ -109,7 +110,7 @@ function sortTemples(temples: TempleView[], sort: TempleSearchInput["sort"] = "r
   });
 }
 
-function scoreTempleSearch(temple: TempleView, query: string) {
+function scoreTempleSearch(temple: TempleView, query: string, lineIds = new Set<string>()) {
   const name = normalizeSearch(temple.name);
   const shortName = normalizeSearch(temple.shortName ?? "");
   const address = normalizeAddressForSearch(temple.address ?? "");
@@ -122,6 +123,7 @@ function scoreTempleSearch(temple: TempleView, query: string) {
   const content = normalizeSearch([temple.description, temple.historySummary, temple.shrines].filter(Boolean).join(" "));
   const clergy = temple.clergy.map((item) => normalizeSearch(`${item.name} ${item.rank ?? ""} ${item.role} ${item.details ?? ""}`)).join(" ");
   const terms = getSearchTerms(query);
+  const nearestTransit = getNearestTempleTransit(temple);
 
   let score = 0;
   if (shortName === query || name === query) score += 1200;
@@ -136,6 +138,8 @@ function scoreTempleSearch(temple: TempleView, query: string) {
   if (schedule.includes(query)) score += 90;
   if (content.includes(query)) score += 80;
   if (clergy.includes(query)) score += 70;
+  if (nearestTransit && lineIds.has(nearestTransit.line.id)) score += 460;
+  if (lineIds.size > 0 && temple.transit.some((item) => lineIds.has(item.line.id))) score += 210;
   for (const term of terms) {
     if (name.includes(term) || shortName.includes(term)) score += 120;
     if (transitStations.some((station) => station === term)) score += 220;
@@ -148,6 +152,10 @@ function scoreTempleSearch(temple: TempleView, query: string) {
   score += Math.min(80, temple.approvedReviewsCount * 5);
   score += temple.averageHelpfulnessRating;
   return score;
+}
+
+function getNearestTempleTransit(temple: Pick<TempleView, "transit">) {
+  return sortTransitByWalkMinutes(temple.transit)[0] ?? null;
 }
 
 function normalizeAddressForSearch(value: string) {
@@ -270,6 +278,8 @@ function getSearchTerms(query?: string) {
 function buildSearchWhere(query: string, terms: string[]): Prisma.TempleWhereInput {
   const phraseFilters = searchFieldFilters(query);
   const wordTerms = terms.filter((term) => normalizeSearch(term) !== normalizeSearch(query));
+  const lineIds = Array.from(getLineIdsFromSearch(query, terms));
+  const lineFilter = lineIds.length > 0 ? { transitStations: { some: { lineId: { in: lineIds } } } } : undefined;
   const wordFilter =
     wordTerms.length > 1
       ? {
@@ -280,10 +290,10 @@ function buildSearchWhere(query: string, terms: string[]): Prisma.TempleWhereInp
       : undefined;
 
   if (wordFilter) {
-    return { OR: [{ OR: phraseFilters }, wordFilter] };
+    return { OR: [{ OR: phraseFilters }, wordFilter, ...(lineFilter ? [lineFilter] : [])] };
   }
 
-  return { OR: phraseFilters };
+  return { OR: [...phraseFilters, ...(lineFilter ? [lineFilter] : [])] };
 }
 
 function searchFieldFilters(term: string): Prisma.TempleWhereInput[] {
@@ -309,6 +319,7 @@ function searchFieldFilters(term: string): Prisma.TempleWhereInput[] {
     { email: filter },
     { transitStations: { some: { station: filter } } },
     { transitStations: { some: { lineName: filter } } },
+    { transitStations: { some: { lineId: filter } } },
     { clergy: { some: { name: filter } } },
     { clergy: { some: { rank: filter } } },
     { clergy: { some: { role: filter } } },
@@ -320,6 +331,40 @@ function searchFieldFilters(term: string): Prisma.TempleWhereInput[] {
     { sources: { some: { rawTitle: filter } } },
     { sources: { some: { rawText: filter } } }
   ];
+}
+
+function normalizeLineToken(value: string) {
+  return normalizeSearch(value).replace(/[^a-zа-я0-9]+/giu, "");
+}
+
+function getLineIdsFromSearch(query?: string, terms: string[] = []) {
+  const rawTokens = [query, ...terms].filter(Boolean) as string[];
+  const tokens = rawTokens.map(normalizeLineToken).filter(Boolean);
+  const ids = new Set<string>();
+
+  for (const line of metroLines) {
+    const id = normalizeLineToken(line.id);
+    const name = normalizeLineToken(line.name);
+    const digit = line.id.match(/\d+/u)?.[0];
+    const variants = new Set([id, name]);
+
+    if (line.system === "mcd" && digit) {
+      variants.add(`мцд${digit}`);
+      variants.add(`d${digit}`);
+    }
+
+    if (line.system === "mcc") {
+      variants.add("мцк");
+    }
+
+    for (const token of tokens) {
+      if (variants.has(token) || (token.length >= 5 && name.includes(token))) {
+        ids.add(line.id);
+      }
+    }
+  }
+
+  return ids;
 }
 
 function expandSearchTerm(term: string) {
@@ -408,7 +453,8 @@ export async function listTemples(input: TempleSearchInput = {}) {
 
   try {
     const temples = await fetchDbTemples(input);
-    return sortTemples(temples.map(mapDbTemple), input.sort, input.query);
+    const mapped = temples.map(mapDbTemple);
+    return sortTemples(dedupeTemples(filterByNearestTransit(mapped, input)), input.sort, input.query);
   } catch (error) {
     if (env.USE_DEMO_DATA === "false") {
       throw error;
@@ -416,6 +462,84 @@ export async function listTemples(input: TempleSearchInput = {}) {
 
     return filterDemoTemples(input);
   }
+}
+
+function filterByNearestTransit(temples: TempleView[], input: TempleSearchInput) {
+  const lineIds = new Set([
+    ...(input.metroLine ?? []),
+    ...Array.from(getLineIdsFromSearch(input.query, getSearchTerms(input.query)))
+  ]);
+
+  if (lineIds.size === 0) {
+    return temples;
+  }
+
+  return temples.filter((temple) => {
+    const nearest = getNearestTempleTransit(temple);
+    return nearest ? lineIds.has(nearest.line.id) : false;
+  });
+}
+
+function dedupeTemples(temples: TempleView[]) {
+  const result: TempleView[] = [];
+
+  for (const temple of temples) {
+    const duplicateIndex = result.findIndex((existing) => areLikelyDuplicateTemples(existing, temple));
+
+    if (duplicateIndex === -1) {
+      result.push(temple);
+      continue;
+    }
+
+    if (getTempleQualityScore(temple) > getTempleQualityScore(result[duplicateIndex])) {
+      result[duplicateIndex] = temple;
+    }
+  }
+
+  return result;
+}
+
+function areLikelyDuplicateTemples(left: TempleView, right: TempleView) {
+  const leftName = normalizeSearch(left.name);
+  const rightName = normalizeSearch(right.name);
+
+  if (leftName !== rightName) {
+    return false;
+  }
+
+  const leftAddress = normalizeDuplicateAddress(left.address ?? "");
+  const rightAddress = normalizeDuplicateAddress(right.address ?? "");
+  if (leftAddress && rightAddress && leftAddress === rightAddress) {
+    return true;
+  }
+
+  if (left.latitude && left.longitude && right.latitude && right.longitude) {
+    return estimateDistanceKm(left.latitude, left.longitude, right.latitude, right.longitude) < 0.35;
+  }
+
+  return false;
+}
+
+function normalizeDuplicateAddress(address: string) {
+  return normalizeAddressForSearch(address)
+    .replace(/\b(ул|улица|д|дом|стр|строение|корп|корпус|вл|владение)\b/giu, "")
+    .replace(/[^\p{L}\p{N}]+/gu, "")
+    .trim();
+}
+
+function getTempleQualityScore(temple: TempleView) {
+  const nearest = getNearestTempleTransit(temple);
+  return (
+    temple.photos.length * 80 +
+    temple.parishServices.length * 16 +
+    temple.clergy.length * 10 +
+    Number(Boolean(temple.websiteUrl)) * 30 +
+    Number(Boolean(temple.description)) * 18 +
+    Number(Boolean(temple.historySummary)) * 18 +
+    Number(Boolean(nearest)) * 15 +
+    (nearest ? Math.max(0, 20 - nearest.walkMinutes) : 0) +
+    temple.dataConfidence * 20
+  );
 }
 
 export async function getTempleBySlug(slug: string) {
