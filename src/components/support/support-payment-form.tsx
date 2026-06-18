@@ -1,40 +1,80 @@
 "use client";
 
 import Link from "next/link";
-import { HeartHandshake } from "lucide-react";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 
-const amounts = [300, 700, 1500];
+const exampleAmounts = [300, 700, 1500];
 
-export function SupportPaymentForm() {
+type Props = {
+  minAmount?: number;
+  maxAmount?: number;
+  paymentEnabled: boolean;
+  missingConfig: string[];
+};
+
+export function SupportPaymentForm({ minAmount, maxAmount, paymentEnabled, missingConfig }: Props) {
   const { data: session } = useSession();
-  const [amount, setAmount] = useState(amounts[0]);
-  const [email, setEmail] = useState(session?.user?.email ?? "");
+  const sessionEmail = session?.user?.email ?? "";
+  const defaultAmount = minAmount ?? exampleAmounts[0];
+  const [amount, setAmount] = useState(String(defaultAmount));
+  const [email, setEmail] = useState(sessionEmail);
   const [consent, setConsent] = useState(false);
   const [pending, setPending] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    if (session?.user?.email && !email) {
-      setEmail(session.user.email);
+    if (sessionEmail) {
+      setEmail(sessionEmail);
     }
-  }, [email, session?.user?.email]);
+  }, [sessionEmail]);
+
+  const amountNumber = Number(amount);
+  const validationMessage = useMemo(() => {
+    if (!Number.isFinite(amountNumber) || amountNumber <= 0) {
+      return "Введите положительную сумму.";
+    }
+
+    if (minAmount && amountNumber < minAmount) {
+      return `Минимальная сумма поддержки — ${minAmount} ₽.`;
+    }
+
+    if (maxAmount && amountNumber > maxAmount) {
+      return `Максимальная сумма поддержки — ${maxAmount} ₽.`;
+    }
+
+    if (!sessionEmail && !email) {
+      return "Укажите e-mail для уведомления о платеже.";
+    }
+
+    return null;
+  }, [amountNumber, email, maxAmount, minAmount, sessionEmail]);
+
+  const disabled = pending || !paymentEnabled || !consent || Boolean(validationMessage);
 
   return (
     <form
       className="grid gap-4"
       onSubmit={async (event) => {
         event.preventDefault();
+
+        if (disabled) {
+          return;
+        }
+
         setPending(true);
         setMessage(null);
 
         const response = await fetch("/api/support/payment", {
           method: "POST",
           headers: { "content-type": "application/json" },
-          body: JSON.stringify({ amount, email, personalDataConsent: consent })
+          body: JSON.stringify({
+            amount: amountNumber,
+            email: sessionEmail || email,
+            personalDataConsent: consent
+          })
         });
         const payload = (await response.json()) as { confirmationUrl?: string; message?: string };
 
@@ -45,44 +85,63 @@ export function SupportPaymentForm() {
           return;
         }
 
-        setMessage(payload.message ?? "Не удалось перейти к оплате");
+        setMessage(payload.message ?? "Не удалось перейти к оплате.");
       }}
     >
-      <div className="grid grid-cols-3 gap-2">
-        {amounts.map((item) => (
-          <button
-            key={item}
-            type="button"
-            className={`min-h-11 rounded-[18px] border px-3 text-sm font-semibold transition ${
-              amount === item ? "border-primary bg-primary-soft text-primary" : "border-card-border bg-background"
-            }`}
-            onClick={() => setAmount(item)}
-          >
-            {item} ₽
-          </button>
-        ))}
+      {!paymentEnabled ? (
+        <div className="rounded-[20px] border border-card-border bg-muted p-3 text-sm leading-6 text-muted-foreground">
+          Прием платежей временно недоступен: владелец проекта должен заполнить обязательные переменные окружения
+          {missingConfig.length ? ` (${missingConfig.join(", ")})` : ""}.
+        </div>
+      ) : null}
+
+      <div className="grid gap-2">
+        <p className="text-sm font-medium">Примеры сумм</p>
+        <div className="grid grid-cols-3 gap-2">
+          {exampleAmounts.map((item) => (
+            <button
+              key={item}
+              type="button"
+              className={`min-h-11 rounded-[18px] border px-3 text-sm font-semibold transition ${
+                Number(amount) === item ? "border-primary bg-primary-soft text-primary" : "border-card-border bg-background"
+              }`}
+              onClick={() => setAmount(String(item))}
+            >
+              {item} ₽
+            </button>
+          ))}
+        </div>
       </div>
+
       <label className="grid gap-1 text-sm">
         <span className="text-muted-foreground">Своя сумма</span>
         <input
           type="number"
-          min={50}
-          max={150000}
+          inputMode="decimal"
+          min={minAmount}
+          max={maxAmount}
+          step="1"
           value={amount}
-          onChange={(event) => setAmount(Number(event.target.value))}
+          onChange={(event) => setAmount(event.target.value)}
           className="h-12 rounded-2xl border border-card-border bg-background px-3 outline-none focus:border-primary"
         />
       </label>
-      <label className="grid gap-1 text-sm">
-        <span className="text-muted-foreground">Email для уведомления</span>
-        <input
-          type="email"
-          required
-          value={email || session?.user?.email || ""}
-          onChange={(event) => setEmail(event.target.value)}
-          className="h-12 rounded-2xl border border-card-border bg-background px-3 outline-none focus:border-primary"
-        />
-      </label>
+
+      {sessionEmail ? (
+        <p className="rounded-[20px] bg-muted p-3 text-sm text-muted-foreground">Email профиля: {sessionEmail}</p>
+      ) : (
+        <label className="grid gap-1 text-sm">
+          <span className="text-muted-foreground">Email для уведомления</span>
+          <input
+            type="email"
+            required
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            className="h-12 rounded-2xl border border-card-border bg-background px-3 outline-none focus:border-primary"
+          />
+        </label>
+      )}
+
       <label className="flex items-start gap-3 rounded-[20px] bg-muted p-3 text-sm leading-6">
         <input
           type="checkbox"
@@ -92,18 +151,25 @@ export function SupportPaymentForm() {
           className="mt-1 size-4 shrink-0 accent-primary"
         />
         <span>
-          Согласен на обработку персональных данных и принимаю{" "}
+          Нажимая кнопку, вы соглашаетесь с{" "}
+          <Link href="/legal/support-terms" className="font-medium text-primary">
+            условиями добровольной поддержки
+          </Link>{" "}
+          и{" "}
           <Link href="/legal/privacy" className="font-medium text-primary">
-            политику конфиденциальности
+            политикой обработки персональных данных
           </Link>
           .
         </span>
       </label>
-      <Button type="submit" size="lg" className="w-full" disabled={pending}>
-        <HeartHandshake className="size-5" aria-hidden />
+
+      {validationMessage ? <p className="text-sm text-danger">{validationMessage}</p> : null}
+
+      <Button type="submit" size="lg" className="w-full" disabled={disabled}>
         {pending ? "Переходим к оплате" : "Поддержать проект"}
       </Button>
-      {message && <p className="text-sm text-danger">{message}</p>}
+
+      {message ? <p className="text-sm text-danger">{message}</p> : null}
     </form>
   );
 }

@@ -1,5 +1,8 @@
 import { z } from "zod";
 
+const optionalPositiveNumber = z.preprocess((value) => (value === "" ? undefined : value), z.coerce.number().positive().optional());
+const optionalPositiveInt = z.preprocess((value) => (value === "" ? undefined : value), z.coerce.number().int().positive().optional());
+
 const envSchema = z.object({
   DATABASE_URL: z.string().optional(),
   NEXTAUTH_SECRET: z.string().optional(),
@@ -26,6 +29,16 @@ const envSchema = z.object({
   ROBOKASSA_PASSWORD_2: z.string().optional(),
   ROBOKASSA_HASH_ALGORITHM: z.enum(["md5", "sha256"]).default("md5"),
   ROBOKASSA_IS_TEST: z.string().default("false"),
+  MIN_SUPPORT_AMOUNT_RUB: optionalPositiveNumber,
+  MAX_SUPPORT_AMOUNT_RUB: optionalPositiveNumber,
+  RETURN_REQUEST_REVIEW_DAYS: optionalPositiveInt,
+  RETURN_PAYMENT_DAYS: optionalPositiveInt,
+  ROBO_RECEIPT_ITEM_NAME: z.string().optional(),
+  LEGAL_FULL_NAME: z.string().default("Семенов Алексей Витальевич"),
+  LEGAL_INN: z.string().default("301612256922"),
+  SUPPORT_EMAIL: z.string().email().default("hram-go@yandex.ru"),
+  SUPPORT_PHONE: z.string().optional(),
+  LEGAL_ADDRESS: z.string().optional(),
   NEXT_PUBLIC_LEGAL_OPERATOR_NAME: z.string().default("HramGo"),
   NEXT_PUBLIC_LEGAL_OPERATOR_ADDRESS: z.string().optional(),
   NEXT_PUBLIC_LEGAL_OPERATOR_INN: z.string().optional(),

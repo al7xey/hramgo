@@ -42,13 +42,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.2
     },
     {
-      url: `${baseUrl}/legal/terms`,
+      url: `${baseUrl}/legal/support-terms`,
       lastModified: now,
       changeFrequency: "yearly",
       priority: 0.2
     },
     {
-      url: `${baseUrl}/legal/offer`,
+      url: `${baseUrl}/legal/payment-and-refund`,
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.2
+    },
+    {
+      url: `${baseUrl}/legal/contacts`,
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.2
+    },
+    {
+      url: `${baseUrl}/legal/terms`,
       lastModified: now,
       changeFrequency: "yearly",
       priority: 0.2
