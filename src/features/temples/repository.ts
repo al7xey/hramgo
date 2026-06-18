@@ -90,7 +90,8 @@ function filterDemoTemples(input: TempleSearchInput = {}) {
 
 function sortTemples(temples: TempleView[], sort: TempleSearchInput["sort"] = "relevance", query?: string) {
   const normalizedQuery = query ? normalizeSearch(query) : "";
-  const lineIds = getLineIdsFromSearch(query, getSearchTerms(query));
+  const searchTerms = getSearchTerms(query).map((term) => normalizeSearch(term));
+  const lineIds = getLineIdsFromSearch(query, searchTerms);
 
   return [...temples].sort((a, b) => {
     switch (sort) {
@@ -102,12 +103,44 @@ function sortTemples(temples: TempleView[], sort: TempleSearchInput["sort"] = "r
         return b.approvedReviewsCount - a.approvedReviewsCount || b.averageHelpfulnessRating - a.averageHelpfulnessRating;
       default:
         if (normalizedQuery) {
-          return scoreTempleSearch(b, normalizedQuery, lineIds) - scoreTempleSearch(a, normalizedQuery, lineIds);
+          const priorityDiff = getTempleSearchPriority(b, normalizedQuery, searchTerms) - getTempleSearchPriority(a, normalizedQuery, searchTerms);
+          const scoreDiff = scoreTempleSearch(b, normalizedQuery, lineIds) - scoreTempleSearch(a, normalizedQuery, lineIds);
+          return priorityDiff || scoreDiff || a.name.localeCompare(b.name, "ru");
         }
 
         return a.name.localeCompare(b.name, "ru");
     }
   });
+}
+
+function getTempleSearchPriority(temple: TempleView, query: string, terms: string[]) {
+  const name = normalizeSearch(temple.name);
+  const shortName = normalizeSearch(temple.shortName ?? "");
+  const address = normalizeAddressForSearch(temple.address ?? "");
+  const district = normalizeSearch(temple.district ?? "");
+  const transitStations = temple.transit.map((item) => normalizeSearch(item.station));
+  const nearestTransit = getNearestTempleTransit(temple);
+  const nearestStation = nearestTransit ? normalizeSearch(nearestTransit.station) : "";
+  const services = temple.parishServices.map((item) => `${normalizeSearch(item.title)} ${normalizeSearch(item.description)}`).join(" ");
+  const schedule = normalizeSearch(temple.scheduleSummary ?? "");
+  const content = normalizeSearch([temple.description, temple.historySummary, temple.shrines].filter(Boolean).join(" "));
+  const clergy = temple.clergy.map((item) => normalizeSearch(`${item.name} ${item.rank ?? ""} ${item.role} ${item.details ?? ""}`)).join(" ");
+  const needles = Array.from(new Set([query, ...terms].map((term) => normalizeSearch(term)).filter((term) => term.length >= 3)));
+  const exact = (value: string) => needles.some((term) => value === term);
+  const starts = (value: string) => needles.some((term) => value.startsWith(term));
+  const includes = (value: string) => needles.some((term) => value.includes(term));
+
+  if (nearestStation && exact(nearestStation)) return 90;
+  if (transitStations.some(exact)) return 85;
+  if (exact(name) || exact(shortName)) return 80;
+  if (starts(name) || starts(shortName)) return 70;
+  if (includes(name) || includes(shortName)) return 60;
+  if (nearestStation && starts(nearestStation)) return 55;
+  if (transitStations.some((station) => starts(station) || includes(station))) return 50;
+  if (includes(address) || includes(district)) return 40;
+  if (includes(services) || includes(schedule)) return 20;
+  if (includes(content) || includes(clergy)) return 10;
+  return 0;
 }
 
 function scoreTempleSearch(temple: TempleView, query: string, lineIds = new Set<string>()) {
@@ -141,13 +174,14 @@ function scoreTempleSearch(temple: TempleView, query: string, lineIds = new Set<
   if (nearestTransit && lineIds.has(nearestTransit.line.id)) score += 460;
   if (lineIds.size > 0 && temple.transit.some((item) => lineIds.has(item.line.id))) score += 210;
   for (const term of terms) {
-    if (name.includes(term) || shortName.includes(term)) score += 120;
-    if (transitStations.some((station) => station === term)) score += 220;
-    if (address.includes(term)) score += 80;
-    if (transit.includes(term) || metro.includes(term)) score += 70;
-    if (district.includes(term)) score += 50;
-    if (schedule.includes(term) || services.includes(term)) score += 35;
-    if (content.includes(term) || clergy.includes(term)) score += 25;
+    const normalizedTerm = normalizeSearch(term);
+    if (name.includes(normalizedTerm) || shortName.includes(normalizedTerm)) score += 120;
+    if (transitStations.some((station) => station === normalizedTerm)) score += 220;
+    if (address.includes(normalizedTerm)) score += 80;
+    if (transit.includes(normalizedTerm) || metro.includes(normalizedTerm)) score += 70;
+    if (district.includes(normalizedTerm)) score += 50;
+    if (schedule.includes(normalizedTerm) || services.includes(normalizedTerm)) score += 35;
+    if (content.includes(normalizedTerm) || clergy.includes(normalizedTerm)) score += 25;
   }
   score += Math.min(80, temple.approvedReviewsCount * 5);
   score += temple.averageHelpfulnessRating;
@@ -275,64 +309,6 @@ function getSearchTerms(query?: string) {
   return Array.from(new Set([query, normalized, ...words.flatMap(expandSearchTerm)])).filter(Boolean).slice(0, 16);
 }
 
-function buildSearchWhere(query: string, terms: string[]): Prisma.TempleWhereInput {
-  const phraseFilters = searchFieldFilters(query);
-  const wordTerms = terms.filter((term) => normalizeSearch(term) !== normalizeSearch(query));
-  const lineIds = Array.from(getLineIdsFromSearch(query, terms));
-  const lineFilter = lineIds.length > 0 ? { transitStations: { some: { lineId: { in: lineIds } } } } : undefined;
-  const wordFilter =
-    wordTerms.length > 1
-      ? {
-          AND: wordTerms.map((term) => ({
-            OR: searchFieldFilters(term)
-          }))
-        }
-      : undefined;
-
-  if (wordFilter) {
-    return { OR: [{ OR: phraseFilters }, wordFilter, ...(lineFilter ? [lineFilter] : [])] };
-  }
-
-  return { OR: [...phraseFilters, ...(lineFilter ? [lineFilter] : [])] };
-}
-
-function searchFieldFilters(term: string): Prisma.TempleWhereInput[] {
-  const filter = { contains: term, mode: "insensitive" as const };
-
-  return [
-    { name: filter },
-    { shortName: filter },
-    { address: filter },
-    { district: filter },
-    { metro: filter },
-    { vicariate: filter },
-    { deanery: filter },
-    { description: filter },
-    { historySummary: filter },
-    { shrinesSummary: filter },
-    { scheduleSummary: filter },
-    { scheduleSourceUrl: filter },
-    { objectType: filter },
-    { affiliation: filter },
-    { websiteUrl: filter },
-    { phone: filter },
-    { email: filter },
-    { transitStations: { some: { station: filter } } },
-    { transitStations: { some: { lineName: filter } } },
-    { transitStations: { some: { lineId: filter } } },
-    { clergy: { some: { name: filter } } },
-    { clergy: { some: { rank: filter } } },
-    { clergy: { some: { role: filter } } },
-    { clergy: { some: { details: filter } } },
-    { parishServices: { some: { title: filter } } },
-    { parishServices: { some: { description: filter } } },
-    { socialLinks: { some: { label: filter } } },
-    { socialLinks: { some: { url: filter } } },
-    { sources: { some: { rawTitle: filter } } },
-    { sources: { some: { rawText: filter } } }
-  ];
-}
-
 function normalizeLineToken(value: string) {
   return normalizeSearch(value).replace(/[^a-zа-я0-9]+/giu, "");
 }
@@ -358,7 +334,7 @@ function getLineIdsFromSearch(query?: string, terms: string[] = []) {
     }
 
     for (const token of tokens) {
-      if (variants.has(token) || (token.length >= 5 && name.includes(token))) {
+      if (variants.has(token) || (token.length >= 6 && name.startsWith(token))) {
         ids.add(line.id);
       }
     }
@@ -385,8 +361,6 @@ function expandSearchTerm(term: string) {
 }
 
 async function fetchDbTemples(input: TempleSearchInput = {}) {
-  const queryTerms = getSearchTerms(input.query);
-  const queryFilter = input.query ? buildSearchWhere(input.query, queryTerms) : undefined;
   const andFilters: Prisma.TempleWhereInput[] = [];
 
   if (input.metro?.length) {
@@ -410,7 +384,6 @@ async function fetchDbTemples(input: TempleSearchInput = {}) {
     where: {
       moderationStatus: "PUBLISHED",
       ...(input.ids?.length ? { id: { in: input.ids } } : {}),
-      ...(queryFilter ? queryFilter : {}),
       ...(input.district?.length ? { district: { in: input.district } } : {}),
       ...(input.metroLine?.length ? { transitStations: { some: { lineId: { in: input.metroLine } } } } : {}),
       ...(andFilters.length ? { AND: andFilters } : {}),
@@ -452,9 +425,15 @@ export async function listTemples(input: TempleSearchInput = {}) {
   }
 
   try {
-    const temples = await fetchDbTemples(input);
+    const queryLineIds = Array.from(getLineIdsFromSearch(input.query, getSearchTerms(input.query)));
+    const effectiveInput =
+      queryLineIds.length > 0
+        ? { ...input, metroLine: Array.from(new Set([...(input.metroLine ?? []), ...queryLineIds])) }
+        : input;
+    const temples = await fetchDbTemples(effectiveInput);
     const mapped = temples.map(mapDbTemple);
-    return sortTemples(dedupeTemples(filterByNearestTransit(mapped, input)), input.sort, input.query);
+    const searched = filterBySearchQuery(mapped, input.query);
+    return sortTemples(dedupeTemples(filterByNearestTransit(searched, effectiveInput)), input.sort, input.query);
   } catch (error) {
     if (env.USE_DEMO_DATA === "false") {
       throw error;
@@ -462,6 +441,22 @@ export async function listTemples(input: TempleSearchInput = {}) {
 
     return filterDemoTemples(input);
   }
+}
+
+function filterBySearchQuery(temples: TempleView[], query?: string) {
+  if (!query) {
+    return temples;
+  }
+
+  const normalizedQuery = normalizeSearch(query);
+  const terms = getSearchTerms(query).map((term) => normalizeSearch(term));
+  const lineIds = getLineIdsFromSearch(query, terms);
+
+  if (lineIds.size > 0) {
+    return temples;
+  }
+
+  return temples.filter((temple) => getTempleSearchPriority(temple, normalizedQuery, terms) > 0 || scoreTempleSearch(temple, normalizedQuery, lineIds) > 0);
 }
 
 function filterByNearestTransit(temples: TempleView[], input: TempleSearchInput) {
