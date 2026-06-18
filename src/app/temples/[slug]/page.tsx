@@ -5,7 +5,7 @@ import { BookOpenText, ChevronDown, Clock3, ExternalLink, History, Map, ShieldCh
 import { notFound } from "next/navigation";
 
 import { FavoriteButton } from "@/components/favorites/favorite-button";
-import { TempleMap } from "@/components/map/temple-map";
+import { LazyTempleMap } from "@/components/map/lazy-temple-map";
 import { ReviewCard } from "@/components/reviews/review-card";
 import { ReviewForm } from "@/components/reviews/review-form";
 import { ReviewSummary } from "@/components/reviews/review-summary";
@@ -189,7 +189,7 @@ export default async function TemplePage({
 
         <section className="grid gap-3">
           <h2 className="text-xl font-semibold">Карта</h2>
-          <TempleMap temples={[temple]} activeSlug={temple.slug} />
+          <LazyTempleMap temples={[temple]} activeSlug={temple.slug} />
         </section>
 
         <section className="grid gap-3">

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { useMemo, useState } from "react";
+import { memo, useMemo, useState } from "react";
 import { ChevronDown, SlidersHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -25,7 +25,7 @@ type FilterDefaults = {
   hasParking?: string;
 };
 
-export function TempleFilters({
+export const TempleFilters = memo(function TempleFilters({
   districts,
   metros,
   metroLines,
@@ -158,7 +158,7 @@ export function TempleFilters({
       )}
     </div>
   );
-}
+});
 
 function FilterGroup({ title, children }: { title: string; children: ReactNode }) {
   return (

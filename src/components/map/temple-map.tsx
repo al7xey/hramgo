@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
 import type { ReactNode } from "react";
 
 import { TempleMapBottomSheet } from "@/components/map/temple-map-bottom-sheet";
@@ -41,7 +41,7 @@ declare global {
 
 const MOSCOW_CENTER: [number, number] = [55.751244, 37.618423];
 
-export function TempleMap({ temples, activeSlug, sidebarTop }: { temples: TempleMapView[]; activeSlug?: string; sidebarTop?: ReactNode }) {
+export const TempleMap = memo(function TempleMap({ temples, activeSlug, sidebarTop }: { temples: TempleMapView[]; activeSlug?: string; sidebarTop?: ReactNode }) {
   const points = useMemo(() => temples.filter((temple) => temple.latitude && temple.longitude), [temples]);
   const pointsKey = useMemo(() => points.map((temple) => `${temple.id}:${temple.latitude}:${temple.longitude}`).join("|"), [points]);
   const slugById = useMemo(() => new Map(points.map((temple) => [temple.id, temple.slug])), [points]);
@@ -52,7 +52,7 @@ export function TempleMap({ temples, activeSlug, sidebarTop }: { temples: Temple
   const objectManagerRef = useRef<YObjectManager | null>(null);
   const fittedPointsKeyRef = useRef<string | null>(null);
   const slugByIdRef = useRef(slugById);
-  const activeTemple = points.find((temple) => temple.slug === selectedSlug);
+  const activeTemple = useMemo(() => points.find((temple) => temple.slug === selectedSlug), [points, selectedSlug]);
 
   useEffect(() => {
     slugByIdRef.current = slugById;
@@ -162,7 +162,7 @@ export function TempleMap({ temples, activeSlug, sidebarTop }: { temples: Temple
       </div>
     </div>
   );
-}
+});
 
 function loadYmaps() {
   if (window.ymaps) {

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { memo } from "react";
 import { ExternalLink, Navigation } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -8,7 +9,7 @@ import { TransitSummary } from "@/components/temples/transit-chip";
 import type { TempleMapView } from "@/features/temples/types";
 import { routeToYandexMaps } from "@/lib/utils";
 
-export function TempleMapBottomSheet({ temple }: { temple: TempleMapView }) {
+export const TempleMapBottomSheet = memo(function TempleMapBottomSheet({ temple }: { temple: TempleMapView }) {
   const templeHref = `/temples/${temple.slug}?returnTo=${encodeURIComponent(`/map?temple=${temple.slug}`)}`;
   const mainPhoto = temple.photos[0];
   const displayAddress = formatMapAddress(temple.address);
@@ -52,7 +53,7 @@ export function TempleMapBottomSheet({ temple }: { temple: TempleMapView }) {
       </div>
     </LiquidGlassCard>
   );
-}
+});
 
 function formatMapAddress(address?: string | null) {
   return (address ?? "")

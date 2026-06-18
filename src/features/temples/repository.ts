@@ -31,8 +31,21 @@ function setCachedTempleList(key: string, value: TempleView[]) {
   templeMemoryCache.set(key, { expiresAt: Date.now() + PUBLIC_TEMPLE_CACHE_TTL_MS, value });
 }
 
+function normalizeCacheValue(value: unknown) {
+  if (Array.isArray(value)) {
+    return [...value].filter(Boolean).map(String).sort();
+  }
+
+  return value;
+}
+
 function getCacheKey(scope: string, input: TempleSearchInput = {}) {
-  return `${scope}:${JSON.stringify(Object.entries(input).sort(([left], [right]) => left.localeCompare(right)))}`;
+  const entries = Object.entries(input)
+    .filter(([, value]) => value !== undefined && value !== "" && !(Array.isArray(value) && value.length === 0))
+    .map(([key, value]) => [key, normalizeCacheValue(value)] as const)
+    .sort(([left], [right]) => left.localeCompare(right));
+
+  return `${scope}:${JSON.stringify(entries)}`;
 }
 
 function filterDemoTemples(input: TempleSearchInput = {}) {

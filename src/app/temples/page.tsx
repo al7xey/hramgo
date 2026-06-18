@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { MobileShell } from "@/components/layout/mobile-shell";
+import { LazyTempleInfiniteList } from "@/components/temples/lazy-temple-infinite-list";
 import { TempleFilters } from "@/components/temples/temple-filters";
-import { TempleInfiniteList } from "@/components/temples/temple-infinite-list";
 import { TempleSearchBar } from "@/components/temples/temple-search-bar";
 import { getDistricts, getMetroLines, getMetroOptions, getParishServiceKinds, listMapTemples } from "@/features/temples/repository";
 import { templeSearchSchema, type TempleSearchSchema } from "@/features/temples/validation";
@@ -96,7 +96,7 @@ export default async function TemplesPage({ searchParams }: { searchParams: Prom
         </aside>
 
         <section className="grid gap-4 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto lg:pr-2">
-          <TempleInfiniteList searchParams={normalizeSearchParams(parsed)} />
+          <LazyTempleInfiniteList searchParams={normalizeSearchParams(parsed)} />
         </section>
       </div>
     </MobileShell>

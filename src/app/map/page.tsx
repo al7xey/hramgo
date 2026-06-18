@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { TempleMap } from "@/components/map/temple-map";
+import { LazyTempleMap } from "@/components/map/lazy-temple-map";
 import { TempleSearchBar } from "@/components/temples/temple-search-bar";
 import { getNearestTransitList } from "@/features/temples/transit";
 import { listMapTemples } from "@/features/temples/repository";
@@ -67,7 +67,7 @@ export default async function MapPage({ searchParams }: { searchParams: Promise<
         <h1 className="text-2xl font-semibold md:text-3xl">Карта храмов Москвы</h1>
         <p className="mt-2 text-sm text-muted-foreground">Показано храмов: {temples.length}</p>
       </div>
-      <TempleMap
+      <LazyTempleMap
         temples={temples}
         activeSlug={getParam(params, "temple")}
         sidebarTop={<TempleSearchBar action="/map" defaultValue={parsed.query} />}

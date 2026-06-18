@@ -1,7 +1,7 @@
 "use client";
 
 import { MapPinned } from "lucide-react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { TempleCard } from "@/components/temples/temple-card";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -15,8 +15,10 @@ type TempleListResponse = {
 };
 
 const PAGE_SIZE = 18;
+const CLIENT_PAGE_CACHE_TTL_MS = 60 * 1000;
+const templePageCache = new Map<string, { expiresAt: number; payload: TempleListResponse }>();
 
-export function TempleInfiniteList({
+export const TempleInfiniteList = memo(function TempleInfiniteList({
   searchParams
 }: {
   searchParams: Record<string, string | string[] | undefined>;
@@ -43,13 +45,7 @@ export function TempleInfiniteList({
       params.set("limit", String(PAGE_SIZE));
       appendSearchParams(params, searchParams);
 
-      const response = await fetch(`/api/temples?${params.toString()}`);
-
-      if (!response.ok) {
-        throw new Error("Не удалось загрузить храмы");
-      }
-
-      const payload = (await response.json()) as TempleListResponse;
+      const payload = await fetchTemplePage(params);
 
       if (isCancelled) {
         return;
@@ -89,15 +85,13 @@ export function TempleInfiniteList({
     params.set("cursor", nextCursor);
     appendSearchParams(params, searchParams);
 
-    const response = await fetch(`/api/temples?${params.toString()}`);
+    const payload = await fetchTemplePage(params).catch(() => null);
 
-    if (!response.ok) {
+    if (!payload) {
       setError("Не удалось загрузить следующую страницу");
       setIsLoadingMore(false);
       return;
     }
-
-    const payload = (await response.json()) as TempleListResponse;
 
     setItems((current) => [...current, ...(payload.items ?? [])]);
     setNextCursor(payload.nextCursor ?? null);
@@ -151,6 +145,30 @@ export function TempleInfiniteList({
       ) : null}
     </div>
   );
+});
+
+async function fetchTemplePage(params: URLSearchParams) {
+  const key = params.toString();
+  const cached = templePageCache.get(key);
+
+  if (cached && cached.expiresAt > Date.now()) {
+    return cached.payload;
+  }
+
+  const response = await fetch(`/api/temples?${key}`);
+
+  if (!response.ok) {
+    throw new Error("Не удалось загрузить храмы");
+  }
+
+  const payload = (await response.json()) as TempleListResponse;
+
+  if (templePageCache.size > 80) {
+    templePageCache.clear();
+  }
+
+  templePageCache.set(key, { expiresAt: Date.now() + CLIENT_PAGE_CACHE_TTL_MS, payload });
+  return payload;
 }
 
 function appendSearchParams(params: URLSearchParams, searchParams: Record<string, string | string[] | undefined>) {
