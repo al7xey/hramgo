@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { TempleMap } from "@/components/map/temple-map";
 import { TempleSearchBar } from "@/components/temples/temple-search-bar";
 import { getNearestTransitList } from "@/features/temples/transit";
-import { listTemples } from "@/features/temples/repository";
+import { listMapTemples } from "@/features/temples/repository";
 import { templeSearchSchema } from "@/features/temples/validation";
 
 export const metadata: Metadata = {
@@ -26,6 +26,8 @@ export const metadata: Metadata = {
   }
 };
 
+export const revalidate = 300;
+
 type SearchParams = Record<string, string | string[] | undefined>;
 
 function getParam(params: SearchParams, key: string) {
@@ -44,7 +46,7 @@ export default async function MapPage({ searchParams }: { searchParams: Promise<
     hasWebsite: getParam(params, "hasWebsite"),
     hasPhotos: getParam(params, "hasPhotos")
   });
-  const temples = (await listTemples(parsed))
+  const temples = (await listMapTemples(parsed))
     .filter((temple) => temple.latitude && temple.longitude)
     .map((temple) => ({
       id: temple.id,

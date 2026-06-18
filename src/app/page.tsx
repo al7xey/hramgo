@@ -7,7 +7,7 @@ import { TempleCard } from "@/components/temples/temple-card";
 import { TempleSearchBar } from "@/components/temples/temple-search-bar";
 import { Button } from "@/components/ui/button";
 import { LiquidGlassCard } from "@/components/ui/liquid-glass-card";
-import { listTemples } from "@/features/temples/repository";
+import { listMapTemples } from "@/features/temples/repository";
 
 export const metadata: Metadata = {
   title: "HramGo — поиск храмов Москвы рядом с метро и МЦД",
@@ -29,10 +29,10 @@ export const metadata: Metadata = {
   }
 };
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 export default async function HomePage() {
-  const temples = await listTemples({ sort: "impressions" });
+  const temples = await listMapTemples({ sort: "impressions" });
   const reviewedTemples = temples.filter((temple) => temple.approvedReviewsCount > 0);
   const fallbackTemples = [...temples].sort((a, b) => (a.shortName ?? a.name).localeCompare(b.shortName ?? b.name, "ru"));
   const featuredTemples = (reviewedTemples.length > 0 ? reviewedTemples : fallbackTemples).slice(0, 3);

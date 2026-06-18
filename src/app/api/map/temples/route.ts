@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 
 import { getNearestTransitList } from "@/features/temples/transit";
-import { listTemples } from "@/features/temples/repository";
+import { listMapTemples } from "@/features/temples/repository";
 import { templeSearchSchema } from "@/features/temples/validation";
 import { ok } from "@/lib/api/response";
 
@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
     hasWebsite: getParam(params, "hasWebsite"),
     hasPhotos: getParam(params, "hasPhotos")
   });
-  const temples = await listTemples(parsed);
+  const temples = await listMapTemples(parsed);
 
   return ok({
     items: temples
@@ -42,5 +42,9 @@ export async function GET(request: NextRequest) {
         photos: temple.photos.slice(0, 1),
         transit: getNearestTransitList(temple.transit, 2)
       }))
+  }, {
+    headers: {
+      "Cache-Control": "public, max-age=60, s-maxage=300, stale-while-revalidate=600"
+    }
   });
 }

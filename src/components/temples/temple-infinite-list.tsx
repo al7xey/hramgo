@@ -43,9 +43,7 @@ export function TempleInfiniteList({
       params.set("limit", String(PAGE_SIZE));
       appendSearchParams(params, searchParams);
 
-      const response = await fetch(`/api/temples?${params.toString()}`, {
-        cache: "no-store"
-      });
+      const response = await fetch(`/api/temples?${params.toString()}`);
 
       if (!response.ok) {
         throw new Error("Не удалось загрузить храмы");
@@ -91,9 +89,7 @@ export function TempleInfiniteList({
     params.set("cursor", nextCursor);
     appendSearchParams(params, searchParams);
 
-    const response = await fetch(`/api/temples?${params.toString()}`, {
-      cache: "no-store"
-    });
+    const response = await fetch(`/api/temples?${params.toString()}`);
 
     if (!response.ok) {
       setError("Не удалось загрузить следующую страницу");

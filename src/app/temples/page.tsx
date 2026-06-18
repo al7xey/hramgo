@@ -3,7 +3,7 @@ import { MobileShell } from "@/components/layout/mobile-shell";
 import { TempleFilters } from "@/components/temples/temple-filters";
 import { TempleInfiniteList } from "@/components/temples/temple-infinite-list";
 import { TempleSearchBar } from "@/components/temples/temple-search-bar";
-import { getDistricts, getMetroLines, getMetroOptions, getParishServiceKinds, listTemples } from "@/features/temples/repository";
+import { getDistricts, getMetroLines, getMetroOptions, getParishServiceKinds, listMapTemples } from "@/features/temples/repository";
 import { templeSearchSchema, type TempleSearchSchema } from "@/features/temples/validation";
 
 export const metadata: Metadata = {
@@ -26,6 +26,8 @@ export const metadata: Metadata = {
     images: ["/twitter-image"]
   }
 };
+
+export const revalidate = 300;
 
 type SearchParams = Record<string, string | string[] | undefined>;
 
@@ -59,7 +61,7 @@ export default async function TemplesPage({ searchParams }: { searchParams: Prom
     hasParking: getParam(params, "hasParking"),
     sort: getParam(params, "sort")
   });
-  const allTemples = await listTemples({});
+  const allTemples = await listMapTemples({});
 
   return (
     <MobileShell>
