@@ -904,8 +904,8 @@ export async function getTempleBySlug(slug: string) {
   }
 
   try {
-    const temple = await prisma.temple.findUnique({
-      where: { slug },
+    const temple = await prisma.temple.findFirst({
+      where: { slug, moderationStatus: "PUBLISHED" },
       include: {
         photos: {
           where: {
