@@ -5,7 +5,7 @@ import { env } from "@/lib/env";
 
 export const metadata: Metadata = {
   title: "Оплата, отказ и возврат средств",
-  description: "Порядок оплаты добровольной поддержки HramGo через Robokassa и обращения за возвратом.",
+  description: "Порядок оплаты добровольной поддержки HramGo через ЮKassa и обращения за возвратом.",
   alternates: { canonical: "/legal/payment-and-refund" }
 };
 
@@ -16,7 +16,7 @@ export default function PaymentAndRefundPage() {
   return (
     <LegalPage title="Оплата, отказ и возврат средств" description="Добровольная поддержка оформляется как разовый платеж без автоплатежей и подписки.">
       <h2>Способы оплаты</h2>
-      <p>Оплата проводится через Robokassa доступными на ее платежной странице способами.</p>
+      <p>Оплата проводится через ЮKassa доступными на ее платежной странице способами.</p>
 
       <h2>Отказ от поддержки до оплаты</h2>
       <p>

@@ -3,6 +3,7 @@ import type { Prisma } from "@prisma/client";
 import { env, shouldUseDemoData } from "@/lib/env";
 import { normalizeSearch } from "@/lib/utils";
 import { demoTemples } from "@/features/temples/demo-data";
+import { getPublicTempleName, getPublicTempleShortName } from "@/features/temples/display";
 import { metroLines } from "@/features/temples/metro";
 import { moscowDistricts } from "@/features/temples/moscow-districts";
 import { filterableParishServiceKinds } from "@/features/temples/parish-services";
@@ -242,6 +243,7 @@ function getNearestTempleTransit(temple: Pick<TempleView, "transit">) {
 export function sanitizeTempleAddress(address?: string | null) {
   return (address ?? "")
     .replace(/^\s*\d{6},?\s*/u, "")
+    .replace(/^\s*\d{1,6},?\s*(г\.?\s*)?Москва,?\s*/iu, "")
     .replace(/^\s*(г\.?\s*)?Москва,?\s*/iu, "")
     .replace(/\s+/g, " ")
     .trim();
@@ -295,8 +297,8 @@ function mapDbTemple(temple: Awaited<ReturnType<typeof fetchDbTemples>>[number])
   return {
     id: temple.id,
     slug: temple.slug,
-    name: temple.name,
-    shortName: temple.shortName,
+    name: getPublicTempleName(temple),
+    shortName: getPublicTempleShortName(temple),
     description: temple.description,
     address: temple.address,
     district: temple.district,
@@ -336,11 +338,12 @@ function mapDbTemple(temple: Awaited<ReturnType<typeof fetchDbTemples>>[number])
     reviewsCount: temple.reviewsCount,
     approvedReviewsCount: temple.approvedReviewsCount,
     lastVerifiedAt: temple.lastVerifiedAt?.toISOString() ?? null,
-    photos: temple.photos.map((photo) => ({
+    photos: filterTemplePhotos(temple.photos).slice(0, 8).map((photo) => ({
       id: photo.id,
       imageUrl: photo.imageUrl,
       alt: photo.alt ?? temple.name,
-      isMain: photo.isMain
+      isMain: photo.isMain,
+      sourceUrl: photo.sourceUrl
     })),
     socialLinks:
       temple.socialLinks.length > 0
@@ -489,7 +492,7 @@ async function fetchDbTemples(input: TempleSearchInput = {}) {
         where: {
           OR: [{ isApproved: true }, { isMain: true }]
         },
-        take: 4,
+        take: 8,
         orderBy: [{ isMain: "desc" }, { createdAt: "desc" }]
       },
       socialLinks: true,
@@ -704,6 +707,7 @@ async function fetchDbMapTemples(input: TempleSearchInput = {}) {
       address: true,
       district: true,
       metro: true,
+      objectType: true,
       latitude: true,
       longitude: true,
       websiteUrl: true,
@@ -768,8 +772,8 @@ function mapDbMapTemple(temple: Awaited<ReturnType<typeof fetchDbMapTemples>>[nu
   return {
     id: temple.id,
     slug: temple.slug,
-    name: temple.name,
-    shortName: temple.shortName,
+    name: getPublicTempleName(temple),
+    shortName: getPublicTempleShortName(temple),
     description: temple.description,
     address: temple.address,
     district: temple.district,
@@ -911,6 +915,7 @@ export async function getTempleBySlug(slug: string) {
           where: {
             OR: [{ isApproved: true }, { isMain: true }]
           },
+          take: 8,
           orderBy: [{ isMain: "desc" }, { createdAt: "desc" }]
         },
         socialLinks: true,

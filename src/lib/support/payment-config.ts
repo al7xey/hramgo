@@ -10,9 +10,8 @@ export function getMissingSupportPaymentConfig() {
   if (!env.LEGAL_FULL_NAME) missing.push("LEGAL_FULL_NAME");
   if (!env.LEGAL_INN) missing.push("LEGAL_INN");
   if (!env.SUPPORT_EMAIL) missing.push("SUPPORT_EMAIL");
-  if (!env.ROBOKASSA_MERCHANT_LOGIN) missing.push("ROBOKASSA_MERCHANT_LOGIN");
-  if (!env.ROBOKASSA_PASSWORD_1) missing.push("ROBOKASSA_PASSWORD_1");
-  if (!env.ROBOKASSA_PASSWORD_2) missing.push("ROBOKASSA_PASSWORD_2");
+  if (!env.YOOKASSA_SHOP_ID) missing.push("YOOKASSA_SHOP_ID");
+  if (!env.YOOKASSA_SECRET_KEY) missing.push("YOOKASSA_SECRET_KEY");
 
   return missing;
 }

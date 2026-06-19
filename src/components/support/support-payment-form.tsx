@@ -59,9 +59,7 @@ export function SupportPaymentForm({ minAmount, maxAmount, paymentEnabled }: Pro
       onSubmit={async (event) => {
         event.preventDefault();
 
-        if (disabled) {
-          return;
-        }
+        if (disabled) return;
 
         setPending(true);
         setMessage(null);
@@ -89,7 +87,7 @@ export function SupportPaymentForm({ minAmount, maxAmount, paymentEnabled }: Pro
     >
       {!paymentEnabled ? (
         <div className="rounded-[20px] border border-card-border bg-muted p-3 text-sm leading-6 text-muted-foreground">
-          Прием платежей временно недоступен. Пожалуйста, попробуйте позже.
+          Прием платежей временно недоступен. Попробуйте позже.
         </div>
       ) : null}
 

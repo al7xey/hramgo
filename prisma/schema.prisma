@@ -539,7 +539,7 @@ model ImportLog {
 
 model SupportPayment {
   id                String    @id @default(cuid())
-  provider          String    @default("robokassa")
+    provider          String    @default("yookassa")
   providerInvoiceId String    @unique
   amount            Float
   email             String

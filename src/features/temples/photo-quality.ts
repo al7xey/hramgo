@@ -1,13 +1,16 @@
 const badPhotoPatterns = [
   /(^|[-_/])qr(code)?([-_.]|$)/iu,
-  /(^|[-_/])(logo|icon|ico|sprite|captcha|counter|banner|baner|poster|afisha)([-_.]|$)/iu,
-  /(^|[-_/])(raspis|schedule|calendar|kalendar|docs?|scan|blank|rekvizit)([-_.]|$)/iu,
+  /(^|[-_/])(logo|icon|ico|sprite|captcha|counter|banner|baner|poster|afisha|promo|reklama)([-_.]|$)/iu,
+  /(^|[-_/])(raspis|schedule|calendar|kalendar|docs?|scan|blank|rekvizit|receipt|oferta)([-_.]|$)/iu,
   /(^|[-_/])(avatar|person|face|portrait|portret|priest|duhoven|klir|svyash|nastoyatel)([-_.]|$)/iu,
-  /(^|[-_/])(ornament|pattern|uzor|plitka|ikonostas|ikona|obraz)([-_.]|$)/iu
+  /(^|[-_/])(ornament|pattern|uzor|plitka|ikonostas|ikona|obraz)([-_.]|$)/iu,
+  /(donbass|novoross|gumanitarn|pomosh|dobrovol|soyuz|molodezh|sestrichestvo|palomnich|whatsapp|telegram|vk\.com)/iu
 ];
 
 const badSourcePatterns =
-  /raspis|schedule|calendar|kalendar|rekvizit|kontakty|duhoven|klir|molodezh|vstrechi|shkola|social|prihod|novosti|news|post|page\/\d/iu;
+  /raspis|schedule|calendar|kalendar|rekvizit|kontakty|duhoven|klir|molodezh|vstrechi|shkola|social|prihod|novosti|news|post|page\/\d|vk\.com|t\.me|telegram|whatsapp/iu;
+
+const templePhotoHints = /hram|church|cerkov|sobor|monast|monastery|temple| часовн|часовн|храм|церк|собор|монаст|подвор|фасад|территор|архитект|здание|колокол|купола|вид/iu;
 
 export function isLikelyTemplePhoto(input: { imageUrl?: string | null; alt?: string | null; sourceUrl?: string | null }) {
   const imageUrl = input.imageUrl ?? "";
@@ -18,7 +21,10 @@ export function isLikelyTemplePhoto(input: { imageUrl?: string | null; alt?: str
 
   if (!imageUrl) return false;
   if (badPhotoPatterns.some((pattern) => pattern.test(imageText))) return false;
-  if (badSourcePatterns.test(sourceText) && !/(gallery|galere|photo|foto|istori|history|o-hrame|about)/iu.test(sourceText)) {
+  if (badSourcePatterns.test(sourceText) && !/(gallery|galere|photo|foto|istori|history|o-hrame|about|храм|церк|собор|монаст)/iu.test(sourceText)) {
+    return false;
+  }
+  if (/upload|uploads|media|images|photo|foto|gallery|galere|thumb/iu.test(imageUrl) && !templePhotoHints.test(imageText) && badSourcePatterns.test(sourceText)) {
     return false;
   }
 

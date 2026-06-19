@@ -2,16 +2,16 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { z } from "zod";
 
-import { authOptions } from "@/lib/auth/options";
 import { badRequest } from "@/lib/api/response";
+import { authOptions } from "@/lib/auth/options";
 import { prisma } from "@/lib/db/prisma";
 import { env } from "@/lib/env";
 import {
-  buildRobokassaPaymentUrl,
-  createRobokassaInvoiceId,
-  formatRobokassaAmount,
+  createYooKassaIdempotenceKey,
+  createYooKassaPayment,
+  formatYooKassaAmount,
   supportPaymentStatus
-} from "@/lib/payments/robokassa";
+} from "@/lib/payments/yookassa";
 import { getMissingSupportPaymentConfig } from "@/lib/support/payment-config";
 
 const paymentSchema = z.object({
@@ -41,9 +41,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "Слишком много попыток. Попробуйте позже." }, { status: 429 });
     }
 
-    const missingConfig = getMissingSupportPaymentConfig();
-    if (missingConfig.length > 0) {
-      return NextResponse.json({ message: "Оплата временно недоступна. Пожалуйста, попробуйте позже." }, { status: 503 });
+    if (getMissingSupportPaymentConfig().length > 0) {
+      return NextResponse.json({ message: "Прием платежей временно недоступен. Попробуйте позже." }, { status: 503 });
     }
 
     if (payload.amount < env.MIN_SUPPORT_AMOUNT_RUB!) {
@@ -61,23 +60,25 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "Укажите e-mail для уведомления о платеже." }, { status: 400 });
     }
 
-    const amount = formatRobokassaAmount(payload.amount);
-    const invoiceId = createRobokassaInvoiceId();
+    const amount = formatYooKassaAmount(payload.amount);
+    const idempotenceKey = createYooKassaIdempotenceKey();
     const description = "Добровольная поддержка HramGo";
-    const { paymentUrl, signature } = buildRobokassaPaymentUrl({ amount, description, email, invoiceId });
+    const payment = await createYooKassaPayment({ amount, description, email, idempotenceKey });
 
     await prisma.supportPayment.create({
       data: {
-        provider: "robokassa",
-        providerInvoiceId: invoiceId,
+        provider: "yookassa",
+        providerInvoiceId: payment.paymentId,
         amount: payload.amount,
         email,
-        signature,
-        status: supportPaymentStatus.pending
+        signature: idempotenceKey,
+        status: payment.status === supportPaymentStatus.paid ? supportPaymentStatus.paid : supportPaymentStatus.pending,
+        paidAt: payment.status === supportPaymentStatus.paid ? new Date() : null,
+        rawPayload: payment.rawPayload
       }
     });
 
-    return NextResponse.json({ confirmationUrl: paymentUrl.toString() });
+    return NextResponse.json({ confirmationUrl: payment.confirmationUrl });
   } catch (error) {
     return badRequest(error);
   }

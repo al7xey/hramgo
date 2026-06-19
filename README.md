@@ -51,33 +51,32 @@ npm run dev
 - `NEXTAUTH_URL` — URL приложения.
 - `USE_DEMO_DATA` — dev fallback для демо-данных.
 - `S3_ENDPOINT`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, `S3_BUCKET`, `S3_PUBLIC_URL` — хранилище фото.
-- `ROBOKASSA_MERCHANT_LOGIN`, `ROBOKASSA_PASSWORD_1`, `ROBOKASSA_PASSWORD_2` — платежи поддержки через Robokassa.
-- `ROBOKASSA_HASH_ALGORITHM`, `ROBOKASSA_IS_TEST` — алгоритм подписи и режим Robokassa.
+- `YOOKASSA_SHOP_ID`, `YOOKASSA_SECRET_KEY` — платежи поддержки через ЮKassa.
+- `YOOKASSA_RECEIPT_ITEM_NAME` — точное название позиции для чека после согласования с ЮKassa.
 - `MIN_SUPPORT_AMOUNT_RUB`, `MAX_SUPPORT_AMOUNT_RUB` — допустимый диапазон добровольной поддержки.
 - `RETURN_REQUEST_REVIEW_DAYS`, `RETURN_PAYMENT_DAYS` — сроки рассмотрения обращения и возврата.
-- `ROBO_RECEIPT_ITEM_NAME` — точное название позиции для чека после согласования с Robokassa.
 - `LEGAL_FULL_NAME`, `LEGAL_INN`, `SUPPORT_EMAIL`, `SUPPORT_PHONE`, `LEGAL_ADDRESS` — публичные реквизиты и контакты.
 - `MAPS_API_KEY`, `GEOCODER_API_KEY` — карты и геокодирование.
 
 Секреты нельзя коммитить в репозиторий.
 
-### Robokassa
+### ЮKassa
 
 HramGo использует модель добровольной поддержки бесплатного информационного проекта. Поддержка не является покупкой
 товара, платного доступа, подписки или индивидуальной услуги и не дает дополнительных преимуществ.
 
 До включения production-платежей владелец должен заполнить обязательные переменные окружения: `MIN_SUPPORT_AMOUNT_RUB`,
 `MAX_SUPPORT_AMOUNT_RUB`, `RETURN_REQUEST_REVIEW_DAYS`, `RETURN_PAYMENT_DAYS`, `LEGAL_FULL_NAME`, `LEGAL_INN`,
-`SUPPORT_EMAIL`, `ROBOKASSA_MERCHANT_LOGIN`, `ROBOKASSA_PASSWORD_1`, `ROBOKASSA_PASSWORD_2`.
+`SUPPORT_EMAIL`, `YOOKASSA_SHOP_ID`, `YOOKASSA_SECRET_KEY`.
 
-TODO согласовать с менеджером Robokassa:
+TODO согласовать с менеджером ЮKassa:
 
-- точное наименование позиции в чеке (`ROBO_RECEIPT_ITEM_NAME`);
+- точное наименование позиции в чеке (`YOOKASSA_RECEIPT_ITEM_NAME`);
 - признак предмета расчета;
 - минимальную сумму поддержки;
 - допустимость модели «добровольная поддержка бесплатного информационного проекта» для текущей анкеты самозанятого.
 
-Точное название позиции и признак предмета расчета должны быть подтверждены Robokassa и владельцем проекта до запуска.
+Точное название позиции и признак предмета расчета должны быть подтверждены ЮKassa и владельцем проекта до запуска.
 Не подменять добровольную поддержку словом «услуга», товаром или другой фиктивной позицией.
 
 ## Команды
