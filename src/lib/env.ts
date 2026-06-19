@@ -23,7 +23,7 @@ const envSchema = z.object({
   MAX_REVIEW_PHOTOS: z.coerce.number().default(10),
   MAX_UPLOAD_SIZE_MB: z.coerce.number().default(8),
   APP_DOMAIN: z.string().default("https://hramgo.ru"),
-  USE_DEMO_DATA: z.string().default("true"),
+  USE_DEMO_DATA: z.string().default(process.env.DATABASE_URL ? "false" : "true"),
   ROBOKASSA_MERCHANT_LOGIN: z.string().optional(),
   ROBOKASSA_PASSWORD_1: z.string().optional(),
   ROBOKASSA_PASSWORD_2: z.string().optional(),

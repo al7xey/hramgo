@@ -2,11 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { prisma } from "@/lib/db/prisma";
 import { env } from "@/lib/env";
-import { verifyRobokassaResultSignature } from "@/lib/payments/robokassa";
+import { formatRobokassaAmount, supportPaymentStatus, verifyRobokassaResultSignature } from "@/lib/payments/robokassa";
 
 async function handleRobokassaResult(request: NextRequest) {
   if (!env.ROBOKASSA_PASSWORD_2) {
-    return new NextResponse("Robokassa password is not configured", { status: 503 });
+    return new NextResponse("temporarily unavailable", { status: 503 });
   }
 
   const form = request.method === "POST" ? await request.formData() : request.nextUrl.searchParams;
@@ -15,7 +15,7 @@ async function handleRobokassaResult(request: NextRequest) {
   const signature = String(form.get("SignatureValue") ?? "");
 
   if (!outSum || !invId || !signature || !verifyRobokassaResultSignature(outSum, invId, signature)) {
-    return new NextResponse("bad sign", { status: 400 });
+    return new NextResponse("invalid request", { status: 400 });
   }
 
   const payment = await prisma.supportPayment.findUnique({
@@ -23,14 +23,25 @@ async function handleRobokassaResult(request: NextRequest) {
   });
 
   if (!payment || payment.provider !== "robokassa") {
-    return new NextResponse("unknown invoice", { status: 404 });
+    return new NextResponse("not found", { status: 404 });
   }
 
-  if (payment.status !== "PAID") {
+  if (formatRobokassaAmount(payment.amount) !== formatRobokassaAmount(Number(outSum))) {
     await prisma.supportPayment.update({
       where: { providerInvoiceId: invId },
       data: {
-        status: "PAID",
+        status: supportPaymentStatus.error,
+        rawPayload: Object.fromEntries(Array.from(form.entries()).map(([key, value]) => [key, String(value)]))
+      }
+    });
+    return new NextResponse("invalid request", { status: 400 });
+  }
+
+  if (payment.status !== supportPaymentStatus.paid) {
+    await prisma.supportPayment.update({
+      where: { providerInvoiceId: invId },
+      data: {
+        status: supportPaymentStatus.paid,
         paidAt: payment.paidAt ?? new Date(),
         rawPayload: Object.fromEntries(Array.from(form.entries()).map(([key, value]) => [key, String(value)]))
       }

@@ -7,7 +7,14 @@ import { metroLines } from "@/features/temples/metro";
 import { moscowDistricts } from "@/features/temples/moscow-districts";
 import { filterableParishServiceKinds } from "@/features/temples/parish-services";
 import { sortTransitByWalkMinutes } from "@/features/temples/transit";
-import type { TempleParishServiceView, TempleSearchInput, TempleView, TransitStationOptionView } from "@/features/temples/types";
+import type {
+  TempleCardView,
+  TempleMapView,
+  TempleParishServiceView,
+  TempleSearchInput,
+  TempleView,
+  TransitStationOptionView
+} from "@/features/temples/types";
 
 const PUBLIC_TEMPLE_CACHE_TTL_MS = 5 * 60 * 1000;
 const templeMemoryCache = new Map<string, { expiresAt: number; value: TempleView[] }>();
@@ -229,6 +236,47 @@ function scoreTempleSearch(temple: TempleView, query: string, lineIds = new Set<
 
 function getNearestTempleTransit(temple: Pick<TempleView, "transit">) {
   return sortTransitByWalkMinutes(temple.transit)[0] ?? null;
+}
+
+export function sanitizeTempleAddress(address?: string | null) {
+  return (address ?? "")
+    .replace(/^\s*\d{6},?\s*/u, "")
+    .replace(/^\s*(г\.?\s*)?Москва,?\s*/iu, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+export function toTempleCardDto(temple: TempleView): TempleCardView {
+  return {
+    id: temple.id,
+    slug: temple.slug,
+    name: temple.name,
+    shortName: temple.shortName,
+    address: sanitizeTempleAddress(temple.address),
+    averageHelpfulnessRating: temple.averageHelpfulnessRating,
+    reviewsCount: temple.reviewsCount,
+    approvedReviewsCount: temple.approvedReviewsCount,
+    photos: temple.photos.slice(0, 1),
+    transit: sortTransitByWalkMinutes(temple.transit).slice(0, 1)
+  };
+}
+
+export function toTempleMapDto(temple: TempleView): TempleMapView {
+  const mainPhoto = temple.photos[0];
+
+  return {
+    id: temple.id,
+    slug: temple.slug,
+    name: temple.name,
+    shortName: temple.shortName,
+    address: sanitizeTempleAddress(temple.address),
+    latitude: temple.latitude,
+    longitude: temple.longitude,
+    websiteUrl: temple.websiteUrl,
+    photoUrl: mainPhoto?.imageUrl ?? null,
+    photoAlt: mainPhoto?.alt ?? temple.name,
+    transit: sortTransitByWalkMinutes(temple.transit).slice(0, 1)
+  };
 }
 
 function normalizeAddressForSearch(value: string) {
@@ -523,6 +571,32 @@ export async function listMapTemples(input: TempleSearchInput = {}) {
     }
 
     return filterDemoTemples(input).filter((temple) => temple.latitude && temple.longitude);
+  }
+}
+
+export async function listPublishedTempleSitemapEntries() {
+  if (shouldUseDemoData) {
+    return demoTemples.map((temple) => ({
+      slug: temple.slug,
+      lastVerifiedAt: temple.lastVerifiedAt ?? null
+    }));
+  }
+
+  try {
+    return prisma.temple.findMany({
+      where: { moderationStatus: "PUBLISHED" },
+      select: { slug: true, lastVerifiedAt: true, updatedAt: true },
+      orderBy: { slug: "asc" }
+    });
+  } catch (error) {
+    if (env.USE_DEMO_DATA === "false") {
+      throw error;
+    }
+
+    return demoTemples.map((temple) => ({
+      slug: temple.slug,
+      lastVerifiedAt: temple.lastVerifiedAt ?? null
+    }));
   }
 }
 

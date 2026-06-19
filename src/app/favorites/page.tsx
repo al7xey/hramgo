@@ -1,5 +1,5 @@
 import { FavoritesView } from "@/components/favorites/favorites-view";
-import { listTemples } from "@/features/temples/repository";
+import { listTemples, toTempleCardDto } from "@/features/temples/repository";
 import { authOptions } from "@/lib/auth/options";
 import { prisma } from "@/lib/db/prisma";
 import { getServerSession } from "next-auth";
@@ -15,7 +15,7 @@ export default async function FavoritesPage() {
         })
       ).map((item) => item.templeId)
     : [];
-  const temples = favoriteIds.length > 0 ? await listTemples({ ids: favoriteIds }) : [];
+  const temples = favoriteIds.length > 0 ? (await listTemples({ ids: favoriteIds })).map(toTempleCardDto) : [];
 
   return (
     <div className="mx-auto grid max-w-3xl gap-5">

@@ -1,7 +1,6 @@
 import { NextRequest } from "next/server";
 
-import { getNearestTransitList } from "@/features/temples/transit";
-import { listMapTemples } from "@/features/temples/repository";
+import { listMapTemples, toTempleMapDto } from "@/features/temples/repository";
 import { templeSearchSchema } from "@/features/temples/validation";
 import { ok } from "@/lib/api/response";
 
@@ -27,21 +26,11 @@ export async function GET(request: NextRequest) {
   });
   const temples = await listMapTemples(parsed);
 
+  const items = temples.filter((temple) => temple.latitude && temple.longitude).map(toTempleMapDto);
+
   return ok({
-    items: temples
-      .filter((temple) => temple.latitude && temple.longitude)
-      .map((temple) => ({
-        id: temple.id,
-        slug: temple.slug,
-        name: temple.name,
-        shortName: temple.shortName,
-        latitude: temple.latitude,
-        longitude: temple.longitude,
-        websiteUrl: temple.websiteUrl,
-        address: temple.address,
-        photos: temple.photos.slice(0, 1),
-        transit: getNearestTransitList(temple.transit, 2)
-      }))
+    items,
+    total: items.length
   }, {
     headers: {
       "Cache-Control": "public, max-age=60, s-maxage=300, stale-while-revalidate=600"

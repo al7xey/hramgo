@@ -31,6 +31,10 @@ export function unauthorized() {
   return NextResponse.json({ message: "Нужно войти" }, { status: 401 });
 }
 
+export function forbidden(message = "Недостаточно прав") {
+  return NextResponse.json({ message }, { status: 403 });
+}
+
 export function actionQueued(message = "Действие добавлено в очередь модерации") {
   return NextResponse.json({ message }, { status: 202 });
 }

@@ -1,5 +1,10 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 
+if (!process.env.DATABASE_URL) {
+  console.error("DATABASE_URL is not set. Temple data audit requires a real database connection.");
+  process.exit(1);
+}
+
 const prisma = new PrismaClient();
 
 function isMissing(value?: string | null) {

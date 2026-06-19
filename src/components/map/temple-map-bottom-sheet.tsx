@@ -11,13 +11,12 @@ import { routeToYandexMaps } from "@/lib/utils";
 
 export const TempleMapBottomSheet = memo(function TempleMapBottomSheet({ temple }: { temple: TempleMapView }) {
   const templeHref = `/temples/${temple.slug}?returnTo=${encodeURIComponent(`/map?temple=${temple.slug}`)}`;
-  const mainPhoto = temple.photos[0];
   const displayAddress = formatMapAddress(temple.address);
 
   return (
     <LiquidGlassCard className="p-3">
       <div className="grid grid-cols-[88px_1fr] gap-3">
-        <TemplePhoto src={mainPhoto?.imageUrl} alt={mainPhoto?.alt ?? temple.name} className="aspect-square rounded-[18px]" />
+        <TemplePhoto src={temple.photoUrl} alt={temple.photoAlt ?? temple.name} className="aspect-square rounded-[18px]" />
         <div className="min-w-0">
           <h2 className="line-clamp-2 text-base font-semibold">{temple.shortName ?? temple.name}</h2>
           <p className="mt-1 line-clamp-2 text-sm leading-5 text-muted-foreground">{displayAddress}</p>

@@ -1,10 +1,9 @@
-import { getServerSession } from "next-auth";
-
 import { reviewSchema } from "@/features/reviews/validation";
 import { getTempleBySlug } from "@/features/temples/repository";
-import { badRequest, notFound, ok, unauthorized } from "@/lib/api/response";
-import { authOptions } from "@/lib/auth/options";
+import { badRequest, notFound, ok } from "@/lib/api/response";
+import { isAuthFailure, requireUser } from "@/lib/auth/guards";
 import { prisma } from "@/lib/db/prisma";
+import { recalculateTempleReviewStats } from "@/lib/reviews/ratings";
 
 export async function GET(_request: Request, { params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -19,11 +18,10 @@ export async function GET(_request: Request, { params }: { params: Promise<{ slu
 
 export async function POST(request: Request, { params }: { params: Promise<{ slug: string }> }) {
   try {
-    const session = await getServerSession(authOptions);
-    const userId = session?.user?.id;
+    const auth = await requireUser();
 
-    if (!userId) {
-      return unauthorized();
+    if (isAuthFailure(auth)) {
+      return auth.response;
     }
 
     const { slug } = await params;
@@ -40,7 +38,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ slu
     const review = await prisma.review.create({
       data: {
         templeId: temple.id,
-        userId,
+        userId: auth.user.id,
         rating: payload.rating,
         text: payload.text,
         visitType: payload.visitType,
@@ -54,33 +52,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ slu
       select: { id: true, status: true }
     });
 
-    const [ratingStats, ratingGroups] = await Promise.all([
-      prisma.review.aggregate({
-        where: { templeId: temple.id, status: "APPROVED" },
-        _avg: { rating: true },
-        _count: { _all: true }
-      }),
-      prisma.review.groupBy({
-        by: ["rating"],
-        where: { templeId: temple.id, status: "APPROVED" },
-        _count: { rating: true }
-      })
-    ]);
-    const counts = new Map(ratingGroups.map((item) => [item.rating, item._count.rating]));
-
-    await prisma.temple.update({
-      where: { id: temple.id },
-      data: {
-        reviewsCount: ratingStats._count._all,
-        approvedReviewsCount: ratingStats._count._all,
-        averageHelpfulnessRating: ratingStats._avg.rating ?? 0,
-        rating5Count: counts.get(5) ?? 0,
-        rating4Count: counts.get(4) ?? 0,
-        rating3Count: counts.get(3) ?? 0,
-        rating2Count: counts.get(2) ?? 0,
-        rating1Count: counts.get(1) ?? 0
-      }
-    });
+    await recalculateTempleReviewStats(temple.id);
 
     return ok({ message: "Отзыв опубликован.", review });
   } catch (error) {

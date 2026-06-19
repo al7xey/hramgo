@@ -6,10 +6,10 @@ import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { TempleCard } from "@/components/temples/temple-card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { LoadingState } from "@/components/ui/loading-state";
-import type { TempleView } from "@/features/temples/types";
+import type { TempleCardView } from "@/features/temples/types";
 
 type TempleListResponse = {
-  items: TempleView[];
+  items: TempleCardView[];
   nextCursor: string | null;
   total: number;
 };
@@ -23,7 +23,7 @@ export const TempleInfiniteList = memo(function TempleInfiniteList({
 }: {
   searchParams: Record<string, string | string[] | undefined>;
 }) {
-  const [items, setItems] = useState<TempleView[]>([]);
+  const [items, setItems] = useState<TempleCardView[]>([]);
   const [nextCursor, setNextCursor] = useState<string | null>(null);
   const [total, setTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(true);

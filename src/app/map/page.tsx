@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { LazyTempleMap } from "@/components/map/lazy-temple-map";
 import { TempleSearchBar } from "@/components/temples/temple-search-bar";
-import { getNearestTransitList } from "@/features/temples/transit";
-import { listMapTemples } from "@/features/temples/repository";
+import { listMapTemples, toTempleMapDto } from "@/features/temples/repository";
 import { templeSearchSchema } from "@/features/temples/validation";
 
 export const metadata: Metadata = {
@@ -48,18 +47,7 @@ export default async function MapPage({ searchParams }: { searchParams: Promise<
   });
   const temples = (await listMapTemples(parsed))
     .filter((temple) => temple.latitude && temple.longitude)
-    .map((temple) => ({
-      id: temple.id,
-      slug: temple.slug,
-      name: temple.name,
-      shortName: temple.shortName,
-      address: temple.address,
-      latitude: temple.latitude,
-      longitude: temple.longitude,
-      websiteUrl: temple.websiteUrl,
-      photos: temple.photos.slice(0, 1),
-      transit: getNearestTransitList(temple.transit, 2)
-    }));
+    .map(toTempleMapDto);
 
   return (
     <div className="grid gap-5">

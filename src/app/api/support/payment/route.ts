@@ -9,7 +9,8 @@ import { env } from "@/lib/env";
 import {
   buildRobokassaPaymentUrl,
   createRobokassaInvoiceId,
-  formatRobokassaAmount
+  formatRobokassaAmount,
+  supportPaymentStatus
 } from "@/lib/payments/robokassa";
 import { getMissingSupportPaymentConfig } from "@/lib/support/payment-config";
 
@@ -72,7 +73,7 @@ export async function POST(request: Request) {
         amount: payload.amount,
         email,
         signature,
-        status: "PENDING"
+        status: supportPaymentStatus.pending
       }
     });
 

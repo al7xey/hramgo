@@ -1,13 +1,14 @@
 import type { MetadataRoute } from "next";
 
-import { listMapTemples } from "@/features/temples/repository";
+import { listPublishedTempleSitemapEntries } from "@/features/temples/repository";
 
 const baseUrl = "https://hramgo.ru";
 
 export const revalidate = 3600;
+export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const temples = await listMapTemples({});
+  const temples = await listPublishedTempleSitemapEntries();
   const now = new Date();
 
   return [

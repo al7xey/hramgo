@@ -135,7 +135,24 @@ export type TempleSearchInput = {
   radiusKm?: number;
 };
 
+export type TempleCardView = Pick<
+  TempleView,
+  | "id"
+  | "slug"
+  | "name"
+  | "shortName"
+  | "address"
+  | "averageHelpfulnessRating"
+  | "reviewsCount"
+  | "approvedReviewsCount"
+  | "photos"
+  | "transit"
+>;
+
 export type TempleMapView = Pick<
   TempleView,
-  "id" | "slug" | "name" | "shortName" | "address" | "latitude" | "longitude" | "websiteUrl" | "photos" | "transit"
->;
+  "id" | "slug" | "name" | "shortName" | "address" | "latitude" | "longitude" | "websiteUrl" | "transit"
+> & {
+  photoUrl?: string | null;
+  photoAlt?: string | null;
+};

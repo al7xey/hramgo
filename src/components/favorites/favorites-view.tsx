@@ -6,7 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import { TempleCard } from "@/components/temples/temple-card";
 import { EmptyState } from "@/components/ui/empty-state";
-import type { TempleView } from "@/features/temples/types";
+import type { TempleCardView } from "@/features/temples/types";
 
 const FAVORITES_STORAGE_KEY = "hramgo-favorites";
 
@@ -15,7 +15,7 @@ function readFavoriteIds() {
   catch { return []; }
 }
 
-export function FavoritesView({ temples, initialIds = [] }: { temples: TempleView[]; initialIds?: string[] }) {
+export function FavoritesView({ temples, initialIds = [] }: { temples: TempleCardView[]; initialIds?: string[] }) {
   const { status } = useSession();
   const [ids, setIds] = useState<string[]>(initialIds);
 

@@ -1,6 +1,6 @@
 import type { NextRequest } from "next/server";
 
-import { listMapTemples } from "@/features/temples/repository";
+import { listMapTemples, toTempleCardDto } from "@/features/temples/repository";
 import { templeSearchSchema } from "@/features/temples/validation";
 import { badRequest, ok } from "@/lib/api/response";
 
@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
     const cursor = toPositiveInt(params.get("cursor"), 0);
     const limit = Math.min(toPositiveInt(params.get("limit"), DEFAULT_LIMIT), MAX_LIMIT);
     const temples = await listMapTemples(input);
-    const items = temples.slice(cursor, cursor + limit);
+    const items = temples.slice(cursor, cursor + limit).map(toTempleCardDto);
     const nextCursor = cursor + items.length < temples.length ? String(cursor + items.length) : null;
 
     return ok(

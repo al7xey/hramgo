@@ -2,6 +2,15 @@ import { createHash, randomInt, timingSafeEqual } from "node:crypto";
 
 import { env } from "@/lib/env";
 
+export const supportPaymentStatus = {
+  pending: "PENDING",
+  paid: "PAID",
+  cancelled: "CANCELLED",
+  error: "ERROR",
+  refundRequested: "REFUND_REQUESTED",
+  refunded: "REFUNDED"
+} as const;
+
 export function formatRobokassaAmount(amount: number) {
   return amount.toFixed(2);
 }

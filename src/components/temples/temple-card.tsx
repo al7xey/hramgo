@@ -5,9 +5,9 @@ import { FavoriteButton } from "@/components/favorites/favorite-button";
 import { TemplePhoto } from "@/components/temples/temple-photo";
 import { TransitSummary } from "@/components/temples/transit-chip";
 import { LiquidGlassCard } from "@/components/ui/liquid-glass-card";
-import type { TempleView } from "@/features/temples/types";
+import type { TempleCardView } from "@/features/temples/types";
 
-export function TempleCard({ temple }: { temple: TempleView }) {
+export function TempleCard({ temple }: { temple: TempleCardView }) {
   const photo = temple.photos[0];
   const detailsHref = `/temples/${temple.slug}`;
 
