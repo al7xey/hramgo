@@ -12,10 +12,9 @@ type Props = {
   minAmount?: number;
   maxAmount?: number;
   paymentEnabled: boolean;
-  missingConfig: string[];
 };
 
-export function SupportPaymentForm({ minAmount, maxAmount, paymentEnabled, missingConfig }: Props) {
+export function SupportPaymentForm({ minAmount, maxAmount, paymentEnabled }: Props) {
   const { data: session } = useSession();
   const sessionEmail = session?.user?.email ?? "";
   const defaultAmount = minAmount ?? exampleAmounts[0];
@@ -90,8 +89,7 @@ export function SupportPaymentForm({ minAmount, maxAmount, paymentEnabled, missi
     >
       {!paymentEnabled ? (
         <div className="rounded-[20px] border border-card-border bg-muted p-3 text-sm leading-6 text-muted-foreground">
-          Прием платежей временно недоступен: владелец проекта должен заполнить обязательные переменные окружения
-          {missingConfig.length ? ` (${missingConfig.join(", ")})` : ""}.
+          Прием платежей временно недоступен. Пожалуйста, попробуйте позже.
         </div>
       ) : null}
 

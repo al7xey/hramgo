@@ -48,10 +48,19 @@ export function FavoritesView({ temples, initialIds = [] }: { temples: TempleVie
     return () => { isCancelled = true; };
   }, [status]);
 
-  const favorites = useMemo(() => temples.filter((temple) => ids.includes(temple.id)), [ids, temples]);
+  const favorites = useMemo(() => {
+    const favoriteIds = new Set(ids);
+    return temples.filter((temple) => favoriteIds.has(temple.id));
+  }, [ids, temples]);
 
   if (favorites.length === 0) {
-    return <EmptyState icon={Heart} title="\u0418\u0437\u0431\u0440\u0430\u043d\u043d\u043e\u0435 \u043f\u043e\u043a\u0430 \u043f\u0443\u0441\u0442\u043e" description="\u0421\u043e\u0445\u0440\u0430\u043d\u0435\u043d\u043d\u044b\u0435 \u0445\u0440\u0430\u043c\u044b \u043f\u043e\u044f\u0432\u044f\u0442\u0441\u044f \u0437\u0434\u0435\u0441\u044c \u0441\u0440\u0430\u0437\u0443 \u0438 \u043e\u0441\u0442\u0430\u043d\u0443\u0442\u0441\u044f \u043f\u043e\u0441\u043b\u0435 \u043f\u0435\u0440\u0435\u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0438." />;
+    return (
+      <EmptyState
+        icon={Heart}
+        title="Избранное пока пусто"
+        description="Сохраненные храмы появятся здесь сразу и останутся после перезагрузки."
+      />
+    );
   }
 
   return <div className="grid gap-3">{favorites.map((temple) => <TempleCard key={temple.id} temple={temple} />)}</div>;

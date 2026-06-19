@@ -42,13 +42,7 @@ export async function POST(request: Request) {
 
     const missingConfig = getMissingSupportPaymentConfig();
     if (missingConfig.length > 0) {
-      return NextResponse.json(
-        {
-          message: "Оплата через Robokassa временно недоступна: не заполнены обязательные настройки проекта.",
-          missingConfig
-        },
-        { status: 503 }
-      );
+      return NextResponse.json({ message: "Оплата временно недоступна. Пожалуйста, попробуйте позже." }, { status: 503 });
     }
 
     if (payload.amount < env.MIN_SUPPORT_AMOUNT_RUB!) {

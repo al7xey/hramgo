@@ -58,7 +58,6 @@ export default async function SupportPage({ searchParams }: { searchParams: Prom
           minAmount={env.MIN_SUPPORT_AMOUNT_RUB}
           maxAmount={env.MAX_SUPPORT_AMOUNT_RUB}
           paymentEnabled={readiness.enabled}
-          missingConfig={readiness.missing}
         />
       </LiquidGlassCard>
 
