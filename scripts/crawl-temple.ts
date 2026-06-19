@@ -7,16 +7,38 @@ const prisma = new PrismaClient();
 const KEYWORD_PATHS = [
   "/",
   "/raspisanie",
+  "/raspisanie/",
+  "/raspisanie-bogosluzhenij",
+  "/raspisanie-bogosluzheniy",
+  "/raspisanie-bogosluzhenij2",
   "/schedule",
+  "/sluzhby",
+  "/services",
+  "/calendar",
+  "/kalendar",
   "/bogosluzheniya",
+  "/bogosluzhenie",
+  "/bogosluzhenija",
+  "/богослужения",
+  "/расписание",
   "/kontakty",
+  "/kontakty-hrama",
   "/contacts",
+  "/o-hrame",
   "/history",
   "/istoriya",
+  "/istoriya-xrama",
   "/duhovenstvo",
+  "/duhovenstvo-i-klir",
+  "/klir",
   "/voskresnaya-shkola",
+  "/v-shkola",
   "/molodezh",
+  "/molodezhka",
+  "/vstrechi-molodezhki",
   "/social",
+  "/socialnoe-sluzhenie",
+  "/prihod",
   "/sitemap.xml"
 ];
 
@@ -43,6 +65,7 @@ const LINK_KEYWORDS = [
 type CrawlOptions = {
   limit?: number;
   pagesPerTemple: number;
+  maxAttemptsPerTemple: number;
   delayMs: number;
 };
 
@@ -78,6 +101,7 @@ function parseArgs(): CrawlOptions {
   return {
     limit: args.has("limit") ? Number(args.get("limit")) : undefined,
     pagesPerTemple: args.has("pages") ? Number(args.get("pages")) : 8,
+    maxAttemptsPerTemple: args.has("attempts") ? Number(args.get("attempts")) : Math.max(12, Number(args.get("pages") ?? 8) * 3),
     delayMs: args.has("delay") ? Number(args.get("delay")) : 450
   };
 }
@@ -274,7 +298,7 @@ async function fetchPage(url: string): Promise<CrawlSnapshot | null> {
   }
 
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 12_000);
+  const timeout = setTimeout(() => controller.abort(), 8_000);
 
   try {
     const response = await fetch(url, {
@@ -384,10 +408,12 @@ async function main() {
     const queue = candidateUrls(baseUrl, temple.sources.map((source) => source.url));
     const seen = new Set<string>();
     let pagesForTemple = 0;
+    let attemptsForTemple = 0;
 
     for (const url of queue) {
-      if (pagesForTemple >= options.pagesPerTemple || seen.has(url)) continue;
+      if (pagesForTemple >= options.pagesPerTemple || attemptsForTemple >= options.maxAttemptsPerTemple || seen.has(url)) continue;
       seen.add(url);
+      attemptsForTemple += 1;
 
       const snapshot = await fetchPage(url);
       await delay(options.delayMs);
@@ -411,7 +437,7 @@ async function main() {
     }
 
     await prisma.temple.update({ where: { id: temple.id }, data: { lastCrawledAt: new Date() } });
-    console.log(`Crawled ${pagesForTemple}/${options.pagesPerTemple}: ${temple.name}`);
+    console.log(`Crawled ${pagesForTemple}/${options.pagesPerTemple} (${attemptsForTemple} attempts): ${temple.name}`);
   }
 
   const stats = { temples: temples.length, fetched, created, updated, failed };

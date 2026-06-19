@@ -339,7 +339,7 @@ function ScheduleItem({ item }: { item: string }) {
     ? item
         .replace(match[0], "")
         .replace(/^[\s\u2014\u2013-]+/u, "")
-        .replace(/^\u0415\u0436\u0435\u043d\u0435\u0434\u0435\u043b\u044c\u043d\u043e\s+\u043f\u043e\s+[^\u2014\u2013-]+[\u2014\u2013-]\s*/iu, "")
+        .replace(/^Еженедельно\s+по\s+[^\u2014\u2013-]+[\u2014\u2013-]\s*/iu, "")
         .trim()
     : item;
 
@@ -356,8 +356,8 @@ function ScheduleItem({ item }: { item: string }) {
   );
 }
 
-const WEEKDAY_WORDS = ["\u0431\u0443\u0434\u043d", "\u043f\u043e\u043d\u0435\u0434\u0435\u043b", "\u0432\u0442\u043e\u0440\u043d\u0438\u043a", "\u0441\u0440\u0435\u0434", "\u0447\u0435\u0442\u0432\u0435\u0440", "\u043f\u044f\u0442\u043d\u0438\u0446"];
-const WEEKEND_WORDS = ["\u0441\u0443\u0431\u0431\u043e\u0442", "\u0432\u043e\u0441\u043a\u0440\u0435\u0441", "\u0432\u044b\u0445\u043e\u0434\u043d", "\u043f\u0440\u0430\u0437\u0434\u043d\u0438\u043a"];
+const WEEKDAY_WORDS = ["будн", "понедел", "вторник", "сред", "четвер", "пятниц"];
+const WEEKEND_WORDS = ["суббот", "воскрес", "выходн", "праздник"];
 
 function splitSchedule(text: string) {
   const normalized = text.replace(/\s+/g, " ").trim();
@@ -396,12 +396,15 @@ function scheduleBucket(item: string) {
 
 function cleanScheduleItem(item: string) {
   return item
+    .replace(/^(будни|выходные(?:\s+и\s+праздники)?):\s*/iu, "")
     .replace(/\([^)]*\)/g, (part) => {
       const lower = part.toLowerCase();
       return hasAnyWord(lower, [...WEEKDAY_WORDS, ...WEEKEND_WORDS]) ? "" : part;
     })
+    .replace(/\b(по|в)\s+(будням|будни|выходным|выходные|субботам|воскресеньям|праздникам)\b/giu, "")
     .replace(/\s{2,}/g, " ")
     .replace(/\s+([,.;])/g, "$1")
+    .replace(/\s+[\u2014\u2013-]\s*$/u, "")
     .trim();
 }
 
@@ -420,6 +423,11 @@ function uniqueScheduleItems(items: string[]) {
 }
 
 function buildScheduleGroups(text: string) {
+  const structured = buildStructuredScheduleGroups(text);
+  if (structured) {
+    return structured;
+  }
+
   const items = splitSchedule(text);
   const weekday: string[] = [];
   const weekend: string[] = [];
@@ -432,13 +440,44 @@ function buildScheduleGroups(text: string) {
     else common.push(item);
   }
 
-  const fallback = ["\u0418\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u044f \u0443\u0442\u043e\u0447\u043d\u044f\u0435\u0442\u0441\u044f"];
+  const fallback = ["Информация уточняется"];
   const weekdayItems = uniqueScheduleItems(weekday.length > 0 ? weekday : common);
   const weekendItems = uniqueScheduleItems(weekend.length > 0 ? weekend : []);
 
   return [
-    { title: "\u0411\u0443\u0434\u043d\u0438", items: weekdayItems.length > 0 ? weekdayItems : fallback },
-    { title: "\u0412\u044b\u0445\u043e\u0434\u043d\u044b\u0435", items: weekendItems.length > 0 ? weekendItems : fallback }
+    { title: "Будни", items: weekdayItems.length > 0 ? weekdayItems : fallback },
+    { title: "Выходные", items: weekendItems.length > 0 ? weekendItems : fallback }
+  ];
+}
+
+function splitScheduleSectionItems(text: string) {
+  return text
+    .split(/\n|;\s*|•\s*/u)
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function buildStructuredScheduleGroups(text: string) {
+  const sections = new globalThis.Map<"weekday" | "weekend", string[]>();
+  const sectionPattern = /(Будни|Выходные(?:\s+и\s+праздники)?)\s*:\s*([\s\S]*?)(?=(?:Будни|Выходные(?:\s+и\s+праздники)?|Примечание)\s*:|$)/giu;
+
+  for (const match of text.matchAll(sectionPattern)) {
+    const title = match[1].toLowerCase();
+    const bucket = title.includes("выход") ? "weekend" : "weekday";
+    sections.set(bucket, [...(sections.get(bucket) ?? []), ...splitScheduleSectionItems(match[2])]);
+  }
+
+  if (sections.size === 0) {
+    return null;
+  }
+
+  const fallback = ["Информация уточняется"];
+  const weekdayItems = uniqueScheduleItems(sections.get("weekday") ?? []);
+  const weekendItems = uniqueScheduleItems(sections.get("weekend") ?? []);
+
+  return [
+    { title: "Будни", items: weekdayItems.length > 0 ? weekdayItems : fallback },
+    { title: "Выходные", items: weekendItems.length > 0 ? weekendItems : fallback }
   ];
 }
 

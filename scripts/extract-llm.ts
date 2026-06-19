@@ -69,15 +69,148 @@ function firstLongParagraph(text: string) {
     ?.slice(0, 900);
 }
 
-function extractSchedule(text: string) {
-  const lines = text
+const timePattern = /\b([01]?\d|2[0-3])[.:](\d{2})\b/u;
+const scheduleKeywordPattern =
+  /литург|богослуж|вечер|всенощ|утрен|исповед|молеб|панихид|акафист|часы|служб|бдение|канон|причащ|полиелей/iu;
+const weekdayPattern = /будн|понедель|вторник|сред|четвер|пятниц/iu;
+const weekendPattern = /выходн|суббот|воскрес|праздн|недел/iu;
+const scheduleUrlPattern = /raspis|bogosl|schedule|sluzhb|calendar|kalendar|богослуж|распис/iu;
+
+function normalizeTime(value: string) {
+  const match = value.match(timePattern);
+  if (!match) return null;
+  return `${match[1].padStart(2, "0")}:${match[2]}`;
+}
+
+function scheduleBucketFromText(text: string): "weekday" | "weekend" | "common" {
+  const hasWeekday = weekdayPattern.test(text);
+  const hasWeekend = weekendPattern.test(text);
+  if (hasWeekend && !hasWeekday) return "weekend";
+  if (hasWeekday && !hasWeekend) return "weekday";
+  if (hasWeekend) return "weekend";
+  if (hasWeekday) return "weekday";
+  return "common";
+}
+
+function cleanScheduleLabel(value: string) {
+  return compact(value)
+    .replace(/^[•\-\u2013\u2014\s]+/u, "")
+    .replace(/\([^)]*(?:будн|выходн|суббот|воскрес|праздн)[^)]*\)/giu, "")
+    .replace(/\b(?:по|в)\s+(?:будням|будни|выходным|выходные|субботам|воскресеньям|праздникам)\b/giu, "")
+    .replace(/\s{2,}/g, " ")
+    .replace(/\s+([,.;])/g, "$1")
+    .trim();
+}
+
+function normalizeScheduleItem(value: string) {
+  const time = normalizeTime(value);
+  if (!time) return null;
+
+  const normalized = compact(value).replace(/\b([01]?\d|2[0-3])\.(\d{2})\b/gu, "$1:$2");
+  const afterTime = normalized.replace(timePattern, "").replace(/^[\s\u2013\u2014-]+/u, "").trim();
+  const label = cleanScheduleLabel(afterTime || normalized);
+  const safeLabel = label && !/^\d{1,2}:\d{2}$/u.test(label) ? label : "Богослужение";
+  return `${time} — ${safeLabel}`.slice(0, 220);
+}
+
+function splitScheduleLine(value: string) {
+  const line = compact(value);
+  const suffix = line.match(/\s+[\u2014\u2013-]\s+(.+)$/u)?.[1]?.trim();
+  const parts = line.split(/\s+\/\s+/u).map((item) => item.trim()).filter(Boolean);
+
+  if (parts.length <= 1) {
+    return [line];
+  }
+
+  return parts.map((part, index) => {
+    if (index < parts.length - 1 && suffix && !scheduleKeywordPattern.test(part)) {
+      return `${part} — ${suffix}`;
+    }
+    return part;
+  });
+}
+
+function collectScheduleLines(text: string) {
+  const rawLines = text
     .split(/\n|;/u)
     .map(compact)
-    .filter((line) => /\d{1,2}[:.]\d{2}/u.test(line))
-    .filter((line) => /литург|богослуж|вечер|всенощ|исповед|молеб|панихид|акафист|служб/iu.test(line))
-    .map((line) => line.slice(0, 220));
+    .filter(Boolean);
+  const candidates: string[] = [];
 
-  return Array.from(new Set(lines)).slice(0, 10).join("; ") || null;
+  for (let index = 0; index < rawLines.length; index += 1) {
+    const line = rawLines[index];
+    if (!timePattern.test(line)) continue;
+
+    const next = rawLines[index + 1] ?? "";
+    const next2 = rawLines[index + 2] ?? "";
+    const enriched = scheduleKeywordPattern.test(line) ? line : compact(`${line} ${next} ${next2}`);
+    if (!scheduleKeywordPattern.test(enriched)) continue;
+
+    candidates.push(...splitScheduleLine(enriched));
+  }
+
+  return candidates;
+}
+
+function extractSchedule(text: string) {
+  const groups: Record<"weekday" | "weekend" | "common", string[]> = {
+    weekday: [],
+    weekend: [],
+    common: []
+  };
+  const seen = new Set<string>();
+
+  for (const candidate of collectScheduleLines(text)) {
+    const item = normalizeScheduleItem(candidate);
+    if (!item) continue;
+
+    const key = item.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+
+    groups[scheduleBucketFromText(candidate)].push(item);
+  }
+
+  if (groups.weekday.length === 0 && groups.common.length > 0) {
+    groups.weekday.push(...groups.common.slice(0, 4));
+  }
+
+  if (groups.weekend.length === 0) {
+    groups.weekend.push(...groups.common.slice(0, 4));
+  }
+
+  const weekday = groups.weekday.slice(0, 5);
+  const weekend = groups.weekend.slice(0, 5);
+  const parts: string[] = [];
+
+  if (weekday.length > 0) {
+    parts.push(`Будни:\n${weekday.join(";\n")}`);
+  }
+  if (weekend.length > 0) {
+    parts.push(`Выходные:\n${weekend.join(";\n")}`);
+  }
+
+  return parts.join("\n\n") || null;
+}
+
+function scheduleQuality(value?: string | null) {
+  if (!value) return 0;
+  return (value.match(timePattern)?.length ?? 0) + (/Будни\s*:/iu.test(value) ? 3 : 0) + (/Выходные\s*:/iu.test(value) ? 3 : 0);
+}
+
+function shouldUpdateSchedule(existing: string | null, next: string | null) {
+  if (!next) return false;
+  if (!existing) return true;
+  return scheduleQuality(next) > scheduleQuality(existing);
+}
+
+function pickScheduleSource(sources: Array<{ url: string; rawTitle: string | null; rawText: string | null; confidence: number }>) {
+  const scheduleSources = sources.filter((source) => {
+    const text = source.rawText ?? "";
+    return scheduleUrlPattern.test(`${source.url} ${source.rawTitle ?? ""}`) || /расписание|богослужения/iu.test(text.slice(0, 2000));
+  });
+
+  return scheduleSources.find((source) => extractSchedule(source.rawText ?? "")) ?? sources[0];
 }
 
 function extractHistory(text: string) {
@@ -192,10 +325,11 @@ async function main() {
 
     const mergedText = sources.map((source) => source.rawText ?? "").join("\n\n");
     const bestSource = sources[0];
+    const scheduleSource = pickScheduleSource(sources);
     const bestJson = getJson(bestSource.extractedJson);
     const phone = bestJson.phones?.[0];
     const email = bestJson.emails?.[0];
-    const schedule = extractSchedule(mergedText);
+    const schedule = extractSchedule(scheduleSource.rawText ?? mergedText);
     const history = extractHistory(mergedText);
     const description = firstLongParagraph(mergedText);
     const data: Prisma.TempleUpdateInput = {
@@ -205,8 +339,10 @@ async function main() {
 
     if (!temple.phone && phone) data.phone = phone;
     if (!temple.email && email) data.email = email;
-    if (!temple.scheduleSummary && schedule) data.scheduleSummary = schedule;
-    if (!temple.scheduleSourceUrl && schedule) data.scheduleSourceUrl = bestSource.url;
+    if (shouldUpdateSchedule(temple.scheduleSummary, schedule)) {
+      data.scheduleSummary = schedule;
+      data.scheduleSourceUrl = scheduleSource.url;
+    }
     if (!temple.historySummary && history) data.historySummary = history;
     if (!temple.description && description) data.description = description;
 
@@ -221,7 +357,9 @@ async function main() {
       ["description", description]
     ] as const) {
       if (value) {
-        await replaceEvidence(temple.id, fieldName, value, bestSource.url, excerpt(mergedText, value.slice(0, 20), 700), bestSource.confidence);
+        const source = fieldName === "scheduleSummary" ? scheduleSource : bestSource;
+        const evidenceText = source.rawText ?? mergedText;
+        await replaceEvidence(temple.id, fieldName, value, source.url, excerpt(evidenceText, value.slice(0, 20), 700), source.confidence);
         evidence += 1;
       }
     }
