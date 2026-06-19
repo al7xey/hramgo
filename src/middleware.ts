@@ -11,6 +11,16 @@ function json(message: string, status: number) {
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const host = request.headers.get("host")?.toLowerCase();
+  const forwardedProto = request.headers.get("x-forwarded-proto")?.toLowerCase();
+
+  if (host === "www.hramgo.ru" || (host === "hramgo.ru" && forwardedProto === "http")) {
+    const url = request.nextUrl.clone();
+    url.protocol = "https:";
+    url.hostname = "hramgo.ru";
+    return NextResponse.redirect(url, 301);
+  }
+
   const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
   const role = String(token?.role ?? "USER");
 

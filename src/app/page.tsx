@@ -10,21 +10,21 @@ import { LiquidGlassCard } from "@/components/ui/liquid-glass-card";
 import { listMapTemples } from "@/features/temples/repository";
 
 export const metadata: Metadata = {
-  title: "HramGo — поиск храмов Москвы рядом с метро и МЦД",
+  title: "Поиск храмов Москвы — адреса, расписания, метро и МЦД",
   description:
-    "Найдите храм в Москве по названию, улице, району, метро или МЦД. Адреса, расписания, контакты, фото и карта.",
+    "HramGo помогает найти православный храм в Москве по названию, улице, району, метро или МЦД. В каталоге есть адреса, карта, расписания богослужений, контакты, фото и официальные сайты.",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "HramGo — поиск храмов Москвы рядом",
-    description: "Храмы Москвы по названию, улице, метро и МЦД: расписания, адреса, контакты, фото и карта.",
+    title: "Поиск храмов Москвы — адреса, расписания, метро и МЦД | HramGo",
+    description: "Найдите православный храм Москвы по названию, улице, району, метро или МЦД: адреса, расписания, контакты, фото и карта.",
     url: "https://hramgo.ru",
     type: "website",
-    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "HramGo — храмы Москвы" }]
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "HramGo — поиск храмов Москвы" }]
   },
   twitter: {
     card: "summary_large_image",
-    title: "HramGo — поиск храмов Москвы рядом",
-    description: "Поиск храмов Москвы по названию, улице, метро, МЦД, расписанию и контактам.",
+    title: "Поиск храмов Москвы — адреса, расписания, метро и МЦД | HramGo",
+    description: "Поиск храмов Москвы по названию, улице, району, метро, МЦД, расписанию и контактам.",
     images: ["/twitter-image"]
   }
 };

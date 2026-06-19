@@ -8,6 +8,6 @@ export default function robots(): MetadataRoute.Robots {
       disallow: ["/admin", "/representative", "/api", "/login"]
     },
     sitemap: "https://hramgo.ru/sitemap.xml",
-    host: "https://hramgo.ru"
+    host: "hramgo.ru"
   };
 }

@@ -36,23 +36,50 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     return { title: "Храм не найден" };
   }
 
+  const templeTitle = temple.shortName ?? temple.name;
+  const address = formatTempleAddress(temple.address);
+  const nearestTransit = temple.transit
+    .slice(0, 2)
+    .map((item) => item.station)
+    .join(", ");
+  const seoDescription = [
+    `${templeTitle} в Москве`,
+    address ? `адрес: ${address}` : null,
+    nearestTransit ? `рядом: ${nearestTransit}` : null,
+    "расписание богослужений, контакты, фото, карта и официальный сайт на HramGo"
+  ]
+    .filter(Boolean)
+    .join(". ");
+
   return {
-    title: temple.shortName ?? temple.name,
-    description: temple.description ?? `Фото, расписание и контакты: ${temple.name}`,
+    title: `${templeTitle} — адрес, расписание, метро и контакты`,
+    description: seoDescription,
+    keywords: [
+      temple.name,
+      templeTitle,
+      `${templeTitle} расписание`,
+      `${templeTitle} адрес`,
+      `${templeTitle} официальный сайт`,
+      "храмы Москвы",
+      "православные храмы Москвы",
+      ...temple.transit.slice(0, 3).map((item) => `храм рядом с ${item.station}`)
+    ],
     alternates: {
       canonical: `/temples/${temple.slug}`
     },
     openGraph: {
-      title: `${temple.shortName ?? temple.name} | HramGo`,
-      description: temple.description ?? "Фото, расписание и контакты храма.",
+      title: `${templeTitle} — адрес, расписание и контакты | HramGo`,
+      description: seoDescription,
       url: `https://hramgo.ru/temples/${temple.slug}`,
       type: "article",
-      images: temple.photos[0]?.imageUrl ? [temple.photos[0].imageUrl] : [{ url: "/opengraph-image", width: 1200, height: 630 }]
+      images: temple.photos[0]?.imageUrl
+        ? [{ url: temple.photos[0].imageUrl, alt: temple.photos[0].alt ?? temple.name }]
+        : [{ url: "/opengraph-image", width: 1200, height: 630, alt: `${templeTitle} на HramGo` }]
     },
     twitter: {
       card: "summary_large_image",
-      title: `${temple.shortName ?? temple.name} | HramGo`,
-      description: temple.description ?? "Фото, расписание и контакты храма.",
+      title: `${templeTitle} — адрес, расписание и контакты | HramGo`,
+      description: seoDescription,
       images: temple.photos[0]?.imageUrl ? [temple.photos[0].imageUrl] : ["/twitter-image"]
     }
   };

@@ -13,7 +13,7 @@ const montserrat = Montserrat({
 
 const siteUrl = "https://hramgo.ru";
 const siteDescription =
-  "HramGo помогает найти православные храмы Москвы: адреса, ближайшее метро, расписания богослужений, контакты, фото и карту.";
+  "HramGo — поиск православных храмов Москвы по названию, улице, району, метро и МЦД. Адреса, карта, расписания богослужений, контакты, фото и официальные сайты храмов.";
 
 const themeInitScript = `
 try {
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   applicationName: "HramGo",
   title: {
-    default: "HramGo - храмы Москвы рядом",
+    default: "Поиск храмов Москвы — адреса, расписания, метро и МЦД | HramGo",
     template: "%s | HramGo"
   },
   description: siteDescription,
@@ -43,7 +43,10 @@ export const metadata: Metadata = {
     "карта храмов Москвы"
   ],
   alternates: {
-    canonical: siteUrl
+    canonical: siteUrl,
+    types: {
+      "application/rss+xml": `${siteUrl}/rss.xml`
+    }
   },
   icons: {
     icon: [
@@ -66,17 +69,17 @@ export const metadata: Metadata = {
     }
   },
   openGraph: {
-    title: "HramGo - храмы Москвы рядом",
+    title: "Поиск храмов Москвы — адреса, расписания, метро и МЦД | HramGo",
     description: siteDescription,
     url: siteUrl,
     siteName: "HramGo",
     locale: "ru_RU",
     type: "website",
-    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "HramGo — храмы Москвы" }]
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "HramGo — поиск храмов Москвы" }]
   },
   twitter: {
     card: "summary_large_image",
-    title: "HramGo - храмы Москвы рядом",
+    title: "Поиск храмов Москвы — адреса, расписания, метро и МЦД | HramGo",
     description: siteDescription,
     images: ["/twitter-image"]
   },

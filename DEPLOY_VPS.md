@@ -23,7 +23,15 @@ The `app` container joins the external Docker network `massage-club_default`, so
 Add this block to `/opt/massage-club/Caddyfile`:
 
 ```caddy
-hramgo.ru, www.hramgo.ru {
+http://hramgo.ru, http://www.hramgo.ru {
+  redir https://hramgo.ru{uri} 301
+}
+
+www.hramgo.ru {
+  redir https://hramgo.ru{uri} 301
+}
+
+hramgo.ru {
   encode zstd gzip
   reverse_proxy hramgo-app:3000
 }

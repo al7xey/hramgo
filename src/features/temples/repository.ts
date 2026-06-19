@@ -600,6 +600,61 @@ export async function listPublishedTempleSitemapEntries() {
   }
 }
 
+export async function listTempleFeedEntries(limit = 150) {
+  const take = Math.min(Math.max(limit, 1), 150);
+
+  if (shouldUseDemoData) {
+    return demoTemples.slice(0, take).map((temple) => ({
+      slug: temple.slug,
+      name: temple.name,
+      shortName: temple.shortName,
+      description: temple.description ?? temple.scheduleSummary ?? null,
+      address: sanitizeTempleAddress(temple.address),
+      updatedAt: temple.lastVerifiedAt ? new Date(temple.lastVerifiedAt) : new Date()
+    }));
+  }
+
+  try {
+    const temples = await prisma.temple.findMany({
+      where: { moderationStatus: "PUBLISHED" },
+      select: {
+        slug: true,
+        name: true,
+        shortName: true,
+        description: true,
+        address: true,
+        scheduleSummary: true,
+        lastVerifiedAt: true,
+        updatedAt: true
+      },
+      orderBy: [{ lastVerifiedAt: "desc" }, { updatedAt: "desc" }],
+      take
+    });
+
+    return temples.map((temple) => ({
+      slug: temple.slug,
+      name: temple.name,
+      shortName: temple.shortName,
+      description: temple.description ?? temple.scheduleSummary ?? null,
+      address: sanitizeTempleAddress(temple.address),
+      updatedAt: temple.lastVerifiedAt ?? temple.updatedAt
+    }));
+  } catch (error) {
+    if (env.USE_DEMO_DATA === "false") {
+      throw error;
+    }
+
+    return demoTemples.slice(0, take).map((temple) => ({
+      slug: temple.slug,
+      name: temple.name,
+      shortName: temple.shortName,
+      description: temple.description ?? temple.scheduleSummary ?? null,
+      address: sanitizeTempleAddress(temple.address),
+      updatedAt: temple.lastVerifiedAt ? new Date(temple.lastVerifiedAt) : new Date()
+    }));
+  }
+}
+
 function filterBySearchQuery(temples: TempleView[], query?: string) {
   if (!query) {
     return temples;

@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "HramGo - temples of Moscow";
+export const alt = "HramGo — поиск храмов Москвы";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -35,8 +35,8 @@ export default function Image() {
         <div style={{ fontSize: 54, fontWeight: 800 }}>HramGo</div>
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
-        <div style={{ fontSize: 76, lineHeight: 1.06, fontWeight: 900, maxWidth: 920 }}>{"\u0425\u0440\u0430\u043c\u044b \u041c\u043e\u0441\u043a\u0432\u044b \u0440\u044f\u0434\u043e\u043c"}</div>
-        <div style={{ marginTop: 28, fontSize: 34, lineHeight: 1.35, color: "#49657d", maxWidth: 980 }}>{"\u0410\u0434\u0440\u0435\u0441\u0430, \u043a\u0430\u0440\u0442\u0430, \u043c\u0435\u0442\u0440\u043e, \u0444\u043e\u0442\u043e, \u0440\u0430\u0441\u043f\u0438\u0441\u0430\u043d\u0438\u044f \u0438 \u043a\u043e\u043d\u0442\u0430\u043a\u0442\u044b \u043f\u0440\u0430\u0432\u043e\u0441\u043b\u0430\u0432\u043d\u044b\u0445 \u0445\u0440\u0430\u043c\u043e\u0432."}</div>
+        <div style={{ fontSize: 76, lineHeight: 1.06, fontWeight: 900, maxWidth: 920 }}>Поиск храмов Москвы</div>
+        <div style={{ marginTop: 28, fontSize: 34, lineHeight: 1.35, color: "#49657d", maxWidth: 980 }}>Адреса, расписания, метро, МЦД, контакты, фото и карта православных храмов.</div>
       </div>
       <div style={{ fontSize: 28, color: "#2096e8", fontWeight: 700 }}>hramgo.ru</div>
     </div>,
