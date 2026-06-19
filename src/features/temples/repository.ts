@@ -6,6 +6,7 @@ import { demoTemples } from "@/features/temples/demo-data";
 import { metroLines } from "@/features/temples/metro";
 import { moscowDistricts } from "@/features/temples/moscow-districts";
 import { filterableParishServiceKinds } from "@/features/temples/parish-services";
+import { filterTemplePhotos } from "@/features/temples/photo-quality";
 import { sortTransitByWalkMinutes } from "@/features/temples/transit";
 import type {
   TempleCardView,
@@ -256,13 +257,13 @@ export function toTempleCardDto(temple: TempleView): TempleCardView {
     averageHelpfulnessRating: temple.averageHelpfulnessRating,
     reviewsCount: temple.reviewsCount,
     approvedReviewsCount: temple.approvedReviewsCount,
-    photos: temple.photos.slice(0, 1),
+    photos: filterTemplePhotos(temple.photos).slice(0, 1),
     transit: sortTransitByWalkMinutes(temple.transit).slice(0, 1)
   };
 }
 
 export function toTempleMapDto(temple: TempleView): TempleMapView {
-  const mainPhoto = temple.photos[0];
+  const mainPhoto = filterTemplePhotos(temple.photos)[0];
 
   return {
     id: temple.id,
@@ -726,7 +727,8 @@ async function fetchDbMapTemples(input: TempleSearchInput = {}) {
           id: true,
           imageUrl: true,
           alt: true,
-          isMain: true
+          isMain: true,
+          sourceUrl: true
         }
       },
       transitStations: {
@@ -807,11 +809,12 @@ function mapDbMapTemple(temple: Awaited<ReturnType<typeof fetchDbMapTemples>>[nu
     reviewsCount: temple.reviewsCount,
     approvedReviewsCount: temple.approvedReviewsCount,
     lastVerifiedAt: temple.lastVerifiedAt?.toISOString() ?? null,
-    photos: temple.photos.map((photo) => ({
+    photos: filterTemplePhotos(temple.photos).map((photo) => ({
       id: photo.id,
       imageUrl: photo.imageUrl,
       alt: photo.alt ?? temple.name,
-      isMain: photo.isMain
+      isMain: photo.isMain,
+      sourceUrl: photo.sourceUrl
     })),
     socialLinks: [],
     clergy: temple.clergy.map((person) => ({

@@ -358,6 +358,9 @@ function ScheduleItem({ item }: { item: string }) {
 
 const WEEKDAY_WORDS = ["будн", "понедел", "вторник", "сред", "четвер", "пятниц"];
 const WEEKEND_WORDS = ["суббот", "воскрес", "выходн", "праздник"];
+const dateNoisePattern =
+  /\b\d{1,2}\s+(?:января|февраля|марта|апреля|мая|июня|июля|августа|сентября|октября|ноября|декабря)\b|\([^)]+\.с\.\)|\b\d{1,2}\s*\/\s*\d{1,2}\b/giu;
+const timePattern = /([01]?\d|2[0-3])[.:](\d{2})/gu;
 
 function splitSchedule(text: string) {
   const normalized = text.replace(/\s+/g, " ").trim();
@@ -397,6 +400,8 @@ function scheduleBucket(item: string) {
 function cleanScheduleItem(item: string) {
   return item
     .replace(/^(будни|выходные(?:\s+и\s+праздники)?):\s*/iu, "")
+    .replace(dateNoisePattern, "")
+    .replace(/\b\d{1,2}\s+[а-яё]{3,12}\.?/giu, "")
     .replace(/\([^)]*\)/g, (part) => {
       const lower = part.toLowerCase();
       return hasAnyWord(lower, [...WEEKDAY_WORDS, ...WEEKEND_WORDS]) ? "" : part;
@@ -408,18 +413,55 @@ function cleanScheduleItem(item: string) {
     .trim();
 }
 
+function scheduleServiceLabel(item: string) {
+  const lower = item.toLowerCase();
+  if (/ранн\w*\s+литург/iu.test(lower)) return "Ранняя Литургия";
+  if (/поздн\w*\s+литург/iu.test(lower)) return "Поздняя Литургия";
+  if (/литург/iu.test(lower)) return "Литургия";
+  if (/всенощ|бдение/iu.test(lower)) return "Всенощное бдение";
+  if (/вечерн/iu.test(lower)) return "Вечернее богослужение";
+  if (/утрен/iu.test(lower)) return "Утреня";
+  if (/исповед/iu.test(lower)) return "Исповедь";
+  if (/молеб/iu.test(lower)) return "Молебен";
+  if (/панихид/iu.test(lower)) return "Панихида";
+  if (/акафист/iu.test(lower)) return "Акафист";
+  if (/богослуж|служб/iu.test(lower)) return "Богослужение";
+  return null;
+}
+
+function normalizeScheduleItems(item: string) {
+  const clean = cleanScheduleItem(item);
+  const matches = Array.from(clean.matchAll(timePattern));
+  if (matches.length === 0) return [];
+
+  const labelFromText = scheduleServiceLabel(clean);
+  return matches.map((match) => {
+    const time = `${match[1].padStart(2, "0")}:${match[2]}`;
+    const afterTime = clean
+      .replace(match[0], "")
+      .replace(timePattern, "")
+      .replace(/^[\s\u2014\u2013,/-]+/u, "")
+      .trim();
+    const label = labelFromText ?? (afterTime.length <= 70 ? afterTime : "Богослужение");
+    return `${time} — ${label || "Богослужение"}`;
+  });
+}
+
 function uniqueScheduleItems(items: string[]) {
   const seen = new Set<string>();
-  return items
-    .map(cleanScheduleItem)
-    .filter((item) => /\d{1,2}[.:]\d{2}/u.test(item))
-    .filter((item) => {
-      const key = item.toLowerCase();
-      if (!item || seen.has(key)) return false;
+  const result: string[] = [];
+
+  for (const item of items) {
+    for (const normalized of normalizeScheduleItems(item)) {
+      const time = normalized.match(timePattern)?.[0] ?? normalized;
+      const key = time.toLowerCase();
+      if (!normalized || seen.has(key)) continue;
       seen.add(key);
-      return true;
-    })
-    .slice(0, 4);
+      result.push(normalized);
+    }
+  }
+
+  return result.slice(0, 5);
 }
 
 function buildScheduleGroups(text: string) {

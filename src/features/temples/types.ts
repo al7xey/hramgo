@@ -6,6 +6,7 @@ export type TemplePhotoView = {
   imageUrl: string;
   alt: string;
   isMain: boolean;
+  sourceUrl?: string | null;
 };
 
 export type TransitLineView = {

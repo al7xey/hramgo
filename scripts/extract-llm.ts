@@ -1,5 +1,7 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 
+import { isLikelyTemplePhoto } from "../src/features/temples/photo-quality";
+
 const prisma = new PrismaClient();
 
 type SourceJson = {
@@ -70,11 +72,14 @@ function firstLongParagraph(text: string) {
 }
 
 const timePattern = /\b([01]?\d|2[0-3])[.:](\d{2})\b/u;
+const allTimesPattern = /\b([01]?\d|2[0-3])[.:](\d{2})\b/gu;
 const scheduleKeywordPattern =
   /литург|богослуж|вечер|всенощ|утрен|исповед|молеб|панихид|акафист|часы|служб|бдение|канон|причащ|полиелей/iu;
 const weekdayPattern = /будн|понедель|вторник|сред|четвер|пятниц/iu;
 const weekendPattern = /выходн|суббот|воскрес|праздн|недел/iu;
 const scheduleUrlPattern = /raspis|bogosl|schedule|sluzhb|calendar|kalendar|богослуж|распис/iu;
+const dateNoisePattern =
+  /\b\d{1,2}\s+(?:января|февраля|марта|апреля|мая|июня|июля|августа|сентября|октября|ноября|декабря)\b|\([^)]+\.с\.\)|\b\d{1,2}\s*\/\s*\d{1,2}\b/giu;
 
 function normalizeTime(value: string) {
   const match = value.match(timePattern);
@@ -95,6 +100,8 @@ function scheduleBucketFromText(text: string): "weekday" | "weekend" | "common" 
 function cleanScheduleLabel(value: string) {
   return compact(value)
     .replace(/^[•\-\u2013\u2014\s]+/u, "")
+    .replace(dateNoisePattern, "")
+    .replace(/\b\d{1,2}\s+[а-яё]{3,12}\.?/giu, "")
     .replace(/\([^)]*(?:будн|выходн|суббот|воскрес|праздн)[^)]*\)/giu, "")
     .replace(/\b(?:по|в)\s+(?:будням|будни|выходным|выходные|субботам|воскресеньям|праздникам)\b/giu, "")
     .replace(/\s{2,}/g, " ")
@@ -102,15 +109,42 @@ function cleanScheduleLabel(value: string) {
     .trim();
 }
 
-function normalizeScheduleItem(value: string) {
-  const time = normalizeTime(value);
-  if (!time) return null;
+function scheduleServiceLabel(value: string) {
+  const lower = value.toLowerCase();
+  if (/ранн\w*\s+литург/iu.test(lower)) return "Ранняя Литургия";
+  if (/поздн\w*\s+литург/iu.test(lower)) return "Поздняя Литургия";
+  if (/литург/iu.test(lower)) return "Литургия";
+  if (/всенощ|бдение/iu.test(lower)) return "Всенощное бдение";
+  if (/вечерн/iu.test(lower)) return "Вечернее богослужение";
+  if (/утрен/iu.test(lower)) return "Утреня";
+  if (/исповед/iu.test(lower)) return "Исповедь";
+  if (/молеб/iu.test(lower)) return "Молебен";
+  if (/панихид/iu.test(lower)) return "Панихида";
+  if (/акафист/iu.test(lower)) return "Акафист";
+  if (/богослуж|служб/iu.test(lower)) return "Богослужение";
+  return null;
+}
 
-  const normalized = compact(value).replace(/\b([01]?\d|2[0-3])\.(\d{2})\b/gu, "$1:$2");
-  const afterTime = normalized.replace(timePattern, "").replace(/^[\s\u2013\u2014-]+/u, "").trim();
-  const label = cleanScheduleLabel(afterTime || normalized);
-  const safeLabel = label && !/^\d{1,2}:\d{2}$/u.test(label) ? label : "Богослужение";
-  return `${time} — ${safeLabel}`.slice(0, 220);
+function normalizeScheduleItems(value: string) {
+  const normalized = compact(value)
+    .replace(/\b([01]?\d|2[0-3])\.(\d{2})\b/gu, "$1:$2")
+    .replace(dateNoisePattern, "");
+  const serviceLabel = scheduleServiceLabel(normalized);
+  const matches = Array.from(normalized.matchAll(allTimesPattern));
+  if (matches.length === 0) return [];
+
+  return matches.map((match) => {
+    const time = `${match[1].padStart(2, "0")}:${match[2]}`;
+    const afterTime = cleanScheduleLabel(
+      normalized
+        .replace(match[0], "")
+        .replace(allTimesPattern, "")
+        .replace(/^[\s\u2013\u2014,/-]+/u, "")
+        .trim()
+    );
+    const label = serviceLabel ?? (afterTime.length <= 70 ? afterTime : "Богослужение");
+    return `${time} — ${label || "Богослужение"}`.slice(0, 140);
+  });
 }
 
 function splitScheduleLine(value: string) {
@@ -142,8 +176,7 @@ function collectScheduleLines(text: string) {
     if (!timePattern.test(line)) continue;
 
     const next = rawLines[index + 1] ?? "";
-    const next2 = rawLines[index + 2] ?? "";
-    const enriched = scheduleKeywordPattern.test(line) ? line : compact(`${line} ${next} ${next2}`);
+    const enriched = scheduleKeywordPattern.test(line) ? line : compact(`${line} ${next}`);
     if (!scheduleKeywordPattern.test(enriched)) continue;
 
     candidates.push(...splitScheduleLine(enriched));
@@ -161,14 +194,15 @@ function extractSchedule(text: string) {
   const seen = new Set<string>();
 
   for (const candidate of collectScheduleLines(text)) {
-    const item = normalizeScheduleItem(candidate);
-    if (!item) continue;
+    const items = normalizeScheduleItems(candidate);
 
-    const key = item.toLowerCase();
-    if (seen.has(key)) continue;
-    seen.add(key);
+    for (const item of items) {
+      const key = `${scheduleBucketFromText(candidate)}:${normalizeTime(item) ?? item}`.toLowerCase();
+      if (seen.has(key)) continue;
+      seen.add(key);
 
-    groups[scheduleBucketFromText(candidate)].push(item);
+      groups[scheduleBucketFromText(candidate)].push(item);
+    }
   }
 
   if (groups.weekday.length === 0 && groups.common.length > 0) {
@@ -195,7 +229,13 @@ function extractSchedule(text: string) {
 
 function scheduleQuality(value?: string | null) {
   if (!value) return 0;
-  return (value.match(timePattern)?.length ?? 0) + (/Будни\s*:/iu.test(value) ? 3 : 0) + (/Выходные\s*:/iu.test(value) ? 3 : 0);
+  const datePenalty = (value.match(dateNoisePattern)?.length ?? 0) * 2;
+  return (
+    (value.match(allTimesPattern)?.length ?? 0) +
+    (/Будни\s*:/iu.test(value) ? 3 : 0) +
+    (/Выходные\s*:/iu.test(value) ? 3 : 0) -
+    datePenalty
+  );
 }
 
 function shouldUpdateSchedule(existing: string | null, next: string | null) {
@@ -278,7 +318,10 @@ function getOfficialImages(sourceUrl: string, json: SourceJson) {
   return (json.images ?? [])
     .filter((url) => {
       try {
-        return new URL(url).hostname.replace(/^www\./u, "") === new URL(sourceUrl).hostname.replace(/^www\./u, "");
+        return (
+          new URL(url).hostname.replace(/^www\./u, "") === new URL(sourceUrl).hostname.replace(/^www\./u, "") &&
+          isLikelyTemplePhoto({ imageUrl: url, sourceUrl })
+        );
       } catch {
         return false;
       }
