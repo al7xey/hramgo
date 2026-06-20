@@ -10,7 +10,6 @@ export function getMissingSupportPaymentConfig() {
   if (!env.LEGAL_FULL_NAME) missing.push("LEGAL_FULL_NAME");
   if (!env.LEGAL_INN) missing.push("LEGAL_INN");
   if (!env.SUPPORT_EMAIL) missing.push("SUPPORT_EMAIL");
-  if (!env.YOOKASSA_SHOP_ID) missing.push("YOOKASSA_SHOP_ID");
   if (!env.YOOKASSA_SECRET_KEY) missing.push("YOOKASSA_SECRET_KEY");
 
   return missing;

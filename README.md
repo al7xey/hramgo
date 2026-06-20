@@ -53,6 +53,7 @@ npm run dev
 - `S3_ENDPOINT`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, `S3_BUCKET`, `S3_PUBLIC_URL` — хранилище фото.
 - `YOOKASSA_SHOP_ID`, `YOOKASSA_SECRET_KEY` — платежи поддержки через ЮKassa.
 - `YOOKASSA_RECEIPT_ITEM_NAME` — точное название позиции для чека после согласования с ЮKassa.
+- `YOOKASSA_LEGAL_ID`, `YOOKASSA_SBP_MERCHANT_ID`, `YOOKASSA_MCC` — публичные идентификаторы подключения ЮKassa/СБП.
 - `MIN_SUPPORT_AMOUNT_RUB`, `MAX_SUPPORT_AMOUNT_RUB` — допустимый диапазон добровольной поддержки.
 - `RETURN_REQUEST_REVIEW_DAYS`, `RETURN_PAYMENT_DAYS` — сроки рассмотрения обращения и возврата.
 - `LEGAL_FULL_NAME`, `LEGAL_INN`, `SUPPORT_EMAIL`, `SUPPORT_PHONE`, `LEGAL_ADDRESS` — публичные реквизиты и контакты.
@@ -64,6 +65,17 @@ npm run dev
 
 HramGo использует модель добровольной поддержки бесплатного информационного проекта. Поддержка не является покупкой
 товара, платного доступа, подписки или индивидуальной услуги и не дает дополнительных преимуществ.
+
+Подключение ЮKassa:
+
+- ShopID: `1388625`;
+- LegalID: `LB0003357423`;
+- MerchantID СБП: `MB0002928350`;
+- MCC: `9999`;
+- подключенные способы оплаты: СБП и T-Pay выбираются пользователем на защищенной странице оплаты ЮKassa.
+
+На сайте нет блока с логотипами способов оплаты, поэтому отдельный логотип СБП в футере не размещается. Если такой блок
+появится, логотип и тексты СБП нужно брать из брендбука НСПК.
 
 До включения production-платежей владелец должен заполнить обязательные переменные окружения: `MIN_SUPPORT_AMOUNT_RUB`,
 `MAX_SUPPORT_AMOUNT_RUB`, `RETURN_REQUEST_REVIEW_DAYS`, `RETURN_PAYMENT_DAYS`, `LEGAL_FULL_NAME`, `LEGAL_INN`,

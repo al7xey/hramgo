@@ -53,7 +53,8 @@ export default async function SupportPage({ searchParams }: { searchParams: Prom
       <LiquidGlassCard className="grid gap-3 p-5">
         <h2 className="text-xl font-semibold">Перед оплатой</h2>
         <p className="text-sm leading-6 text-muted-foreground">
-          Оплата проходит на стороне ЮKassa. HramGo не хранит данные банковских карт и не подключает автоплатежи.
+          Оплата проходит на стороне ЮKassa. На платежной странице можно выбрать доступный способ оплаты, включая СБП и
+          T-Pay. HramGo не хранит данные банковских карт и не подключает автоплатежи.
         </p>
         <div className="flex flex-wrap gap-3 text-sm">
           <Link href="/legal/support-terms" className="font-medium text-primary">

@@ -4,7 +4,8 @@ const badPhotoPatterns = [
   /(^|[-_/])(raspis|schedule|calendar|kalendar|docs?|scan|blank|rekvizit|receipt|oferta)([-_.]|$)/iu,
   /(^|[-_/])(avatar|person|face|portrait|portret|priest|duhoven|klir|svyash|nastoyatel)([-_.]|$)/iu,
   /(^|[-_/])(ornament|pattern|uzor|plitka|ikonostas|ikona|obraz)([-_.]|$)/iu,
-  /(donbass|novoross|gumanitarn|pomosh|dobrovol|soyuz|molodezh|sestrichestvo|palomnich|whatsapp|telegram|vk\.com)/iu
+  /(donbass|novoross|gumanitarn|pomosh|dobrovol|soyuz|molodezh|sestrichestvo|palomnich|whatsapp|telegram|vk\.com)/iu,
+  /(донбасс|новоросс|гуманитар|помощ|добровол|волонтер|волонтёр|союз|молод[её]ж|сестричеств|паломнич|расписан|афиш|плакат|баннер|qr|икон|образ|духовен|клирик|настоятель|священ)/iu
 ];
 
 const badSourcePatterns =

@@ -241,12 +241,19 @@ function getNearestTempleTransit(temple: Pick<TempleView, "transit">) {
 }
 
 export function sanitizeTempleAddress(address?: string | null) {
-  return (address ?? "")
+  const normalized = (address ?? "")
     .replace(/^\s*\d{6},?\s*/u, "")
     .replace(/^\s*\d{1,6},?\s*(г\.?\s*)?Москва,?\s*/iu, "")
     .replace(/^\s*(г\.?\s*)?Москва,?\s*/iu, "")
+    .replace(/^\s*(город\s*)?Москва,?\s*/iu, "")
     .replace(/\s+/g, " ")
     .trim();
+
+  if (/^(Московский\s+)?Кремль\.?$/iu.test(normalized)) {
+    return "";
+  }
+
+  return normalized;
 }
 
 export function toTempleCardDto(temple: TempleView): TempleCardView {
@@ -338,7 +345,7 @@ function mapDbTemple(temple: Awaited<ReturnType<typeof fetchDbTemples>>[number])
     reviewsCount: temple.reviewsCount,
     approvedReviewsCount: temple.approvedReviewsCount,
     lastVerifiedAt: temple.lastVerifiedAt?.toISOString() ?? null,
-    photos: filterTemplePhotos(temple.photos).slice(0, 8).map((photo) => ({
+    photos: filterTemplePhotos(temple.photos).slice(0, 1).map((photo) => ({
       id: photo.id,
       imageUrl: photo.imageUrl,
       alt: photo.alt ?? temple.name,
@@ -473,6 +480,7 @@ function buildTempleWhere(input: TempleSearchInput = {}): Prisma.TempleWhereInpu
 
   return {
     moderationStatus: "PUBLISHED",
+    NOT: [{ name: { equals: "Храмы Московского Кремля" } }, { slug: { equals: "sprav-916-kremlya-moskovskogo-hramy" } }],
     ...(input.ids?.length ? { id: { in: input.ids } } : {}),
     ...(input.district?.length ? { district: { in: input.district } } : {}),
     ...(input.metroLine?.length ? { transitStations: { some: { lineId: { in: input.metroLine } } } } : {}),
@@ -492,7 +500,7 @@ async function fetchDbTemples(input: TempleSearchInput = {}) {
         where: {
           OR: [{ isApproved: true }, { isMain: true }]
         },
-        take: 8,
+        take: 1,
         orderBy: [{ isMain: "desc" }, { createdAt: "desc" }]
       },
       socialLinks: true,
@@ -813,7 +821,7 @@ function mapDbMapTemple(temple: Awaited<ReturnType<typeof fetchDbMapTemples>>[nu
     reviewsCount: temple.reviewsCount,
     approvedReviewsCount: temple.approvedReviewsCount,
     lastVerifiedAt: temple.lastVerifiedAt?.toISOString() ?? null,
-    photos: filterTemplePhotos(temple.photos).map((photo) => ({
+    photos: filterTemplePhotos(temple.photos).slice(0, 1).map((photo) => ({
       id: photo.id,
       imageUrl: photo.imageUrl,
       alt: photo.alt ?? temple.name,

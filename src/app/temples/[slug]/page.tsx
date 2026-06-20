@@ -11,7 +11,6 @@ import { ReviewForm } from "@/components/reviews/review-form";
 import { ReviewSummary } from "@/components/reviews/review-summary";
 import { BackToSearchButton } from "@/components/temples/back-to-search-button";
 import { TempleGallery } from "@/components/temples/temple-gallery";
-import { TemplePhoto } from "@/components/temples/temple-photo";
 import { TransitSummary } from "@/components/temples/transit-chip";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -153,7 +152,6 @@ export default async function TemplePage({
           </DetailsCard>
 
           <DetailsCard title="История, святыни и фото" icon={<History className="size-5" aria-hidden />}>
-            <PhotoStrip photos={temple.photos} />
             <InfoBlock title="История" text={temple.historySummary ?? temple.description ?? "История храма пока не добавлена."} />
             <InfoBlock
               title="Святыни и особенности"
@@ -288,20 +286,6 @@ function LinkRow({ href, label, fullWidth = false }: { href?: string | null; lab
         {label}
       </a>
     </Button>
-  );
-}
-
-function PhotoStrip({ photos }: { photos: TempleView["photos"] }) {
-  if (photos.length === 0) {
-    return null;
-  }
-
-  return (
-    <div className="flex gap-2 overflow-x-auto pb-1">
-      {photos.slice(0, 8).map((photo) => (
-        <TemplePhoto key={photo.id} src={photo.imageUrl} alt={photo.alt} className="aspect-[4/3] w-28 shrink-0 rounded-[18px]" />
-      ))}
-    </div>
   );
 }
 
@@ -556,10 +540,18 @@ function ParishServicesOverview({ temple }: { temple: TempleView }) {
 }
 
 function formatTempleAddress(address?: string | null) {
-  return (address ?? "")
+  const normalized = (address ?? "")
     .replace(/^\s*\d{6},?\s*/u, "")
     .replace(/^(г\.?\s*)?Москва,?\s*/iu, "")
+    .replace(/^(город\s*)?Москва,?\s*/iu, "")
+    .replace(/\s+/g, " ")
     .trim();
+
+  if (/^(Московский\s+)?Кремль\.?$/iu.test(normalized)) {
+    return "";
+  }
+
+  return normalized;
 }
 
 function getTempleDescription(temple: TempleView) {
