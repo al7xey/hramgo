@@ -41,6 +41,9 @@ export default async function MapPage({ searchParams }: { searchParams: Promise<
     metro: params.metro,
     metroLine: params.metroLine,
     service: params.service,
+    objectType: getParam(params, "objectType"),
+    liturgyTime: getParam(params, "liturgyTime"),
+    eveningTime: getParam(params, "eveningTime"),
     hasSchedule: getParam(params, "hasSchedule"),
     hasWebsite: getParam(params, "hasWebsite"),
     hasPhotos: getParam(params, "hasPhotos")

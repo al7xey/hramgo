@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MapPinned } from "lucide-react";
+import { MapPinned, Star } from "lucide-react";
 
 import { FavoriteButton } from "@/components/favorites/favorite-button";
 import { TemplePhoto } from "@/components/temples/temple-photo";
@@ -34,7 +34,16 @@ export function TempleCard({ temple }: { temple: TempleCardView }) {
         </div>
 
         <div className="grid min-w-0 grid-rows-[auto_auto_1fr] py-1">
-          <h2 className="line-clamp-2 min-h-10 pr-12 text-base font-semibold leading-5">{temple.name}</h2>
+          <div className="min-h-10 pr-12">
+            <h2 className="line-clamp-2 text-base font-semibold leading-5">{temple.name}</h2>
+            {temple.approvedReviewsCount > 0 ? (
+              <div className="mt-1 flex items-center gap-1 text-xs font-semibold text-amber-500">
+                <Star className="size-3.5 fill-current" aria-hidden />
+                <span>{temple.averageHelpfulnessRating.toFixed(1)}</span>
+                <span className="text-muted-foreground">({temple.approvedReviewsCount})</span>
+              </div>
+            ) : null}
+          </div>
 
           <div className="mt-2 min-h-8">
             <TransitSummary transit={temple.transit} />

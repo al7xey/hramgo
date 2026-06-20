@@ -19,6 +19,7 @@ import type {
 } from "@/features/temples/types";
 
 const PUBLIC_TEMPLE_CACHE_TTL_MS = 5 * 60 * 1000;
+const MOSCOW_CENTER: [number, number] = [55.751244, 37.618423];
 const templeMemoryCache = new Map<string, { expiresAt: number; value: TempleView[] }>();
 
 function getCachedTempleList(key: string) {
@@ -117,6 +118,22 @@ function filterDemoTemples(input: TempleSearchInput = {}) {
     }
 
     if (input.hasPhotos && temple.photos.length === 0) {
+      return false;
+    }
+
+    if (input.objectType === "monastery" && !isMonasteryTemple(temple)) {
+      return false;
+    }
+
+    if (input.objectType === "church" && isMonasteryTemple(temple)) {
+      return false;
+    }
+
+    if (!matchesScheduleTime(temple.scheduleSummary, input.liturgyTime, "liturgy")) {
+      return false;
+    }
+
+    if (!matchesScheduleTime(temple.scheduleSummary, input.eveningTime, "evening")) {
       return false;
     }
 
@@ -238,6 +255,10 @@ function scoreTempleSearch(temple: TempleView, query: string, lineIds = new Set<
 
 function getNearestTempleTransit(temple: Pick<TempleView, "transit">) {
   return sortTransitByWalkMinutes(temple.transit)[0] ?? null;
+}
+
+function isMonasteryTemple(temple: Pick<TempleView, "name" | "shortName" | "objectType">) {
+  return /монастыр/iu.test([temple.objectType, temple.name, temple.shortName].filter(Boolean).join(" "));
 }
 
 export function sanitizeTempleAddress(address?: string | null) {
@@ -460,6 +481,11 @@ function expandSearchTerm(term: string) {
 
 function buildTempleWhere(input: TempleSearchInput = {}): Prisma.TempleWhereInput {
   const andFilters: Prisma.TempleWhereInput[] = [];
+  const notFilters: Prisma.TempleWhereInput[] = [
+    { name: { equals: "Храмы Московского Кремля" } },
+    { slug: { equals: "sprav-916-kremlya-moskovskogo-hramy" } },
+    { address: { contains: "Кремль", mode: "insensitive" } }
+  ];
 
   if (input.metro?.length) {
     andFilters.push({
@@ -478,9 +504,27 @@ function buildTempleWhere(input: TempleSearchInput = {}): Prisma.TempleWhereInpu
     );
   }
 
+  if (input.objectType === "monastery") {
+    andFilters.push({
+      OR: [
+        { objectType: { contains: "монастыр", mode: "insensitive" } },
+        { name: { contains: "монастыр", mode: "insensitive" } },
+        { shortName: { contains: "монастыр", mode: "insensitive" } }
+      ]
+    });
+  }
+
+  if (input.objectType === "church") {
+    notFilters.push(
+      { objectType: { contains: "монастыр", mode: "insensitive" } },
+      { name: { contains: "монастыр", mode: "insensitive" } },
+      { shortName: { contains: "монастыр", mode: "insensitive" } }
+    );
+  }
+
   return {
     moderationStatus: "PUBLISHED",
-    NOT: [{ name: { equals: "Храмы Московского Кремля" } }, { slug: { equals: "sprav-916-kremlya-moskovskogo-hramy" } }],
+    NOT: notFilters,
     ...(input.ids?.length ? { id: { in: input.ids } } : {}),
     ...(input.district?.length ? { district: { in: input.district } } : {}),
     ...(input.metroLine?.length ? { transitStations: { some: { lineId: { in: input.metroLine } } } } : {}),
@@ -488,7 +532,7 @@ function buildTempleWhere(input: TempleSearchInput = {}): Prisma.TempleWhereInpu
     ...(input.sundaySchool ? { sundaySchoolStatus: "YES" } : {}),
     ...(input.hasSchedule ? { scheduleSummary: { not: null } } : {}),
     ...(input.hasWebsite ? { websiteUrl: { not: null } } : {}),
-    ...(input.hasPhotos ? { photos: { some: { OR: [{ isApproved: true }, { isMain: true }] } } } : {})
+    photos: { some: { OR: [{ isApproved: true }, { isMain: true }] } }
   };
 }
 
@@ -540,8 +584,8 @@ export async function listTemples(input: TempleSearchInput = {}) {
         ? { ...input, metroLine: Array.from(new Set([...(input.metroLine ?? []), ...queryLineIds])) }
         : input;
     const temples = await fetchDbTemples(effectiveInput);
-    const mapped = temples.map(mapDbTemple);
-    const searched = filterBySearchQuery(mapped, input.query);
+    const mapped = temples.map(mapDbTemple).filter(hasPublicPhoto);
+    const searched = filterByScheduleTime(filterBySearchQuery(mapped, input.query), input);
     const result = sortTemples(dedupeTemples(filterByNearestTransit(searched, effectiveInput)), input.sort, input.query);
     setCachedTempleList(cacheKey, result);
     return result;
@@ -572,8 +616,8 @@ export async function listMapTemples(input: TempleSearchInput = {}) {
         ? { ...input, metroLine: Array.from(new Set([...(input.metroLine ?? []), ...queryLineIds])) }
         : input;
     const temples = await fetchDbMapTemples(effectiveInput);
-    const mapped = temples.map(mapDbMapTemple);
-    const searched = filterBySearchQuery(mapped, input.query);
+    const mapped = temples.map(mapDbMapTemple).filter((temple) => hasPublicPhoto(temple) && hasPublicMapCoordinates(temple));
+    const searched = filterByScheduleTime(filterBySearchQuery(mapped, input.query), input);
     const result = sortTemples(dedupeTemples(filterByNearestTransit(searched, effectiveInput)), input.sort, input.query);
     setCachedTempleList(cacheKey, result);
     return result;
@@ -699,6 +743,63 @@ function filterByNearestTransit(temples: TempleView[], input: TempleSearchInput)
   });
 }
 
+function hasPublicMapCoordinates(temple: TempleView) {
+  if (!temple.latitude || !temple.longitude) {
+    return false;
+  }
+
+  if (temple.latitude === 0 || temple.longitude === 0) {
+    return false;
+  }
+
+  const isMoscowCenterFallback = Math.abs(temple.latitude - MOSCOW_CENTER[0]) < 0.001 && Math.abs(temple.longitude - MOSCOW_CENTER[1]) < 0.001;
+  return !isMoscowCenterFallback;
+}
+
+function hasPublicPhoto(temple: TempleView) {
+  return filterTemplePhotos(temple.photos).length > 0;
+}
+
+function filterByScheduleTime(temples: TempleView[], input: TempleSearchInput) {
+  if (!input.liturgyTime && !input.eveningTime) {
+    return temples;
+  }
+
+  return temples.filter(
+    (temple) =>
+      matchesScheduleTime(temple.scheduleSummary, input.liturgyTime, "liturgy") &&
+      matchesScheduleTime(temple.scheduleSummary, input.eveningTime, "evening")
+  );
+}
+
+function matchesScheduleTime(schedule: string | null | undefined, value: string | undefined, kind: "liturgy" | "evening") {
+  if (!value) {
+    return true;
+  }
+
+  if (!schedule) {
+    return false;
+  }
+
+  const { hours, minutes } = parseScheduleTime(value);
+  const text = normalizeSearch(schedule).replace(/\s+/g, " ");
+  const hasTime = new RegExp(`\\b0?${hours}[:.]?${minutes}\\b`, "u").test(text);
+
+  if (!hasTime) {
+    return false;
+  }
+
+  return kind === "liturgy" ? /литург/iu.test(schedule) : /(вечер|всенощ|повечер|утрен)/iu.test(schedule);
+}
+
+function parseScheduleTime(value: string) {
+  const [hours, minutes = "00"] = value.replace(".", ":").split(":");
+  return {
+    hours: String(Number(hours)),
+    minutes: minutes.padEnd(2, "0").slice(0, 2)
+  };
+}
+
 async function fetchDbMapTemples(input: TempleSearchInput = {}) {
   return prisma.temple.findMany({
     where: {
@@ -807,7 +908,7 @@ function mapDbMapTemple(temple: Awaited<ReturnType<typeof fetchDbMapTemples>>[nu
     rectorName: null,
     vicariate: null,
     deanery: null,
-    objectType: null,
+    objectType: temple.objectType,
     scheduleSummary: temple.scheduleSummary,
     scheduleSourceUrl: null,
     sundaySchoolStatus: temple.sundaySchoolStatus,
@@ -923,7 +1024,7 @@ export async function getTempleBySlug(slug: string) {
           where: {
             OR: [{ isApproved: true }, { isMain: true }]
           },
-          take: 8,
+          take: 1,
           orderBy: [{ isMain: "desc" }, { createdAt: "desc" }]
         },
         socialLinks: true,

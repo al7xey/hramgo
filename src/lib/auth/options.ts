@@ -19,14 +19,16 @@ export const authOptions: NextAuthOptions = {
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Пароль", type: "password" },
+        name: { label: "Имя", type: "text" },
         mode: { label: "Режим", type: "text" }
       },
       async authorize(credentials) {
         const email = credentials?.email?.toLowerCase().trim();
         const password = credentials?.password ?? "";
+        const name = credentials?.name?.trim().slice(0, 80);
         const mode = credentials?.mode === "register" ? "register" : "login";
 
-        if (!email || password.length < MIN_PASSWORD_LENGTH) {
+        if (!email || password.length < MIN_PASSWORD_LENGTH || (mode === "register" && (!name || name.length < 2))) {
           return null;
         }
 
@@ -40,12 +42,12 @@ export const authOptions: NextAuthOptions = {
 
             const passwordHash = hashPassword(password);
             const user = existingUser
-              ? await prisma.user.update({ where: { email }, data: { passwordHash } })
+              ? await prisma.user.update({ where: { email }, data: { passwordHash, name } })
               : await prisma.user.create({
                   data: {
                     email,
                     passwordHash,
-                    name: email.split("@")[0]
+                    name
                   }
                 });
 

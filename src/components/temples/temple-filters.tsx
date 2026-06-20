@@ -17,6 +17,9 @@ type FilterDefaults = {
   metros: string[];
   metroLines: string[];
   services: TempleParishServiceView["kind"][];
+  objectType?: "all" | "church" | "monastery";
+  liturgyTime?: string;
+  eveningTime?: string;
   sundaySchool?: string;
   hasSchedule?: string;
   hasWebsite?: string;
@@ -46,6 +49,9 @@ export const TempleFilters = memo(function TempleFilters({
         defaultValues.metros.length,
         defaultValues.metroLines.length,
         defaultValues.services.length,
+        defaultValues.objectType && defaultValues.objectType !== "all" ? 1 : 0,
+        defaultValues.liturgyTime ? 1 : 0,
+        defaultValues.eveningTime ? 1 : 0,
         defaultValues.sundaySchool === "true" ? 1 : 0,
         defaultValues.hasSchedule === "true" ? 1 : 0,
         defaultValues.hasWebsite === "true" ? 1 : 0,
@@ -81,6 +87,12 @@ export const TempleFilters = memo(function TempleFilters({
         <LiquidGlassCard className="p-4 dark:bg-[#102233] dark:text-slate-100">
           <form action="/temples" className="grid gap-4">
             <input type="hidden" name="query" value={defaultValues.query ?? ""} />
+
+            <FilterGroup title="Тип объекта">
+              <Radio name="objectType" value="all" label="Все объекты" defaultChecked={!defaultValues.objectType || defaultValues.objectType === "all"} />
+              <Radio name="objectType" value="church" label="Храмы" defaultChecked={defaultValues.objectType === "church"} />
+              <Radio name="objectType" value="monastery" label="Монастыри" defaultChecked={defaultValues.objectType === "monastery"} />
+            </FilterGroup>
 
             <FilterGroup title="При храме">
               {serviceKinds.map((kind) => (
@@ -147,6 +159,11 @@ export const TempleFilters = memo(function TempleFilters({
               <Check name="hasParking" value="true" label="Парковка" defaultChecked={defaultValues.hasParking === "true"} />
             </FilterGroup>
 
+            <FilterGroup title="Расписание">
+              <Select name="liturgyTime" label="Литургия" defaultValue={defaultValues.liturgyTime} options={["", "7:00", "8:00", "9:00", "10:00"]} />
+              <Select name="eveningTime" label="Вечерняя служба" defaultValue={defaultValues.eveningTime} options={["", "17:00", "18:00"]} />
+            </FilterGroup>
+
             <div className="grid grid-cols-2 gap-2">
               <Button type="submit">Применить</Button>
               <Button asChild variant="outline">
@@ -209,6 +226,44 @@ function Check({
       <input type="checkbox" name={name} value={value} defaultChecked={defaultChecked} className="size-4 accent-primary" />
       {swatch && <span className="size-3.5 shrink-0 rounded-full" style={{ backgroundColor: swatch }} title={title} />}
       <span className="truncate">{label}</span>
+    </label>
+  );
+}
+
+function Radio({ name, value, label, defaultChecked }: { name: string; value: string; label: string; defaultChecked?: boolean }) {
+  return (
+    <label className="inline-flex min-h-10 cursor-pointer items-center gap-2 rounded-[18px] border border-card-border bg-white px-3 text-sm transition hover:bg-white dark:border-white/15 dark:bg-[#0d1d2c] dark:text-slate-100">
+      <input type="radio" name={name} value={value} defaultChecked={defaultChecked} className="size-4 accent-primary" />
+      <span>{label}</span>
+    </label>
+  );
+}
+
+function Select({
+  name,
+  label,
+  defaultValue,
+  options
+}: {
+  name: string;
+  label: string;
+  defaultValue?: string;
+  options: string[];
+}) {
+  return (
+    <label className="grid gap-1 text-sm">
+      <span className="text-muted-foreground">{label}</span>
+      <select
+        name={name}
+        defaultValue={defaultValue ?? ""}
+        className="h-10 rounded-[18px] border border-card-border bg-white px-3 text-sm outline-none dark:border-white/15 dark:bg-[#0d1d2c] dark:text-slate-100"
+      >
+        {options.map((option) => (
+          <option key={option || "any"} value={option}>
+            {option || "Любое время"}
+          </option>
+        ))}
+      </select>
     </label>
   );
 }

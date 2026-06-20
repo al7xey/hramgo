@@ -44,12 +44,12 @@ export function SupportPaymentForm({ minAmount, maxAmount, paymentEnabled }: Pro
       return `Максимальная сумма поддержки — ${maxAmount} ₽.`;
     }
 
-    if (!sessionEmail && !email) {
-      return "Укажите e-mail для уведомления о платеже.";
+    if (!email) {
+      return "Укажите e-mail для отправки кассового чека.";
     }
 
     return null;
-  }, [amountNumber, email, maxAmount, minAmount, sessionEmail]);
+  }, [amountNumber, email, maxAmount, minAmount]);
 
   const disabled = pending || !paymentEnabled || !consent || Boolean(validationMessage);
 
@@ -69,7 +69,7 @@ export function SupportPaymentForm({ minAmount, maxAmount, paymentEnabled }: Pro
           headers: { "content-type": "application/json" },
           body: JSON.stringify({
             amount: amountNumber,
-            email: sessionEmail || email,
+            email,
             personalDataConsent: consent
           })
         });
@@ -123,20 +123,19 @@ export function SupportPaymentForm({ minAmount, maxAmount, paymentEnabled }: Pro
         />
       </label>
 
-      {sessionEmail ? (
-        <p className="rounded-[20px] bg-muted p-3 text-sm text-muted-foreground">Email профиля: {sessionEmail}</p>
-      ) : (
-        <label className="grid gap-1 text-sm">
-          <span className="text-muted-foreground">Email для уведомления</span>
-          <input
-            type="email"
-            required
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            className="h-12 rounded-2xl border border-card-border bg-background px-3 outline-none focus:border-primary"
-          />
-        </label>
-      )}
+      <label className="grid gap-1 text-sm">
+        <span className="text-muted-foreground">E-mail для отправки кассового чека</span>
+        <input
+          type="email"
+          required
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+          className="h-12 rounded-2xl border border-card-border bg-background px-3 outline-none focus:border-primary"
+        />
+        <span className="text-xs leading-5 text-muted-foreground">
+          Используется только для платежа и направления чека, не для рекламных рассылок.
+        </span>
+      </label>
 
       <label className="flex items-start gap-3 rounded-[20px] bg-muted p-3 text-sm leading-6">
         <input
@@ -164,6 +163,10 @@ export function SupportPaymentForm({ minAmount, maxAmount, paymentEnabled }: Pro
       <Button type="submit" size="lg" className="w-full" disabled={disabled}>
         {pending ? "Переходим к оплате" : "Поддержать проект"}
       </Button>
+
+      <p className="text-xs leading-5 text-muted-foreground">
+        Если включён VPN, платёжная страница или подтверждение банка могут открываться нестабильно.
+      </p>
 
       {message ? <p className="text-sm text-danger">{message}</p> : null}
     </form>

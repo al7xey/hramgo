@@ -43,6 +43,9 @@ export const templeSearchSchema = z.object({
       z.array(serviceKindSchema).optional()
     )
     .catch(undefined),
+  objectType: z.enum(["all", "church", "monastery"]).optional().catch("all"),
+  liturgyTime: z.string().regex(/^\d{1,2}:?\d{0,2}$/u).optional().catch(undefined),
+  eveningTime: z.string().regex(/^\d{1,2}:?\d{0,2}$/u).optional().catch(undefined),
   sundaySchool: z.coerce.boolean().optional().catch(undefined),
   hasSchedule: z.coerce.boolean().optional().catch(undefined),
   hasWebsite: z.coerce.boolean().optional().catch(undefined),

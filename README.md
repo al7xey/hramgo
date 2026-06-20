@@ -54,6 +54,8 @@ npm run dev
 - `YOOKASSA_SHOP_ID`, `YOOKASSA_SECRET_KEY` — платежи поддержки через ЮKassa.
 - `YOOKASSA_RECEIPT_ITEM_NAME` — название платежа для ЮKassa.
 - `YOOKASSA_LEGAL_ID`, `YOOKASSA_SBP_MERCHANT_ID`, `YOOKASSA_MCC` — публичные идентификаторы подключения ЮKassa и СБП.
+- `ROBO_FISCALIZATION_ENABLED`, `ROBO_FISCALIZATION_MODE`, `ROBO_RECEIPT_ITEM_NAME` — служебные флаги проверки фискализации. Точное название позиции и признак предмета расчёта должны быть письменно подтверждены платежным провайдером и владельцем проекта.
+- `SUPPORT_EMAIL_FROM`, `SUPPORT_EMAIL_REPLY_TO`, `SUPPORT_EMAIL_TRANSPORT` — настройки служебной почты, если включается отдельное письмо-подтверждение. Оно не заменяет кассовый чек.
 - `MIN_SUPPORT_AMOUNT_RUB`, `MAX_SUPPORT_AMOUNT_RUB` — диапазон добровольной поддержки.
 - `RETURN_REQUEST_REVIEW_DAYS`, `RETURN_PAYMENT_DAYS` — сроки рассмотрения обращения и возврата.
 - `LEGAL_FULL_NAME`, `LEGAL_INN`, `SUPPORT_EMAIL`, `SUPPORT_PHONE`, `LEGAL_ADDRESS` — реквизиты и контакты.
@@ -79,6 +81,8 @@ HramGo использует модель добровольной поддерж
 - при необходимости переопределить `MIN_SUPPORT_AMOUNT_RUB`, `MAX_SUPPORT_AMOUNT_RUB`, `RETURN_REQUEST_REVIEW_DAYS`, `RETURN_PAYMENT_DAYS`
 
 Сайт не рисует собственную форму выбора СБП/T-Pay и не хранит данные банковских карт. Пользователь перенаправляется на платежную страницу ЮKassa.
+
+Важно: сайт не генерирует самодельные чеки. Фискальный чек должен формироваться только через фактически подключенную фискализацию платежного провайдера или иной законный механизм. Перед боевым запуском нужно проверить настройки фискализации в кабинете и провести тестовый платеж с получением чека на e-mail.
 
 ## Команды
 

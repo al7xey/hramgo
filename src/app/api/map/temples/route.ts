@@ -20,6 +20,9 @@ export async function GET(request: NextRequest) {
     metro: getParams(params, "metro"),
     metroLine: getParams(params, "metroLine"),
     service: getParams(params, "service"),
+    objectType: getParam(params, "objectType"),
+    liturgyTime: getParam(params, "liturgyTime"),
+    eveningTime: getParam(params, "eveningTime"),
     hasSchedule: getParam(params, "hasSchedule"),
     hasWebsite: getParam(params, "hasWebsite"),
     hasPhotos: getParam(params, "hasPhotos")

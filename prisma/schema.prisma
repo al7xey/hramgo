@@ -539,19 +539,30 @@ model ImportLog {
 
 model SupportPayment {
   id                String    @id @default(cuid())
-    provider          String    @default("yookassa")
+  provider          String    @default("yookassa")
   providerInvoiceId String    @unique
+  providerPaymentId String?   @map("provider_payment_id")
   amount            Float
   email             String
+  supporterEmail    String?   @map("supporter_email")
   status            String    @default("PENDING")
+  paymentStatus     String?   @map("payment_status")
   signature         String?
   rawPayload        Json?
+  providerPayloadHash String? @map("provider_payload_hash")
+  fiscalReceiptStatus String? @default("NOT_CONFIGURED") @map("fiscal_receipt_status")
+  fiscalReceiptId   String?   @map("fiscal_receipt_id")
+  fiscalReceiptUrl  String?   @map("fiscal_receipt_url")
+  fiscalReceiptSentAt DateTime? @map("fiscal_receipt_sent_at")
+  fiscalReceiptError String?  @map("fiscal_receipt_error")
   paidAt            DateTime?
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
 
   @@index([provider])
+  @@index([providerPaymentId])
   @@index([status])
+  @@index([paymentStatus])
   @@index([email])
   @@index([createdAt])
 }

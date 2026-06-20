@@ -15,6 +15,7 @@ type AuthMode = "login" | "register";
 export function LoginForm({ callbackUrl = "/profile" }: { callbackUrl?: string }) {
   const router = useRouter();
   const [mode, setMode] = useState<AuthMode>("login");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [pending, setPending] = useState(false);
@@ -32,6 +33,7 @@ export function LoginForm({ callbackUrl = "/profile" }: { callbackUrl?: string }
           const result = await signIn("credentials", {
             email,
             password,
+            name,
             mode,
             redirect: false
           });
@@ -55,6 +57,21 @@ export function LoginForm({ callbackUrl = "/profile" }: { callbackUrl?: string }
             Регистрация
           </ModeButton>
         </div>
+
+        {mode === "register" ? (
+          <label className="grid gap-1 text-sm">
+            <span className="text-muted-foreground">Имя</span>
+            <input
+              type="text"
+              required
+              minLength={2}
+              maxLength={80}
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+              className="h-12 rounded-[22px] border border-card-border bg-background/72 px-4 outline-none transition focus:border-primary focus:ring-4 focus:ring-primary-soft"
+            />
+          </label>
+        ) : null}
 
         <label className="grid gap-1 text-sm">
           <span className="text-muted-foreground">Email</span>

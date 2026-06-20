@@ -345,6 +345,7 @@ const WEEKEND_WORDS = ["суббот", "воскрес", "выходн", "пра
 const dateNoisePattern =
   /\b\d{1,2}\s+(?:января|февраля|марта|апреля|мая|июня|июля|августа|сентября|октября|ноября|декабря)\b|\([^)]+\.с\.\)|\b\d{1,2}\s*\/\s*\d{1,2}\b/giu;
 const timePattern = /([01]?\d|2[0-3])[.:](\d{2})/gu;
+const eveningLiturgyGuardPattern = /\b(1[5-9]|2[0-3])[.:]00\s+[\u2014\u2013-]\s+Литургия\b/giu;
 
 function splitSchedule(text: string) {
   const normalized = text.replace(/\s+/g, " ").trim();
@@ -421,12 +422,14 @@ function normalizeScheduleItems(item: string) {
   const labelFromText = scheduleServiceLabel(clean);
   return matches.map((match) => {
     const time = `${match[1].padStart(2, "0")}:${match[2]}`;
+    const hour = Number(match[1]);
     const afterTime = clean
       .replace(match[0], "")
       .replace(timePattern, "")
       .replace(/^[\s\u2014\u2013,/-]+/u, "")
       .trim();
-    const label = labelFromText ?? (afterTime.length <= 70 ? afterTime : "Богослужение");
+    const safeLabelFromText = labelFromText === "Литургия" && hour >= 15 ? "Вечернее богослужение" : labelFromText;
+    const label = safeLabelFromText ?? (afterTime.length <= 70 ? afterTime : "Богослужение");
     return `${time} — ${label || "Богослужение"}`;
   });
 }
@@ -439,9 +442,10 @@ function uniqueScheduleItems(items: string[]) {
     for (const normalized of normalizeScheduleItems(item)) {
       const time = normalized.match(timePattern)?.[0] ?? normalized;
       const key = time.toLowerCase();
-      if (!normalized || seen.has(key)) continue;
+      const safeNormalized = normalized.replace(eveningLiturgyGuardPattern, "$1:00 — Вечернее богослужение");
+      if (!safeNormalized || seen.has(key)) continue;
       seen.add(key);
-      result.push(normalized);
+      result.push(safeNormalized);
     }
   }
 

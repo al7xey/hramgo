@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { createHash } from "node:crypto";
 import { getServerSession } from "next-auth";
 import { z } from "zod";
 
@@ -54,10 +55,10 @@ export async function POST(request: Request) {
     }
 
     const session = await getServerSession(authOptions);
-    const email = session?.user?.email ?? payload.email;
+    const email = payload.email ?? session?.user?.email;
 
     if (!email) {
-      return NextResponse.json({ message: "Укажите e-mail для уведомления о платеже." }, { status: 400 });
+      return NextResponse.json({ message: "Укажите e-mail для отправки кассового чека." }, { status: 400 });
     }
 
     const amount = formatYooKassaAmount(payload.amount);
@@ -69,11 +70,20 @@ export async function POST(request: Request) {
       data: {
         provider: "yookassa",
         providerInvoiceId: payment.paymentId,
+        providerPaymentId: payment.paymentId,
         amount: payload.amount,
         email,
+        supporterEmail: email,
         signature: idempotenceKey,
         status: payment.status === supportPaymentStatus.paid ? supportPaymentStatus.paid : supportPaymentStatus.pending,
+        paymentStatus: payment.status === supportPaymentStatus.paid ? supportPaymentStatus.paid : supportPaymentStatus.pending,
         paidAt: payment.status === supportPaymentStatus.paid ? new Date() : null,
+        fiscalReceiptStatus: env.ROBO_FISCALIZATION_ENABLED === "true" ? "PENDING" : "NEEDS_PROVIDER_CONFIRMATION",
+        fiscalReceiptError:
+          env.ROBO_FISCALIZATION_ENABLED === "true"
+            ? null
+            : "Фискализация должна быть подтверждена в платежном кабинете и тестовым платежом.",
+        providerPayloadHash: hashPayload(payment.rawPayload),
         rawPayload: payment.rawPayload
       }
     });
@@ -87,4 +97,8 @@ export async function POST(request: Request) {
     console.error("YooKassa payment creation failed", error);
     return NextResponse.json({ message: "Не удалось создать платёж. Попробуйте позже." }, { status: 502 });
   }
+}
+
+function hashPayload(payload: unknown) {
+  return createHash("sha256").update(JSON.stringify(payload)).digest("hex");
 }

@@ -152,13 +152,19 @@ export const TempleMap = memo(function TempleMap({ temples, activeSlug, sidebarT
 
   return (
     <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
-      <LiquidGlassCard className="overflow-hidden p-2">
+      {sidebarTop ? <div className="lg:hidden">{sidebarTop}</div> : null}
+
+      <LiquidGlassCard className="relative overflow-hidden p-2">
         <div ref={mapNodeRef} className="aspect-square w-full overflow-hidden rounded-[24px] bg-muted lg:aspect-auto lg:h-[640px]" />
+        {activeTemple ? (
+          <div className="absolute inset-x-4 bottom-4 z-10 lg:max-w-sm">
+            <TempleMapBottomSheet temple={activeTemple} />
+          </div>
+        ) : null}
       </LiquidGlassCard>
 
-      <div className="grid gap-4 self-start lg:sticky lg:top-24">
+      <div className="hidden gap-4 self-start lg:sticky lg:top-24 lg:grid">
         {sidebarTop}
-        {activeTemple && <TempleMapBottomSheet temple={activeTemple} />}
       </div>
     </div>
   );

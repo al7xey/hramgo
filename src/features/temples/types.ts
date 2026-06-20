@@ -124,6 +124,9 @@ export type TempleSearchInput = {
   metro?: string[];
   metroLine?: string[];
   service?: TempleParishServiceView["kind"][];
+  objectType?: "all" | "church" | "monastery";
+  liturgyTime?: string;
+  eveningTime?: string;
   sundaySchool?: boolean;
   hasSchedule?: boolean;
   hasWebsite?: boolean;

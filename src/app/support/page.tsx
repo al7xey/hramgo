@@ -31,7 +31,8 @@ export default async function SupportPage({ searchParams }: { searchParams: Prom
         <LiquidGlassCard className="grid gap-2 p-5">
           <h2 className="text-xl font-semibold">Спасибо за поддержку</h2>
           <p className="text-sm leading-6 text-muted-foreground">
-            Если платеж был подтвержден ЮKassa, его статус обновится автоматически после серверного уведомления.
+            Платёж принят. Фискальный чек будет направлен на указанный e-mail после подтверждения платежа и фискализации
+            платёжным провайдером.
           </p>
         </LiquidGlassCard>
       ) : null}
