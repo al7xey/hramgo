@@ -42,14 +42,14 @@ export async function POST(request: Request) {
     }
 
     if (getMissingSupportPaymentConfig().length > 0) {
-      return NextResponse.json({ message: "Прием платежей временно недоступен. Попробуйте позже." }, { status: 503 });
+      return NextResponse.json({ message: "Приём платежей временно недоступен. Попробуйте позже." }, { status: 503 });
     }
 
-    if (payload.amount < env.MIN_SUPPORT_AMOUNT_RUB!) {
+    if (payload.amount < env.MIN_SUPPORT_AMOUNT_RUB) {
       return NextResponse.json({ message: `Минимальная сумма поддержки — ${env.MIN_SUPPORT_AMOUNT_RUB} ₽.` }, { status: 400 });
     }
 
-    if (payload.amount > env.MAX_SUPPORT_AMOUNT_RUB!) {
+    if (payload.amount > env.MAX_SUPPORT_AMOUNT_RUB) {
       return NextResponse.json({ message: `Максимальная сумма поддержки — ${env.MAX_SUPPORT_AMOUNT_RUB} ₽.` }, { status: 400 });
     }
 
@@ -62,7 +62,7 @@ export async function POST(request: Request) {
 
     const amount = formatYooKassaAmount(payload.amount);
     const idempotenceKey = createYooKassaIdempotenceKey();
-    const description = "Добровольная поддержка HramGo";
+    const description = env.YOOKASSA_RECEIPT_ITEM_NAME ?? "Добровольная поддержка HramGo";
     const payment = await createYooKassaPayment({ amount, description, email, idempotenceKey });
 
     await prisma.supportPayment.create({
@@ -80,6 +80,11 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ confirmationUrl: payment.confirmationUrl });
   } catch (error) {
-    return badRequest(error);
+    if (error instanceof z.ZodError) {
+      return badRequest(error);
+    }
+
+    console.error("YooKassa payment creation failed", error);
+    return NextResponse.json({ message: "Не удалось создать платёж. Попробуйте позже." }, { status: 502 });
   }
 }

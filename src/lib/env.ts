@@ -1,7 +1,9 @@
 import { z } from "zod";
 
-const optionalPositiveNumber = z.preprocess((value) => (value === "" ? undefined : value), z.coerce.number().positive().optional());
-const optionalPositiveInt = z.preprocess((value) => (value === "" ? undefined : value), z.coerce.number().int().positive().optional());
+const positiveNumberDefault = (defaultValue: number) =>
+  z.preprocess((value) => (value === "" ? undefined : value), z.coerce.number().positive().default(defaultValue));
+const positiveIntDefault = (defaultValue: number) =>
+  z.preprocess((value) => (value === "" ? undefined : value), z.coerce.number().int().positive().default(defaultValue));
 
 const envSchema = z.object({
   DATABASE_URL: z.string().optional(),
@@ -30,10 +32,10 @@ const envSchema = z.object({
   YOOKASSA_LEGAL_ID: z.string().default("LB0003357423"),
   YOOKASSA_SBP_MERCHANT_ID: z.string().default("MB0002928350"),
   YOOKASSA_MCC: z.string().default("9999"),
-  MIN_SUPPORT_AMOUNT_RUB: optionalPositiveNumber,
-  MAX_SUPPORT_AMOUNT_RUB: optionalPositiveNumber,
-  RETURN_REQUEST_REVIEW_DAYS: optionalPositiveInt,
-  RETURN_PAYMENT_DAYS: optionalPositiveInt,
+  MIN_SUPPORT_AMOUNT_RUB: positiveNumberDefault(100),
+  MAX_SUPPORT_AMOUNT_RUB: positiveNumberDefault(100000),
+  RETURN_REQUEST_REVIEW_DAYS: positiveIntDefault(10),
+  RETURN_PAYMENT_DAYS: positiveIntDefault(10),
   LEGAL_FULL_NAME: z.string().default("Семенов Алексей Витальевич"),
   LEGAL_INN: z.string().default("301612256922"),
   SUPPORT_EMAIL: z.string().email().default("hram-go@yandex.ru"),

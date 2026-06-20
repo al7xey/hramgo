@@ -87,7 +87,7 @@ export function SupportPaymentForm({ minAmount, maxAmount, paymentEnabled }: Pro
     >
       {!paymentEnabled ? (
         <div className="rounded-[20px] border border-card-border bg-muted p-3 text-sm leading-6 text-muted-foreground">
-          Прием платежей временно недоступен. Попробуйте позже.
+          Приём платежей временно недоступен. Попробуйте позже.
         </div>
       ) : null}
 
