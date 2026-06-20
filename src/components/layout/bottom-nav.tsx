@@ -19,9 +19,8 @@ export function BottomNav() {
   const router = useRouter();
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-50 md:hidden">
-      <div className="border-t border-card-border bg-white/[0.985] px-3 pb-[max(env(safe-area-inset-bottom),6px)] pt-1 text-[#172033] shadow-[0_-10px_24px_rgba(23,32,51,0.08)] backdrop-blur-sm dark:border-white/10 dark:bg-[#101827]/98 dark:text-slate-200">
-        <div className="mx-auto grid h-14 max-w-md grid-cols-5 gap-1">
+    <nav className="fixed inset-x-0 bottom-[max(8px,env(safe-area-inset-bottom))] z-50 px-4 md:hidden">
+      <div className="mx-auto grid h-16 w-full max-w-[360px] grid-cols-5 gap-1 rounded-[30px] border border-card-border bg-white/[0.96] p-2 text-[#172033] shadow-[0_10px_34px_rgba(23,32,51,0.16)] backdrop-blur-xl dark:border-white/10 dark:bg-[#101827]/92 dark:text-slate-200">
           {items.map((item) => {
             const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
 
@@ -49,7 +48,6 @@ export function BottomNav() {
               </Link>
             );
           })}
-        </div>
       </div>
     </nav>
   );

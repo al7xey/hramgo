@@ -20,6 +20,7 @@
     "extract:llm": "tsx scripts/extract-llm.ts",
     "geocode:temples": "tsx scripts/geocode-temples.ts",
     "audit:temple-data": "tsx scripts/audit-temple-data.ts",
+    "audit:temple-photos": "tsx scripts/audit-temple-photo-coverage.ts",
     "repair:data-quality": "node scripts/repair-data-quality.mjs",
     "moderation:queue": "tsx scripts/moderation-queue.ts",
     "recalculate:ratings": "tsx scripts/recalculate-ratings.ts",

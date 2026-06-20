@@ -76,6 +76,24 @@ export async function createYooKassaPayment({
         return_url: `${env.APP_DOMAIN}/support?status=success`
       },
       description,
+      receipt: {
+        customer: {
+          email
+        },
+        items: [
+          {
+            description,
+            quantity: "1.00",
+            amount: {
+              value: amount,
+              currency: "RUB"
+            },
+            vat_code: env.YOOKASSA_VAT_CODE,
+            payment_subject: env.YOOKASSA_PAYMENT_SUBJECT,
+            payment_mode: env.YOOKASSA_PAYMENT_MODE
+          }
+        ]
+      },
       metadata: {
         email
       }

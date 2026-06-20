@@ -9,6 +9,7 @@ import type { TempleMapView } from "@/features/temples/types";
 
 type YMap = {
   geoObjects: { add: (object: YObjectManager) => void };
+  events: { add: (eventName: string, handler: () => void) => void };
   setBounds: (bounds: unknown, options: Record<string, unknown>) => void;
   panTo: (coords: [number, number], options: Record<string, unknown>) => void;
 };
@@ -51,6 +52,7 @@ export const TempleMap = memo(function TempleMap({ temples, activeSlug, sidebarT
   const mapRef = useRef<YMap | null>(null);
   const objectManagerRef = useRef<YObjectManager | null>(null);
   const fittedPointsKeyRef = useRef<string | null>(null);
+  const suppressMapClickUntilRef = useRef(0);
   const slugByIdRef = useRef(slugById);
   const activeTemple = useMemo(() => points.find((temple) => temple.slug === selectedSlug), [points, selectedSlug]);
 
@@ -94,10 +96,18 @@ export const TempleMap = memo(function TempleMap({ temples, activeSlug, sidebarT
           const slug = slugByIdRef.current.get(objectId);
 
           if (slug) {
+            suppressMapClickUntilRef.current = Date.now() + 250;
             setSelectedSlug(slug);
           }
         });
         mapRef.current.geoObjects.add(objectManagerRef.current);
+        mapRef.current.events.add("click", () => {
+          if (Date.now() < suppressMapClickUntilRef.current) {
+            return;
+          }
+
+          setSelectedSlug(undefined);
+        });
         setMapReady(true);
       })
       .catch(() => setMapReady(false));
@@ -157,8 +167,8 @@ export const TempleMap = memo(function TempleMap({ temples, activeSlug, sidebarT
       <LiquidGlassCard className="relative overflow-hidden p-2">
         <div ref={mapNodeRef} className="aspect-square w-full overflow-hidden rounded-[24px] bg-muted lg:aspect-auto lg:h-[640px]" />
         {activeTemple ? (
-          <div className="absolute inset-x-4 bottom-4 z-10 lg:max-w-sm">
-            <TempleMapBottomSheet temple={activeTemple} />
+          <div className="absolute inset-x-3 bottom-3 z-10 max-w-[340px] lg:left-4 lg:right-auto">
+            <TempleMapBottomSheet temple={activeTemple} onClose={() => setSelectedSlug(undefined)} />
           </div>
         ) : null}
       </LiquidGlassCard>

@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { MapPinned, Star } from "lucide-react";
+import { MapPinned } from "lucide-react";
 
 import { FavoriteButton } from "@/components/favorites/favorite-button";
+import { RatingStars } from "@/components/reviews/rating-stars";
 import { TemplePhoto } from "@/components/temples/temple-photo";
 import { TransitSummary } from "@/components/temples/transit-chip";
 import { LiquidGlassCard } from "@/components/ui/liquid-glass-card";
@@ -37,8 +38,8 @@ export function TempleCard({ temple }: { temple: TempleCardView }) {
           <div className="min-h-10 pr-12">
             <h2 className="line-clamp-2 text-base font-semibold leading-5">{temple.name}</h2>
             {temple.approvedReviewsCount > 0 ? (
-              <div className="mt-1 flex items-center gap-1 text-xs font-semibold text-amber-500">
-                <Star className="size-3.5 fill-current" aria-hidden />
+              <div className="mt-1 flex items-center gap-1.5 text-xs font-semibold">
+                <RatingStars value={temple.averageHelpfulnessRating} />
                 <span>{temple.averageHelpfulnessRating.toFixed(1)}</span>
                 <span className="text-muted-foreground">({temple.approvedReviewsCount})</span>
               </div>

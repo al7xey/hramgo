@@ -526,7 +526,13 @@ function buildTempleWhere(input: TempleSearchInput = {}): Prisma.TempleWhereInpu
     moderationStatus: "PUBLISHED",
     NOT: notFilters,
     ...(input.ids?.length ? { id: { in: input.ids } } : {}),
-    ...(input.district?.length ? { district: { in: input.district } } : {}),
+    ...(input.district?.length
+      ? {
+          OR: input.district.map((district) => ({
+            district: { contains: district, mode: "insensitive" as const }
+          }))
+        }
+      : {}),
     ...(input.metroLine?.length ? { transitStations: { some: { lineId: { in: input.metroLine } } } } : {}),
     ...(andFilters.length ? { AND: andFilters } : {}),
     ...(input.sundaySchool ? { sundaySchoolStatus: "YES" } : {}),
@@ -1024,7 +1030,7 @@ export async function getTempleBySlug(slug: string) {
           where: {
             OR: [{ isApproved: true }, { isMain: true }]
           },
-          take: 1,
+          take: 8,
           orderBy: [{ isMain: "desc" }, { createdAt: "desc" }]
         },
         socialLinks: true,

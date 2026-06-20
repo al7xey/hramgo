@@ -7,7 +7,7 @@ import { LiquidGlassCard } from "@/components/ui/liquid-glass-card";
 
 export default function ProfilePage() {
   return (
-    <div className="mx-auto grid max-w-3xl gap-5">
+    <div className="mx-auto grid max-w-3xl gap-3">
       <div>
         <h1 className="text-3xl font-semibold">Профиль</h1>
         <p className="mt-2 text-sm leading-6 text-muted-foreground">Избранное, ваши отзывы и настройки интерфейса.</p>

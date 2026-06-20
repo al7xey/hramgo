@@ -52,7 +52,7 @@ npm run dev
 - `S3_ENDPOINT`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, `S3_BUCKET`, `S3_PUBLIC_URL` — хранилище фото.
 - `MAPS_API_KEY`, `GEOCODER_API_KEY` — карты и геокодирование.
 - `YOOKASSA_SHOP_ID`, `YOOKASSA_SECRET_KEY` — платежи поддержки через ЮKassa.
-- `YOOKASSA_RECEIPT_ITEM_NAME` — название платежа для ЮKassa.
+- `YOOKASSA_RECEIPT_ITEM_NAME`, `YOOKASSA_PAYMENT_SUBJECT`, `YOOKASSA_PAYMENT_MODE`, `YOOKASSA_VAT_CODE` — данные позиции для фискального чека ЮKassa.
 - `YOOKASSA_LEGAL_ID`, `YOOKASSA_SBP_MERCHANT_ID`, `YOOKASSA_MCC` — публичные идентификаторы подключения ЮKassa и СБП.
 - `ROBO_FISCALIZATION_ENABLED`, `ROBO_FISCALIZATION_MODE`, `ROBO_RECEIPT_ITEM_NAME` — служебные флаги проверки фискализации. Точное название позиции и признак предмета расчёта должны быть письменно подтверждены платежным провайдером и владельцем проекта.
 - `SUPPORT_EMAIL_FROM`, `SUPPORT_EMAIL_REPLY_TO`, `SUPPORT_EMAIL_TRANSPORT` — настройки служебной почты, если включается отдельное письмо-подтверждение. Оно не заменяет кассовый чек.
