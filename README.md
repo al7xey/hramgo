@@ -94,6 +94,26 @@ npm run build
 npm run start
 ```
 
+## Подтверждённые фото храмов
+
+Для ручной загрузки фото, права на публикацию которых подтверждены владельцем проекта, используйте CSV:
+
+```bash
+cp scripts/data/confirmed-temple-photos.example.csv scripts/data/confirmed-temple-photos.csv
+npm run photos:confirmed -- --file=scripts/data/confirmed-temple-photos.csv --dry-run
+npm run photos:confirmed -- --file=scripts/data/confirmed-temple-photos.csv --confirm-rights --replace-main
+```
+
+Колонки CSV:
+
+- `slug` или `templeId` или `name` — как найти храм в базе;
+- `imageUrl` — прямая ссылка на изображение;
+- `sourceUrl` — страница-источник, например карточка или фото на Яндекс Картах;
+- `alt` — подпись изображения;
+- `isMain` — `true`, если фото должно стать обложкой.
+
+Флаг `--confirm-rights` означает, что владелец проекта подтвердил право публикации этих изображений на HramGo.
+
 База данных:
 
 ```bash

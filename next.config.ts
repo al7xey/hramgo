@@ -12,6 +12,10 @@ const imageRemotePatterns: NonNullable<NextConfig["images"]>["remotePatterns"] =
   {
     protocol: "https",
     hostname: "hramgo.ru"
+  },
+  {
+    protocol: "https",
+    hostname: "avatars.mds.yandex.net"
   }
 ];
 
