@@ -26,6 +26,7 @@
     "photos:commons": "tsx scripts/fill-commons-photos.ts",
     "photos:openverse": "tsx scripts/fill-openverse-photos.ts",
     "photos:confirmed": "tsx scripts/import-confirmed-temple-photos.ts",
+    "photos:one": "tsx scripts/prune-temple-photos-to-one.ts",
     "moderation:queue": "tsx scripts/moderation-queue.ts",
     "recalculate:ratings": "tsx scripts/recalculate-ratings.ts",
     "sync:temple-sources": "tsx scripts/sync-temple-sources.ts",

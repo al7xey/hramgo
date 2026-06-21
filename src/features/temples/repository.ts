@@ -1129,7 +1129,7 @@ export async function getTempleBySlug(slug: string) {
           where: {
             OR: [{ isApproved: true }, { isMain: true }]
           },
-          take: 8,
+          take: 1,
           orderBy: [{ isMain: "desc" }, { createdAt: "desc" }]
         },
         socialLinks: true,
