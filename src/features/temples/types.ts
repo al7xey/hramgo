@@ -65,6 +65,7 @@ export type TempleParishServiceView = {
 
 export type TempleReviewView = {
   id: string;
+  userId: string;
   authorName: string;
   text: string;
   rating: number;

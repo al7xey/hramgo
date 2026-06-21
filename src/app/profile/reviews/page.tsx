@@ -49,6 +49,8 @@ export default function ProfileReviewsPage() {
   }, []);
 
   async function deleteReview(reviewId: string) {
+    if (!window.confirm("Удалить отзыв? Он исчезнет с сайта и перестанет влиять на рейтинг храма.")) return;
+
     setDeletingId(reviewId);
     setMessage(null);
 
@@ -74,7 +76,11 @@ export default function ProfileReviewsPage() {
   if (reviews.length === 0) {
     return (
       <div className="mx-auto max-w-2xl">
-        <EmptyState icon={MessageCircle} title="Пока нет отзывов" description="Ваши опубликованные отзывы появятся здесь. Старые отзывы тоже можно будет удалить." />
+        <EmptyState
+          icon={MessageCircle}
+          title="Пока нет отзывов"
+          description="Ваши опубликованные отзывы появятся здесь. Старые отзывы тоже можно будет удалить."
+        />
       </div>
     );
   }
@@ -95,7 +101,15 @@ export default function ProfileReviewsPage() {
               </Link>
               <p className="mt-1 text-xs text-muted-foreground">{new Date(review.publishedAt).toLocaleDateString("ru-RU")}</p>
             </div>
-            <Button type="button" variant="ghost" size="icon" onClick={() => void deleteReview(review.id)} disabled={deletingId === review.id} aria-label="Удалить отзыв">
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              onClick={() => void deleteReview(review.id)}
+              disabled={deletingId === review.id}
+              aria-label="Удалить отзыв"
+              title="Удалить отзыв"
+            >
               <Trash2 className="size-5" aria-hidden />
             </Button>
           </div>

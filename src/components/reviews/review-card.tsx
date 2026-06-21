@@ -1,5 +1,6 @@
 import { CalendarDays } from "lucide-react";
 
+import { DeleteReviewButton } from "@/components/reviews/delete-review-button";
 import { RatingStars } from "@/components/reviews/rating-stars";
 import { ReportReviewDialog } from "@/components/reviews/report-review-dialog";
 import { Badge } from "@/components/ui/badge";
@@ -30,7 +31,8 @@ export function ReviewCard({ review }: { review: TempleReviewView }) {
           ))}
         </div>
       )}
-      <div className="mt-4 flex justify-end">
+      <div className="mt-4 flex justify-end gap-2">
+        <DeleteReviewButton reviewId={review.id} userId={review.userId} />
         <ReportReviewDialog reviewId={review.id} />
       </div>
     </LiquidGlassCard>

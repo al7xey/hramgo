@@ -405,6 +405,7 @@ function mapDbTemple(temple: Awaited<ReturnType<typeof fetchDbTemples>>[number])
     })),
     reviews: temple.reviews.map((review) => ({
       id: review.id,
+      userId: review.userId,
       authorName: review.user.name ?? "Посетитель",
       text: review.text,
       rating: review.rating,
