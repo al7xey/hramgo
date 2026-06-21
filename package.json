@@ -29,7 +29,8 @@
     "moderation:queue": "tsx scripts/moderation-queue.ts",
     "recalculate:ratings": "tsx scripts/recalculate-ratings.ts",
     "sync:temple-sources": "tsx scripts/sync-temple-sources.ts",
-    "check:stale-data": "tsx scripts/check-stale-data.ts"
+    "check:stale-data": "tsx scripts/check-stale-data.ts",
+    "admin:ensure": "tsx scripts/ensure-admin-user.ts"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.1",

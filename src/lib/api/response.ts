@@ -20,6 +20,14 @@ export function badRequest(error: unknown) {
     );
   }
 
+  if (typeof error === "string") {
+    return NextResponse.json({ message: error }, { status: 400 });
+  }
+
+  if (error instanceof Error) {
+    return NextResponse.json({ message: error.message }, { status: 400 });
+  }
+
   return NextResponse.json({ message: "Некорректный запрос" }, { status: 400 });
 }
 

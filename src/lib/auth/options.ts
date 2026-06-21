@@ -35,6 +35,10 @@ export const authOptions: NextAuthOptions = {
         try {
           const existingUser = await prisma.user.findUnique({ where: { email } });
 
+          if (existingUser?.status === "DELETED" || existingUser?.status === "BLOCKED") {
+            return null;
+          }
+
           if (mode === "register") {
             if (existingUser?.passwordHash) {
               return null;
@@ -74,10 +78,12 @@ export const authOptions: NextAuthOptions = {
         token.picture = user.image;
       }
 
-      if (trigger === "update" && session?.user) {
-        token.name = session.user.name ?? token.name;
-        token.email = session.user.email ?? token.email;
-        token.picture = session.user.image ?? token.picture;
+      const updatedUser = (session as { user?: { name?: string | null; email?: string | null; image?: string | null; role?: string | null } } | undefined)?.user;
+      if (trigger === "update" && updatedUser) {
+        token.name = updatedUser.name ?? token.name;
+        token.email = updatedUser.email ?? token.email;
+        token.picture = updatedUser.image ?? token.picture;
+        token.role = updatedUser.role ?? token.role;
       }
 
       return token;

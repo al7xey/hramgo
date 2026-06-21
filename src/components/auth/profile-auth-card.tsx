@@ -11,12 +11,13 @@ import { LiquidGlassCard } from "@/components/ui/liquid-glass-card";
 type EditSection = "profile" | "email" | "password" | null;
 
 const inputClass =
-  "h-11 rounded-[20px] border border-card-border bg-white/70 px-4 text-foreground outline-none transition placeholder:text-muted-foreground focus:border-primary focus:ring-4 focus:ring-primary-soft dark:bg-white/10";
+  "h-11 rounded-[20px] border border-card-border bg-white/75 px-4 text-foreground outline-none transition placeholder:text-muted-foreground focus:border-primary focus:ring-4 focus:ring-primary-soft dark:bg-white/10 dark:text-white";
 
 export function ProfileAuthCard() {
   const { data: session, status, update } = useSession();
   const isSignedIn = status === "authenticated";
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const [section, setSection] = useState<EditSection>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -37,6 +38,13 @@ export function ProfileAuthCard() {
     setNewPassword("");
   }
 
+  function openSection(next: EditSection) {
+    setSettingsOpen(true);
+    setSection(section === next ? null : next);
+    resetSensitiveFields();
+    setMessage(null);
+  }
+
   async function saveProfile() {
     setPending(true);
     setMessage(null);
@@ -51,11 +59,12 @@ export function ProfileAuthCard() {
 
     if (!response.ok) {
       const data = await response.json().catch(() => null);
-      setMessage(data?.error ?? "Не удалось сохранить профиль.");
+      setMessage(data?.message ?? "Не удалось сохранить профиль.");
       return;
     }
 
-    await update({ name, image });
+    const data = await response.json().catch(() => null);
+    await update({ user: data?.user ?? { name, image } });
     setSection(null);
     setMessage("Профиль сохранён.");
   }
@@ -74,11 +83,12 @@ export function ProfileAuthCard() {
 
     if (!response.ok) {
       const data = await response.json().catch(() => null);
-      setMessage(data?.error ?? "Не удалось изменить email.");
+      setMessage(data?.message ?? "Не удалось изменить email.");
       return;
     }
 
-    await update({ email });
+    const data = await response.json().catch(() => null);
+    await update({ user: data?.user ?? { email } });
     resetSensitiveFields();
     setSection(null);
     setMessage("Email изменён.");
@@ -98,7 +108,7 @@ export function ProfileAuthCard() {
 
     if (!response.ok) {
       const data = await response.json().catch(() => null);
-      setMessage(data?.error ?? "Не удалось изменить пароль.");
+      setMessage(data?.message ?? "Не удалось изменить пароль.");
       return;
     }
 
@@ -133,7 +143,9 @@ export function ProfileAuthCard() {
               type="button"
               variant="outline"
               onClick={() => {
-                setSection(section === "profile" ? null : "profile");
+                const next = !settingsOpen;
+                setSettingsOpen(next);
+                setSection(next ? "profile" : null);
                 resetSensitiveFields();
                 setMessage(null);
               }}
@@ -147,148 +159,107 @@ export function ProfileAuthCard() {
             </Button>
           </div>
 
-          {section === "profile" ? (
-            <form
-              className="grid gap-3"
-              onSubmit={(event) => {
-                event.preventDefault();
-                void saveProfile();
-              }}
-            >
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/jpeg,image/png,image/webp"
-                className="sr-only"
-                onChange={(event) => {
-                  const file = event.target.files?.[0];
-                  if (!file) return;
-                  if (file.size > 900_000) {
-                    setMessage("Фото слишком большое. Выберите файл до 900 КБ.");
-                    return;
-                  }
-
-                  const reader = new FileReader();
-                  reader.onload = () => setImage(String(reader.result));
-                  reader.readAsDataURL(file);
-                }}
-              />
-              <Button type="button" variant="outline" onClick={() => fileInputRef.current?.click()}>
-                <Camera className="size-4" aria-hidden />
-                Изменить фото
-              </Button>
-              <label className="grid gap-1 text-sm">
-                <span className="text-muted-foreground">Имя</span>
-                <input value={name} minLength={2} maxLength={80} onChange={(event) => setName(event.target.value)} className={inputClass} />
-              </label>
+          {settingsOpen ? (
+            <div className="grid gap-3">
               <div className="grid grid-cols-2 gap-2">
-                <Button type="submit" disabled={pending}>
-                  {pending ? "Сохраняем" : "Сохранить"}
+                <Button type="button" variant="outline" onClick={() => openSection("profile")}>
+                  <UserRound className="size-4" aria-hidden />
+                  Имя и фото
                 </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => {
-                    setSection(null);
-                    setMessage(null);
-                    setName(session.user?.name ?? "");
-                    setImage(session.user?.image ?? null);
-                  }}
-                >
-                  Отмена
+                <Button type="button" variant="outline" onClick={() => openSection("email")}>
+                  <Mail className="size-4" aria-hidden />
+                  Сменить email
+                </Button>
+                <Button type="button" variant="outline" className="col-span-2" onClick={() => openSection("password")}>
+                  <KeyRound className="size-4" aria-hidden />
+                  Сменить пароль
                 </Button>
               </div>
-            </form>
-          ) : null}
 
-          <div className="grid grid-cols-2 gap-2">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => {
-                setSection(section === "email" ? null : "email");
-                resetSensitiveFields();
-                setMessage(null);
-              }}
-            >
-              <Mail className="size-4" aria-hidden />
-              Сменить email
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => {
-                setSection(section === "password" ? null : "password");
-                resetSensitiveFields();
-                setMessage(null);
-              }}
-            >
-              <KeyRound className="size-4" aria-hidden />
-              Сменить пароль
-            </Button>
-          </div>
+              {section === "profile" ? (
+                <form
+                  className="grid gap-3"
+                  onSubmit={(event) => {
+                    event.preventDefault();
+                    void saveProfile();
+                  }}
+                >
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    className="sr-only"
+                    onChange={(event) => {
+                      const file = event.target.files?.[0];
+                      if (!file) return;
+                      if (file.size > 900_000) {
+                        setMessage("Фото слишком большое. Выберите файл до 900 КБ.");
+                        return;
+                      }
 
-          {section === "email" ? (
-            <form
-              className="grid gap-3"
-              onSubmit={(event) => {
-                event.preventDefault();
-                void saveEmail();
-              }}
-            >
-              <label className="grid gap-1 text-sm">
-                <span className="text-muted-foreground">Новый email / логин</span>
-                <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} className={inputClass} />
-              </label>
-              <label className="grid gap-1 text-sm">
-                <span className="text-muted-foreground">Текущий пароль</span>
-                <input
-                  type="password"
-                  value={currentPassword}
-                  onChange={(event) => setCurrentPassword(event.target.value)}
-                  className={inputClass}
-                  autoComplete="current-password"
-                />
-              </label>
-              <Button type="submit" disabled={pending}>
-                {pending ? "Сохраняем" : "Сохранить email"}
-              </Button>
-            </form>
-          ) : null}
+                      const reader = new FileReader();
+                      reader.onload = () => setImage(String(reader.result));
+                      reader.readAsDataURL(file);
+                    }}
+                  />
+                  <Button type="button" variant="outline" onClick={() => fileInputRef.current?.click()}>
+                    <Camera className="size-4" aria-hidden />
+                    Изменить фото
+                  </Button>
+                  <label className="grid gap-1 text-sm">
+                    <span className="text-muted-foreground">Имя</span>
+                    <input value={name} minLength={2} maxLength={80} onChange={(event) => setName(event.target.value)} className={inputClass} />
+                  </label>
+                  <Button type="submit" disabled={pending}>
+                    {pending ? "Сохраняем" : "Сохранить"}
+                  </Button>
+                </form>
+              ) : null}
 
-          {section === "password" ? (
-            <form
-              className="grid gap-3"
-              onSubmit={(event) => {
-                event.preventDefault();
-                void savePassword();
-              }}
-            >
-              <label className="grid gap-1 text-sm">
-                <span className="text-muted-foreground">Текущий пароль</span>
-                <input
-                  type="password"
-                  value={currentPassword}
-                  onChange={(event) => setCurrentPassword(event.target.value)}
-                  className={inputClass}
-                  autoComplete="current-password"
-                />
-              </label>
-              <label className="grid gap-1 text-sm">
-                <span className="text-muted-foreground">Новый пароль</span>
-                <input
-                  type="password"
-                  value={newPassword}
-                  minLength={6}
-                  onChange={(event) => setNewPassword(event.target.value)}
-                  className={inputClass}
-                  autoComplete="new-password"
-                />
-              </label>
-              <Button type="submit" disabled={pending}>
-                {pending ? "Сохраняем" : "Сохранить пароль"}
-              </Button>
-            </form>
+              {section === "email" ? (
+                <form
+                  className="grid gap-3"
+                  onSubmit={(event) => {
+                    event.preventDefault();
+                    void saveEmail();
+                  }}
+                >
+                  <label className="grid gap-1 text-sm">
+                    <span className="text-muted-foreground">Новый email / логин</span>
+                    <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} className={inputClass} />
+                  </label>
+                  <label className="grid gap-1 text-sm">
+                    <span className="text-muted-foreground">Текущий пароль</span>
+                    <input type="password" value={currentPassword} onChange={(event) => setCurrentPassword(event.target.value)} className={inputClass} autoComplete="current-password" />
+                  </label>
+                  <Button type="submit" disabled={pending}>
+                    {pending ? "Сохраняем" : "Сохранить email"}
+                  </Button>
+                </form>
+              ) : null}
+
+              {section === "password" ? (
+                <form
+                  className="grid gap-3"
+                  onSubmit={(event) => {
+                    event.preventDefault();
+                    void savePassword();
+                  }}
+                >
+                  <label className="grid gap-1 text-sm">
+                    <span className="text-muted-foreground">Текущий пароль</span>
+                    <input type="password" value={currentPassword} onChange={(event) => setCurrentPassword(event.target.value)} className={inputClass} autoComplete="current-password" />
+                  </label>
+                  <label className="grid gap-1 text-sm">
+                    <span className="text-muted-foreground">Новый пароль</span>
+                    <input type="password" value={newPassword} minLength={6} onChange={(event) => setNewPassword(event.target.value)} className={inputClass} autoComplete="new-password" />
+                  </label>
+                  <Button type="submit" disabled={pending}>
+                    {pending ? "Сохраняем" : "Сохранить пароль"}
+                  </Button>
+                </form>
+              ) : null}
+            </div>
           ) : null}
 
           {message ? <p className="text-sm text-muted-foreground">{message}</p> : null}
