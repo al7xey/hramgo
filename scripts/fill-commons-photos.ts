@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 const MAX_PHOTOS_PER_TEMPLE = Number(process.env.TEMPLE_COMMONS_PHOTO_LIMIT ?? 8);
 const REQUEST_DELAY_MS = Number(process.env.TEMPLE_COMMONS_DELAY_MS ?? 40);
-const MAX_TITLES_PER_QUERY = Number(process.env.TEMPLE_COMMONS_TITLES_PER_QUERY ?? 5);
+const MAX_TITLES_PER_QUERY = Number(process.env.TEMPLE_COMMONS_TITLES_PER_QUERY ?? 8);
 
 type CommonsImage = {
   imageUrl: string;
@@ -129,7 +129,7 @@ async function findTempleImages(temple: TempleForPhotos) {
     if (seen.size >= MAX_PHOTOS_PER_TEMPLE) break;
     for (const title of (await searchCommonsFiles(query)).slice(0, MAX_TITLES_PER_QUERY)) {
       if (seen.size >= MAX_PHOTOS_PER_TEMPLE) break;
-      const image = await getCommonsImage(title, temple);
+      const image = await getCommonsImage(title);
       if (image) seen.set(image.sourceUrl, image);
     }
   }
@@ -158,7 +158,7 @@ async function searchCommonsFiles(query: string) {
   return (data?.query?.search ?? []).map((item: { title: string }) => item.title).filter(Boolean);
 }
 
-async function getCommonsImage(title: string, temple: TempleForPhotos, allowGeoMatch = false) {
+async function getCommonsImage(title: string) {
   const url = new URL("https://commons.wikimedia.org/w/api.php");
   url.search = new URLSearchParams({
     action: "query",
@@ -183,23 +183,12 @@ async function getCommonsImage(title: string, temple: TempleForPhotos, allowGeoM
 
   const text = safeDecode(`${page.title} ${image.url}`).toLowerCase();
   if (isBadImageText(text)) return null;
-  if (!allowGeoMatch && !matchesTempleWords(text, temple)) return null;
 
   return {
     title: page.title,
     imageUrl: image.url,
     sourceUrl: `https://commons.wikimedia.org/wiki/${encodeURIComponent(page.title.replaceAll(" ", "_"))}`
   };
-}
-
-function matchesTempleWords(text: string, temple: TempleForPhotos) {
-  const words = temple.name
-    .toLowerCase()
-    .split(/\s+/u)
-    .map((word) => word.replace(/[^a-zа-яё0-9-]/giu, ""))
-    .filter((word) => word.length >= 5);
-  const uniqueWords = Array.from(new Set(words)).slice(0, 10);
-  return uniqueWords.some((word) => text.includes(word)) || /church|monastery|convent|temple|храм|церк|собор|монаст/iu.test(text);
 }
 
 function isBadImageText(text: string) {
