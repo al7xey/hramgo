@@ -16,6 +16,14 @@ const imageRemotePatterns: NonNullable<NextConfig["images"]>["remotePatterns"] =
   {
     protocol: "https",
     hostname: "avatars.mds.yandex.net"
+  },
+  {
+    protocol: "https",
+    hostname: "*.staticflickr.com"
+  },
+  {
+    protocol: "https",
+    hostname: "live.staticflickr.com"
   }
 ];
 
