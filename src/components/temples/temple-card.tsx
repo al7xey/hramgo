@@ -46,10 +46,10 @@ export function TempleCard({ temple }: { temple: TempleCardView }) {
             ) : null}
           </div>
 
-          <div className="mt-2 min-h-8">
+          <div className="mt-3 min-h-8">
             <TransitSummary transit={temple.transit} />
           </div>
-          <p className="self-end line-clamp-2 text-sm leading-5 text-muted-foreground">{formatCardAddress(temple.address)}</p>
+          <p className="self-end pt-2 line-clamp-2 text-sm leading-5 text-muted-foreground">{formatCardAddress(temple.address)}</p>
         </div>
       </div>
     </LiquidGlassCard>

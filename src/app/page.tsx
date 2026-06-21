@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, CalendarCheck, HeartHandshake, MapPin } from "lucide-react";
+import { ArrowRight, CalendarCheck, HeartHandshake } from "lucide-react";
 
 import { MobileShell } from "@/components/layout/mobile-shell";
 import { TempleCard } from "@/components/temples/temple-card";
@@ -10,21 +10,21 @@ import { LiquidGlassCard } from "@/components/ui/liquid-glass-card";
 import { listMapTemples } from "@/features/temples/repository";
 
 export const metadata: Metadata = {
-  title: "Поиск храмов Москвы — адреса, расписания, метро и МЦД",
+  title: "Найдите храм в Москве — поиск храмов, адреса, метро, МЦД и расписания",
   description:
-    "HramGo помогает найти православный храм в Москве по названию, улице, району, метро или МЦД. В каталоге есть адреса, карта, расписания богослужений, контакты, фото и официальные сайты.",
+    "HramGo помогает найти православный храм в Москве по названию, улице, району, метро, МЦД или ветке. В каталоге есть адреса, карта, расписания богослужений, контакты, фото и официальные сайты.",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "Поиск храмов Москвы — адреса, расписания, метро и МЦД | HramGo",
-    description: "Найдите православный храм Москвы по названию, улице, району, метро или МЦД: адреса, расписания, контакты, фото и карта.",
+    title: "Найдите храм в Москве — поиск храмов, метро, МЦД и расписания | HramGo",
+    description: "Найдите православный храм Москвы по названию, улице, району, метро, МЦД или ветке: адреса, расписания, контакты, фото и карта.",
     url: "https://hramgo.ru",
     type: "website",
     images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "HramGo — поиск храмов Москвы" }]
   },
   twitter: {
     card: "summary_large_image",
-    title: "Поиск храмов Москвы — адреса, расписания, метро и МЦД | HramGo",
-    description: "Поиск храмов Москвы по названию, улице, району, метро, МЦД, расписанию и контактам.",
+    title: "Найдите храм в Москве — поиск храмов, метро, МЦД и расписания | HramGo",
+    description: "Поиск храмов Москвы по названию, улице, району, метро, МЦД, ветке, расписанию и контактам.",
     images: ["/twitter-image"]
   }
 };
@@ -42,11 +42,7 @@ export default async function HomePage() {
       <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start xl:grid-cols-[minmax(0,1fr)_390px]">
         <section className="grid gap-5">
           <LiquidGlassCard className="p-5 md:p-7 lg:p-8">
-            <div className="flex items-center gap-2 text-sm font-semibold text-primary">
-              <MapPin className="size-4" aria-hidden />
-              HramGo
-            </div>
-            <h1 className="mt-5 max-w-4xl break-words text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl">
+            <h1 className="max-w-4xl break-words text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl">
               Найдите храм в Москве
             </h1>
             <p className="mt-4 max-w-2xl text-base leading-7 text-muted-foreground lg:text-lg">

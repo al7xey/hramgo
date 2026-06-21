@@ -42,7 +42,17 @@ declare global {
 
 const MOSCOW_CENTER: [number, number] = [55.751244, 37.618423];
 
-export const TempleMap = memo(function TempleMap({ temples, activeSlug, sidebarTop }: { temples: TempleMapView[]; activeSlug?: string; sidebarTop?: ReactNode }) {
+export const TempleMap = memo(function TempleMap({
+  temples,
+  activeSlug,
+  sidebarTop,
+  showPreview = true
+}: {
+  temples: TempleMapView[];
+  activeSlug?: string;
+  sidebarTop?: ReactNode;
+  showPreview?: boolean;
+}) {
   const points = useMemo(() => temples.filter((temple) => temple.latitude && temple.longitude), [temples]);
   const pointsKey = useMemo(() => points.map((temple) => `${temple.id}:${temple.latitude}:${temple.longitude}`).join("|"), [points]);
   const slugById = useMemo(() => new Map(points.map((temple) => [temple.id, temple.slug])), [points]);
@@ -166,7 +176,7 @@ export const TempleMap = memo(function TempleMap({ temples, activeSlug, sidebarT
 
       <LiquidGlassCard className="relative overflow-hidden p-2">
         <div ref={mapNodeRef} className="aspect-square w-full overflow-hidden rounded-[24px] bg-muted lg:aspect-auto lg:h-[640px]" />
-        {activeTemple ? (
+        {showPreview && activeTemple ? (
           <div className="absolute inset-x-3 bottom-3 z-10 max-w-[340px] lg:left-4 lg:right-auto">
             <TempleMapBottomSheet temple={activeTemple} onClose={() => setSelectedSlug(undefined)} />
           </div>

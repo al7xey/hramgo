@@ -70,11 +70,13 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.role = (user as { role?: string }).role ?? "USER";
         token.name = user.name;
+        token.email = user.email;
         token.picture = user.image;
       }
 
       if (trigger === "update" && session?.user) {
         token.name = session.user.name ?? token.name;
+        token.email = session.user.email ?? token.email;
         token.picture = session.user.image ?? token.picture;
       }
 
@@ -85,6 +87,7 @@ export const authOptions: NextAuthOptions = {
         session.user.id = token.sub ?? "";
         session.user.role = (token.role as string | undefined) ?? "USER";
         session.user.name = token.name ?? session.user.name;
+        session.user.email = token.email ?? session.user.email;
         session.user.image = token.picture ?? session.user.image;
       }
 
@@ -93,14 +96,14 @@ export const authOptions: NextAuthOptions = {
   }
 };
 
-function hashPassword(password: string) {
+export function hashPassword(password: string) {
   const salt = randomBytes(16).toString("hex");
   const hash = scryptSync(password, salt, 64).toString("hex");
 
   return `${salt}:${hash}`;
 }
 
-function verifyPassword(password: string, storedHash: string) {
+export function verifyPassword(password: string, storedHash: string) {
   const [salt, hash] = storedHash.split(":");
 
   if (!salt || !hash) {

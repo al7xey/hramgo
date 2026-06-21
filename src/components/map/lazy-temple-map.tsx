@@ -20,11 +20,13 @@ const TempleMapDynamic = dynamic(() => import("@/components/map/temple-map").the
 export function LazyTempleMap({
   temples,
   activeSlug,
-  sidebarTop
+  sidebarTop,
+  showPreview = true
 }: {
   temples: TempleMapView[];
   activeSlug?: string;
   sidebarTop?: ReactNode;
+  showPreview?: boolean;
 }) {
-  return <TempleMapDynamic temples={temples} activeSlug={activeSlug} sidebarTop={sidebarTop} />;
+  return <TempleMapDynamic temples={temples} activeSlug={activeSlug} sidebarTop={sidebarTop} showPreview={showPreview} />;
 }

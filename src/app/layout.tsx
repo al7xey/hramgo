@@ -13,11 +13,11 @@ const montserrat = Montserrat({
 
 const siteUrl = "https://hramgo.ru";
 const siteDescription =
-  "HramGo — поиск православных храмов Москвы по названию, улице, району, метро и МЦД. Адреса, карта, расписания богослужений, контакты, фото и официальные сайты храмов.";
+  "HramGo — поиск православных храмов Москвы по названию, улице, району, метро, МЦД и ветке. Адреса, карта, расписания богослужений, контакты, фото и официальные сайты храмов.";
 
 const themeInitScript = `
 try {
-  var theme = localStorage.getItem("hramgo-theme") || "light";
+  var theme = localStorage.getItem("hramgo-theme") || "dark";
   var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
   var isDark = theme === "dark" || (theme === "system" && prefersDark);
   document.documentElement.classList.toggle("dark", isDark);
@@ -29,14 +29,20 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   applicationName: "HramGo",
   title: {
-    default: "Поиск храмов Москвы — адреса, расписания, метро и МЦД | HramGo",
+    default: "Поиск храмов Москвы — храмы рядом с метро, МЦД, адреса и расписания | HramGo",
     template: "%s | HramGo"
   },
   description: siteDescription,
   keywords: [
     "храмы Москвы",
     "православные храмы Москвы",
+    "поиск храмов",
+    "поиск храмов Москва",
     "храм рядом",
+    "храмы рядом с метро",
+    "храмы рядом с МЦД",
+    "храмы на ветке метро",
+    "храмы на ветке МЦД",
     "расписание богослужений",
     "РПЦ Москва",
     "церкви Москвы",
@@ -69,7 +75,7 @@ export const metadata: Metadata = {
     }
   },
   openGraph: {
-    title: "Поиск храмов Москвы — адреса, расписания, метро и МЦД | HramGo",
+    title: "Поиск храмов Москвы — храмы рядом с метро, МЦД, адреса и расписания | HramGo",
     description: siteDescription,
     url: siteUrl,
     siteName: "HramGo",
@@ -79,7 +85,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Поиск храмов Москвы — адреса, расписания, метро и МЦД | HramGo",
+    title: "Поиск храмов Москвы — храмы рядом с метро, МЦД, адреса и расписания | HramGo",
     description: siteDescription,
     images: ["/twitter-image"]
   },

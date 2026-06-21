@@ -22,6 +22,8 @@
     "audit:temple-data": "tsx scripts/audit-temple-data.ts",
     "audit:temple-photos": "tsx scripts/audit-temple-photo-coverage.ts",
     "repair:data-quality": "node scripts/repair-data-quality.mjs",
+    "repair:public-catalog": "tsx scripts/repair-public-catalog.ts",
+    "photos:commons": "tsx scripts/fill-commons-photos.ts",
     "moderation:queue": "tsx scripts/moderation-queue.ts",
     "recalculate:ratings": "tsx scripts/recalculate-ratings.ts",
     "sync:temple-sources": "tsx scripts/sync-temple-sources.ts",

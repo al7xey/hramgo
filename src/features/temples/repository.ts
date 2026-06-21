@@ -258,7 +258,7 @@ function getNearestTempleTransit(temple: Pick<TempleView, "transit">) {
 }
 
 function isMonasteryTemple(temple: Pick<TempleView, "name" | "shortName" | "objectType">) {
-  return /монастыр/iu.test([temple.objectType, temple.name, temple.shortName].filter(Boolean).join(" "));
+  return /монастыр|monastery/iu.test(temple.objectType ?? "");
 }
 
 export function sanitizeTempleAddress(address?: string | null) {
@@ -366,7 +366,7 @@ function mapDbTemple(temple: Awaited<ReturnType<typeof fetchDbTemples>>[number])
     reviewsCount: temple.reviewsCount,
     approvedReviewsCount: temple.approvedReviewsCount,
     lastVerifiedAt: temple.lastVerifiedAt?.toISOString() ?? null,
-    photos: filterTemplePhotos(temple.photos).slice(0, 1).map((photo) => ({
+    photos: filterTemplePhotos(temple.photos).slice(0, 8).map((photo) => ({
       id: photo.id,
       imageUrl: photo.imageUrl,
       alt: photo.alt ?? temple.name,
@@ -424,8 +424,33 @@ function getSearchTerms(query?: string) {
   const normalized = normalizeAddressForSearch(query);
   const words = normalized
     .split(/\s+/u)
-    .filter((word) => word.length >= 3 && !["храм", "церковь", "улица", "метро", "мцд", "москва"].includes(word));
-  return Array.from(new Set([query, normalized, ...words.flatMap(expandSearchTerm)])).filter(Boolean).slice(0, 16);
+    .filter((word) => word.length >= 3 && !isGenericSearchWord(word));
+  const expanded = words.flatMap(expandSearchTerm);
+
+  return Array.from(new Set((expanded.length > 0 ? expanded : [normalized]).filter(Boolean))).slice(0, 16);
+}
+
+function isGenericSearchWord(word: string) {
+  return [
+    "храм",
+    "храмы",
+    "церковь",
+    "церкви",
+    "собор",
+    "монастырь",
+    "монастыри",
+    "улица",
+    "ул",
+    "метро",
+    "станция",
+    "мцд",
+    "мцк",
+    "москва",
+    "московский",
+    "район",
+    "округ",
+    "рядом"
+  ].includes(word);
 }
 
 function normalizeLineToken(value: string) {
@@ -484,7 +509,9 @@ function buildTempleWhere(input: TempleSearchInput = {}): Prisma.TempleWhereInpu
   const notFilters: Prisma.TempleWhereInput[] = [
     { name: { equals: "Храмы Московского Кремля" } },
     { slug: { equals: "sprav-916-kremlya-moskovskogo-hramy" } },
-    { address: { contains: "Кремль", mode: "insensitive" } }
+    { address: { contains: "Кремль", mode: "insensitive" } },
+    { address: { contains: "Московская обл", mode: "insensitive" } },
+    { address: { contains: "Истринский р-н", mode: "insensitive" } }
   ];
 
   if (input.metro?.length) {
@@ -507,9 +534,8 @@ function buildTempleWhere(input: TempleSearchInput = {}): Prisma.TempleWhereInpu
   if (input.objectType === "monastery") {
     andFilters.push({
       OR: [
-        { objectType: { contains: "монастыр", mode: "insensitive" } },
-        { name: { contains: "монастыр", mode: "insensitive" } },
-        { shortName: { contains: "монастыр", mode: "insensitive" } }
+        { objectType: { contains: "monastery", mode: "insensitive" } },
+        { objectType: { contains: "монастыр", mode: "insensitive" } }
       ]
     });
   }
@@ -517,8 +543,7 @@ function buildTempleWhere(input: TempleSearchInput = {}): Prisma.TempleWhereInpu
   if (input.objectType === "church") {
     notFilters.push(
       { objectType: { contains: "монастыр", mode: "insensitive" } },
-      { name: { contains: "монастыр", mode: "insensitive" } },
-      { shortName: { contains: "монастыр", mode: "insensitive" } }
+      { objectType: { contains: "monastery", mode: "insensitive" } }
     );
   }
 
@@ -724,13 +749,86 @@ function filterBySearchQuery(temples: TempleView[], query?: string) {
 
   const normalizedQuery = normalizeSearch(query);
   const terms = getSearchTerms(query).map((term) => normalizeSearch(term));
+  const requiredTerms = getRequiredSearchTerms(query);
   const lineIds = getLineIdsFromSearch(query, terms);
 
   if (lineIds.size > 0) {
     return temples;
   }
 
-  return temples.filter((temple) => getTempleSearchPriority(temple, normalizedQuery, terms) > 0 || scoreTempleSearch(temple, normalizedQuery, lineIds) > 0);
+  return temples.filter((temple) => {
+    if (requiredTerms.length > 1 && !matchesAllRequiredSearchTerms(temple, requiredTerms)) {
+      return false;
+    }
+
+    if (terms.length > 0 && !matchesMeaningfulSearchTarget(temple, terms)) {
+      return false;
+    }
+
+    return getTempleSearchPriority(temple, normalizedQuery, terms) > 0 || scoreTempleSearch(temple, normalizedQuery, lineIds) > 0;
+  });
+}
+
+function getRequiredSearchTerms(query?: string) {
+  if (!query) {
+    return [];
+  }
+
+  return Array.from(
+    new Set(
+      normalizeAddressForSearch(query)
+        .split(/\s+/u)
+        .map((word) => normalizeSearch(word))
+        .filter((word) => word.length >= 4 && !isGenericSearchWord(word))
+    )
+  ).slice(0, 8);
+}
+
+function getSearchTarget(temple: TempleView) {
+  return normalizeSearch(
+    [
+      temple.name,
+      temple.shortName,
+      temple.address,
+      temple.district,
+      temple.metro,
+      temple.transit.map((item) => `${item.station} ${item.line.name} ${item.line.id}`).join(" "),
+      temple.parishServices.map((item) => `${item.title} ${item.description}`).join(" "),
+      temple.scheduleSummary,
+      temple.description,
+      temple.historySummary,
+      temple.shrines,
+      temple.clergy.map((item) => `${item.name} ${item.rank ?? ""} ${item.role} ${item.details ?? ""}`).join(" ")
+    ]
+      .filter(Boolean)
+      .join(" ")
+  );
+}
+
+function getStrongSearchTarget(temple: TempleView) {
+  return normalizeSearch(
+    [
+      temple.name,
+      temple.shortName,
+      temple.address,
+      temple.district,
+      temple.metro,
+      temple.transit.map((item) => `${item.station} ${item.line.name} ${item.line.id}`).join(" ")
+    ]
+      .filter(Boolean)
+      .join(" ")
+  );
+}
+
+function matchesAllRequiredSearchTerms(temple: TempleView, terms: string[]) {
+  const target = getStrongSearchTarget(temple);
+  return terms.every((term) => expandSearchTerm(term).some((variant) => target.includes(normalizeSearch(variant))));
+}
+
+function matchesMeaningfulSearchTarget(temple: TempleView, terms: string[]) {
+  const target = getSearchTarget(temple);
+
+  return terms.some((term) => target.includes(term));
 }
 
 function filterByNearestTransit(temples: TempleView[], input: TempleSearchInput) {

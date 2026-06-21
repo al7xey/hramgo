@@ -214,7 +214,7 @@ export default async function TemplePage({
 
         <section className="grid gap-3">
           <h2 className="text-xl font-semibold">Карта</h2>
-          <LazyTempleMap temples={[temple]} activeSlug={temple.slug} />
+          <LazyTempleMap temples={[temple]} activeSlug={temple.slug} showPreview={false} />
         </section>
 
         <section className="grid gap-3">

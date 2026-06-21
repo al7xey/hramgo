@@ -13,10 +13,10 @@ export const ThemeContext = React.createContext<{
 });
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<ThemePreference>("light");
+  const [theme, setTheme] = useState<ThemePreference>("dark");
 
   useEffect(() => {
-    const savedTheme = (localStorage.getItem("hramgo-theme") as ThemePreference | null) ?? "light";
+    const savedTheme = (localStorage.getItem("hramgo-theme") as ThemePreference | null) ?? "dark";
     setTheme(savedTheme);
   }, []);
 

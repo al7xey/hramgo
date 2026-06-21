@@ -10,7 +10,7 @@ export async function GET() {
   }
 
   const reviews = await prisma.review.findMany({
-    where: { userId: auth.user.id },
+    where: { userId: auth.user.id, status: { not: "HIDDEN" } },
     orderBy: { createdAt: "desc" },
     select: {
       id: true,
