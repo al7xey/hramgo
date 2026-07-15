@@ -511,17 +511,17 @@ async function upsertTemple(detail: Detail) {
 
 async function main() {
   const options = parseArgs();
-  const areas = options.includeAllMoscow ? ["all"] : ["moscow", "stavrop"];
+  // The official directory separates the city list and stavropegial objects.
+  // Keep both sources for every Moscow import; `all` only supplements them.
+  const areas = ["moscow", "stavrop", ...(options.includeAllMoscow ? ["all"] : [])];
   const listById = new Map<string, ListItem>();
 
   for (const area of areas) {
     const items = await fetchList(area);
 
     for (const item of items) {
-      if (area === "stavrop" || area === "all") {
-        if (!isMoscowAddress(item.address)) {
-          continue;
-        }
+      if (item.address && !isMoscowAddress(item.address)) {
+        continue;
       }
 
       listById.set(item.officialId, item);
@@ -562,7 +562,7 @@ async function main() {
     try {
       const detail = await fetchDetail(item);
 
-      if (item.area !== "moscow" && !isMoscowAddress(detail.address)) {
+      if (!isMoscowAddress(detail.address)) {
         continue;
       }
 
