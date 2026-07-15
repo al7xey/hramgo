@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const MAX_PHOTOS_PER_TEMPLE = Number(process.env.TEMPLE_COMMONS_PHOTO_LIMIT ?? 8);
+const MAX_PHOTOS_PER_TEMPLE = Number(process.env.TEMPLE_COMMONS_PHOTO_LIMIT ?? 1);
 const REQUEST_DELAY_MS = Number(process.env.TEMPLE_COMMONS_DELAY_MS ?? 40);
 const MAX_TITLES_PER_QUERY = Number(process.env.TEMPLE_COMMONS_TITLES_PER_QUERY ?? 8);
 
@@ -27,6 +27,7 @@ async function main() {
   const limitArg = getNumberArg("--limit");
   const onlyMissing = process.argv.includes("--missing-only");
   const replaceMain = process.argv.includes("--replace-main");
+  const apply = process.argv.includes("--apply");
 
   const temples = await prisma.temple.findMany({
     where: { moderationStatus: "PUBLISHED" },
@@ -50,6 +51,7 @@ async function main() {
   const stats = {
     scanned: 0,
     skippedWithEnoughPhotos: 0,
+    photosMatched: 0,
     photosAdded: 0,
     mainReplaced: 0,
     withoutNewPhoto: [] as string[]
@@ -73,8 +75,9 @@ async function main() {
       continue;
     }
 
-    const added = await fillTemplePhotos(temple, MAX_PHOTOS_PER_TEMPLE - existingCount, replaceMain && existingCount > 0);
-    stats.photosAdded += added.photosAdded;
+    const added = await fillTemplePhotos(temple, MAX_PHOTOS_PER_TEMPLE - existingCount, replaceMain && existingCount > 0, apply);
+    stats.photosMatched += added.photosAdded;
+    if (apply) stats.photosAdded += added.photosAdded;
     stats.mainReplaced += Number(added.mainReplaced);
 
     if (added.photosAdded === 0) {
@@ -82,10 +85,10 @@ async function main() {
     }
   }
 
-  console.log(JSON.stringify(stats, null, 2));
+  console.log(JSON.stringify({ apply, ...stats }, null, 2));
 }
 
-async function fillTemplePhotos(temple: TempleForPhotos, need: number, replaceMain: boolean) {
+async function fillTemplePhotos(temple: TempleForPhotos, need: number, replaceMain: boolean, apply: boolean) {
   const existing = new Set(temple.photos.flatMap((photo) => [photo.imageUrl, photo.sourceUrl].filter(Boolean) as string[]));
   const candidates = await findTempleImages(temple);
   let photosAdded = 0;
@@ -95,23 +98,25 @@ async function fillTemplePhotos(temple: TempleForPhotos, need: number, replaceMa
     if (photosAdded >= need) break;
     if (existing.has(image.imageUrl) || existing.has(image.sourceUrl)) continue;
 
-    if (replaceMain && !mainReplaced) {
+    if (replaceMain && !mainReplaced && apply) {
       await prisma.templePhoto.updateMany({ where: { templeId: temple.id }, data: { isMain: false } });
-      mainReplaced = true;
     }
+    if (replaceMain && !mainReplaced) mainReplaced = true;
 
-    await prisma.templePhoto.create({
-      data: {
-        templeId: temple.id,
-        imageUrl: image.imageUrl,
-        sourceUrl: image.sourceUrl,
-        alt: `${temple.shortName ?? temple.name}: фотография здания`,
-        copyrightStatus: "OPEN_LICENSE",
-        moderationStatus: "APPROVED",
-        isApproved: true,
-        isMain: (replaceMain && photosAdded === 0) || temple.photos.length === 0 && photosAdded === 0
-      }
-    });
+    if (apply) {
+      await prisma.templePhoto.create({
+        data: {
+          templeId: temple.id,
+          imageUrl: image.imageUrl,
+          sourceUrl: image.sourceUrl,
+          alt: `${temple.shortName ?? temple.name}: фотография здания`,
+          copyrightStatus: "OPEN_LICENSE",
+          moderationStatus: "APPROVED",
+          isApproved: true,
+          isMain: (replaceMain && photosAdded === 0) || temple.photos.length === 0 && photosAdded === 0
+        }
+      });
+    }
 
     existing.add(image.imageUrl);
     existing.add(image.sourceUrl);
@@ -130,11 +135,56 @@ async function findTempleImages(temple: TempleForPhotos) {
     for (const title of (await searchCommonsFiles(query)).slice(0, MAX_TITLES_PER_QUERY)) {
       if (seen.size >= MAX_PHOTOS_PER_TEMPLE) break;
       const image = await getCommonsImage(title);
-      if (image) seen.set(image.sourceUrl, image);
+      if (image && isRelevantImage(temple, image)) seen.set(image.sourceUrl, image);
     }
   }
 
   return [...seen.values()].slice(0, MAX_PHOTOS_PER_TEMPLE);
+}
+
+function isRelevantImage(temple: TempleForPhotos, image: CommonsImage) {
+  const text = normalize(`${image.title} ${image.sourceUrl}`);
+  const tokens = tokenize(`${temple.name} ${temple.shortName ?? ""}`);
+  const matched = tokens.filter((token) => text.includes(token));
+
+  return matched.length >= Math.min(2, tokens.length);
+}
+
+function tokenize(value: string) {
+  const ignored = new Set([
+    "храм",
+    "часовня",
+    "церковь",
+    "собор",
+    "монастырь",
+    "иконы",
+    "икона",
+    "божией",
+    "матери",
+    "святителя",
+    "святого",
+    "преподобного",
+    "благоверного",
+    "великомученика",
+    "мученика",
+    "апостола",
+    "при",
+    "на",
+    "в",
+    "имени",
+    "московского"
+  ]);
+
+  return Array.from(new Set(normalize(value).split(" ").filter((token) => token.length >= 4 && !ignored.has(token))));
+}
+
+function normalize(value: string) {
+  return safeDecode(value)
+    .toLocaleLowerCase("ru-RU")
+    .replaceAll("ё", "е")
+    .replace(/[^a-zа-я0-9]+/giu, " ")
+    .replace(/\s+/gu, " ")
+    .trim();
 }
 
 function buildQueries(temple: TempleForPhotos) {
