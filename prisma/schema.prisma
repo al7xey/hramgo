@@ -93,7 +93,7 @@ model User {
   image              String?
   role               Role            @default(USER)
   status             UserStatus      @default(ACTIVE)
-  themePreference    ThemePreference @default(DARK)
+  themePreference    ThemePreference @default(LIGHT)
   createdAt          DateTime        @default(now())
   updatedAt          DateTime        @updatedAt
 

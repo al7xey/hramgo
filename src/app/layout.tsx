@@ -17,7 +17,7 @@ const siteDescription =
 
 const themeInitScript = `
 try {
-  var theme = localStorage.getItem("hramgo-theme") || "dark";
+  var theme = localStorage.getItem("hramgo-theme") || "light";
   var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
   var isDark = theme === "dark" || (theme === "system" && prefersDark);
   document.documentElement.classList.toggle("dark", isDark);
