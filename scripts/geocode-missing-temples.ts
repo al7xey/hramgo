@@ -25,18 +25,59 @@ function isWithinMoscow(lat: number, lon: number) {
   return lat >= 55.1 && lat <= 56.1 && lon >= 36.55 && lon <= 38.2;
 }
 
+function normalizeText(value: string) {
+  return value
+    .toLocaleLowerCase("ru-RU")
+    .replaceAll("ё", "е")
+    .replace(/[^a-zа-я0-9]+/giu, " ")
+    .replace(/\s+/gu, " ")
+    .trim();
+}
+
+function normalizeAddressForGeocoding(address: string) {
+  return address
+    .replace(/^Русская Православная Церковь\s*[—-]\s*/iu, "")
+    .replace(/\b\d{6}\b\s*,?\s*/gu, "")
+    .replace(/(?:^|[\s,])г\.?\s*Москва\s*,?\s*/giu, " ")
+    .replace(/(?:^|[\s,])(?:ул|улица)\.?\s*/giu, " ")
+    .replace(/(?:^|[\s,])(?:д|дом)\.?\s*/giu, " ")
+    .replace(/(?:^|[\s,])(?:корп|корпус)\.?\s*/giu, " ")
+    .replace(/(?:^|[\s,])(?:стр|строение)\.?\s*/giu, " ")
+    .replace(/\s+/gu, " ")
+    .trim();
+}
+
+function hasAddressMatch(address: string, displayName?: string) {
+  if (!displayName) {
+    return false;
+  }
+
+  const ignored = new Set(["москва", "россия", "проспект", "шоссе", "переулок", "площадь", "набережная", "улица"]);
+  const tokens = normalizeText(address)
+    .split(" ")
+    .filter((token) => token.length >= 4 && !ignored.has(token));
+  const display = normalizeText(displayName);
+
+  return tokens.length === 0 || tokens.some((token) => display.includes(token));
+}
+
 function wait() {
   return new Promise((resolve) => setTimeout(resolve, delayMs));
 }
 
 async function lookup(address: string) {
+  const normalizedAddress = normalizeAddressForGeocoding(address);
+  if (!normalizedAddress) {
+    return null;
+  }
+
   const url = new URL(endpoint);
   url.search = new URLSearchParams({
     format: "jsonv2",
     limit: "1",
     addressdetails: "1",
     countrycodes: "ru",
-    q: `${address}, Москва, Россия`
+    q: `${normalizedAddress}, Москва, Россия`
   }).toString();
 
   const response = await fetch(url, { headers: { "user-agent": userAgent } });
@@ -50,7 +91,12 @@ async function lookup(address: string) {
   const latitude = Number(candidate?.lat);
   const longitude = Number(candidate?.lon);
 
-  if (!Number.isFinite(latitude) || !Number.isFinite(longitude) || !isWithinMoscow(latitude, longitude)) {
+  if (
+    !Number.isFinite(latitude) ||
+    !Number.isFinite(longitude) ||
+    !isWithinMoscow(latitude, longitude) ||
+    !hasAddressMatch(normalizedAddress, candidate?.display_name)
+  ) {
     return null;
   }
 
