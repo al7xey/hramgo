@@ -352,7 +352,9 @@ async function fetchDetail(item: ListItem): Promise<Detail> {
 
 async function upsertTemple(detail: Detail) {
   const slug = `sprav-${detail.officialId}-${slugify(detail.shortName || detail.name)}`;
-  const description = trimText(detail.activitySummary ?? detail.historySummary ?? detail.scheduleSummary, 1000);
+  // Activity belongs to separate parish-service blocks, not to the temple description.
+  // Keep the public description about the shrine itself or leave it empty.
+  const description = trimText(detail.historySummary, 1000);
   const services = inferServices(detail.activitySummary);
   const sourceHash = createHash("sha256").update(detail.rawText).digest("hex");
   const existing = await prisma.temple.findFirst({
