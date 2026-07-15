@@ -22,7 +22,7 @@ function parseArgs() {
 }
 
 function isWithinMoscow(lat: number, lon: number) {
-  return lat >= 55.1 && lat <= 56.1 && lon >= 36.55 && lon <= 38.2;
+  return lat >= 55.15 && lat <= 56.05 && lon >= 36.65 && lon <= 37.95;
 }
 
 function normalizeText(value: string) {
@@ -61,6 +61,10 @@ function hasAddressMatch(address: string, displayName?: string) {
   return tokens.length === 0 || tokens.some((token) => display.includes(token));
 }
 
+function isMoscowCandidate(displayName?: string) {
+  return Boolean(displayName && normalizeText(displayName).includes("москва"));
+}
+
 function wait() {
   return new Promise((resolve) => setTimeout(resolve, delayMs));
 }
@@ -95,6 +99,7 @@ async function lookup(address: string) {
     !Number.isFinite(latitude) ||
     !Number.isFinite(longitude) ||
     !isWithinMoscow(latitude, longitude) ||
+    !isMoscowCandidate(candidate?.display_name) ||
     !hasAddressMatch(normalizedAddress, candidate?.display_name)
   ) {
     return null;
