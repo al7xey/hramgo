@@ -5,12 +5,12 @@ export function getPublicTempleName(temple: { name: string; shortName?: string |
 
   if (/подворье/iu.test(name)) {
     if (shortName && !/Патриаршее|подворье/iu.test(shortName)) {
-      return cleanPublicTempleName(shortName, name);
+      return ensurePublicObjectPrefix(cleanPublicTempleName(shortName, name), objectType);
     }
 
     const monasteryMatch = name.match(/(?:подворье\s+)?(.+?монастыр[ья][^,]*)/iu);
     if (monasteryMatch?.[1]) {
-      return cleanPublicTempleName(monasteryMatch[1].trim(), name);
+      return ensurePublicObjectPrefix(cleanPublicTempleName(monasteryMatch[1].trim(), name), objectType);
     }
 
     if (/монастыр/iu.test(objectType)) {
@@ -18,7 +18,7 @@ export function getPublicTempleName(temple: { name: string; shortName?: string |
     }
   }
 
-  return cleanPublicTempleName(name, name);
+  return ensurePublicObjectPrefix(cleanPublicTempleName(name, name), objectType);
 }
 
 export function getPublicTempleShortName(temple: { name: string; shortName?: string | null; objectType?: string | null }) {
@@ -29,7 +29,25 @@ export function getPublicTempleShortName(temple: { name: string; shortName?: str
     return publicName;
   }
 
-  return cleanPublicTempleName(shortName, temple.name);
+  return ensurePublicObjectPrefix(cleanPublicTempleName(shortName, temple.name), temple.objectType ?? "");
+}
+
+function ensurePublicObjectPrefix(value: string, objectType: string) {
+  if (!value) return value;
+
+  if (/монастыр|monastery/iu.test(`${value} ${objectType}`)) {
+    return value;
+  }
+
+  if (/^(?:Храм|Храмы|Церковь|Собор|Кафедральный|Часовня|Подворье|Патриаршее подворье|Скит)(?:\s|$)/iu.test(value)) {
+    return value;
+  }
+
+  if (/(?:^|\s)(?:часовня|собор)(?:\s|$)/iu.test(value)) {
+    return value;
+  }
+
+  return `Храм ${value}`;
 }
 
 function cleanPublicTempleName(value: string, originalValue = value) {

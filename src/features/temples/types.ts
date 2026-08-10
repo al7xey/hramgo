@@ -156,8 +156,7 @@ export type TempleCardView = Pick<
 
 export type TempleMapView = Pick<
   TempleView,
-  "id" | "slug" | "name" | "shortName" | "address" | "latitude" | "longitude" | "websiteUrl" | "transit"
+  "id" | "slug" | "name" | "address" | "latitude" | "longitude" | "websiteUrl" | "transit"
 > & {
   photoUrl?: string | null;
-  photoAlt?: string | null;
 };

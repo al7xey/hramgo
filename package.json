@@ -23,6 +23,8 @@
     "audit:temple-data": "tsx scripts/audit-temple-data.ts",
     "audit:temple-photos": "tsx scripts/audit-temple-photo-coverage.ts",
     "quality:publication": "tsx scripts/enforce-publication-quality.ts",
+    "dedupe:temples": "tsx scripts/dedupe-published-temples.ts",
+    "repair:coordinate-collisions": "tsx scripts/repair-known-coordinate-collisions.ts",
     "normalize:schedules": "tsx scripts/normalize-temple-schedules.ts",
     "repair:data-quality": "node scripts/repair-data-quality.mjs",
     "repair:public-catalog": "tsx scripts/repair-public-catalog.ts",

@@ -26,9 +26,9 @@ export const TempleMapBottomSheet = memo(function TempleMapBottomSheet({ temple,
         </button>
       ) : null}
       <div className="grid grid-cols-[72px_1fr] gap-2.5 pr-8">
-        <TemplePhoto src={temple.photoUrl} alt={temple.photoAlt ?? temple.name} className="aspect-square rounded-[16px]" />
+        <TemplePhoto src={temple.photoUrl} alt={temple.name} className="aspect-square rounded-[16px]" />
         <div className="min-w-0">
-          <h2 className="line-clamp-2 text-sm font-semibold leading-5">{temple.shortName ?? temple.name}</h2>
+          <h2 className="line-clamp-2 text-sm font-semibold leading-5">{temple.name}</h2>
           <p className="mt-1 line-clamp-2 text-sm leading-5 text-muted-foreground">{displayAddress}</p>
         </div>
       </div>

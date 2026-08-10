@@ -143,7 +143,7 @@ export const TempleMap = memo(function TempleMap({
           coordinates: [temple.latitude, temple.longitude]
         },
         properties: {
-          hintContent: temple.shortName ?? temple.name,
+          hintContent: temple.name,
           balloonContent: ""
         },
         options: {

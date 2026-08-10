@@ -282,7 +282,6 @@ export function toTempleCardDto(temple: TempleView): TempleCardView {
     id: temple.id,
     slug: temple.slug,
     name: temple.name,
-    shortName: temple.shortName,
     address: sanitizeTempleAddress(temple.address),
     averageHelpfulnessRating: temple.averageHelpfulnessRating,
     reviewsCount: temple.reviewsCount,
@@ -299,13 +298,11 @@ export function toTempleMapDto(temple: TempleView): TempleMapView {
     id: temple.id,
     slug: temple.slug,
     name: temple.name,
-    shortName: temple.shortName,
     address: sanitizeTempleAddress(temple.address),
     latitude: temple.latitude,
     longitude: temple.longitude,
     websiteUrl: temple.websiteUrl,
     photoUrl: mainPhoto?.imageUrl ?? null,
-    photoAlt: mainPhoto?.alt ?? temple.name,
     transit: sortTransitByWalkMinutes(temple.transit).slice(0, 1)
   };
 }
