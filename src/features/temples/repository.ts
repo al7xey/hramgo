@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/db/prisma";
-import type { Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { env, shouldUseDemoData } from "@/lib/env";
 import { normalizeSearch } from "@/lib/utils";
 import { demoTemples } from "@/features/temples/demo-data";
@@ -312,11 +312,11 @@ export function toTempleMapDto(temple: TempleView): TempleMapView {
 
 function normalizeAddressForSearch(value: string) {
   return normalizeSearch(value)
-    .replace(/\bулица\b/g, "ул")
-    .replace(/\bпроспект\b/g, "пр т")
-    .replace(/\bпереулок\b/g, "пер")
-    .replace(/\bбульвар\b/g, "бул")
-    .replace(/\bмосква\b/g, "")
+    .replace(/(?:^|\s)улица(?=\s|$)/gu, " ул")
+    .replace(/(?:^|\s)проспект(?=\s|$)/gu, " пр т")
+    .replace(/(?:^|\s)переулок(?=\s|$)/gu, " пер")
+    .replace(/(?:^|\s)бульвар(?=\s|$)/gu, " бул")
+    .replace(/(?:^|\s)москва(?=\s|$)/gu, " ")
     .replace(/\s+/g, " ")
     .trim();
 }
@@ -490,11 +490,17 @@ function getLineIdsFromSearch(query?: string, terms: string[] = []) {
 
 function expandSearchTerm(term: string) {
   const normalized = normalizeSearch(term);
-  const variants = [normalized];
+  const collapsed = normalized.replace(/(.)\1+/gu, "$1");
+  const variants = [normalized, collapsed];
   const stripped = normalized.replace(/(ого|ему|ыми|ими|ая|яя|ое|ее|ий|ый|ой|ом|ем|ам|ям|ах|ях|ов|ев|ей|ия|иям|ию|ии|ия|ью|а|я|ы|и|е|у|ю|о)$/u, "");
+  const collapsedStripped = collapsed.replace(/(ого|ему|ыми|ими|ая|яя|ое|ее|ий|ый|ой|ом|ем|ам|ям|ах|ях|ов|ев|ей|ия|иям|ию|ии|ия|ью|а|я|ы|и|е|у|ю|о)$/u, "");
 
   if (stripped.length >= 4) {
     variants.push(stripped);
+  }
+
+  if (collapsedStripped.length >= 4) {
+    variants.push(collapsedStripped);
   }
 
   if (normalized.endsWith("ий") && normalized.length > 4) {
@@ -503,6 +509,91 @@ function expandSearchTerm(term: string) {
   }
 
   return variants;
+}
+
+function buildSearchTermClause(term: string) {
+  const variants = Array.from(
+    new Set(expandSearchTerm(term).map((variant) => normalizeSearch(variant)).filter((variant) => variant.length >= 3))
+  );
+
+  return Prisma.sql`(
+    ${Prisma.join(
+      variants.map((variant) => {
+        const pattern = `%${variant}%`;
+
+        return Prisma.sql`(
+          lower("temple"."name") LIKE ${pattern}
+          OR lower(COALESCE("temple"."shortName", '')) LIKE ${pattern}
+          OR lower(COALESCE("temple"."address", '')) LIKE ${pattern}
+          OR lower(COALESCE("temple"."district", '')) LIKE ${pattern}
+          OR lower(COALESCE("temple"."metro", '')) LIKE ${pattern}
+          OR lower(COALESCE("temple"."scheduleSummary", '')) LIKE ${pattern}
+          OR lower(COALESCE("temple"."description", '')) LIKE ${pattern}
+          OR lower(COALESCE("temple"."historySummary", '')) LIKE ${pattern}
+          OR lower(COALESCE("temple"."shrinesSummary", '')) LIKE ${pattern}
+          OR similarity(lower("temple"."name"), ${variant}) >= 0.32
+          OR similarity(lower(COALESCE("temple"."shortName", '')), ${variant}) >= 0.32
+          OR EXISTS (
+            SELECT 1 FROM "TempleTransit" AS "transit"
+            WHERE "transit"."templeId" = "temple"."id"
+              AND (
+                lower("transit"."station") LIKE ${pattern}
+                OR lower("transit"."lineName") LIKE ${pattern}
+                OR lower("transit"."lineId") = ${variant}
+              )
+          )
+          OR EXISTS (
+            SELECT 1 FROM "TempleParishService" AS "service"
+            WHERE "service"."templeId" = "temple"."id"
+              AND (lower("service"."title") LIKE ${pattern} OR lower("service"."description") LIKE ${pattern})
+          )
+          OR EXISTS (
+            SELECT 1 FROM "TempleClergy" AS "clergy"
+            WHERE "clergy"."templeId" = "temple"."id"
+              AND lower(CONCAT_WS(' ', "clergy"."name", "clergy"."rank", "clergy"."role", "clergy"."details")) LIKE ${pattern}
+          )
+        )`;
+      }),
+      " OR "
+    )}
+  )`;
+}
+
+async function findSearchCandidateIds(query?: string) {
+  const requiredTerms = getRequiredSearchTerms(query);
+
+  if (!query || requiredTerms.length === 0 || getLineIdsFromSearch(query, getSearchTerms(query)).size > 0) {
+    return undefined;
+  }
+
+  const normalizedQuery = normalizeAddressForSearch(query);
+  const rows = await prisma.$queryRaw<Array<{ id: string; rank: number }>>(Prisma.sql`
+    SELECT
+      "temple"."id",
+      GREATEST(
+        similarity(lower("temple"."name"), ${normalizedQuery}),
+        similarity(lower(COALESCE("temple"."shortName", '')), ${normalizedQuery}),
+        similarity(lower(COALESCE("temple"."address", '')), ${normalizedQuery})
+      ) AS "rank"
+    FROM "Temple" AS "temple"
+    WHERE "temple"."moderationStatus" = 'PUBLISHED'
+      AND ${Prisma.join(requiredTerms.map(buildSearchTermClause), " AND ")}
+    ORDER BY "rank" DESC, "temple"."lastVerifiedAt" DESC NULLS LAST, "temple"."name" ASC
+    LIMIT 1500
+  `);
+
+  return rows.map((row) => row.id);
+}
+
+async function addSearchCandidates(input: TempleSearchInput) {
+  const candidateIds = await findSearchCandidateIds(input.query);
+
+  if (candidateIds === undefined) {
+    return input;
+  }
+
+  const allowedIds = input.ids?.length ? candidateIds.filter((id) => input.ids?.includes(id)) : candidateIds;
+  return allowedIds.length > 0 ? { ...input, ids: allowedIds } : null;
 }
 
 function buildTempleWhere(input: TempleSearchInput = {}): Prisma.TempleWhereInput {
@@ -615,8 +706,50 @@ export async function listTemples(input: TempleSearchInput = {}) {
       queryLineIds.length > 0
         ? { ...input, metroLine: Array.from(new Set([...(input.metroLine ?? []), ...queryLineIds])) }
         : input;
-    const temples = await fetchDbTemples(effectiveInput);
+    const searchInput = await addSearchCandidates(effectiveInput);
+    if (!searchInput) {
+      setCachedTempleList(cacheKey, []);
+      return [];
+    }
+    const temples = await fetchDbTemples(searchInput);
     const mapped = temples.map(mapDbTemple).filter(hasPublicPhoto);
+    const searched = filterByScheduleTime(filterBySearchQuery(mapped, input.query), input);
+    const result = sortTemples(dedupeTemples(filterByNearestTransit(searched, effectiveInput)), input.sort, input.query);
+    setCachedTempleList(cacheKey, result);
+    return result;
+  } catch (error) {
+    if (env.USE_DEMO_DATA === "false") {
+      throw error;
+    }
+
+    return filterDemoTemples(input);
+  }
+}
+
+export async function listCardTemples(input: TempleSearchInput = {}) {
+  if (shouldUseDemoData) {
+    return filterDemoTemples(input);
+  }
+
+  const cacheKey = getCacheKey("cards", input);
+  const cached = getCachedTempleList(cacheKey);
+  if (cached) {
+    return cached;
+  }
+
+  try {
+    const queryLineIds = Array.from(getLineIdsFromSearch(input.query, getSearchTerms(input.query)));
+    const effectiveInput =
+      queryLineIds.length > 0
+        ? { ...input, metroLine: Array.from(new Set([...(input.metroLine ?? []), ...queryLineIds])) }
+        : input;
+    const searchInput = await addSearchCandidates(effectiveInput);
+    if (!searchInput) {
+      setCachedTempleList(cacheKey, []);
+      return [];
+    }
+    const temples = await fetchDbMapTemples(searchInput, false);
+    const mapped = temples.map(mapDbMapTemple).filter(hasPublicPhoto);
     const searched = filterByScheduleTime(filterBySearchQuery(mapped, input.query), input);
     const result = sortTemples(dedupeTemples(filterByNearestTransit(searched, effectiveInput)), input.sort, input.query);
     setCachedTempleList(cacheKey, result);
@@ -647,7 +780,12 @@ export async function listMapTemples(input: TempleSearchInput = {}) {
       queryLineIds.length > 0
         ? { ...input, metroLine: Array.from(new Set([...(input.metroLine ?? []), ...queryLineIds])) }
         : input;
-    const temples = await fetchDbMapTemples(effectiveInput);
+    const searchInput = await addSearchCandidates(effectiveInput);
+    if (!searchInput) {
+      setCachedTempleList(cacheKey, []);
+      return [];
+    }
+    const temples = await fetchDbMapTemples(searchInput);
     const mapped = temples.map(mapDbMapTemple).filter((temple) => hasPublicPhoto(temple) && hasPublicMapCoordinates(temple));
     const searched = filterByScheduleTime(filterBySearchQuery(mapped, input.query), input);
     const result = sortTemples(dedupeTemples(filterByNearestTransit(searched, effectiveInput)), input.sort, input.query);
@@ -672,7 +810,7 @@ export async function listPublishedTempleSitemapEntries() {
 
   try {
     return prisma.temple.findMany({
-      where: { moderationStatus: "PUBLISHED" },
+      where: buildTempleWhere({}),
       select: { slug: true, lastVerifiedAt: true, updatedAt: true },
       orderBy: { slug: "asc" }
     });
@@ -704,7 +842,7 @@ export async function listTempleFeedEntries(limit = 150) {
 
   try {
     const temples = await prisma.temple.findMany({
-      where: { moderationStatus: "PUBLISHED" },
+      where: buildTempleWhere({}),
       select: {
         slug: true,
         name: true,
@@ -806,23 +944,8 @@ function getSearchTarget(temple: TempleView) {
   );
 }
 
-function getStrongSearchTarget(temple: TempleView) {
-  return normalizeSearch(
-    [
-      temple.name,
-      temple.shortName,
-      temple.address,
-      temple.district,
-      temple.metro,
-      temple.transit.map((item) => `${item.station} ${item.line.name} ${item.line.id}`).join(" ")
-    ]
-      .filter(Boolean)
-      .join(" ")
-  );
-}
-
 function matchesAllRequiredSearchTerms(temple: TempleView, terms: string[]) {
-  const target = getStrongSearchTarget(temple);
+  const target = getSearchTarget(temple);
   return terms.every((term) => expandSearchTerm(term).some((variant) => target.includes(normalizeSearch(variant))));
 }
 
@@ -905,12 +1028,16 @@ function parseScheduleTime(value: string) {
   };
 }
 
-async function fetchDbMapTemples(input: TempleSearchInput = {}) {
+async function fetchDbMapTemples(input: TempleSearchInput = {}, requireCoordinates = true) {
   return prisma.temple.findMany({
     where: {
       ...buildTempleWhere(input),
-      latitude: { not: null },
-      longitude: { not: null }
+      ...(requireCoordinates
+        ? {
+            latitude: { not: null },
+            longitude: { not: null }
+          }
+        : {})
     },
     select: {
       id: true,
@@ -1083,12 +1210,12 @@ function areLikelyDuplicateTemples(left: TempleView, right: TempleView) {
 
   const leftAddress = normalizeDuplicateAddress(left.address ?? "");
   const rightAddress = normalizeDuplicateAddress(right.address ?? "");
-  if (leftAddress && rightAddress && leftAddress === rightAddress) {
-    return true;
+  if (leftAddress || rightAddress) {
+    return Boolean(leftAddress && rightAddress && leftAddress === rightAddress);
   }
 
   if (left.latitude && left.longitude && right.latitude && right.longitude) {
-    return estimateDistanceKm(left.latitude, left.longitude, right.latitude, right.longitude) < 0.35;
+    return estimateDistanceKm(left.latitude, left.longitude, right.latitude, right.longitude) < 0.05;
   }
 
   return false;
@@ -1096,7 +1223,7 @@ function areLikelyDuplicateTemples(left: TempleView, right: TempleView) {
 
 function normalizeDuplicateAddress(address: string) {
   return normalizeAddressForSearch(address)
-    .replace(/\b(ул|улица|д|дом|стр|строение|корп|корпус|вл|владение)\b/giu, "")
+    .replace(/(?:^|\s)(?:ул|улица|д|дом|стр|строение|корп|корпус|вл|владение)\.?(?=\s|$)/giu, " ")
     .replace(/[^\p{L}\p{N}]+/gu, "")
     .trim();
 }
@@ -1123,7 +1250,7 @@ export async function getTempleBySlug(slug: string) {
 
   try {
     const temple = await prisma.temple.findFirst({
-      where: { slug, moderationStatus: "PUBLISHED" },
+      where: { ...buildTempleWhere({}), slug },
       include: {
         photos: {
           where: {

@@ -1,6 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
+const apply = process.argv.includes("--apply");
+let suspiciousLiturgyItems = 0;
 
 const timePattern = /([01]?\d|2[0-3])[.:](\d{2})/gu;
 const weekdayPattern = /будн|понедель|вторник|сред|четвер|пятниц/iu;
@@ -62,13 +64,17 @@ function normalizeItems(values: string[]) {
     for (const match of matches) {
       const time = `${match[1].padStart(2, "0")}:${match[2]}`;
       if (seen.has(time)) continue;
-      seen.add(time);
       const afterTime = clean
         .replace(match[0], "")
         .replace(timePattern, "")
         .replace(/^[\s\u2013\u2014,/-]+/u, "")
         .trim();
       const safeLabel = label ?? (afterTime.length > 0 && afterTime.length <= 70 ? afterTime : "Богослужение");
+      if (/литург/iu.test(safeLabel) && Number(match[1]) >= 15) {
+        suspiciousLiturgyItems += 1;
+        continue;
+      }
+      seen.add(time);
       result.push(`${time} — ${safeLabel}`);
     }
   }
@@ -111,28 +117,37 @@ function normalizeSchedule(text: string) {
 async function main() {
   const temples = await prisma.temple.findMany({
     where: { moderationStatus: "PUBLISHED", scheduleSummary: { not: null } },
-    select: { id: true, scheduleSummary: true }
+    select: { id: true, slug: true, name: true, scheduleSummary: true }
   });
 
   let updated = 0;
   let emptied = 0;
+  const conflicts: Array<{ slug: string; name: string }> = [];
 
   for (const temple of temples) {
+    const conflictCountBefore = suspiciousLiturgyItems;
     const normalized = normalizeSchedule(temple.scheduleSummary ?? "");
+    if (suspiciousLiturgyItems > conflictCountBefore) {
+      conflicts.push({ slug: temple.slug, name: temple.name });
+    }
     if (!normalized) {
       emptied += 1;
       continue;
     }
     if (normalized !== temple.scheduleSummary) {
-      await prisma.temple.update({ where: { id: temple.id }, data: { scheduleSummary: normalized } });
+      if (apply) {
+        await prisma.temple.update({ where: { id: temple.id }, data: { scheduleSummary: normalized } });
+      }
       updated += 1;
     }
   }
 
-  const stats = { temples: temples.length, updated, emptied };
-  await prisma.importJob.create({
-    data: { type: "normalize:temple-schedules", status: "COMPLETED", startedAt: new Date(), finishedAt: new Date(), stats }
-  });
+  const stats = { apply, temples: temples.length, updated, emptied, suspiciousLiturgyItems, conflicts: conflicts.slice(0, 100) };
+  if (apply) {
+    await prisma.importJob.create({
+      data: { type: "normalize:temple-schedules", status: "COMPLETED", startedAt: new Date(), finishedAt: new Date(), stats }
+    });
+  }
   console.log(JSON.stringify(stats, null, 2));
 }
 

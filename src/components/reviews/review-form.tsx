@@ -6,7 +6,6 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import { ReviewPhotoUploader } from "@/components/reviews/review-photo-uploader";
 import { Button } from "@/components/ui/button";
 import { LiquidGlassCard } from "@/components/ui/liquid-glass-card";
 import { cn } from "@/lib/utils";
@@ -123,7 +122,6 @@ export function ReviewForm({ templeId }: { templeId: string }) {
             className="min-h-36 rounded-[24px] border border-card-border bg-background p-4 outline-none focus:border-primary"
           />
         </label>
-        <ReviewPhotoUploader />
         <label className="flex items-start gap-3 rounded-[20px] bg-muted p-3 text-sm leading-6">
           <input name="personalDataConsent" type="checkbox" required className="mt-1 size-4 shrink-0 accent-primary" />
           <span>

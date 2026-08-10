@@ -3,7 +3,7 @@ import { MobileShell } from "@/components/layout/mobile-shell";
 import { LazyTempleInfiniteList } from "@/components/temples/lazy-temple-infinite-list";
 import { TempleFilters } from "@/components/temples/temple-filters";
 import { TempleSearchBar } from "@/components/temples/temple-search-bar";
-import { getDistricts, getMetroLines, getMetroOptions, getParishServiceKinds, listMapTemples } from "@/features/temples/repository";
+import { getDistricts, getMetroLines, getMetroOptions, getParishServiceKinds, listCardTemples } from "@/features/temples/repository";
 import { templeSearchSchema, type TempleSearchSchema } from "@/features/temples/validation";
 
 export const metadata: Metadata = {
@@ -80,7 +80,7 @@ export default async function TemplesPage({ searchParams }: { searchParams: Prom
     hasParking: getParam(params, "hasParking"),
     sort: getParam(params, "sort")
   });
-  const allTemples = await listMapTemples({});
+  const allTemples = await listCardTemples({});
 
   return (
     <MobileShell>

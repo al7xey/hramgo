@@ -1,13 +1,17 @@
+import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/db/prisma";
 
-export async function recalculateTempleReviewStats(templeId: string) {
+export async function recalculateTempleReviewStats(
+  templeId: string,
+  client: Prisma.TransactionClient | typeof prisma = prisma
+) {
   const [ratingStats, ratingGroups] = await Promise.all([
-    prisma.review.aggregate({
+    client.review.aggregate({
       where: { templeId, status: "APPROVED" },
       _avg: { rating: true },
       _count: { _all: true }
     }),
-    prisma.review.groupBy({
+    client.review.groupBy({
       by: ["rating"],
       where: { templeId, status: "APPROVED" },
       _count: { rating: true }
@@ -15,7 +19,7 @@ export async function recalculateTempleReviewStats(templeId: string) {
   ]);
   const counts = new Map(ratingGroups.map((item) => [item.rating, item._count.rating]));
 
-  await prisma.temple.update({
+  await client.temple.update({
     where: { id: templeId },
     data: {
       reviewsCount: ratingStats._count._all,

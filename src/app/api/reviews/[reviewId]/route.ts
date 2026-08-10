@@ -48,13 +48,15 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ re
     if (payload.informationRating !== undefined) data.informationRating = payload.informationRating;
     if (payload.sundaySchoolRating !== undefined) data.sundaySchoolRating = payload.sundaySchoolRating;
 
-    const updated = await prisma.review.update({
-      where: { id: review.id },
-      data,
-      select: { id: true, rating: true, text: true, status: true, publishedAt: true, editedAt: true }
+    const updated = await prisma.$transaction(async (transaction) => {
+      const saved = await transaction.review.update({
+        where: { id: review.id },
+        data,
+        select: { id: true, rating: true, text: true, status: true, publishedAt: true, editedAt: true }
+      });
+      await recalculateTempleReviewStats(review.templeId, transaction);
+      return saved;
     });
-
-    await recalculateTempleReviewStats(review.templeId);
 
     return ok({ message: "Отзыв обновлён", review: updated });
   } catch (error) {
@@ -63,31 +65,39 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ re
 }
 
 export async function DELETE(_request: Request, { params }: { params: Promise<{ reviewId: string }> }) {
-  const auth = await requireUser();
+  try {
+    const auth = await requireUser();
 
-  if (isAuthFailure(auth)) {
-    return auth.response;
+    if (isAuthFailure(auth)) {
+      return auth.response;
+    }
+
+    const { reviewId } = await params;
+    const review = await prisma.review.findUnique({
+      where: { id: reviewId },
+      select: { id: true, userId: true, templeId: true, status: true }
+    });
+
+    if (!review) {
+      return notFound("Отзыв не найден");
+    }
+
+    if (!canManageReview(auth.user, review.userId)) {
+      return forbidden();
+    }
+
+    if (review.status !== "HIDDEN") {
+      await prisma.$transaction(async (transaction) => {
+        await transaction.review.update({
+          where: { id: review.id },
+          data: { status: "HIDDEN", editedAt: new Date() }
+        });
+        await recalculateTempleReviewStats(review.templeId, transaction);
+      });
+    }
+
+    return ok({ message: "Отзыв удалён" });
+  } catch (error) {
+    return badRequest(error);
   }
-
-  const { reviewId } = await params;
-  const review = await prisma.review.findUnique({
-    where: { id: reviewId },
-    select: { id: true, userId: true, templeId: true }
-  });
-
-  if (!review) {
-    return notFound("Отзыв не найден");
-  }
-
-  if (!canManageReview(auth.user, review.userId)) {
-    return forbidden();
-  }
-
-  await prisma.review.update({
-    where: { id: review.id },
-    data: { status: "HIDDEN", editedAt: new Date() }
-  });
-  await recalculateTempleReviewStats(review.templeId);
-
-  return ok({ message: "Отзыв удалён" });
 }

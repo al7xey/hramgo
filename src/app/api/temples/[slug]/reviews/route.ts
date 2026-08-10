@@ -35,24 +35,45 @@ export async function POST(request: Request, { params }: { params: Promise<{ slu
     }
 
     const payload = reviewSchema.parse(await request.json());
-    const review = await prisma.review.create({
-      data: {
-        templeId: temple.id,
-        userId: auth.user.id,
+    const review = await prisma.$transaction(async (transaction) => {
+      const existing = await transaction.review.findFirst({
+        where: {
+          templeId: temple.id,
+          userId: auth.user.id,
+          status: { in: ["PENDING", "APPROVED", "NEEDS_REVIEW"] }
+        },
+        orderBy: [{ updatedAt: "desc" }, { createdAt: "desc" }],
+        select: { id: true }
+      });
+      const publishedAt = new Date();
+      const data = {
         rating: payload.rating,
         text: payload.text,
         visitType: payload.visitType,
-        status: "APPROVED",
-        publishedAt: new Date(),
-        accessibilityRating: payload.accessibilityRating ?? undefined,
-        territoryRating: payload.territoryRating ?? undefined,
-        informationRating: payload.informationRating ?? undefined,
-        sundaySchoolRating: payload.sundaySchoolRating ?? undefined
-      },
-      select: { id: true, status: true }
-    });
+        visitDate: payload.visitDate ? new Date(payload.visitDate) : null,
+        status: "APPROVED" as const,
+        publishedAt,
+        editedAt: existing ? publishedAt : null,
+        accessibilityRating: payload.accessibilityRating ?? null,
+        territoryRating: payload.territoryRating ?? null,
+        informationRating: payload.informationRating ?? null,
+        sundaySchoolRating: payload.sundaySchoolRating ?? null
+      };
 
-    await recalculateTempleReviewStats(temple.id);
+      const saved = existing
+        ? await transaction.review.update({
+            where: { id: existing.id },
+            data,
+            select: { id: true, status: true }
+          })
+        : await transaction.review.create({
+            data: { ...data, templeId: temple.id, userId: auth.user.id },
+            select: { id: true, status: true }
+          });
+
+      await recalculateTempleReviewStats(temple.id, transaction);
+      return saved;
+    });
 
     return ok({ message: "Отзыв опубликован.", review });
   } catch (error) {
