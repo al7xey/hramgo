@@ -27,10 +27,11 @@ async function main() {
   const limitArg = getNumberArg("--limit");
   const onlyMissing = process.argv.includes("--missing-only");
   const replaceMain = process.argv.includes("--replace-main");
+  const includeReview = process.argv.includes("--include-review");
   const apply = process.argv.includes("--apply");
 
   const temples = await prisma.temple.findMany({
-    where: { moderationStatus: "PUBLISHED" },
+    where: { moderationStatus: includeReview ? { in: ["PUBLISHED", "REVIEW"] } : "PUBLISHED" },
     orderBy: { name: "asc" },
     take: limitArg,
     select: {

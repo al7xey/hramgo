@@ -21,6 +21,7 @@ import type {
 
 const PUBLIC_TEMPLE_CACHE_TTL_MS = 5 * 60 * 1000;
 const templeMemoryCache = new Map<string, { expiresAt: number; value: TempleView[] }>();
+let transitOptionsCache: { expiresAt: number; value: TransitStationOptionView[] } | null = null;
 
 function getCachedTempleList(key: string) {
   const cached = templeMemoryCache.get(key);
@@ -748,8 +749,9 @@ export async function listCardTemples(input: TempleSearchInput = {}) {
       setCachedTempleList(cacheKey, []);
       return [];
     }
-    const temples = await fetchDbMapTemples(searchInput, false);
-    const mapped = temples.map(mapDbMapTemple).filter(hasPublicPhoto);
+    const mapped = input.query
+      ? (await fetchDbMapTemples(searchInput, false)).map(mapDbMapTemple).filter(hasPublicPhoto)
+      : (await fetchDbCardTemples(searchInput)).map(mapDbCardTemple).filter(hasPublicPhoto);
     const searched = filterByScheduleTime(filterBySearchQuery(mapped, input.query), input);
     const result = sortTemples(dedupeTemples(filterByNearestTransit(searched, effectiveInput)), input.sort, input.query);
     setCachedTempleList(cacheKey, result);
@@ -1108,6 +1110,113 @@ async function fetchDbMapTemples(input: TempleSearchInput = {}, requireCoordinat
   });
 }
 
+async function fetchDbCardTemples(input: TempleSearchInput = {}) {
+  return prisma.temple.findMany({
+    where: buildTempleWhere(input),
+    select: {
+      id: true,
+      slug: true,
+      name: true,
+      shortName: true,
+      address: true,
+      district: true,
+      metro: true,
+      objectType: true,
+      latitude: true,
+      longitude: true,
+      websiteUrl: true,
+      scheduleSummary: true,
+      sundaySchoolStatus: true,
+      dataConfidence: true,
+      moderationStatus: true,
+      averageHelpfulnessRating: true,
+      reviewsCount: true,
+      approvedReviewsCount: true,
+      lastVerifiedAt: true,
+      photos: {
+        where: { OR: [{ isApproved: true }, { isMain: true }] },
+        take: 1,
+        orderBy: [{ isMain: "desc" }, { createdAt: "desc" }],
+        select: { id: true, imageUrl: true, alt: true, isMain: true, sourceUrl: true }
+      },
+      transitStations: {
+        take: 1,
+        orderBy: { walkMinutes: "asc" },
+        select: {
+          station: true,
+          distanceMeters: true,
+          walkMinutes: true,
+          lineId: true,
+          lineName: true,
+          lineColor: true,
+          system: true
+        }
+      }
+    }
+  });
+}
+
+function mapDbCardTemple(temple: Awaited<ReturnType<typeof fetchDbCardTemples>>[number]): TempleView {
+  return {
+    id: temple.id,
+    slug: temple.slug,
+    name: getPublicTempleName(temple),
+    shortName: getPublicTempleShortName(temple),
+    description: null,
+    address: temple.address,
+    district: temple.district,
+    metro: temple.metro,
+    transit: sortTransitByWalkMinutes(
+      temple.transitStations.map((item) => ({
+        station: item.station,
+        distanceMeters: item.distanceMeters,
+        walkMinutes: item.walkMinutes,
+        line: {
+          id: item.lineId,
+          name: item.lineName,
+          color: item.lineColor,
+          system: item.system as "metro" | "mcc" | "mcd"
+        }
+      }))
+    ),
+    latitude: temple.latitude,
+    longitude: temple.longitude,
+    websiteUrl: temple.websiteUrl,
+    phone: null,
+    email: null,
+    rectorName: null,
+    vicariate: null,
+    deanery: null,
+    objectType: temple.objectType,
+    scheduleSummary: temple.scheduleSummary,
+    scheduleSourceUrl: null,
+    sundaySchoolStatus: temple.sundaySchoolStatus,
+    sundaySchoolDescription: null,
+    sundaySchoolSourceUrl: null,
+    sundaySchoolConfidence: null,
+    sourcePrimaryUrl: null,
+    dataConfidence: temple.dataConfidence,
+    moderationStatus: temple.moderationStatus as TempleView["moderationStatus"],
+    averageHelpfulnessRating: temple.averageHelpfulnessRating,
+    reviewsCount: temple.reviewsCount,
+    approvedReviewsCount: temple.approvedReviewsCount,
+    lastVerifiedAt: temple.lastVerifiedAt?.toISOString() ?? null,
+    photos: filterTemplePhotos(temple.photos).map((photo) => ({
+      id: photo.id,
+      imageUrl: photo.imageUrl,
+      alt: photo.alt ?? temple.name,
+      isMain: photo.isMain,
+      sourceUrl: photo.sourceUrl
+    })),
+    socialLinks: [],
+    clergy: [],
+    historySummary: null,
+    shrines: null,
+    parishServices: [],
+    reviews: []
+  };
+}
+
 function mapDbMapTemple(temple: Awaited<ReturnType<typeof fetchDbMapTemples>>[number]): TempleView {
   return {
     id: temple.id,
@@ -1338,6 +1447,39 @@ export function getMetroOptions(temples = demoTemples): TransitStationOptionView
   });
 
   return Array.from(stations.values()).sort((a, b) => a.name.localeCompare(b.name, "ru"));
+}
+
+export async function listTransitStationOptions(): Promise<TransitStationOptionView[]> {
+  if (shouldUseDemoData) {
+    return getMetroOptions(demoTemples);
+  }
+
+  if (transitOptionsCache && transitOptionsCache.expiresAt > Date.now()) {
+    return transitOptionsCache.value;
+  }
+
+  const stations = await prisma.templeTransit.findMany({
+    where: { temple: buildTempleWhere({}) },
+    distinct: ["station", "lineId"],
+    orderBy: [{ station: "asc" }, { walkMinutes: "asc" }],
+    select: {
+      station: true,
+      lineId: true,
+      lineName: true,
+      lineColor: true,
+      system: true
+    }
+  });
+  const value = stations.map((station) => ({
+    name: station.station,
+    lineId: station.lineId,
+    lineName: station.lineName,
+    lineColor: station.lineColor,
+    system: station.system as TransitStationOptionView["system"]
+  }));
+
+  transitOptionsCache = { expiresAt: Date.now() + PUBLIC_TEMPLE_CACHE_TTL_MS, value };
+  return value;
 }
 
 export function getMetroLines() {

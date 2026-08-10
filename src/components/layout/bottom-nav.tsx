@@ -19,7 +19,7 @@ export function BottomNav() {
 
   return (
     <nav className="fixed inset-x-0 bottom-[max(8px,env(safe-area-inset-bottom))] z-50 px-4 md:hidden">
-      <div className="mx-auto grid h-16 w-full max-w-[360px] grid-cols-5 gap-1 rounded-[30px] border border-slate-200/90 bg-white/95 p-2 text-[#172033] shadow-none backdrop-blur-md dark:border-white/10 dark:bg-[#071522]/92 dark:text-slate-200">
+      <div className="mx-auto grid h-16 w-full max-w-[360px] grid-cols-5 gap-1 rounded-[30px] border border-slate-200/90 bg-white/[0.98] p-2 text-[#172033] shadow-none backdrop-blur-md dark:border-white/10 dark:bg-[#071522]/95 dark:text-slate-200">
           {items.map((item) => {
             const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
 

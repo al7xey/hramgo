@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { MobileShell } from "@/components/layout/mobile-shell";
-import { LazyTempleInfiniteList } from "@/components/temples/lazy-temple-infinite-list";
+import { TempleInfiniteList } from "@/components/temples/temple-infinite-list";
 import { TempleFilters } from "@/components/temples/temple-filters";
 import { TempleSearchBar } from "@/components/temples/temple-search-bar";
-import { getDistricts, getMetroLines, getMetroOptions, getParishServiceKinds, listCardTemples } from "@/features/temples/repository";
+import { getDistricts, getMetroLines } from "@/features/temples/repository";
+import { filterableParishServiceKinds } from "@/features/temples/parish-services";
 import { templeSearchSchema, type TempleSearchSchema } from "@/features/temples/validation";
 
 export const metadata: Metadata = {
@@ -80,8 +81,6 @@ export default async function TemplesPage({ searchParams }: { searchParams: Prom
     hasParking: getParam(params, "hasParking"),
     sort: getParam(params, "sort")
   });
-  const allTemples = await listCardTemples({});
-
   return (
     <MobileShell>
       <div className="grid gap-5 lg:grid-cols-[320px_1fr]">
@@ -94,10 +93,10 @@ export default async function TemplesPage({ searchParams }: { searchParams: Prom
           </div>
           <TempleSearchBar defaultValue={parsed.query} autoFocus />
           <TempleFilters
-            districts={getDistricts(allTemples)}
-            metros={getMetroOptions(allTemples)}
+            districts={getDistricts([])}
+            metros={[]}
             metroLines={getMetroLines()}
-            serviceKinds={getParishServiceKinds(allTemples)}
+            serviceKinds={filterableParishServiceKinds}
             defaultValues={{
               query: parsed.query,
               districts: parsed.district ?? [],
@@ -118,7 +117,7 @@ export default async function TemplesPage({ searchParams }: { searchParams: Prom
         </aside>
 
         <section className="grid gap-4 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto lg:pr-2">
-          <LazyTempleInfiniteList searchParams={normalizeSearchParams(parsed)} />
+          <TempleInfiniteList searchParams={normalizeSearchParams(parsed)} />
         </section>
       </div>
     </MobileShell>

@@ -35,6 +35,7 @@
     "photos:one": "tsx scripts/prune-temple-photos-to-one.ts",
     "photos:quality": "tsx scripts/upgrade-official-photo-quality.ts",
     "photos:health": "tsx scripts/audit-public-photo-health.ts",
+    "photos:repair-links": "tsx scripts/repair-known-photo-links.ts",
     "moderation:queue": "tsx scripts/moderation-queue.ts",
     "recalculate:ratings": "tsx scripts/recalculate-ratings.ts",
     "sync:temple-sources": "tsx scripts/sync-temple-sources.ts",

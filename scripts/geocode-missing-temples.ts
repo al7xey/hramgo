@@ -17,6 +17,7 @@ function parseArgs() {
 
   return {
     apply: process.argv.includes("--apply"),
+    revalidate: process.argv.includes("--revalidate"),
     limit: Number.isFinite(limit) && limit! > 0 ? limit : undefined
   };
 }
@@ -52,13 +53,46 @@ function hasAddressMatch(address: string, displayName?: string) {
     return false;
   }
 
-  const ignored = new Set(["москва", "россия", "проспект", "шоссе", "переулок", "площадь", "набережная", "улица"]);
-  const tokens = normalizeText(address)
+  const ignored = new Set([
+    "москва",
+    "россия",
+    "проспект",
+    "шоссе",
+    "переулок",
+    "площадь",
+    "набережная",
+    "улица",
+    "аллея",
+    "владение",
+    "земельный",
+    "участок",
+    "корпус",
+    "строение",
+    "поселок",
+    "район"
+  ]);
+  const tokens = normalizeText(normalizeAddressForGeocoding(address))
     .split(" ")
-    .filter((token) => token.length >= 4 && !ignored.has(token));
+    .filter((token) => token.length >= 4 && !/^[0-9]+/u.test(token) && !ignored.has(token));
   const display = normalizeText(displayName);
 
-  return tokens.length === 0 || tokens.some((token) => display.includes(token));
+  return tokens.length > 0 && tokens.every((token) => display.includes(token)) && hasHouseMatch(address, displayName);
+}
+
+function hasHouseMatch(address: string, displayName: string) {
+  const expected = normalizeText(address).match(/(?:^|\s)(?:д|дом|вл|владение|з\s*у)\s*(\d+[a-zа-я]?(?:\s*[/\-]\s*\d+[a-zа-я]?)?)/u)?.[1];
+  if (!expected) {
+    return false;
+  }
+
+  const house = expected.replace(/\s+/gu, "");
+  const base = house.match(/^\d+/u)?.[0];
+  if (!base) {
+    return false;
+  }
+
+  const display = normalizeText(displayName);
+  return new RegExp(`(?:^|\\s|вл|дом|д)${base}(?:[a-zа-я]|\\s|$)`, "u").test(display);
 }
 
 function isMoscowCandidate(displayName?: string) {
@@ -100,7 +134,7 @@ async function lookup(address: string) {
     !Number.isFinite(longitude) ||
     !isWithinMoscow(latitude, longitude) ||
     !isMoscowCandidate(candidate?.display_name) ||
-    !hasAddressMatch(normalizedAddress, candidate?.display_name)
+    !hasAddressMatch(address, candidate?.display_name)
   ) {
     return null;
   }
@@ -110,6 +144,12 @@ async function lookup(address: string) {
 
 async function main() {
   const options = parseArgs();
+
+  if (options.revalidate) {
+    await revalidateExistingCoordinates(options.apply);
+    return;
+  }
+
   const temples = await prisma.temple.findMany({
     where: {
       moderationStatus: "PUBLISHED",
@@ -170,6 +210,74 @@ async function main() {
   }
 
   console.log(JSON.stringify({ apply: options.apply, stats, sample: sample.slice(0, 30) }, null, 2));
+}
+
+async function revalidateExistingCoordinates(apply: boolean) {
+  const temples = await prisma.temple.findMany({
+    where: {
+      moderationStatus: "PUBLISHED",
+      latitude: { not: null },
+      longitude: { not: null },
+      evidences: { some: { fieldName: "coordinates", sourceUrl: { startsWith: endpoint } } }
+    },
+    orderBy: { name: "asc" },
+    select: {
+      id: true,
+      slug: true,
+      name: true,
+      address: true,
+      latitude: true,
+      longitude: true,
+      evidences: {
+        where: { fieldName: "coordinates", sourceUrl: { startsWith: endpoint } },
+        orderBy: { lastCheckedAt: "desc" },
+        take: 1,
+        select: { quote: true }
+      }
+    }
+  });
+  const invalid = temples.filter((temple) => {
+    const quote = temple.evidences[0]?.quote ?? undefined;
+    return !temple.address || !hasAddressMatch(temple.address, quote);
+  });
+
+  if (apply && invalid.length > 0) {
+    const ids = invalid.map((temple) => temple.id);
+    await prisma.$transaction([
+      prisma.templeTransit.deleteMany({ where: { templeId: { in: ids } } }),
+      prisma.temple.updateMany({ where: { id: { in: ids } }, data: { latitude: null, longitude: null } }),
+      prisma.importJob.create({
+        data: {
+          type: "geocode:revalidate-nominatim",
+          status: "COMPLETED",
+          startedAt: new Date(),
+          finishedAt: new Date(),
+          stats: { scanned: temples.length, invalidated: invalid.length }
+        }
+      })
+    ]);
+  }
+
+  console.log(
+    JSON.stringify(
+      {
+        apply,
+        scanned: temples.length,
+        valid: temples.length - invalid.length,
+        invalidated: invalid.length,
+        invalid: invalid.map((temple) => ({
+          slug: temple.slug,
+          name: temple.name,
+          address: temple.address,
+          latitude: temple.latitude,
+          longitude: temple.longitude,
+          geocoderResult: temple.evidences[0]?.quote ?? null
+        }))
+      },
+      null,
+      2
+    )
+  );
 }
 
 main()

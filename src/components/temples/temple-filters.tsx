@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { memo, useMemo, useState } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 import { ChevronDown, SlidersHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -42,6 +42,31 @@ export const TempleFilters = memo(function TempleFilters({
   defaultValues: FilterDefaults;
 }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [metroOptions, setMetroOptions] = useState(metros);
+  const [isLoadingMetroOptions, setIsLoadingMetroOptions] = useState(false);
+
+  useEffect(() => {
+    if (!isOpen || metroOptions.length > 0) {
+      return;
+    }
+
+    const controller = new AbortController();
+    setIsLoadingMetroOptions(true);
+
+    void fetch("/api/temples/filter-options", { signal: controller.signal })
+      .then(async (response) => {
+        if (!response.ok) {
+          throw new Error("Не удалось загрузить станции");
+        }
+
+        const payload = (await response.json()) as { metros?: TransitStationOptionView[] };
+        setMetroOptions(payload.metros ?? []);
+      })
+      .catch(() => undefined)
+      .finally(() => setIsLoadingMetroOptions(false));
+
+    return () => controller.abort();
+  }, [isOpen, metroOptions.length]);
   const activeFiltersCount = useMemo(
     () =>
       [
@@ -135,9 +160,10 @@ export const TempleFilters = memo(function TempleFilters({
               </div>
             </DetailsGroup>
 
-            <DetailsGroup title="Станции" count={metros.length}>
+            <DetailsGroup title="Станции" count={metroOptions.length}>
               <div className="grid max-h-48 gap-2 overflow-y-auto pr-1">
-                {metros.map((metro) => (
+                {isLoadingMetroOptions ? <p className="text-sm text-muted-foreground">Загрузка станций...</p> : null}
+                {metroOptions.map((metro) => (
                   <Check
                     key={`${metro.name}-${metro.lineId}`}
                     name="metro"
