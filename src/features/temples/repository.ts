@@ -4,6 +4,7 @@ import { env, shouldUseDemoData } from "@/lib/env";
 import { normalizeSearch } from "@/lib/utils";
 import { demoTemples } from "@/features/temples/demo-data";
 import { getPublicTempleName, getPublicTempleShortName } from "@/features/temples/display";
+import { isKnownTechnicalMoscowCenterCoordinate } from "@/features/temples/geo-quality";
 import { metroLines } from "@/features/temples/metro";
 import { moscowDistricts } from "@/features/temples/moscow-districts";
 import { filterableParishServiceKinds } from "@/features/temples/parish-services";
@@ -19,7 +20,6 @@ import type {
 } from "@/features/temples/types";
 
 const PUBLIC_TEMPLE_CACHE_TTL_MS = 5 * 60 * 1000;
-const MOSCOW_CENTER: [number, number] = [55.751244, 37.618423];
 const templeMemoryCache = new Map<string, { expiresAt: number; value: TempleView[] }>();
 
 function getCachedTempleList(key: string) {
@@ -600,6 +600,9 @@ function buildTempleWhere(input: TempleSearchInput = {}): Prisma.TempleWhereInpu
     { slug: { equals: "sprav-916-kremlya-moskovskogo-hramy" } },
     { address: { contains: "Кремль", mode: "insensitive" } },
     { address: { contains: "Московская обл", mode: "insensitive" } },
+    { address: { contains: "Московской обл", mode: "insensitive" } },
+    { address: { contains: "Сахалинская обл", mode: "insensitive" } },
+    { address: { contains: "Сахалинской обл", mode: "insensitive" } },
     { address: { contains: "Истринский р-н", mode: "insensitive" } }
   ];
 
@@ -977,8 +980,7 @@ function hasPublicMapCoordinates(temple: TempleView) {
     return false;
   }
 
-  const isMoscowCenterFallback = Math.abs(temple.latitude - MOSCOW_CENTER[0]) < 0.001 && Math.abs(temple.longitude - MOSCOW_CENTER[1]) < 0.001;
-  return !isMoscowCenterFallback;
+  return !isKnownTechnicalMoscowCenterCoordinate(temple.latitude, temple.longitude);
 }
 
 function hasPublicPhoto(temple: TempleView) {

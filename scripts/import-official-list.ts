@@ -2,6 +2,8 @@ import { createHash } from "node:crypto";
 
 import { Prisma, PrismaClient, SundaySchoolStatus, TempleModerationStatus } from "@prisma/client";
 
+import { hasExplicitNonMoscowRegion, isKnownTechnicalMoscowCenterCoordinate } from "../src/features/temples/geo-quality";
+
 const prisma = new PrismaClient();
 const BASE_URL = "https://sprav.moseparh.ru";
 const LIST_URL = `${BASE_URL}/monasteries`;
@@ -153,8 +155,17 @@ function isMoscowAddress(address?: string) {
 
   const normalized = address.toLocaleLowerCase("ru-RU");
 
-  return /москва|зеленоград|троицк|щербинка|московский|сосенское|десеновское|внуково|кокошкино|вороново|кленовское|краснопахорское|марушкинское|мосрентген|роговское|рязановское|филимонковское|щаповское/u.test(
-    normalized
+  if (hasExplicitNonMoscowRegion(normalized)) {
+    return false;
+  }
+
+  return (
+    /(?:^|[,;\s])(?:г(?:ород)?\.?\s*)?москва(?:[,;\s]|$)/u.test(normalized) ||
+    /(?:^|[,;\s])г\.?\s*(?:зеленоград|троицк|щербинка|московский)(?:[,;\s]|$)/u.test(normalized) ||
+    /(?:^|[,;\s])(?:пос\.?|п\.?|район)\s*(?:сосенское|десеновское|внуково|кокошкино|вороново|кленовское|краснопахорское|марушкинское|мосрентген|роговское|рязановское|филимонковское|щаповское|коммунарка)(?:[,;\s]|$)/u.test(
+      normalized
+    ) ||
+    /\b(?:тинао|новомосковский\s+округ|троицкий\s+ао)\b/u.test(normalized)
   );
 }
 
@@ -320,6 +331,9 @@ async function fetchDetail(item: ListItem): Promise<Detail> {
   const activitySummary = trimText(stripHtml(rows.get("Деятельность") ?? ""));
   const shrines = trimText(stripHtml(rows.get("Святыни") ?? rows.get("Престольный праздник") ?? ""));
   const coords = stripHtml(rows.get("Координаты для навигации") ?? "").match(/(5[5-6]\.\d+)\s*,\s*(3[6-8]\.\d+)/);
+  const sourceLatitude = coords ? Number(coords[1]) : undefined;
+  const sourceLongitude = coords ? Number(coords[2]) : undefined;
+  const hasTechnicalCoordinates = isKnownTechnicalMoscowCenterCoordinate(sourceLatitude, sourceLongitude);
   const photoSrc = html.match(/<img src="(\/uploads\/organisations\/[^"]+)"/)?.[1];
   const rawText = trimText(stripHtml(html), 9000) ?? "";
 
@@ -342,8 +356,8 @@ async function fetchDetail(item: ListItem): Promise<Detail> {
     historySummary,
     activitySummary,
     shrines,
-    latitude: coords ? Number(coords[1]) : undefined,
-    longitude: coords ? Number(coords[2]) : undefined,
+    latitude: hasTechnicalCoordinates ? undefined : sourceLatitude,
+    longitude: hasTechnicalCoordinates ? undefined : sourceLongitude,
     photoUrl: photoSrc ? `${BASE_URL}${photoSrc}` : undefined,
     socialLinks: contacts.socialLinks,
     rawText
@@ -562,7 +576,7 @@ async function main() {
     try {
       const detail = await fetchDetail(item);
 
-      if (!isMoscowAddress(detail.address)) {
+      if (!isMoscowAddress(detail.address) || detail.officialId === "2") {
         continue;
       }
 
