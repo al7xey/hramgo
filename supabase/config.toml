@@ -25,3 +25,6 @@ verify_jwt = false
 
 [functions.payment-webhook]
 verify_jwt = false
+
+[functions.review-media]
+verify_jwt = false

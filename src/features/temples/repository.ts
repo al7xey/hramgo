@@ -1,9 +1,10 @@
 import { readFile } from 'node:fs/promises';
-import { cache } from 'react';
 import path from 'node:path';
 import type { TempleView,TempleSearchInput,TempleCardView,TempleMapView } from './types';
 import { searchTemples } from './search';
-export const readCatalog=cache(async()=>JSON.parse(await readFile(path.join(process.cwd(),'data/temples.json'),'utf-8')) as TempleView[]);
+let catalogPromise:Promise<TempleView[]>|null=null;
+// A Pages build uses an immutable snapshot. Share it across prerendered routes in each worker.
+export function readCatalog(){return catalogPromise??=readFile(path.join(process.cwd(),'data/temples.json'),'utf-8').then(text=>JSON.parse(text) as TempleView[]);}
 export async function listTemples(input:TempleSearchInput={}){return searchTemples(await readCatalog(),input);}
 export const listCardTemples=listTemples;
 export const listMapTemples=listTemples;

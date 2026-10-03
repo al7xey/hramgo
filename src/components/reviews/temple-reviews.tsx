@@ -6,10 +6,12 @@ import type { TempleReviewView } from '@/features/temples/types';
 import { ReviewCard } from './review-card';
 import { ReviewForm } from './review-form';
 import { Button } from '@/components/ui/button';
+import {useReviewPhotos} from './review-photos';
 type Row={id:string;user_id:string;author_name:string;text:string;rating:number;helpful_count:number;visit_type:string;published_at:string;status:string};
 export function TempleReviews({templeId}:{templeId:string}) {
   const {data:session}=useSession();
   const [rows,setRows]=useState<Row[]>([]),[loading,setLoading]=useState(true),[error,setError]=useState(false),[version,setVersion]=useState(0),[count,setCount]=useState(0),[average,setAverage]=useState(0),[limit,setLimit]=useState(20);
+  const media=useReviewPhotos(rows.map(r=>r.id));
   useEffect(()=>{const refresh=()=>{setVersion(v=>v+1);setLimit(20);};window.addEventListener('hramgo:reviews-updated',refresh);return()=>window.removeEventListener('hramgo:reviews-updated',refresh);},[]);
   useEffect(()=>{
     if(!isSupabaseConfigured()){setLoading(false);return;}
@@ -27,7 +29,8 @@ export function TempleReviews({templeId}:{templeId:string}) {
     {count>0&&<p className="text-sm text-muted-foreground">Оценка посетителей: {average.toLocaleString('ru')} из 5 · отзывов: {count}. Это мнение посетителей, а не оценка духовной жизни.</p>}
     {loading&&<p role="status">Загрузка отзывов…</p>}
     {error?<div role="alert"><p>Не удалось загрузить отзывы.</p><Button variant="outline" onClick={()=>{setLimit(20);setVersion(v=>v+1);}}>Повторить</Button></div>:!loading&&!rows.length&&<p className="text-sm text-muted-foreground">{isSupabaseConfigured()?'Пока нет опубликованных отзывов.':'Отзывы временно недоступны.'}</p>}
-    {rows.map(row=><div key={row.id}>{row.status!=='APPROVED'&&<p className="mb-2 text-xs text-muted-foreground">Ваш отзыв · ожидает проверки</p>}<ReviewCard review={view(row)}/></div>)}
+    {rows.map(row=><div key={row.id}>{row.status!=='APPROVED'&&<p className="mb-2 text-xs text-muted-foreground">Ваш отзыв · ожидает проверки</p>}<ReviewCard review={view(row)} photos={media.photos.filter(p=>p.reviewId===row.id)}/></div>)}
+    {media.error&&<Button variant="ghost" onClick={media.reload}>Повторить загрузку фотографий</Button>}
     {!error&&rows.length>=limit&&<Button variant="outline" disabled={loading} onClick={()=>setLimit(v=>v+20)}>Ещё отзывы</Button>}
     <ReviewForm templeId={templeId}/>
   </div>;
