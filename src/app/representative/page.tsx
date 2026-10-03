@@ -1,12 +1,4 @@
-import { RepresentativeDashboard } from "@/components/representative/representative-dashboard";
-import { listTemples } from "@/features/temples/repository";
-
-export default async function RepresentativePage() {
-  const temples = await listTemples({});
-
-  return (
-    <div className="mx-auto max-w-3xl">
-      <RepresentativeDashboard temple={temples[0]} />
-    </div>
-  );
-}
+import type {Metadata} from 'next';
+import {RepresentativeDashboard} from '@/components/representative/representative-dashboard';
+export const metadata:Metadata={title:'Представителю храма',robots:{index:false,follow:false},alternates:{canonical:null}};
+export default function Page(){return <RepresentativeDashboard/>;}

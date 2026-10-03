@@ -1,0 +1,12 @@
+import { readFile, mkdir, writeFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
+import { normalizeLegacy, writeCatalog } from './lib/catalog.mjs';
+const file=process.argv[2];
+if(!file)throw new Error('Usage: node scripts/export-legacy-catalog.mjs <private legacy-data.json>');
+const raw=await readFile(file,'utf8');
+const db=JSON.parse(raw);
+const temples=normalizeLegacy(db).filter(t=>t.moderationStatus==='PUBLISHED');
+await writeCatalog(temples);
+await mkdir('data',{recursive:true});
+await writeFile('data/legacy-manifest.json',JSON.stringify({exportedAt:new Date().toISOString(),sha256:createHash('sha256').update(raw).digest('hex'),counts:Object.fromEntries(Object.entries(db).map(([k,v])=>[k,v.length])),publishedTemples:temples.length},null,2)+'\n');
+console.log(`Exported ${temples.length} published temples. No account or payment data in public files.`);

@@ -1,15 +1,14 @@
 "use client";
 
 import { Trash2 } from "lucide-react";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useSession } from "@/lib/auth/client";
+import { getSupabase } from "@/lib/supabase/client";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 
 export function DeleteReviewButton({ reviewId, userId }: { reviewId: string; userId: string }) {
   const { data: session } = useSession();
-  const router = useRouter();
   const [pending, setPending] = useState(false);
 
   const role = session?.user?.role;
@@ -21,15 +20,13 @@ export function DeleteReviewButton({ reviewId, userId }: { reviewId: string; use
     if (!window.confirm("Удалить отзыв? Он исчезнет с сайта и перестанет влиять на рейтинг храма.")) return;
 
     setPending(true);
-    const response = await fetch(`/api/reviews/${reviewId}`, { method: "DELETE" });
-    setPending(false);
+    try {
+      const {error}=await getSupabase().from('reviews').delete().eq('id',reviewId);
+      if(error)throw error;
+      window.dispatchEvent(new Event('hramgo:reviews-updated'));
+    } catch {window.alert('Не удалось удалить отзыв. Попробуйте ещё раз.');}
+    finally {setPending(false);}
 
-    if (!response.ok) {
-      window.alert("Не удалось удалить отзыв.");
-      return;
-    }
-
-    router.refresh();
   }
 
   return (

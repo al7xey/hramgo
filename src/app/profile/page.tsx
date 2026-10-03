@@ -1,3 +1,5 @@
+"use client";
+import { useSession } from "@/lib/auth/client";
 import Link from "next/link";
 import { Heart, HeartHandshake, MessageCircle, Settings } from "lucide-react";
 
@@ -6,6 +8,7 @@ import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { LiquidGlassCard } from "@/components/ui/liquid-glass-card";
 
 export default function ProfilePage() {
+ const {status,data:session}=useSession();
   return (
     <div className="mx-auto grid max-w-3xl gap-3">
       <div>
@@ -15,11 +18,13 @@ export default function ProfilePage() {
 
       <ProfileAuthCard />
 
-      <div className="grid gap-3 sm:grid-cols-2">
+      {status === "authenticated" && <div className="grid gap-3 sm:grid-cols-2">
         <ProfileLink href="/profile/favorites" icon={Heart} label="Избранное" />
         <ProfileLink href="/profile/reviews" icon={MessageCircle} label="Мои отзывы" />
         <ProfileLink href="/support" icon={HeartHandshake} label="Поддержать проект" />
-      </div>
+        <ProfileLink href="/representative/" icon={MessageCircle} label="Представителю храма" />
+        {['ADMIN','MODERATOR'].includes(session?.user.role??'')&&<ProfileLink href="/admin/" icon={Settings} label="Модерация" />}
+      </div>}
 
       <LiquidGlassCard className="grid gap-4 p-5">
         <div className="flex items-center justify-between gap-3">

@@ -4,8 +4,7 @@ import { listPublishedTempleSitemapEntries } from "@/features/temples/repository
 
 const baseUrl = "https://hramgo.ru";
 
-export const revalidate = 3600;
-export const dynamic = "force-dynamic";
+export const dynamic = "force-static";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const temples = await listPublishedTempleSitemapEntries();

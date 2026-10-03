@@ -4,7 +4,7 @@ import Link from "next/link";
 import { SupportPaymentForm } from "@/components/support/support-payment-form";
 import { LiquidGlassCard } from "@/components/ui/liquid-glass-card";
 import { env } from "@/lib/env";
-import { getMissingSupportPaymentConfig } from "@/lib/support/payment-config";
+import { isSupabaseConfigured } from "@/lib/supabase/client";
 
 export const metadata: Metadata = {
   title: "Поддержать HramGo",
@@ -12,9 +12,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/support" }
 };
 
-export default async function SupportPage({ searchParams }: { searchParams: Promise<{ status?: string }> }) {
-  const params = await searchParams;
-  const paymentEnabled = getMissingSupportPaymentConfig().length === 0;
+export default function SupportPage() {
+  const paymentEnabled=isSupabaseConfigured() && process.env.NEXT_PUBLIC_PAYMENTS_ENABLED==='true';
 
   return (
     <div className="mx-auto grid max-w-3xl gap-5">
@@ -26,25 +25,6 @@ export default async function SupportPage({ searchParams }: { searchParams: Prom
           не предоставляет дополнительных преимуществ.
         </p>
       </div>
-
-      {params?.status === "success" ? (
-        <LiquidGlassCard className="grid gap-2 p-5">
-          <h2 className="text-xl font-semibold">Спасибо за поддержку</h2>
-          <p className="text-sm leading-6 text-muted-foreground">
-            Платёж принят. Фискальный чек будет направлен на указанный e-mail после подтверждения платежа и фискализации
-            платёжным провайдером.
-          </p>
-        </LiquidGlassCard>
-      ) : null}
-
-      {params?.status === "fail" ? (
-        <LiquidGlassCard className="grid gap-2 p-5">
-          <h2 className="text-xl font-semibold">Платеж не завершен</h2>
-          <p className="text-sm leading-6 text-muted-foreground">
-            Можно вернуться к форме и попробовать снова. Эта страница сама по себе не меняет статус платежа.
-          </p>
-        </LiquidGlassCard>
-      ) : null}
 
       <LiquidGlassCard className="grid gap-4 p-5">
         <h2 className="text-xl font-semibold">Добровольная поддержка</h2>

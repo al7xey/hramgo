@@ -25,8 +25,11 @@ tmp/
 
 # env
 .env
+.env.*
 .env*.local
 !.env.example
+!.env.server.example
+supabase/.temp/
 
 # prisma
 prisma/dev.db

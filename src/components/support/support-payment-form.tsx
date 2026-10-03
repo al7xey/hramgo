@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useSession } from "next-auth/react";
-import { useEffect, useMemo, useState } from "react";
+import { useSession } from "@/lib/auth/client";
+import { useEffect, useMemo, useRef, useState } from "react";
 
+import { getSupabase } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 
 const exampleAmounts = [300, 700, 1500];
@@ -16,6 +17,7 @@ type Props = {
 
 export function SupportPaymentForm({ minAmount, maxAmount, paymentEnabled }: Props) {
   const { data: session } = useSession();
+  const requestKey=useRef<{fingerprint:string;key:string}|null>(null);
   const sessionEmail = session?.user?.email ?? "";
   const defaultAmount = minAmount ?? exampleAmounts[0];
   const [amount, setAmount] = useState(String(defaultAmount));
@@ -51,7 +53,7 @@ export function SupportPaymentForm({ minAmount, maxAmount, paymentEnabled }: Pro
     return null;
   }, [amountNumber, email, maxAmount, minAmount]);
 
-  const disabled = pending || !paymentEnabled || !consent || Boolean(validationMessage);
+  const disabled = pending || !session || !paymentEnabled || !consent || Boolean(validationMessage);
 
   return (
     <form
@@ -64,25 +66,20 @@ export function SupportPaymentForm({ minAmount, maxAmount, paymentEnabled }: Pro
         setPending(true);
         setMessage(null);
 
-        const response = await fetch("/api/support/payment", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({
-            amount: amountNumber,
-            email,
-            personalDataConsent: consent
-          })
-        });
-        const payload = (await response.json()) as { confirmationUrl?: string; message?: string };
+        try {
+          const fingerprint=JSON.stringify([amountNumber,email]);
+          if(requestKey.current?.fingerprint!==fingerprint)requestKey.current={fingerprint,key:crypto.randomUUID()};
+          const {data,error}=await getSupabase().functions.invoke('create-payment',{body:{amount:amountNumber,email,personalDataConsent:consent,idempotencyKey:requestKey.current.key}});
+          if(error)throw error;
+          if(data.confirmationUrl){
+            const url=new URL(data.confirmationUrl);
+            if(url.protocol!=='https:'||!['yookassa.ru','yoomoney.ru'].some(host=>url.hostname===host||url.hostname.endsWith('.'+host)))throw new Error('Invalid redirect');
+            window.location.assign(url.href);return;
+          }
+          setMessage(data.status==='PAID'?'Платёж уже подтверждён. Спасибо за поддержку.':'Не удалось перейти к оплате. Попробуйте ещё раз.');
+        } catch {setMessage('Не удалось перейти к оплате. Проверьте подключение и повторите попытку.');}
+        finally {setPending(false);}
 
-        setPending(false);
-
-        if (payload.confirmationUrl) {
-          window.location.href = payload.confirmationUrl;
-          return;
-        }
-
-        setMessage(payload.message ?? "Не удалось перейти к оплате.");
       }}
     >
       {!paymentEnabled ? (
@@ -91,6 +88,7 @@ export function SupportPaymentForm({ minAmount, maxAmount, paymentEnabled }: Pro
         </div>
       ) : null}
 
+      {!session && <p className="text-sm"><Link href="/login/?callbackUrl=/support/" className="text-primary underline">Войдите в профиль</Link>, чтобы поддержать проект.</p>}
       <div className="grid gap-2">
         <p className="text-sm font-medium">Примеры сумм</p>
         <div className="grid grid-cols-3 gap-2">

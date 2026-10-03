@@ -7,6 +7,8 @@ export type TemplePhotoView = {
   alt: string;
   isMain: boolean;
   sourceUrl?: string | null;
+  license?: string | null;
+  author?: string | null;
 };
 
 export type TransitLineView = {
@@ -21,6 +23,7 @@ export type TempleTransitView = {
   line: TransitLineView;
   distanceMeters: number;
   walkMinutes: number;
+  routeVerified?: boolean;
 };
 
 export type TransitStationOptionView = {
@@ -116,6 +119,26 @@ export type TempleView = {
   parishServices: TempleParishServiceView[];
   hasParking?: boolean;
   childFriendly?: boolean;
+  scheduleEntries?: ScheduleEntry[];
+  sources?: { url: string; sourceType: string; lastVerifiedAt?: string | null }[];
+};
+
+export type ScheduleEntry = {
+  id: string;
+  templeId: string;
+  serviceDate?: string | null;
+  weekdays?: number[] | null;
+  startsAt: string;
+  kind: "liturgy" | "evening" | "prayer" | "other";
+  title: string;
+  comment?: string | null;
+  isSpecial: boolean;
+  validFrom?: string | null;
+  validUntil?: string | null;
+  sourceUrl: string;
+  verifiedAt: string;
+  confidence: number;
+  status: "REVIEW" | "VERIFIED" | "REJECTED";
 };
 
 export type TempleSearchInput = {

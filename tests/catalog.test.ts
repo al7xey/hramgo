@@ -1,0 +1,17 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {searchTemples,distanceKm} from '../src/features/temples/search';
+import {templeSearchSchema} from '../src/features/temples/validation';
+import {servicesForDate,moscowDate} from '../src/features/temples/schedules';
+import type {TempleView,ScheduleEntry} from '../src/features/temples/types';
+const catalog:TempleView[]=JSON.parse(readFileSync('data/temples.json','utf8'));
+test('snapshot preserves unique routes and coordinates inside the Earth',()=>{assert.ok(catalog.length>=725);assert.equal(new Set(catalog.map(t=>t.id)).size,catalog.length);assert.equal(new Set(catalog.map(t=>t.slug)).size,catalog.length);for(const t of catalog){assert.match(t.slug,/^[a-z0-9][a-z0-9-]*$/);assert.equal(t.moderationStatus,'PUBLISHED');assert.ok(t.latitude==null||Math.abs(t.latitude)<=90);assert.ok(t.longitude==null||Math.abs(t.longitude)<=180);}});
+test('query boolean false does not enable filters',()=>{const input=templeSearchSchema.parse({hasPhotos:'false',sundaySchool:'0',hasWebsite:'true'});assert.equal(input.hasPhotos,false);assert.equal(input.sundaySchool,false);assert.equal(input.hasWebsite,true);});
+test('search combines Cyrillic words, metro and parish services',()=>{const target=catalog.find(t=>t.transit.length&&t.parishServices.length)!;const query=target.name.split(' ').find(w=>w.length>6)!;const input={query,metro:[target.transit[0].station],service:[target.parishServices[0].kind]};assert.ok(searchTemples(catalog,input).some(t=>t.id===target.id));for(const t of searchTemples(catalog,input)){assert.ok(t.transit.some(s=>s.station===input.metro[0]));assert.ok(t.parishServices.some(s=>s.kind===input.service[0]));}});
+test('radius is a real geographic distance and rejects missing coordinates',()=>{assert.ok(distanceKm(55.75,37.61,55.75,37.61)<0.001);assert.ok(distanceKm(55.75,37.61,55.76,37.61)>1);const target=catalog.find(t=>t.latitude!=null&&t.longitude!=null)!;const found=searchTemples(catalog,{latitude:target.latitude!,longitude:target.longitude!,radiusKm:1,sort:'distance'});assert.ok(found.some(t=>t.id===target.id));for(const t of found)assert.ok(distanceKm(target.latitude!,target.longitude!,t.latitude!,t.longitude!)<=1);});
+const now=new Date('2026-10-03T22:30:00Z');
+const entry:ScheduleEntry={id:'regular',templeId:'t',kind:'liturgy',title:'Литургия',weekdays:[7],startsAt:'09:00',isSpecial:false,sourceUrl:'https://example.org/schedule',verifiedAt:'2026-10-03T10:00:00Z',confidence:.9,status:'VERIFIED'};
+test('today uses Moscow midnight and real service kind',()=>{assert.equal(moscowDate(now),'2026-10-04');assert.equal(servicesForDate([entry],undefined,now).length,1);assert.equal(servicesForDate([{...entry,weekdays:[6]}],undefined,now).length,0);assert.equal(servicesForDate([{...entry,kind:'evening',startsAt:'07:00'}],undefined,now)[0].kind,'evening');});
+test('stale, future and unreviewed schedules never masquerade as confirmed',()=>{for(const change of [{status:'REVIEW' as const},{confidence:.7},{verifiedAt:'2026-08-01T00:00:00Z'},{verifiedAt:'2026-10-05T00:00:00Z'}])assert.equal(servicesForDate([{...entry,...change}],undefined,now).length,0);});
+test('special dated schedule replaces the weekly schedule',()=>{const special={...entry,id:'special',serviceDate:'2026-10-04',weekdays:undefined,startsAt:'10:00',isSpecial:true};assert.deepEqual(servicesForDate([entry,special],undefined,now).map(e=>e.id),['special']);});

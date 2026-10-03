@@ -2,16 +2,19 @@
 
 import Link from "next/link";
 import { MessageCircle, Send, Star } from "lucide-react";
-import { useSession } from "next-auth/react";
+import { useSession } from "@/lib/auth/client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { LiquidGlassCard } from "@/components/ui/liquid-glass-card";
+import { getSupabase } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
+import {ReviewPhotoUploader} from './review-photo-uploader';
+import {uploadReviewPhotos} from '@/lib/supabase/review-photos';
 
 export function ReviewForm({ templeId }: { templeId: string }) {
-  const { status } = useSession();
+  const { status, data: session } = useSession();
   const router = useRouter();
   const [message, setMessage] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
@@ -51,38 +54,26 @@ export function ReviewForm({ templeId }: { templeId: string }) {
         onSubmit={async (event) => {
           event.preventDefault();
           setPending(true);
-          const form = new FormData(event.currentTarget);
-          const response = await fetch(`/api/temples/${templeId}/reviews`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              rating,
-              text: form.get("text"),
-              visitType: form.get("visitType"),
-              tags: form.getAll("tags"),
-              personalDataConsent: form.get("personalDataConsent") === "on"
-            })
-          });
+          const node=event.currentTarget;
+          const form=new FormData(node);
+          try {
+            if(!session) {goToLogin();return;}
+            const files=form.getAll('photos').filter((f):f is File=>f instanceof File&&f.size>0);
+            if(files.length>10){setMessage('К отзыву можно добавить до 10 фотографий.');return;}
+            const {data,error}=await getSupabase().from('reviews').insert({temple_id:templeId,user_id:session.user.id,rating,text:String(form.get('text')??'').trim(),visit_type:form.get('visitType')}).select('id').single();
+            if(error)throw error;
+            try{await uploadReviewPhotos(data.id,session.user.id,files);setMessage('Отзыв сохранён и отправлен на проверку. Он уже виден вам.');}
+            catch{setMessage('Отзыв сохранён, но не все фотографии удалось загрузить. Сам отзыв отправлять повторно не нужно.');}
+            node.reset();setRating(5);window.dispatchEvent(new Event('hramgo:reviews-updated'));
+          } catch {setMessage('Не удалось отправить отзыв. Возможно, вы уже оставляли отзыв об этом храме.');}
+          finally {setPending(false);}
 
-          if (response.status === 401) {
-            goToLogin();
-            return;
-          }
-
-          const payload = (await response.json()) as { message?: string };
-          setMessage(payload.message ?? "Отзыв опубликован.");
-          setPending(false);
-
-          if (response.ok) {
-            event.currentTarget.reset();
-            setRating(5);
-          }
         }}
       >
         <div>
           <h3 className="text-lg font-semibold">Оставить отзыв</h3>
           <p className="mt-1 text-sm leading-6 text-muted-foreground">
-            Расскажите, что важно знать перед посещением. Отзыв появится на странице храма сразу после отправки.
+            Расскажите, что важно знать перед посещением. После проверки отзыв станет доступен всем посетителям.
           </p>
         </div>
         <label className="grid gap-1 text-sm">
@@ -119,9 +110,11 @@ export function ReviewForm({ templeId }: { templeId: string }) {
           <textarea
             name="text"
             required
+            maxLength={50000}
             className="min-h-36 rounded-[24px] border border-card-border bg-background p-4 outline-none focus:border-primary"
           />
         </label>
+        <ReviewPhotoUploader/>
         <label className="flex items-start gap-3 rounded-[20px] bg-muted p-3 text-sm leading-6">
           <input name="personalDataConsent" type="checkbox" required className="mt-1 size-4 shrink-0 accent-primary" />
           <span>

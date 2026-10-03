@@ -1,8 +1,6 @@
 import { listTempleFeedEntries } from "@/features/temples/repository";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 3600;
-
+export const dynamic = "force-static";
 const siteUrl = "https://hramgo.ru";
 
 function escapeXml(value: string) {

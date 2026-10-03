@@ -93,15 +93,14 @@ export const metadata: Metadata = {
   publisher: "HramGo",
   category: "directory",
   verification: {
-    google: "7pP8sbvL3oo0sTFTorRKUe_AKBK4Q4j8_SxbcmQUJME"
+    google: "7pP8sbvL3oo0sTFTorRKUe_AKBK4Q4j8_SxbcmQUJME",
+    yandex: "67152adb7199e4d5"
   }
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#FFFFFF" },
     { media: "(prefers-color-scheme: dark)", color: "#081522" }

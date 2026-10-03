@@ -1,14 +1,15 @@
 "use client";
 
-import { SessionProvider } from "next-auth/react";
+import { AuthProvider } from "@/lib/auth/client";
 import type { ReactNode } from "react";
 
 import { ThemeProvider } from "@/components/theme/theme-provider";
+import { FavoritesProvider } from "@/components/favorites/favorites-provider";
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
-    <SessionProvider>
-      <ThemeProvider>{children}</ThemeProvider>
-    </SessionProvider>
+    <AuthProvider>
+      <FavoritesProvider><ThemeProvider>{children}</ThemeProvider></FavoritesProvider>
+    </AuthProvider>
   );
 }

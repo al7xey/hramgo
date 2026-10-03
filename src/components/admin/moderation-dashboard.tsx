@@ -1,0 +1,18 @@
+"use client";
+import Link from 'next/link';
+import {useCallback,useEffect,useState} from 'react';
+import {useSession} from '@/lib/auth/client';
+import {getSupabase} from '@/lib/supabase/client';
+import {Button} from '@/components/ui/button';
+type Row={id:string;text?:string;rating?:number;field_name?:string;new_value?:string;source_url?:string;temple_id:string;status:string;created_at:string};
+const panels={reviews:'Отзывы',temple_edit_suggestions:'Исправления',representatives:'Представители'};
+type Panel=keyof typeof panels;
+export function ModerationDashboard(){
+ const {data:session,status}=useSession();const allowed=['ADMIN','MODERATOR'].includes(session?.user.role??'');const [panel,setPanel]=useState<Panel>('reviews'),[rows,setRows]=useState<Row[]>([]),[error,setError]=useState(''),[loading,setLoading]=useState(false),[pending,setPending]=useState('');
+ const load=useCallback(async()=>{if(!allowed)return;setLoading(true);setError('');try{const {data,error}=await getSupabase().from(panel).select('*').eq('status','PENDING').order('created_at',{ascending:true}).limit(100);if(error)throw error;setRows(data as Row[]);}catch{setError('Не удалось загрузить очередь.');}finally{setLoading(false);}},[allowed,panel]);
+ useEffect(()=>{setRows([]);void load();},[load]);
+ if(status==='loading')return <p role="status">Проверяем права…</p>;
+ if(!allowed)return <div><h1 className="text-2xl font-semibold">Модерация</h1><p>Этот раздел доступен модератору.</p><Link href="/profile/" className="text-primary">Перейти в профиль</Link></div>;
+ async function decide(id:string,decision:string){setPending(id);setError('');try{const rpc=panel==='reviews'?'moderate_review':panel==='representatives'?'moderate_representative':'moderate_suggestion';const params:Record<string,string>={target:id,new_status:decision};if(panel==='reviews')params.reason_text=decision==='APPROVED'?'Проверено модератором':'Отклонено при проверке';const {error}=await getSupabase().rpc(rpc,params);if(error)throw error;await load();}catch{setError('Не удалось сохранить решение. Проверьте официальный источник и права доступа.');}finally{setPending('');}}
+ return <section className="mx-auto max-w-4xl space-y-5"><h1 className="text-3xl font-semibold">Модерация</h1><div className="flex flex-wrap gap-2">{Object.entries(panels).map(([key,label])=><Button key={key} variant={panel===key?'primary':'outline'} onClick={()=>setPanel(key as Panel)}>{label}</Button>)}</div><p className="text-sm text-muted-foreground">Все решения записываются в журнал. Изменения каталога появятся после следующей сборки сайта.</p>{loading&&<p role="status">Загружаем…</p>}{error&&<p role="alert">{error} <Button onClick={()=>void load()} variant="outline">Повторить</Button></p>}{!rows.length&&!loading&&!error&&<p>Нет заявок на проверку.</p>}{rows.map(row=><article key={row.id} className="rounded-2xl border bg-card p-5 space-y-3"><p className="text-xs text-muted-foreground">Храм: {row.temple_id} · {new Date(row.created_at).toLocaleDateString('ru-RU')}</p>{row.rating&&<p>Оценка: {row.rating}/5</p>}{row.field_name&&<p className="font-semibold">{row.field_name}</p>}<p className="whitespace-pre-wrap text-sm leading-6">{row.text??row.new_value??'Запрос на представительство. Подтвердите связь с храмом перед одобрением.'}</p>{row.source_url&&<a className="text-primary underline break-all" href={row.source_url} target="_blank" rel="noreferrer">Официальный источник</a>}<div className="flex gap-3"><Button disabled={pending===row.id} onClick={()=>void decide(row.id,'APPROVED')}>Одобрить</Button><Button disabled={pending===row.id} variant="outline" onClick={()=>void decide(row.id,'REJECTED')}>Отклонить</Button></div></article>)}</section>;
+}

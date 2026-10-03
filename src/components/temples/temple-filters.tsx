@@ -53,7 +53,7 @@ export const TempleFilters = memo(function TempleFilters({
     const controller = new AbortController();
     setIsLoadingMetroOptions(true);
 
-    void fetch("/api/temples/filter-options", { signal: controller.signal })
+    void fetch("/data/filter-options.json", { signal: controller.signal })
       .then(async (response) => {
         if (!response.ok) {
           throw new Error("Не удалось загрузить станции");
@@ -178,7 +178,7 @@ export const TempleFilters = memo(function TempleFilters({
             </DetailsGroup>
 
             <FilterGroup title="Дополнительно">
-              <Check name="hasSchedule" value="true" label="Есть расписание" defaultChecked={defaultValues.hasSchedule === "true"} />
+              <Check name="hasSchedule" value="true" label="Подтверждённые службы сегодня" defaultChecked={defaultValues.hasSchedule === "true"} />
               <Check name="hasWebsite" value="true" label="Есть официальный сайт" defaultChecked={defaultValues.hasWebsite === "true"} />
               <Check name="hasPhotos" value="true" label="Есть фото" defaultChecked={defaultValues.hasPhotos === "true"} />
               <Check name="childFriendly" value="true" label="Удобно с детьми" defaultChecked={defaultValues.childFriendly === "true"} />

@@ -2,7 +2,7 @@ import type { Config } from "tailwindcss";
 import typography from "@tailwindcss/typography";
 
 const config: Config = {
-  darkMode: ["class"],
+  darkMode: "class",
   content: ["./src/**/*.{ts,tsx}", "./prisma/**/*.{ts,tsx}", "./scripts/**/*.{ts,tsx}"],
   theme: {
     extend: {
@@ -21,8 +21,8 @@ const config: Config = {
         surface: "var(--surface)"
       },
       borderRadius: {
-        glass: "28px",
-        shell: "32px"
+        glass: "18px",
+        shell: "24px"
       },
       boxShadow: {
         glass: "0 20px 70px rgba(54, 122, 178, 0.14)",

@@ -1,0 +1,27 @@
+project_id = "hramgo"
+
+[api]
+enabled = true
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+major_version = 17
+
+[auth]
+enabled = true
+site_url = "https://hramgo.ru"
+additional_redirect_urls = ["https://hramgo.ru/login/", "https://hramgo.ru/profile/", "http://localhost:3000/login/", "http://127.0.0.1:4173/login/"]
+minimum_password_length = 10
+
+[auth.email]
+enable_signup = true
+enable_confirmations = true
+double_confirm_changes = true
+
+[functions.create-payment]
+verify_jwt = false
+
+[functions.payment-webhook]
+verify_jwt = false

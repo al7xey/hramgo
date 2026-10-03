@@ -1,119 +1,22 @@
-import type { Metadata } from "next";
-import Link from "next/link";
-import { ArrowRight, CalendarCheck, HeartHandshake } from "lucide-react";
-
-import { MobileShell } from "@/components/layout/mobile-shell";
-import { TempleCard } from "@/components/temples/temple-card";
-import { TempleSearchBar } from "@/components/temples/temple-search-bar";
-import { Button } from "@/components/ui/button";
-import { LiquidGlassCard } from "@/components/ui/liquid-glass-card";
-import { listMapTemples } from "@/features/temples/repository";
-
-export const metadata: Metadata = {
-  title: "Найдите храм в Москве — поиск храмов, адреса, метро, МЦД и расписания",
-  description:
-    "HramGo помогает найти православный храм в Москве по названию, улице, району, метро, МЦД или ветке. В каталоге есть адреса, карта, расписания богослужений, контакты, фото и официальные сайты.",
-  alternates: { canonical: "/" },
-  openGraph: {
-    title: "Найдите храм в Москве — поиск храмов, метро, МЦД и расписания | HramGo",
-    description: "Найдите православный храм Москвы по названию, улице, району, метро, МЦД или ветке: адреса, расписания, контакты, фото и карта.",
-    url: "https://hramgo.ru",
-    type: "website",
-    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "HramGo — поиск храмов Москвы" }]
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Найдите храм в Москве — поиск храмов, метро, МЦД и расписания | HramGo",
-    description: "Поиск храмов Москвы по названию, улице, району, метро, МЦД, ветке, расписанию и контактам.",
-    images: ["/twitter-image"]
-  }
-};
-
-export const revalidate = 300;
-
-export default async function HomePage() {
-  const temples = await listMapTemples({ sort: "impressions" });
-  const reviewedTemples = temples.filter((temple) => temple.approvedReviewsCount > 0);
-  const fallbackTemples = [...temples].sort((a, b) => (a.shortName ?? a.name).localeCompare(b.shortName ?? b.name, "ru"));
-  const featuredTemples = (reviewedTemples.length > 0 ? reviewedTemples : fallbackTemples).slice(0, 3);
-
-  return (
-    <MobileShell>
-      <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start xl:grid-cols-[minmax(0,1fr)_390px]">
-        <section className="grid gap-5">
-          <LiquidGlassCard className="p-5 md:p-7 lg:p-8">
-            <h1 className="max-w-4xl break-words text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl">
-              Найдите храм в Москве
-            </h1>
-            <p className="mt-4 max-w-2xl text-base leading-7 text-muted-foreground lg:text-lg">
-              Введите название, улицу, район, станцию метро или МЦД. HramGo покажет ближайшие храмы, адреса, расписания и маршрут.
-            </p>
-            <div className="mt-5">
-              <TempleSearchBar />
-            </div>
-          </LiquidGlassCard>
-
-          <section className="grid gap-3">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold">Популярные храмы</h2>
-              <Button asChild variant="outline" size="icon" className="size-11 rounded-full">
-                <Link href="/temples">
-                  <span className="sr-only">Смотреть все храмы</span>
-                  <ArrowRight className="size-5" aria-hidden />
-                </Link>
-              </Button>
-            </div>
-            <div className="grid gap-4">
-              {featuredTemples.map((temple) => (
-                <TempleCard key={temple.id} temple={temple} />
-              ))}
-            </div>
-          </section>
-
-          <section>
-            <LiquidGlassCard className="p-5">
-              <div className="flex items-start gap-3">
-                <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-primary-soft text-primary">
-                  <HeartHandshake className="size-5" aria-hidden />
-                </span>
-                <div className="min-w-0 flex-1">
-                  <h2 className="font-semibold">Помочь проекту стать полезнее</h2>
-                  <p className="mt-1 text-sm leading-6 text-muted-foreground">
-                    Поддержка помогает проверять данные, добавлять новые карточки, фотографии и улучшать карту.
-                  </p>
-                </div>
-              </div>
-              <Button asChild size="lg" className="mt-4 w-full">
-                <Link href="/support">Поддержать проект</Link>
-              </Button>
-            </LiquidGlassCard>
-          </section>
-        </section>
-
-        <aside className="grid gap-4 lg:sticky lg:top-24">
-          <LiquidGlassCard className="p-5">
-            <div className="flex items-start gap-3">
-              <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-primary-soft text-primary">
-                <CalendarCheck className="size-5" aria-hidden />
-              </span>
-              <div>
-                <h2 className="font-semibold">Перед посещением</h2>
-                <p className="mt-1 text-sm leading-6 text-muted-foreground">
-                  Сверяйте расписание и контакты по официальному сайту храма, особенно перед поездкой в праздник.
-                </p>
-              </div>
-            </div>
-          </LiquidGlassCard>
-
-          <LiquidGlassCard className="p-5">
-            <h2 className="font-semibold">О проекте</h2>
-            <div className="mt-3 grid gap-3 text-base leading-7 text-muted-foreground">
-              <p>HramGo собирает открытые данные о православных храмах Москвы: адреса, ближайшие станции, контакты, фото и расписания.</p>
-              <p>Информация обновляется из официальных источников и дополняется отзывами пользователей.</p>
-            </div>
-          </LiquidGlassCard>
-        </aside>
-      </div>
-    </MobileShell>
-  );
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { ArrowUpRight,Compass,MapPin,Clock3 } from 'lucide-react';
+import { listTemples } from '@/features/temples/repository';
+import { TempleCard } from '@/components/temples/temple-card';
+import { TempleSearchBar } from '@/components/temples/temple-search-bar';
+import { TemplePhoto } from '@/components/temples/temple-photo';
+export const metadata:Metadata={title:'Храмы Москвы — найдите храм и расписание богослужений',description:'Каталог православных храмов Москвы и Новой Москвы. Адреса, расписания, метро и МЦД, карта и контакты из официальных источников.',alternates:{canonical:'/'}};
+export default async function HomePage(){
+  const temples=await listTemples();
+  const photoTemple=temples.find(t=>t.sourcePrimaryUrl?.endsWith('/458')&&t.photos.length)??temples.find(t=>t.photos.length&&/собор/i.test(t.name))??temples.find(t=>t.photos.length);
+  const featured=temples.filter(t=>t.photos.length&&t.address).slice(0,6);
+  return <div className="grid gap-12 py-2 sm:py-5">
+    <section className="grid items-center gap-7 lg:grid-cols-[1.05fr_1fr] lg:gap-12">
+      <div className="grid gap-6"><p className="eyebrow">Москва · православные храмы</p><h1 className="max-w-xl text-4xl font-semibold leading-[1.12] tracking-tight sm:text-5xl lg:text-6xl">Храм рядом.<br/><span className="text-primary">Место для вас.</span></h1><p className="max-w-lg text-base leading-7 text-muted-foreground">Найдите храм, узнайте расписание богослужений и спланируйте посещение. От знакомой улицы до нового маршрута.</p><div className="max-w-lg"><TempleSearchBar/></div><div className="flex flex-wrap gap-x-5 gap-y-2 text-sm"><Link href="/map/" className="inline-flex items-center gap-2 text-primary"><MapPin className="size-4"/>Рядом со мной<ArrowUpRight className="size-3"/></Link><Link href="/temples/?hasSchedule=true" className="inline-flex items-center gap-2 text-primary"><Clock3 className="size-4"/>Службы сегодня<ArrowUpRight className="size-3"/></Link></div><p className="text-xs text-muted-foreground">{temples.length} храмов в каталоге · Москва и Новая Москва</p></div>
+      <figure className="relative overflow-hidden rounded-[24px] bg-muted"><TemplePhoto src={photoTemple?.photos[0]?.imageUrl} alt={photoTemple?.name??'Православный храм Москвы'} priority className="aspect-[4/5] max-h-[540px]"/><figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-6 pt-20 text-white"><p className="text-xs uppercase tracking-wider text-white/80">Откройте Москву заново</p>{photoTemple&&<Link href={'/temples/'+photoTemple.slug+'/'} className="mt-2 inline-flex max-w-full items-center gap-2 text-lg font-medium">{photoTemple.shortName??photoTemple.name}<ArrowUpRight className="size-5 shrink-0"/></Link>}</figcaption></figure>
+    </section>
+    <section className="grid gap-5"><div className="flex items-end justify-between gap-4"><div><p className="eyebrow">Знакомство с городом</p><h2 className="mt-2 text-2xl font-semibold sm:text-3xl">Храмы, с которых можно начать</h2></div><Link href="/temples/" className="shrink-0 text-sm font-semibold text-primary">Весь каталог ↗</Link></div><div className="grid gap-4 md:grid-cols-2">{featured.map(t=><TempleCard key={t.id} temple={t}/>)}</div></section>
+    <section className="grid gap-6 border-y border-card-border py-8 sm:grid-cols-3"><div><Compass className="mb-3 size-5 text-primary"/><h2 className="font-semibold">Найдите свой маршрут</h2><p className="mt-2 text-sm leading-6 text-muted-foreground">По названию, району, станции метро или МЦД. Или выберите храм на карте.</p></div><div><Clock3 className="mb-3 size-5 text-primary"/><h2 className="font-semibold">Проверьте время службы</h2><p className="mt-2 text-sm leading-6 text-muted-foreground">Показываем источник и дату проверки. Перед поездкой сверяйтесь с официальным расписанием.</p></div><div><MapPin className="mb-3 size-5 text-primary"/><h2 className="font-semibold">Сохраните важные места</h2><p className="mt-2 text-sm leading-6 text-muted-foreground">Добавляйте храмы в избранное и делитесь полезными впечатлениями после посещения.</p></div></section>
+    <section className="flex flex-wrap items-center justify-between gap-5"><div><h2 className="text-xl font-semibold">Помогите HramGo стать полезнее</h2><p className="mt-2 text-sm text-muted-foreground">Поддержка помогает проверять данные и развивать каталог.</p></div><Link href="/support/" className="rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white">Поддержать проект ↗</Link></section>
+  </div>;
 }
