@@ -45,11 +45,13 @@ for(const user of db.User){
   let migrated=authUsers.users.find(u=>u.app_metadata?.legacy_id===user.id);
   if(!migrated&&authUsers.users.some(u=>u.email?.toLowerCase()===user.email.toLowerCase()))throw new Error('Unmapped Auth email collision; manual identity verification required.');
   if(!migrated){
-    const {data,error}=await client.auth.admin.createUser({email:user.email,password:randomBytes(48).toString('base64url'),email_confirm:Boolean(user.emailVerified),user_metadata:{name:user.name??'Посетитель'},app_metadata:{legacy_id:user.id,requires_password_recovery:true}});
+    const {data,error}=await client.auth.admin.createUser({email:user.email,password:randomBytes(48).toString('base64url'),email_confirm:Boolean(user.emailVerified),ban_duration:user.status==='ACTIVE'?'none':'876000h',user_metadata:{name:user.name??'Посетитель'},app_metadata:{legacy_id:user.id,requires_password_recovery:true,legacy_status:user.status}});
     if(error)throw new Error(`Auth import failed for legacy ID ${user.id}: ${error.code??'unknown'}`);migrated=data.user;
   }
   await upsertBatches(client,'legacy_user_map',[{legacy_id:user.id,user_id:migrated.id}],'legacy_id');mapping.set(user.id,migrated.id);
 }
+// Resume cannot reactivate an account deleted or blocked in the source database.
+for(const user of db.User.filter(u=>u.status!=='ACTIVE')){const {error}=await client.auth.admin.updateUserById(mapping.get(user.id),{ban_duration:'876000h'});if(error)throw new Error('Cannot preserve account ban');}
 const uid=id=>{const mapped=mapping.get(id);if(!mapped)throw new Error(`Unmapped legacy account ${id}`);return mapped;};
 await upsertBatches(client,'profiles',db.User.map(u=>({id:uid(u.id),display_name:u.name||'Посетитель',avatar_url:safeUrl(u.image),theme:(u.themePreference??'LIGHT').toLowerCase(),created_at:u.createdAt})));
 await upsertBatches(client,'user_roles',db.User.filter(u=>u.role!=='USER'||u.status!=='ACTIVE').map(u=>({user_id:uid(u.id),role:u.status!=='ACTIVE'?'BLOCKED':u.role})),'user_id');
