@@ -8,7 +8,7 @@ import { ChevronDown, SlidersHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LiquidGlassCard } from "@/components/ui/liquid-glass-card";
 import { getParishServiceLabel } from "@/features/temples/parish-services";
-import type { TempleParishServiceView, TransitLineView, TransitStationOptionView } from "@/features/temples/types";
+import type { TempleParishServiceView, TempleSearchInput, TransitLineView, TransitStationOptionView } from "@/features/temples/types";
 import { cn } from "@/lib/utils";
 
 type FilterDefaults = {
@@ -33,13 +33,15 @@ export const TempleFilters = memo(function TempleFilters({
   metros,
   metroLines,
   serviceKinds,
-  defaultValues
+  defaultValues,
+  preserved
 }: {
   districts: string[];
   metros: TransitStationOptionView[];
   metroLines: TransitLineView[];
   serviceKinds: TempleParishServiceView["kind"][];
   defaultValues: FilterDefaults;
+  preserved?: TempleSearchInput;
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [metroOptions, setMetroOptions] = useState(metros);
@@ -93,14 +95,14 @@ export const TempleFilters = memo(function TempleFilters({
         type="button"
         variant="outline"
         size="lg"
-        className="justify-between bg-white hover:bg-white dark:border-white/15 dark:bg-[#102233] dark:text-slate-100 dark:hover:bg-[#102233]"
+        className="justify-between bg-card hover:bg-card dark:border-card-border dark:bg-card dark:text-foreground dark:hover:bg-muted"
         onClick={() => setIsOpen((value) => !value)}
       >
         <span className="flex items-center gap-2">
           <SlidersHorizontal className="size-4" aria-hidden />
-          Фильтры
+          Дополнительные фильтры
           {activeFiltersCount > 0 && (
-            <span className="inline-flex min-w-6 items-center justify-center rounded-full bg-primary px-2 py-0.5 text-xs text-white dark:text-[#081522]">
+            <span className="inline-flex min-w-6 items-center justify-center rounded-full bg-primary px-2 py-0.5 text-xs text-white dark:text-background">
               {activeFiltersCount}
             </span>
           )}
@@ -109,9 +111,11 @@ export const TempleFilters = memo(function TempleFilters({
       </Button>
 
       {isOpen && (
-        <LiquidGlassCard className="p-4 dark:bg-[#102233] dark:text-slate-100">
+        <LiquidGlassCard className="p-4 dark:bg-card dark:text-foreground">
           <form action="/temples" className="grid gap-4">
             <input type="hidden" name="query" value={defaultValues.query ?? ""} />
+            {Object.entries(preserved??{}).filter(([k,v])=>['date','timeFrom','worship','latitude','longitude','radiusKm','sort'].includes(k)&&v!==undefined).map(([k,v])=><input type="hidden" key={k} name={k} value={String(v)}/>)}
+            <label className="grid gap-1 text-sm"><span>Служба начинается до</span><input type="time" name="timeTo" defaultValue={preserved?.timeTo} className="h-11 rounded-xl border border-card-border bg-card px-3"/></label>
 
             <FilterGroup title="Тип объекта">
               <Radio name="objectType" value="all" label="Все объекты" defaultChecked={!defaultValues.objectType || defaultValues.objectType === "all"} />
@@ -214,7 +218,7 @@ function FilterGroup({ title, children }: { title: string; children: ReactNode }
 
 function DetailsGroup({ title, count, children }: { title: string; count: number; children: ReactNode }) {
   return (
-    <details className="details-panel rounded-[22px] border border-card-border bg-white p-3 dark:border-white/15 dark:bg-[#0d1d2c]">
+    <details className="details-panel rounded-xl border border-card-border bg-card p-3 dark:border-card-border dark:bg-card">
       <summary className="flex cursor-pointer items-center justify-between gap-3 text-sm font-semibold text-foreground">
         <span>{title}</span>
         <span className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
@@ -245,8 +249,8 @@ function Check({
   return (
     <label
       className={cn(
-        "inline-flex min-h-10 max-w-full cursor-pointer items-center gap-2 rounded-[18px] border border-card-border bg-white px-3 text-sm transition hover:border-card-border hover:bg-white dark:border-white/15 dark:bg-[#0d1d2c] dark:text-slate-100 dark:hover:bg-[#0d1d2c]",
-        defaultChecked && "border-foreground/25 bg-white dark:border-sky-300/45 dark:bg-sky-400/10"
+        "inline-flex min-h-10 max-w-full cursor-pointer items-center gap-2 rounded-xl border border-card-border bg-card px-3 text-sm transition hover:border-card-border hover:bg-card dark:border-card-border dark:bg-card dark:text-foreground dark:hover:bg-muted",
+        defaultChecked && "border-foreground/25 bg-card dark:border-primary dark:bg-primary-soft"
       )}
     >
       <input type="checkbox" name={name} value={value} defaultChecked={defaultChecked} className="size-4 accent-primary" />
@@ -258,7 +262,7 @@ function Check({
 
 function Radio({ name, value, label, defaultChecked }: { name: string; value: string; label: string; defaultChecked?: boolean }) {
   return (
-    <label className="inline-flex min-h-10 cursor-pointer items-center gap-2 rounded-[18px] border border-card-border bg-white px-3 text-sm transition hover:bg-white dark:border-white/15 dark:bg-[#0d1d2c] dark:text-slate-100">
+    <label className="inline-flex min-h-10 cursor-pointer items-center gap-2 rounded-xl border border-card-border bg-card px-3 text-sm transition hover:bg-card dark:border-card-border dark:bg-card dark:text-foreground">
       <input type="radio" name={name} value={value} defaultChecked={defaultChecked} className="size-4 accent-primary" />
       <span>{label}</span>
     </label>
@@ -282,7 +286,7 @@ function Select({
       <select
         name={name}
         defaultValue={defaultValue ?? ""}
-        className="h-10 rounded-[18px] border border-card-border bg-white px-3 text-sm outline-none dark:border-white/15 dark:bg-[#0d1d2c] dark:text-slate-100"
+        className="h-10 rounded-xl border border-card-border bg-card px-3 text-sm outline-none dark:border-card-border dark:bg-card dark:text-foreground"
       >
         {options.map((option) => (
           <option key={option || "any"} value={option}>

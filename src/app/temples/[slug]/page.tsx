@@ -4,13 +4,10 @@ import type { ReactNode } from "react";
 import { BookOpenText, ChevronDown, ExternalLink, History, Map, ShieldCheck, UsersRound } from "lucide-react";
 import { notFound } from "next/navigation";
 
-import { FavoriteButton } from "@/components/favorites/favorite-button";
 import { LazyTempleMap } from "@/components/map/lazy-temple-map";
-import { TempleReviews } from "@/components/reviews/temple-reviews";
 import { TempleSchedule } from "@/components/temples/temple-schedule";
 import { BackToSearchButton } from "@/components/temples/back-to-search-button";
 import { TempleGallery } from "@/components/temples/temple-gallery";
-import { SuggestCorrection } from '@/components/temples/suggest-correction';
 import { TransitSummary } from "@/components/temples/transit-chip";
 import { Button } from "@/components/ui/button";
 import { LiquidGlassCard } from "@/components/ui/liquid-glass-card";
@@ -88,10 +85,8 @@ export default async function TemplePage({params}:{params:Promise<{slug:string}>
   }
 
   const mapHref=`/map/?temple=${temple.slug}`;
-  const reviewsHref=`/temples/${temple.slug}/reviews/`;
   const structuredData = getTempleStructuredData(temple);
   const displayAddress = formatTempleAddress(temple.address);
-  const templeDescription = getTempleDescription(temple);
 
   return (
     <div className="mx-auto grid max-w-6xl gap-5">
@@ -107,12 +102,10 @@ export default async function TemplePage({params}:{params:Promise<{slug:string}>
                 <h1 className="break-words text-2xl font-semibold leading-tight md:text-3xl">{temple.name}</h1>
                 <p className="mt-3 text-sm leading-6 text-muted-foreground">{displayAddress}</p>
               </div>
-              <FavoriteButton templeId={temple.id} compact />
             </div>
 
             <TransitSummary transit={temple.transit} limit={3} />
 
-            {templeDescription && <p className="text-sm leading-7 text-muted-foreground">{templeDescription}</p>}
 
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               <Button asChild>
@@ -137,6 +130,12 @@ export default async function TemplePage({params}:{params:Promise<{slug:string}>
           <DetailsCard title="Расписание богослужений" defaultOpen icon={<BookOpenText className="size-5" aria-hidden />}>
             <TempleSchedule temple={temple}/>
           </DetailsCard>
+
+          <section className="grid gap-3 py-3">
+            <div className="flex flex-wrap items-center justify-between gap-3"><h2 className="text-xl font-semibold">Как добраться</h2><a href={'https://yandex.ru/maps/?text='+encodeURIComponent(temple.name+' '+(temple.address??'Москва'))} target="_blank" rel="noreferrer" className="min-h-11 py-3 text-sm font-semibold text-primary underline">Открыть в Яндекс Картах ↗</a></div>
+            <p className="text-sm text-muted-foreground">{displayAddress}</p>
+            <LazyTempleMap temples={[temple]} activeSlug={temple.slug} showPreview={false}/>
+          </section>
 
           <DetailsCard title="История, святыни и фото" icon={<History className="size-5" aria-hidden />}>
             <InfoBlock title="История" text={temple.historySummary ?? temple.description ?? "История храма пока не добавлена."} />
@@ -199,21 +198,7 @@ export default async function TemplePage({params}:{params:Promise<{slug:string}>
           </DetailsCard>
         </div>
 
-        <section className="grid gap-3">
-          <h2 className="text-xl font-semibold">Карта</h2>
-          <LazyTempleMap temples={[temple]} activeSlug={temple.slug} showPreview={false} />
-        </section>
 
-        <section className="grid gap-3">
-          <div className="flex items-center justify-between gap-3">
-            <h2 className="text-xl font-semibold">Отзывы</h2>
-            <Button asChild variant="ghost" size="sm">
-              <Link href={reviewsHref}>Все</Link>
-            </Button>
-          </div>
-          <TempleReviews templeId={temple.id}/>
-        </section>
-        <SuggestCorrection templeId={temple.id}/>
       </section>
     </div>
   );
@@ -360,15 +345,7 @@ function getTempleStructuredData(temple: TempleView) {
             longitude: temple.longitude
           }
         : undefined,
-    sameAs: temple.socialLinks.map((link) => link.url),
-    aggregateRating:
-      temple.approvedReviewsCount > 0
-        ? {
-            "@type": "AggregateRating",
-            ratingValue: Math.max(1, temple.averageHelpfulnessRating || 1),
-            reviewCount: temple.approvedReviewsCount
-          }
-        : undefined
+    sameAs: temple.socialLinks.map((link) => link.url)
       },
       {
         "@type": "BreadcrumbList",

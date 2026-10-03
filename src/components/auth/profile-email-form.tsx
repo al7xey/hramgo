@@ -1,5 +1,0 @@
-"use client";
-import {useState} from 'react';
-import {getSupabase} from '@/lib/supabase/client';
-import {Button} from '@/components/ui/button';
-export function ProfileEmailForm(){const [pending,setPending]=useState(false),[message,setMessage]=useState('');return <form className="grid gap-3" onSubmit={async event=>{event.preventDefault();const email=String(new FormData(event.currentTarget).get('email')).trim();setPending(true);try{const {error}=await getSupabase().auth.updateUser({email},{emailRedirectTo:location.origin+'/profile/'});if(error)throw error;setMessage('Проверьте письма на старом и новом адресах. Изменение действует после подтверждения.');}catch{setMessage('Не удалось отправить подтверждение. Попробуйте позже.');}finally{setPending(false);}}}><label className="grid gap-1 text-sm">Новый адрес почты<input required type="email" name="email" autoComplete="email" className="h-12 rounded-xl border border-card-border bg-background px-3"/></label><Button variant="outline" disabled={pending}>Изменить почту</Button>{message&&<p role="status" className="text-sm">{message}</p>}</form>;}

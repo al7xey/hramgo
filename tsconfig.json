@@ -36,9 +36,6 @@
   ],
   "exclude": [
     "node_modules",
-    "legacy",
-    "tmp",
-    "prisma",
-    "supabase/functions"
+    "tmp"
   ]
 }

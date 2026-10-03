@@ -2,7 +2,7 @@ import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import hooks from 'eslint-plugin-react-hooks';
 export default tseslint.config(
-  { ignores: ['.next/**','out/**','legacy/**','prisma/**','supabase/functions/**','node_modules/**','tmp/**','next-env.d.ts','*.log'] },
+  { ignores: ['.next/**','out/**','node_modules/**','tmp/**','next-env.d.ts','*.log'] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   { languageOptions: { globals: Object.fromEntries(['console','process','Buffer','URL','URLSearchParams','fetch','AbortSignal','setTimeout','clearTimeout','window','document','navigator','localStorage','ResizeObserver','IntersectionObserver','FormData','Event','HTMLElement','HTMLInputElement','HTMLFormElement','File','Blob','Request','Response','TextEncoder','crypto','queueMicrotask'].map(name=>[name,'readonly'])) },

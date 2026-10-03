@@ -3,7 +3,7 @@ import typography from "@tailwindcss/typography";
 
 const config: Config = {
   darkMode: "class",
-  content: ["./src/**/*.{ts,tsx}", "./prisma/**/*.{ts,tsx}", "./scripts/**/*.{ts,tsx}"],
+  content: ["./src/**/*.{ts,tsx}", "./scripts/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {
@@ -21,12 +21,12 @@ const config: Config = {
         surface: "var(--surface)"
       },
       borderRadius: {
-        glass: "18px",
-        shell: "24px"
+        glass: "16px",
+        shell: "16px"
       },
       boxShadow: {
-        glass: "0 20px 70px rgba(54, 122, 178, 0.14)",
-        "glass-dark": "0 24px 80px rgba(0, 0, 0, 0.28)"
+        glass: "0 2px 8px rgba(32, 46, 41, 0.06)",
+        "glass-dark": "0 2px 8px rgba(0, 0, 0, 0.12)"
       },
       fontFamily: {
         sans: ["var(--font-montserrat)", "Montserrat", "Arial", "sans-serif"]

@@ -1,14 +1,11 @@
 import Link from "next/link";
 
 const legalLinks = [
-  { href: "/legal/support-terms", label: "Условия поддержки" },
-  { href: "/legal/payment-and-refund", label: "Оплата и возврат" },
   { href: "/legal/privacy", label: "Политика ПДн" },
   { href: "/legal/contacts", label: "Контакты и реквизиты" }
 ];
 
 const serviceLinks = [
-  { href: "/legal/personal-data-consent", label: "Согласие на ПДн" },
   { href: "/legal/terms", label: "Условия сайта" },
   { href: "/legal/cookies", label: "Cookies" }
 ];

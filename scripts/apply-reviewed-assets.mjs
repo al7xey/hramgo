@@ -15,5 +15,10 @@ const photoReport=JSON.parse(await readFile('data/photo-import-report.json','utf
 await mkdir('public/photos',{recursive:true});
 for(const temple of temples){temple.photos=temple.photos.filter(p=>!photoReport.some(r=>r.id===p.id&&r.status==='REVIEW'));for(const photo of temple.photos){const optimized=photoReport.find(r=>r.id===photo.id&&r.status==='OPTIMIZED');if(!optimized)continue;const path=optimized.hash.slice(0,24)+'.webp';await copyFile('tmp/photos/'+photo.id+'.webp','public/photos/'+path);Object.assign(photo,{imageUrl:'/photos/'+path,license:optimized.license,author:optimized.author,sourceUrl:optimized.sourceUrl});}}
 await writeCatalog(temples);
-if(process.argv.includes('--apply'))await upsertBatches(adminClient(),'temple_schedule_entries',imported.map(e=>({id:e.id,temple_id:e.templeId,weekdays:e.weekdays,starts_at:e.startsAt,kind:e.kind,title:e.title,comment:e.comment,is_special:e.isSpecial,source_url:e.sourceUrl,verified_at:e.verifiedAt,confidence:e.confidence,status:e.status})));
+if(process.argv.includes('--apply')){
+ const client=adminClient();
+ await upsertBatches(client,'temple_schedule_entries',imported.map(e=>({id:e.id,temple_id:e.templeId,weekdays:e.weekdays,starts_at:e.startsAt,kind:e.kind,title:e.title,comment:e.comment,is_special:e.isSpecial,source_url:e.sourceUrl,verified_at:e.verifiedAt,confidence:e.confidence,status:e.status})));
+ const excluded=photoReport.filter(r=>r.status==='REVIEW').map(r=>r.id);
+ if(excluded.length){const {error}=await client.from('temple_photos').update({status:'NEEDS_REVIEW',is_main:false}).in('id',excluded);if(error)throw new Error('Cannot preserve photo exclusions in Supabase');}
+}
 console.log(`Reviewed schedules: ${imported.length}; optimized licensed photographs: ${photoReport.filter(r=>r.status==='OPTIMIZED').length}`);

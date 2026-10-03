@@ -21,14 +21,18 @@ export function LazyTempleMap({
   temples,
   activeSlug,
   sidebarTop,
-  showPreview = true
+  showPreview = true,
+  onSelect,
+  onAreaChange
 }: {
   temples: TempleMapView[];
   activeSlug?: string;
   sidebarTop?: ReactNode;
   showPreview?: boolean;
+  onSelect?: (slug:string)=>void;
+  onAreaChange?: (bounds:{south:number;west:number;north:number;east:number}|null)=>void;
 }) {
   const node=useRef<HTMLDivElement>(null);const [visible,setVisible]=useState(false);
   useEffect(()=>{const observer=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){setVisible(true);observer.disconnect();}},{rootMargin:'150px'});if(node.current)observer.observe(node.current);return ()=>observer.disconnect();},[]);
-  return <div ref={node}>{visible?<TempleMapDynamic temples={temples} activeSlug={activeSlug} sidebarTop={sidebarTop} showPreview={showPreview} />:<div className="grid min-h-80 place-items-center rounded-2xl bg-muted"><button className="min-h-11 px-5 text-primary" onClick={()=>setVisible(true)}>Загрузить карту</button></div>}</div>;
+  return <div ref={node}>{visible?<TempleMapDynamic temples={temples} activeSlug={activeSlug} sidebarTop={sidebarTop} showPreview={showPreview} onSelect={onSelect} onAreaChange={onAreaChange}/>:<div className="grid min-h-80 place-items-center rounded-2xl bg-muted"><button className="min-h-11 px-5 text-primary" onClick={()=>setVisible(true)}>Загрузить карту</button></div>}</div>;
 }

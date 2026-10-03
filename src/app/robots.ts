@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/admin", "/representative", "/api", "/login", "/profile", "/favorites"]
+      disallow: ["/api"]
     },
     sitemap: "https://hramgo.ru/sitemap.xml",
     host: "hramgo.ru"

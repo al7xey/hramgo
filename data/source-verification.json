@@ -1,24 +1,11 @@
 {
-  "checkedAt": "2026-10-03T15:24:44.573Z",
+  "checkedAt": "2026-10-03T18:01:12.059Z",
   "directoryItems": 858,
   "moscowItems": 757,
   "verified": 757,
   "added": 0,
   "failed": [],
   "records": [
-    {
-      "id": "source-ab5ef247a8a5c2e97f451164",
-      "temple_id": "cmqh1t97b000nmrereflbu9wl",
-      "url": "https://sprav.moseparh.ru/org/471",
-      "source_type": "moseparh_card",
-      "etag": null,
-      "last_modified": null,
-      "content_hash": "36ae4d7b97c28ddffe40d279b4b02fcb7cf1677583e1b57a3fe358f1e367b490",
-      "last_checked_at": "2026-10-03T15:21:28.168Z",
-      "last_verified_at": "2026-10-03T15:21:28.168Z",
-      "http_status": 200,
-      "confidence": 0.9
-    },
     {
       "id": "source-762167fa3e04ffe788853dde",
       "temple_id": "cmqh1t9500001mrervzl9er1v",
@@ -29,6 +16,19 @@
       "content_hash": "f0035bfef99c6825ec01719cfe5d00c4df93ac8afca8fe766eec10e7fc0f5392",
       "last_checked_at": "2026-10-03T15:21:28.171Z",
       "last_verified_at": "2026-10-03T15:21:28.171Z",
+      "http_status": 200,
+      "confidence": 0.9
+    },
+    {
+      "id": "source-ab5ef247a8a5c2e97f451164",
+      "temple_id": "cmqh1t97b000nmrereflbu9wl",
+      "url": "https://sprav.moseparh.ru/org/471",
+      "source_type": "moseparh_card",
+      "etag": null,
+      "last_modified": null,
+      "content_hash": "36ae4d7b97c28ddffe40d279b4b02fcb7cf1677583e1b57a3fe358f1e367b490",
+      "last_checked_at": "2026-10-03T15:21:28.168Z",
+      "last_verified_at": "2026-10-03T15:21:28.168Z",
       "http_status": 200,
       "confidence": 0.9
     },
@@ -553,19 +553,6 @@
       "confidence": 0.9
     },
     {
-      "id": "source-236cf26a02654d54662c40e6",
-      "temple_id": "cmrmecfrn00frmr3u3x34ypgr",
-      "url": "https://sprav.moseparh.ru/org/1082",
-      "source_type": "moseparh_card",
-      "etag": null,
-      "last_modified": null,
-      "content_hash": "9320a586ac8df39c641a56ce1597f15962580cec3381145ee33e7764aa2e4baa",
-      "last_checked_at": "2026-10-03T15:21:29.094Z",
-      "last_verified_at": "2026-10-03T15:21:29.094Z",
-      "http_status": 200,
-      "confidence": 0.9
-    },
-    {
       "id": "source-f6e6cf3e0e06973a40a9b73c",
       "temple_id": "cmqh1tolz00bzmrh8uvpugb6b",
       "url": "https://sprav.moseparh.ru/org/1440",
@@ -575,6 +562,19 @@
       "content_hash": "f0eab8bc00770f32f5f7aca867305dc4f02002bf7722a77684af0e7c298f8fd1",
       "last_checked_at": "2026-10-03T15:21:29.122Z",
       "last_verified_at": "2026-10-03T15:21:29.122Z",
+      "http_status": 200,
+      "confidence": 0.9
+    },
+    {
+      "id": "source-236cf26a02654d54662c40e6",
+      "temple_id": "cmrmecfrn00frmr3u3x34ypgr",
+      "url": "https://sprav.moseparh.ru/org/1082",
+      "source_type": "moseparh_card",
+      "etag": null,
+      "last_modified": null,
+      "content_hash": "9320a586ac8df39c641a56ce1597f15962580cec3381145ee33e7764aa2e4baa",
+      "last_checked_at": "2026-10-03T15:21:29.094Z",
+      "last_verified_at": "2026-10-03T15:21:29.094Z",
       "http_status": 200,
       "confidence": 0.9
     },
@@ -1516,7 +1516,7 @@
     },
     {
       "id": "source-b349b882cdb0ecfe0c94f1a0",
-      "temple_id": "cmqh1tpsb00y5mrh82qgu3h6p",
+      "temple_id": "cmqmxw85a0000mr6q5ykjzcj7",
       "url": "https://sprav.moseparh.ru/org/7",
       "source_type": "moseparh_card",
       "etag": null,
@@ -1944,19 +1944,6 @@
       "confidence": 0.9
     },
     {
-      "id": "source-23b00e320941c59ffb5bd73f",
-      "temple_id": "cmqh1tqdw019qmrh8ymf265t1",
-      "url": "https://sprav.moseparh.ru/org/982",
-      "source_type": "moseparh_card",
-      "etag": null,
-      "last_modified": null,
-      "content_hash": "f50ff7d7aefca85594ad84f8ce54ce0bc86d8b0c817f7718ca9709df4686f88b",
-      "last_checked_at": "2026-10-03T15:21:31.166Z",
-      "last_verified_at": "2026-10-03T15:21:31.166Z",
-      "http_status": 200,
-      "confidence": 0.9
-    },
-    {
       "id": "source-b45213fee21be4675c2f90c4",
       "temple_id": "cmqh1tqf601a5mrh8y9lqgyi2",
       "url": "https://sprav.moseparh.ru/org/1010",
@@ -1966,6 +1953,19 @@
       "content_hash": "76432c157e88c76d0f872afa340e70206f4ae19b945f254f2b9a915b005d6f37",
       "last_checked_at": "2026-10-03T15:21:31.172Z",
       "last_verified_at": "2026-10-03T15:21:31.172Z",
+      "http_status": 200,
+      "confidence": 0.9
+    },
+    {
+      "id": "source-23b00e320941c59ffb5bd73f",
+      "temple_id": "cmqh1tqdw019qmrh8ymf265t1",
+      "url": "https://sprav.moseparh.ru/org/982",
+      "source_type": "moseparh_card",
+      "etag": null,
+      "last_modified": null,
+      "content_hash": "f50ff7d7aefca85594ad84f8ce54ce0bc86d8b0c817f7718ca9709df4686f88b",
+      "last_checked_at": "2026-10-03T15:21:31.166Z",
+      "last_verified_at": "2026-10-03T15:21:31.166Z",
       "http_status": 200,
       "confidence": 0.9
     },
@@ -1983,19 +1983,6 @@
       "confidence": 0.9
     },
     {
-      "id": "source-10b1c8dcde18149db0ee3876",
-      "temple_id": "cmqh1tqg601atmrh8fj7i0dtz",
-      "url": "https://sprav.moseparh.ru/org/1237",
-      "source_type": "moseparh_card",
-      "etag": null,
-      "last_modified": null,
-      "content_hash": "07c38d764c6844587e18915ed892c407400c47b8eb1f1a9faae8518f9152f6f9",
-      "last_checked_at": "2026-10-03T15:21:31.229Z",
-      "last_verified_at": "2026-10-03T15:21:31.229Z",
-      "http_status": 200,
-      "confidence": 0.9
-    },
-    {
       "id": "source-bdf4976314f7173fc95e60cb",
       "temple_id": "cmqh1tqh101bbmrh8zwlhmqgf",
       "url": "https://sprav.moseparh.ru/org/1236",
@@ -2005,6 +1992,19 @@
       "content_hash": "cf23564cc2652fd23b9eb21cb0a09a0850fae3313fb54c2fc47e26d094d41aa0",
       "last_checked_at": "2026-10-03T15:21:31.235Z",
       "last_verified_at": "2026-10-03T15:21:31.235Z",
+      "http_status": 200,
+      "confidence": 0.9
+    },
+    {
+      "id": "source-10b1c8dcde18149db0ee3876",
+      "temple_id": "cmqh1tqg601atmrh8fj7i0dtz",
+      "url": "https://sprav.moseparh.ru/org/1237",
+      "source_type": "moseparh_card",
+      "etag": null,
+      "last_modified": null,
+      "content_hash": "07c38d764c6844587e18915ed892c407400c47b8eb1f1a9faae8518f9152f6f9",
+      "last_checked_at": "2026-10-03T15:21:31.229Z",
+      "last_verified_at": "2026-10-03T15:21:31.229Z",
       "http_status": 200,
       "confidence": 0.9
     },
@@ -2425,19 +2425,6 @@
       "confidence": 0.9
     },
     {
-      "id": "source-06ae1d00e69c830c6cc4fbfe",
-      "temple_id": "cmqh1tr7x01q5mrh8ffu3wgwz",
-      "url": "https://sprav.moseparh.ru/org/321",
-      "source_type": "moseparh_card",
-      "etag": null,
-      "last_modified": null,
-      "content_hash": "938ec9422c3c2935a7cd60f6cb327516e9c48280a94ecbbe9f7961f90c853c1a",
-      "last_checked_at": "2026-10-03T15:21:31.970Z",
-      "last_verified_at": "2026-10-03T15:21:31.970Z",
-      "http_status": 200,
-      "confidence": 0.9
-    },
-    {
       "id": "source-b211ee377900a1728378d6fb",
       "temple_id": "cmqh1tr8z01qwmrh8w842h41m",
       "url": "https://sprav.moseparh.ru/org/1096",
@@ -2447,6 +2434,19 @@
       "content_hash": "719a153a808ccf9aafdfe8187deff138862054f279a6757e0e01433301d1c1e4",
       "last_checked_at": "2026-10-03T15:21:32.028Z",
       "last_verified_at": "2026-10-03T15:21:32.028Z",
+      "http_status": 200,
+      "confidence": 0.9
+    },
+    {
+      "id": "source-06ae1d00e69c830c6cc4fbfe",
+      "temple_id": "cmqh1tr7x01q5mrh8ffu3wgwz",
+      "url": "https://sprav.moseparh.ru/org/321",
+      "source_type": "moseparh_card",
+      "etag": null,
+      "last_modified": null,
+      "content_hash": "938ec9422c3c2935a7cd60f6cb327516e9c48280a94ecbbe9f7961f90c853c1a",
+      "last_checked_at": "2026-10-03T15:21:31.970Z",
+      "last_verified_at": "2026-10-03T15:21:31.970Z",
       "http_status": 200,
       "confidence": 0.9
     },
@@ -4232,19 +4232,6 @@
       "confidence": 0.9
     },
     {
-      "id": "source-3307a7bef9a8b35e16edcc9f",
-      "temple_id": "cmqh1tu2f0319mrh8h3rpqr0l",
-      "url": "https://sprav.moseparh.ru/org/1205",
-      "source_type": "moseparh_card",
-      "etag": null,
-      "last_modified": null,
-      "content_hash": "f80355f9b9d5481e55402797712573008ddfa53bd850c7d9f67a4842989f81eb",
-      "last_checked_at": "2026-10-03T15:21:35.121Z",
-      "last_verified_at": "2026-10-03T15:21:35.121Z",
-      "http_status": 200,
-      "confidence": 0.9
-    },
-    {
       "id": "source-2dc38931985b3615b681c627",
       "temple_id": "cmrmecqo303pnmr3u0354afk2",
       "url": "https://sprav.moseparh.ru/org/985",
@@ -4254,6 +4241,19 @@
       "content_hash": "63aa4d82fa46428a103ecce48329c446c67d9b4ea01920478ab7800277897f32",
       "last_checked_at": "2026-10-03T15:21:35.176Z",
       "last_verified_at": "2026-10-03T15:21:35.176Z",
+      "http_status": 200,
+      "confidence": 0.9
+    },
+    {
+      "id": "source-3307a7bef9a8b35e16edcc9f",
+      "temple_id": "cmqh1tu2f0319mrh8h3rpqr0l",
+      "url": "https://sprav.moseparh.ru/org/1205",
+      "source_type": "moseparh_card",
+      "etag": null,
+      "last_modified": null,
+      "content_hash": "f80355f9b9d5481e55402797712573008ddfa53bd850c7d9f67a4842989f81eb",
+      "last_checked_at": "2026-10-03T15:21:35.121Z",
+      "last_verified_at": "2026-10-03T15:21:35.121Z",
       "http_status": 200,
       "confidence": 0.9
     },
@@ -4843,19 +4843,6 @@
       "confidence": 0.9
     },
     {
-      "id": "source-eb82a3c990daf8f2d5499eeb",
-      "temple_id": "cmqh1tusj03fxmrh85mur090m",
-      "url": "https://sprav.moseparh.ru/org/470",
-      "source_type": "moseparh_card",
-      "etag": null,
-      "last_modified": null,
-      "content_hash": "098f7dca2cc89967aee243b264b0ae3803553933f953460a6b4290fb274cbbde",
-      "last_checked_at": "2026-10-03T15:21:36.183Z",
-      "last_verified_at": "2026-10-03T15:21:36.183Z",
-      "http_status": 200,
-      "confidence": 0.9
-    },
-    {
       "id": "source-91250df03afdff9117525308",
       "temple_id": "cmqh1turl03fomrh84uz1x9jf",
       "url": "https://sprav.moseparh.ru/org/916",
@@ -4865,6 +4852,19 @@
       "content_hash": "260a0453685815f78c115ea91d022519e0188b4a986adfe2cbaeb8949489c840",
       "last_checked_at": "2026-10-03T15:21:36.117Z",
       "last_verified_at": "2026-10-03T15:21:36.117Z",
+      "http_status": 200,
+      "confidence": 0.9
+    },
+    {
+      "id": "source-eb82a3c990daf8f2d5499eeb",
+      "temple_id": "cmqh1tusj03fxmrh85mur090m",
+      "url": "https://sprav.moseparh.ru/org/470",
+      "source_type": "moseparh_card",
+      "etag": null,
+      "last_modified": null,
+      "content_hash": "098f7dca2cc89967aee243b264b0ae3803553933f953460a6b4290fb274cbbde",
+      "last_checked_at": "2026-10-03T15:21:36.183Z",
+      "last_verified_at": "2026-10-03T15:21:36.183Z",
       "http_status": 200,
       "confidence": 0.9
     },
@@ -6052,19 +6052,6 @@
       "confidence": 0.9
     },
     {
-      "id": "source-87efe5a6153753a3e572f860",
-      "temple_id": "cmqh1tw3q045rmrh8udbzhcov",
-      "url": "https://sprav.moseparh.ru/org/991",
-      "source_type": "moseparh_card",
-      "etag": null,
-      "last_modified": null,
-      "content_hash": "5e415b9e57550b4277a742ccfc4f78a991457ce7eedc7d27bcbe22ab3ed3251c",
-      "last_checked_at": "2026-10-03T15:21:38.124Z",
-      "last_verified_at": "2026-10-03T15:21:38.124Z",
-      "http_status": 200,
-      "confidence": 0.9
-    },
-    {
       "id": "source-4efe9e98b571f4ea3ff08c04",
       "temple_id": "cmrmecvid054umr3u0gbbq44d",
       "url": "https://sprav.moseparh.ru/org/469",
@@ -6074,6 +6061,19 @@
       "content_hash": "48f340b17899e71c08d91ecd39a59d09496c81b82699cc5bac5ac5dfd2f3bd26",
       "last_checked_at": "2026-10-03T15:21:38.123Z",
       "last_verified_at": "2026-10-03T15:21:38.123Z",
+      "http_status": 200,
+      "confidence": 0.9
+    },
+    {
+      "id": "source-87efe5a6153753a3e572f860",
+      "temple_id": "cmqh1tw3q045rmrh8udbzhcov",
+      "url": "https://sprav.moseparh.ru/org/991",
+      "source_type": "moseparh_card",
+      "etag": null,
+      "last_modified": null,
+      "content_hash": "5e415b9e57550b4277a742ccfc4f78a991457ce7eedc7d27bcbe22ab3ed3251c",
+      "last_checked_at": "2026-10-03T15:21:38.124Z",
+      "last_verified_at": "2026-10-03T15:21:38.124Z",
       "http_status": 200,
       "confidence": 0.9
     },
@@ -6286,19 +6286,6 @@
       "confidence": 0.9
     },
     {
-      "id": "source-75de70fb387afaaf645595d7",
-      "temple_id": "cmqh1twgu04d5mrh8pq9aoxwa",
-      "url": "https://sprav.moseparh.ru/org/1448",
-      "source_type": "moseparh_card",
-      "etag": null,
-      "last_modified": null,
-      "content_hash": "0467e8e1d26a0a4ad049d7cd74f415db6294662fb2f58e0fb98c96efcb08a6b2",
-      "last_checked_at": "2026-10-03T15:21:38.554Z",
-      "last_verified_at": "2026-10-03T15:21:38.554Z",
-      "http_status": 200,
-      "confidence": 0.9
-    },
-    {
       "id": "source-1abb48ffa66e9a45a102496d",
       "temple_id": "cmqh1twhr04dkmrh8zav9yo99",
       "url": "https://sprav.moseparh.ru/org/953",
@@ -6308,6 +6295,19 @@
       "content_hash": "ac908800d9c6d91510a9a18a13c49f1215820fec8afe385904cf890e9cc601fc",
       "last_checked_at": "2026-10-03T15:21:38.575Z",
       "last_verified_at": "2026-10-03T15:21:38.575Z",
+      "http_status": 200,
+      "confidence": 0.9
+    },
+    {
+      "id": "source-75de70fb387afaaf645595d7",
+      "temple_id": "cmqh1twgu04d5mrh8pq9aoxwa",
+      "url": "https://sprav.moseparh.ru/org/1448",
+      "source_type": "moseparh_card",
+      "etag": null,
+      "last_modified": null,
+      "content_hash": "0467e8e1d26a0a4ad049d7cd74f415db6294662fb2f58e0fb98c96efcb08a6b2",
+      "last_checked_at": "2026-10-03T15:21:38.554Z",
+      "last_verified_at": "2026-10-03T15:21:38.554Z",
       "http_status": 200,
       "confidence": 0.9
     },
@@ -6520,19 +6520,6 @@
       "confidence": 0.9
     },
     {
-      "id": "source-6e5fceb53dccbfa5e377e58e",
-      "temple_id": "cmqh1twoc04grmrh8kxokdhiq",
-      "url": "https://sprav.moseparh.ru/org/956",
-      "source_type": "moseparh_card",
-      "etag": null,
-      "last_modified": null,
-      "content_hash": "8c75fcbc8dc229535f3668bc360e1d1de47a6c99ae5abfe618b2c889ad995152",
-      "last_checked_at": "2026-10-03T15:21:39.001Z",
-      "last_verified_at": "2026-10-03T15:21:39.001Z",
-      "http_status": 200,
-      "confidence": 0.9
-    },
-    {
       "id": "source-6730e7679b195c028b66a71d",
       "temple_id": "cmrmecwlk05j8mr3uz606hnpe",
       "url": "https://sprav.moseparh.ru/org/919",
@@ -6542,6 +6529,19 @@
       "content_hash": "f07d1ceb2903cdfc09b3086b7b5452e327b4dca8cb6afb1e7367b61f2e4b7c19",
       "last_checked_at": "2026-10-03T15:21:38.978Z",
       "last_verified_at": "2026-10-03T15:21:38.978Z",
+      "http_status": 200,
+      "confidence": 0.9
+    },
+    {
+      "id": "source-6e5fceb53dccbfa5e377e58e",
+      "temple_id": "cmqh1twoc04grmrh8kxokdhiq",
+      "url": "https://sprav.moseparh.ru/org/956",
+      "source_type": "moseparh_card",
+      "etag": null,
+      "last_modified": null,
+      "content_hash": "8c75fcbc8dc229535f3668bc360e1d1de47a6c99ae5abfe618b2c889ad995152",
+      "last_checked_at": "2026-10-03T15:21:39.001Z",
+      "last_verified_at": "2026-10-03T15:21:39.001Z",
       "http_status": 200,
       "confidence": 0.9
     },
