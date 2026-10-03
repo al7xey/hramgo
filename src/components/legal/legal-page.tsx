@@ -17,15 +17,6 @@ export function LegalPage({ title, description, children }: { title: string; des
         </div>
       </LiquidGlassCard>
       <div className="flex flex-wrap gap-3 text-sm text-muted-foreground">
-        <Link href="/support" className="text-primary hover:underline">
-          Поддержать проект
-        </Link>
-        <Link href="/legal/support-terms" className="hover:text-primary">
-          Условия поддержки
-        </Link>
-        <Link href="/legal/payment-and-refund" className="hover:text-primary">
-          Оплата и возврат
-        </Link>
         <Link href="/legal/privacy" className="hover:text-primary">
           Политика ПДн
         </Link>

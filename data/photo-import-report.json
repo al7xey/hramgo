@@ -1,0 +1,163 @@
+{
+  "checkedAt": "2026-10-03T17:44:36.788Z",
+  "records": [
+    {
+      "id": "cmqmzqfat011zmrwxusivbbtf",
+      "status": "REVIEW",
+      "reason": "Photograph subject needs review"
+    },
+    {
+      "id": "cmqmxwhd8000mmr6q8tzmq4bn",
+      "templeId": "cmqmxwcf9000jmr6qcyeenerq",
+      "status": "OPTIMIZED",
+      "license": "CC BY-SA 3.0",
+      "author": "Elisa.rolle",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ACandlemas_Monastery%2C_2010_01.jpg",
+      "bytes": 131242,
+      "width": 1024,
+      "height": 768,
+      "hash": "59c06fec527d633183d4450102ccc5cf5a737a5481bb20f5de49a2245190fb70",
+      "storagePath": "cmqmxwcf9000jmr6qcyeenerq/59c06fec527d633183d44501.webp"
+    },
+    {
+      "id": "cmqmxx642003kmr6qubol8p9m",
+      "templeId": "cmqmxx2oc003hmr6qhrjdk4b9",
+      "status": "OPTIMIZED",
+      "license": "Public domain",
+      "author": "N. A. Naydenov (1834-1905)",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AVysokopetrovsky_Monastery_01.JPG",
+      "bytes": 110526,
+      "width": 908,
+      "height": 1280,
+      "hash": "ad49907c9c301d0823a5b97eee2ceea9690d54557361f57d1ade7c17dcdd4068",
+      "storagePath": "cmqmxx2oc003hmr6qhrjdk4b9/ad49907c9c301d0823a5b97e.webp"
+    },
+    {
+      "id": "cmqmxx2nw0032mr6qj9ta5aq9",
+      "templeId": "cmqmxwxkr002zmr6qvrii42zk",
+      "status": "OPTIMIZED",
+      "license": "CC BY 4.0",
+      "author": "Главархив Москвы",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3A1000th_anniversary_of_the_Christianization_of_Rus'_in_Moscow_02.jpg",
+      "bytes": 125884,
+      "width": 1280,
+      "height": 842,
+      "hash": "3a1e12389fec0c152add1a2deeab100b81fe80a8cdbfb7e6a94b88ec5be4f6b1",
+      "storagePath": "cmqmxwxkr002zmr6qvrii42zk/3a1e12389fec0c152add1a2d.webp"
+    },
+    {
+      "id": "cmqmxwkz30014mr6qon63rinz",
+      "status": "SKIPPED",
+      "reason": "Unsupported license or small image"
+    },
+    {
+      "id": "cmqmyh5r1000zmryg10o9nhhq",
+      "templeId": "cmqmxx64j003zmr6q8aosxr26",
+      "status": "OPTIMIZED",
+      "license": "CC BY-SA 2.0",
+      "author": "Uwe Brodrecht",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3A0089_-_Moskau_2015_-_Neues_Jungfrauenkloster_(26331713951).jpg",
+      "bytes": 235922,
+      "width": 848,
+      "height": 1280,
+      "hash": "9fc2f465c5fabb4c606198be77bf0fdcd2e178a42db99e4123035551e657618f",
+      "storagePath": "cmqmxx64j003zmr6q8aosxr26/9fc2f465c5fabb4c606198be.webp"
+    },
+    {
+      "id": "cmqmyhf6e002emryg5jw4cx05",
+      "templeId": "cmqmxx7110045mr6qc2ha60o8",
+      "status": "OPTIMIZED",
+      "license": "CC BY 2.0",
+      "author": "Andrey",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AAndrew_monastery_in_Moscow%2C_Russia.jpg",
+      "bytes": 164016,
+      "width": 1280,
+      "height": 857,
+      "hash": "3ac18dba5dc6a7e90984a0123c9964ae327c363484e2e538f8aeb326ad8bd6ca",
+      "storagePath": "cmqmxx7110045mr6qc2ha60o8/3ac18dba5dc6a7e90984a012.webp"
+    },
+    {
+      "id": "cmqmyh8er001gmryg8rikdn7g",
+      "templeId": "cmqmxx6fb0041mr6qxmang4th",
+      "status": "OPTIMIZED",
+      "license": "CC BY-SA 4.0",
+      "author": "Tsyganov Sergey",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3A%D0%9F%D0%BE%D0%BA%D1%80%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B9_%D0%B6%D0%B5%D0%BD%D1%81%D0%BA%D0%B8%D0%B9_%D0%BC%D0%BE%D0%BD%D0%B0%D1%81%D1%82%D1%8B%D1%80%D1%8C_2024_01.jpg",
+      "bytes": 165608,
+      "width": 1200,
+      "height": 1280,
+      "hash": "f247553ab5a46123f9330a01b990b8987b4b62183107856fed843c38d4feef36",
+      "storagePath": "cmqmxx6fb0041mr6qxmang4th/f247553ab5a46123f9330a01.webp"
+    },
+    {
+      "id": "cmqmyhh34002vmryg68xtdb0t",
+      "templeId": "cmqjf31kg0000mrvfozem04rr",
+      "status": "OPTIMIZED",
+      "license": "CC BY 4.0",
+      "author": "Artyom Svetlov",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AChurch_of_the_Protection_of_the_Theotokos_at_Gorodnya_2021-10_1635093846.JPG",
+      "bytes": 179186,
+      "width": 1280,
+      "height": 853,
+      "hash": "b30f5edaf8884b7ecb785307c40c7fc0af096e32cafce8dd68bf4c494f4d9171",
+      "storagePath": "cmqjf31kg0000mrvfozem04rr/b30f5edaf8884b7ecb785307.webp"
+    },
+    {
+      "id": "cmqmzs9vo014pmrwxtaiv77bt",
+      "status": "REVIEW",
+      "reason": "Photograph subject needs review"
+    },
+    {
+      "id": "cmqn0a3rn01rfmrwxxxhuazui",
+      "templeId": "cmqh1u0ri06iemrh8ydvis4zn",
+      "status": "OPTIMIZED",
+      "license": "CC BY-SA 3.0",
+      "author": "user:NVO",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AMoscow%2C_Dovatora_8%2C6K8_Aug_2008_02.JPG",
+      "bytes": 246526,
+      "width": 1200,
+      "height": 1200,
+      "hash": "65044148bbb7181bf9ef0223e2440266b0f67d25db407d46f70633f5b4c51faa",
+      "storagePath": "cmqh1u0ri06iemrh8ydvis4zn/65044148bbb7181bf9ef0223.webp"
+    },
+    {
+      "id": "cmqmyhbyv001xmrygkn6wh1vj",
+      "templeId": "cmqmxx6q70043mr6qse1698rz",
+      "status": "OPTIMIZED",
+      "license": "CC BY-SA 4.0",
+      "author": "D1964T",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3A%D0%97%D0%B0%D1%87%D0%B0%D1%82%D1%8C%D0%B5%D0%B2%D1%81%D0%BA%D0%B8%D0%B9_%D0%BC%D0%BE%D0%BD%D0%B0%D1%81%D1%82%D1%8B%D1%80%D1%8C_%D0%BC%D0%BE%D1%81%D0%BA%D0%B2%D0%B0.jpg",
+      "bytes": 196738,
+      "width": 1280,
+      "height": 960,
+      "hash": "cc0bcaf553dede57eb2d9a40138a9f40c5669aa4a14b30fd6d3d520bd32c1a0f",
+      "storagePath": "cmqmxx6q70043mr6qse1698rz/cc0bcaf553dede57eb2d9a40.webp"
+    },
+    {
+      "id": "cmqmxwcec0004mr6qasspo7t8",
+      "templeId": "cmqmxw85a0000mr6q5ykjzcj7",
+      "status": "OPTIMIZED",
+      "license": "Public domain",
+      "author": "Alexandr Alexandrovich Gubarev",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3A3095790_%D0%90.%D0%90._%D0%93%D1%83%D0%B1%D0%B0%D1%80%D0%B5%D0%B2_-_%D0%90%D0%BD%D1%82%D0%B8%D0%BF%D1%8C%D0%B5%D0%B2%D1%81%D0%BA%D0%B8%D0%B9_%D0%BF%D0%B5%D1%80%D0%B5%D1%83%D0%BB%D0%BE%D0%BA._%D0%A6%D0%B5%D1%80%D0%BA%D0%BE%D0%B2%D1%8C_%D0%90%D0%BD%D1%82%D0%B8%D0%BF%D0%B8%D1%8F_%D0%BD%D0%B0_%D0%9A%D0%BE%D0%BB%D1%8B%D0%BC%D0%B0%D0%B6%D0%BD%D0%BE%D0%B9_%D0%B4%D0%B2%D0%BE%D1%80%D0%B5._%D0%92%D0%B8%D0%B4_%D1%81_%D1%8E%D0%B6%D0%BD%D0%BE%D0%B9_%D1%81%D1%82%D0%BE%D1%80%D0%BE%D0%BD%D1%8B%2C_1912.jpg",
+      "bytes": 154444,
+      "width": 1280,
+      "height": 1169,
+      "hash": "355265b868d38200d0c527e61ee80eed41dc580b1e6f9b3bb792aaba844e7ff8",
+      "storagePath": "cmqmxw85a0000mr6q5ykjzcj7/355265b868d38200d0c527e6.webp"
+    },
+    {
+      "id": "cmqndwkos0008mr5vuectvnd0",
+      "templeId": "cmqmxwswz002hmr6qny4qvs79",
+      "status": "OPTIMIZED",
+      "license": "CC BY-SA 4.0",
+      "author": "Nikolai Bulykin",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File%3A%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C_%D0%94%D0%BE%D0%BD%D1%81%D0%BA%D0%BE%D0%B9_%D0%BC%D0%BE%D0%BD%D0%B0%D1%81%D1%82%D1%8B%D1%80%D1%8C%2C_%D1%85%D1%80%D0%B0%D0%BC_%D0%98%D0%BE%D0%B0%D0%BD%D0%BD%D0%B0_%D0%9B%D0%B5%D1%81%D1%82%D0%B2%D0%B8%D1%87%D0%BD%D0%B8%D0%BA%D0%B0_(2).jpg",
+      "bytes": 252038,
+      "width": 853,
+      "height": 1280,
+      "hash": "a2a4c58343636707b14c83bad2fa69b0d9d0a448049695bb2a87690a144eaa52",
+      "storagePath": "cmqmxwswz002hmr6qny4qvs79/a2a4c58343636707b14c83ba.webp"
+    }
+  ]
+}

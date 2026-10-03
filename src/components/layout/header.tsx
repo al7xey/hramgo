@@ -1,13 +1,11 @@
 import Link from "next/link";
-import { Heart, Map, MapPin, Search, UserRound } from "lucide-react";
+import { Map, MapPin, Search } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
 const navItems = [
   { href: "/temples", label: "Поиск", icon: Search },
-  { href: "/map", label: "Карта", icon: Map },
-  { href: "/favorites", label: "Избранное", icon: Heart },
-  { href: "/profile", label: "Профиль", icon: UserRound }
+  { href: "/map", label: "Карта", icon: Map }
 ];
 
 export function Header() {

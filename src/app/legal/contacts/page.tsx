@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function LegalContactsPage() {
   return (
-    <LegalPage title="Контакты и реквизиты" description="Публичные сведения для обращений по работе сервиса и добровольной поддержке проекта.">
+    <LegalPage title="Контакты и реквизиты" description="Публичные сведения для обращений по работе справочника храмов.">
       <h2>Владелец проекта</h2>
       <p>ФИО: {env.LEGAL_FULL_NAME}</p>
       <p>ИНН: {env.LEGAL_INN}</p>
@@ -26,12 +26,6 @@ export default function LegalContactsPage() {
 
       <h2>Ссылки</h2>
       <ul>
-        <li>
-          <Link href="/support">Страница поддержки проекта</Link>
-        </li>
-        <li>
-          <Link href="/legal/payment-and-refund">Порядок оплаты, отказа и возврата средств</Link>
-        </li>
         <li>
           <Link href="/legal/privacy">Политика обработки персональных данных</Link>
         </li>

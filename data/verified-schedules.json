@@ -1,0 +1,9 @@
+[
+ {"sourceUrl":"https://sprav.moseparh.ru/org/1091","weekdays":[1,2,3,4,5,6,7],"startsAt":"08:30","kind":"liturgy","title":"Литургия","comment":"Ежедневная литургия; источник проверен 03.10.2026."},
+ {"sourceUrl":"https://sprav.moseparh.ru/org/1091","weekdays":[1,2,3,4,5],"startsAt":"17:00","kind":"evening","title":"Вечернее богослужение","comment":"Будние дни. По субботам и воскресеньям начало в 18:00."},
+ {"sourceUrl":"https://sprav.moseparh.ru/org/1091","weekdays":[6,7],"startsAt":"18:00","kind":"evening","title":"Вечернее богослужение","comment":"Суббота и воскресенье; явное уточнение в официальном справочнике."},
+ {"sourceUrl":"https://sprav.moseparh.ru/org/1097","weekdays":[1,2,3,4,5,6],"startsAt":"09:00","kind":"liturgy","title":"Литургия","comment":"Будние дни и суббота. В воскресенье две литургии."},
+ {"sourceUrl":"https://sprav.moseparh.ru/org/1097","weekdays":[7],"startsAt":"06:50","kind":"liturgy","title":"Ранняя литургия","comment":"По воскресеньям, согласно официальному справочнику."},
+ {"sourceUrl":"https://sprav.moseparh.ru/org/1097","weekdays":[7],"startsAt":"09:00","kind":"liturgy","title":"Поздняя литургия","comment":"По воскресеньям, согласно официальному справочнику."},
+ {"sourceUrl":"https://sprav.moseparh.ru/org/1097","weekdays":[1,2,3,4,5,6,7],"startsAt":"17:00","kind":"evening","title":"Вечернее богослужение","comment":"Ежедневное вечернее богослужение; время исповеди не является временем литургии."}
+]

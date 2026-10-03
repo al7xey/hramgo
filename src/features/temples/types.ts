@@ -7,6 +7,8 @@ export type TemplePhotoView = {
   alt: string;
   isMain: boolean;
   sourceUrl?: string | null;
+  license?: string | null;
+  author?: string | null;
 };
 
 export type TransitLineView = {
@@ -21,6 +23,7 @@ export type TempleTransitView = {
   line: TransitLineView;
   distanceMeters: number;
   walkMinutes: number;
+  routeVerified?: boolean;
 };
 
 export type TransitStationOptionView = {
@@ -63,18 +66,6 @@ export type TempleParishServiceView = {
   sourceUrl?: string | null;
 };
 
-export type TempleReviewView = {
-  id: string;
-  userId: string;
-  authorName: string;
-  text: string;
-  rating: number;
-  helpfulCount: number;
-  visitType: string;
-  publishedAt: string;
-  tags: string[];
-};
-
 export type TempleView = {
   id: string;
   slug: string;
@@ -103,12 +94,8 @@ export type TempleView = {
   sourcePrimaryUrl?: string | null;
   dataConfidence: number;
   moderationStatus: TempleModerationStatus;
-  averageHelpfulnessRating: number;
-  reviewsCount: number;
-  approvedReviewsCount: number;
   lastVerifiedAt?: string | null;
   photos: TemplePhotoView[];
-  reviews: TempleReviewView[];
   socialLinks: TempleSocialLinkView[];
   clergy: TempleClergyView[];
   historySummary?: string | null;
@@ -116,9 +103,33 @@ export type TempleView = {
   parishServices: TempleParishServiceView[];
   hasParking?: boolean;
   childFriendly?: boolean;
+  scheduleEntries?: ScheduleEntry[];
+  sources?: { url: string; sourceType: string; lastVerifiedAt?: string | null }[];
+};
+
+export type ScheduleEntry = {
+  id: string;
+  templeId: string;
+  serviceDate?: string | null;
+  weekdays?: number[] | null;
+  startsAt: string;
+  kind: "liturgy" | "evening" | "prayer" | "other";
+  title: string;
+  comment?: string | null;
+  isSpecial: boolean;
+  validFrom?: string | null;
+  validUntil?: string | null;
+  sourceUrl: string;
+  verifiedAt: string;
+  confidence: number;
+  status: "REVIEW" | "VERIFIED" | "REJECTED";
 };
 
 export type TempleSearchInput = {
+  date?: string;
+  timeFrom?: string;
+  timeTo?: string;
+  worship?: "liturgy" | "evening" | "vigil" | "confession" | "prayer";
   ids?: string[];
   query?: string;
   district?: string[];
@@ -134,7 +145,7 @@ export type TempleSearchInput = {
   hasPhotos?: boolean;
   childFriendly?: boolean;
   hasParking?: boolean;
-  sort?: "relevance" | "distance" | "alphabet" | "sundaySchool" | "impressions";
+  sort?: "relevance" | "distance" | "alphabet" | "sundaySchool";
   latitude?: number;
   longitude?: number;
   radiusKm?: number;
@@ -147,11 +158,9 @@ export type TempleCardView = Pick<
   | "name"
   | "shortName"
   | "address"
-  | "averageHelpfulnessRating"
-  | "reviewsCount"
-  | "approvedReviewsCount"
   | "photos"
   | "transit"
+  | "scheduleEntries"
 >;
 
 export type TempleMapView = Pick<

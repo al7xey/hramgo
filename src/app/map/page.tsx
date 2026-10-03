@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
-import { LazyTempleMap } from "@/components/map/lazy-temple-map";
-import { TempleSearchBar } from "@/components/temples/temple-search-bar";
-import { listMapTemples, toTempleMapDto } from "@/features/temples/repository";
-import { templeSearchSchema } from "@/features/temples/validation";
-
+import { Suspense } from "react";
+import { MapBrowser } from "@/components/map/map-browser";
 export const metadata: Metadata = {
   title: "Карта и поиск храмов Москвы — храмы рядом с метро, МЦД и маршрут",
   description:
@@ -37,44 +34,4 @@ export const metadata: Metadata = {
   }
 };
 
-export const revalidate = 300;
-
-type SearchParams = Record<string, string | string[] | undefined>;
-
-function getParam(params: SearchParams, key: string) {
-  const value = params[key];
-  return Array.isArray(value) ? value[0] : value;
-}
-
-export default async function MapPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
-  const params = await searchParams;
-  const parsed = templeSearchSchema.parse({
-    query: getParam(params, "query"),
-    metro: params.metro,
-    metroLine: params.metroLine,
-    service: params.service,
-    objectType: getParam(params, "objectType"),
-    liturgyTime: getParam(params, "liturgyTime"),
-    eveningTime: getParam(params, "eveningTime"),
-    hasSchedule: getParam(params, "hasSchedule"),
-    hasWebsite: getParam(params, "hasWebsite"),
-    hasPhotos: getParam(params, "hasPhotos")
-  });
-  const temples = (await listMapTemples(parsed))
-    .filter((temple) => temple.latitude && temple.longitude)
-    .map(toTempleMapDto);
-
-  return (
-    <div className="grid gap-5">
-      <div>
-        <h1 className="text-2xl font-semibold md:text-3xl">Карта храмов Москвы</h1>
-        <p className="mt-2 text-sm text-muted-foreground">Показано храмов: {temples.length}</p>
-      </div>
-      <LazyTempleMap
-        temples={temples}
-        activeSlug={getParam(params, "temple")}
-        sidebarTop={<TempleSearchBar action="/map" defaultValue={parsed.query} />}
-      />
-    </div>
-  );
-}
+export default function MapPage(){return <Suspense fallback={<p>Загрузка карты…</p>}><MapBrowser/></Suspense>;}

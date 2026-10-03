@@ -1,12 +1,6 @@
 import type { Metadata } from "next";
-import { MobileShell } from "@/components/layout/mobile-shell";
-import { TempleInfiniteList } from "@/components/temples/temple-infinite-list";
-import { TempleFilters } from "@/components/temples/temple-filters";
-import { TempleSearchBar } from "@/components/temples/temple-search-bar";
-import { getDistricts, getMetroLines } from "@/features/temples/repository";
-import { filterableParishServiceKinds } from "@/features/temples/parish-services";
-import { templeSearchSchema, type TempleSearchSchema } from "@/features/temples/validation";
-
+import { Suspense } from "react";
+import { CatalogBrowser } from "@/components/temples/catalog-browser";
 export const metadata: Metadata = {
   title: "Поиск храмов Москвы — храмы рядом с метро, МЦД, адреса и расписания",
   description:
@@ -44,96 +38,4 @@ export const metadata: Metadata = {
   }
 };
 
-export const revalidate = 300;
-
-type SearchParams = Record<string, string | string[] | undefined>;
-
-function getParam(params: SearchParams, key: string) {
-  const value = params[key];
-  return Array.isArray(value) ? value[0] : value;
-}
-
-function getParams(params: SearchParams, key: string) {
-  const value = params[key];
-  if (!value) {
-    return undefined;
-  }
-
-  return Array.isArray(value) ? value : [value];
-}
-
-export default async function TemplesPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
-  const params = await searchParams;
-  const parsed = templeSearchSchema.parse({
-    query: getParam(params, "query"),
-    district: getParams(params, "district"),
-    metro: getParams(params, "metro"),
-    metroLine: getParams(params, "metroLine"),
-    service: getParams(params, "service"),
-    objectType: getParam(params, "objectType"),
-    liturgyTime: getParam(params, "liturgyTime"),
-    eveningTime: getParam(params, "eveningTime"),
-    sundaySchool: getParam(params, "sundaySchool"),
-    hasSchedule: getParam(params, "hasSchedule"),
-    hasWebsite: getParam(params, "hasWebsite"),
-    hasPhotos: getParam(params, "hasPhotos"),
-    childFriendly: getParam(params, "childFriendly"),
-    hasParking: getParam(params, "hasParking"),
-    sort: getParam(params, "sort")
-  });
-  return (
-    <MobileShell>
-      <div className="grid gap-5 lg:grid-cols-[320px_1fr]">
-        <aside className="grid gap-4 lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:self-start lg:overflow-y-auto lg:pr-1">
-          <div>
-            <h1 className="text-2xl font-semibold md:text-3xl">Поиск храмов Москвы</h1>
-            <p className="mt-2 text-sm leading-6 text-muted-foreground">
-              Ищите по названию, улице, району, метро, МЦД, ветке метро, расписанию и приходской деятельности.
-            </p>
-          </div>
-          <TempleSearchBar defaultValue={parsed.query} autoFocus />
-          <TempleFilters
-            districts={getDistricts([])}
-            metros={[]}
-            metroLines={getMetroLines()}
-            serviceKinds={filterableParishServiceKinds}
-            defaultValues={{
-              query: parsed.query,
-              districts: parsed.district ?? [],
-              metros: parsed.metro ?? [],
-              metroLines: parsed.metroLine ?? [],
-              services: parsed.service ?? [],
-              objectType: parsed.objectType ?? "all",
-              liturgyTime: parsed.liturgyTime,
-              eveningTime: parsed.eveningTime,
-              sundaySchool: String(parsed.sundaySchool ?? false),
-              hasSchedule: String(parsed.hasSchedule ?? false),
-              hasWebsite: String(parsed.hasWebsite ?? false),
-              hasPhotos: String(parsed.hasPhotos ?? false),
-              childFriendly: String(parsed.childFriendly ?? false),
-              hasParking: String(parsed.hasParking ?? false)
-            }}
-          />
-        </aside>
-
-        <section className="grid gap-4 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto lg:pr-2">
-          <TempleInfiniteList searchParams={normalizeSearchParams(parsed)} />
-        </section>
-      </div>
-    </MobileShell>
-  );
-}
-
-function normalizeSearchParams(parsed: TempleSearchSchema) {
-  const normalized: Record<string, string | string[] | undefined> = {};
-
-  Object.entries(parsed).forEach(([key, value]) => {
-    if (value === undefined || value === false || value === "") {
-      return;
-    }
-
-    normalized[key] = Array.isArray(value) ? value : String(value);
-  });
-
-  return normalized;
-}
+export default function TemplesPage(){return <Suspense fallback={<p>Загрузка каталога…</p>}><CatalogBrowser/></Suspense>;}

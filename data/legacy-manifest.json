@@ -1,0 +1,17 @@
+{
+  "exportedAt": "2026-10-03T15:01:10.283Z",
+  "sha256": "9a5c2d4eafa166d8230bcf8aedb572bd4bf2c78795982c31ca760f6b6d90d7ea",
+  "counts": {
+    "Temple": 783,
+    "TempleClergy": 1651,
+    "TempleEditSuggestion": 0,
+    "TempleFieldEvidence": 5908,
+    "TempleParishService": 1669,
+    "TemplePhoto": 743,
+    "TempleRepresentative": 1,
+    "TempleSocialLink": 381,
+    "TempleSource": 3061,
+    "TempleTransit": 1921
+  },
+  "publishedTemples": 725
+}

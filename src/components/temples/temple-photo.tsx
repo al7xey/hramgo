@@ -34,6 +34,7 @@ export function TemplePhoto({
           src={currentSrc}
           alt={alt}
           loading={priority ? "eager" : "lazy"}
+          fetchPriority={priority?'high':'auto'}
           decoding="async"
           className={cn("h-full w-full object-cover", imageClassName)}
           onError={() => {

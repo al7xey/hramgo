@@ -1,37 +1,37 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../../tailwind.config.ts";
+@source "../";
 
 :root {
   color-scheme: light;
-  --background: #fcfdff;
-  --foreground: #172033;
-  --card: rgba(255, 255, 255, 0.58);
-  --card-border: rgba(120, 160, 190, 0.28);
-  --primary: #4b9fe1;
-  --primary-soft: rgba(75, 159, 225, 0.12);
-  --muted: rgba(236, 243, 249, 0.72);
-  --muted-foreground: #66788a;
+  --background: #faf9f6;
+  --foreground: #202e29;
+  --card: #ffffff;
+  --card-border: #dce3dd;
+  --primary: #285c47;
+  --primary-soft: #eaf1eb;
+  --muted: #f0f2ed;
+  --muted-foreground: #596b61;
   --success: #4daa7a;
   --warning: #e0a23b;
-  --danger: #d95f5f;
-  --surface: #f8fbfd;
+  --danger: #ad3b3b;
+  --surface: #f6f5f0;
 }
 
 .dark {
   color-scheme: dark;
-  --background: #081522;
-  --foreground: #eef7ff;
-  --card: rgba(18, 35, 52, 0.72);
-  --card-border: rgba(150, 190, 220, 0.22);
-  --primary: #7ec8ff;
-  --primary-soft: rgba(126, 200, 255, 0.14);
-  --muted: #132638;
-  --muted-foreground: #afc3d4;
+  --background: #14201b;
+  --foreground: #edf3ec;
+  --card: #1c2b24;
+  --card-border: #3b5044;
+  --primary: #a0d1b2;
+  --primary-soft: #233e30;
+  --muted: #21322a;
+  --muted-foreground: #bac9bf;
   --success: #71c99c;
   --warning: #f0bf5a;
   --danger: #ef7a7a;
-  --surface: #102233;
+  --surface: #18271f;
 }
 
 * {
@@ -51,7 +51,7 @@ body {
   min-height: 100%;
   margin: 0;
   overflow-x: hidden;
-  background: linear-gradient(180deg, var(--background) 0%, var(--surface) 62%, var(--background) 100%);
+  background: var(--background);
   color: var(--foreground);
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }
@@ -74,19 +74,31 @@ a {
 
 .glass {
   border: 1px solid var(--card-border);
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.68), rgba(255, 255, 255, 0.34)),
-    var(--card);
-  box-shadow: 0 18px 48px rgba(54, 122, 178, 0.09);
-  backdrop-filter: blur(24px) saturate(1.25);
+  background: var(--card);
 }
-
-.dark .glass {
-  background:
-    linear-gradient(145deg, rgba(30, 48, 68, 0.74), rgba(12, 25, 39, 0.48)),
-    var(--card);
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
+.dark .glass { background: var(--card); }
+.search-form { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 0; padding: 8px; border: 1px solid var(--card-border); border-radius: 16px; background: var(--card); }
+.search-field { display: grid; padding: 8px 12px 0; }
+.search-field > span { font-size: 12px; font-weight: 600; }
+.search-field:first-child { grid-column: 1 / -1; border-bottom: 1px solid var(--card-border); }
+.search-submit { grid-column: 1 / -1; margin-top: 8px; }
+.search-field:last-of-type { grid-column: 1 / -1; }
+.temple-pin.selected span { background: #8c4b24; transform: scale(1.15); }
+@media (min-width: 1024px) {
+ .search-form { grid-template-columns: minmax(180px,1.5fr) minmax(140px,1fr) minmax(120px,.8fr) minmax(170px,1.2fr) auto; align-items:center; }
+ .search-field:first-child, .search-field:last-of-type, .search-submit { grid-column: auto; }
+ .search-field:first-child { border-bottom:0; }
+ .search-field { border-right:1px solid var(--card-border); }
+ .search-submit { margin:0 0 0 8px; }
 }
+.eyebrow { font-size: .7rem; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; color: var(--primary); }
+.temple-pin { background: transparent; }
+.temple-pin span { display: grid; place-items: center; width: 32px; height: 36px; border-radius: 16px 16px 16px 3px; background: #285c47; color: white; font-size: 21px; box-shadow: 0 2px 7px #0003; border: 2px solid white; }
+.leaflet-container { font-family: inherit; z-index: 0; }
+:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }
+.skip-link { position: fixed; top: -80px; left: 16px; z-index: 3000; padding: 12px 18px; border-radius: 12px; background: var(--background); color: var(--foreground); }
+.skip-link:focus { top: 8px; }
 
 .safe-bottom {
   padding-bottom: max(1rem, env(safe-area-inset-bottom));

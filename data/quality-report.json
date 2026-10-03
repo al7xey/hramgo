@@ -1,0 +1,5776 @@
+{
+  "checkedAt": "2026-10-03T18:04:33.975Z",
+  "published": 764,
+  "withPhotos": 723,
+  "withCoordinates": 635,
+  "withOfficialSource": 764,
+  "withFreshVerifiedSchedules": 2,
+  "duplicateSources": [],
+  "invalid": [],
+  "missing": [
+    {
+      "id": "cmrmechh700wrmr3u2piclk9c",
+      "slug": "sprav-511-alekseevskiy-monastyr",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmeci1o012tmr3uaoyplwn9",
+      "slug": "sprav-516-andreevskiy-monastyr",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tprc00xmmrh8eywh2p4h",
+      "slug": "sprav-446-antiohiyskoe-podvore",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecixt01dmmr3u5zugnx5g",
+      "slug": "sprav-520-bogoroditse-rozhdestvenskiy-monastyr",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tq170138mrh8ogu52fjh",
+      "slug": "sprav-418-bogoyavlenskiy-kafedralnyy-sobor-v-elohove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tqrd01h3mrh8ao2czqmg",
+      "slug": "sprav-1012-vladimirskoy-ikony-bozhiey-materi-v-vinogradove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqmxx2oc003hmr6qhrjdk4b9",
+      "slug": "vysoko-petrovskiy-muzhskoy-monastyr",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecn3n02g2mr3umvm95x22",
+      "slug": "sprav-563-vysoko-petrovskiy-monastyr",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecnyx02pfmr3uykksmhwa",
+      "slug": "sprav-571-danilov-monastyr",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecom802yvmr3u0ac8m5ft",
+      "slug": "sprav-589-donskoy-monastyr",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecphy038rmr3uue86ztfd",
+      "slug": "sprav-610-zaikonospasskiy-monastyr",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecpiv0398mr3uguyml5yz",
+      "slug": "sprav-616-zachatevskiy-monastyr",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecqtg03rcmr3uvtm65hyw",
+      "slug": "sprav-631-ioanno-predtechenskiy-monastyr",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u38r0794mrh8jxbysn5a",
+      "slug": "sprav-337-hrista-spasitelya-kafedralnyy-sobornyy-hram",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecodk02vcmr3uzxhqf11m",
+      "slug": "sprav-1430-dimitriya-donskogo-blagovernogo-kolokolnya-v-butyrskoy-slobode",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecqzb03tcmr3upsbot05d",
+      "slug": "sprav-1298-kazanskogo-golovinskogo-monastyrya-kolokolnya",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmed585088amr3uiqktfutd",
+      "slug": "sprav-424-useknoveniya-glavy-ioanna-predtechi-v-kazennoy-slobode",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tusj03fxmrh85mur090m",
+      "slug": "sprav-470-krutitskoe-patriarshee-podvore",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecw1c05csmr3u3r59xbyb",
+      "slug": "sprav-1502-novodevichiy-monastyr",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecw5z05eqmr3udhp6wh4a",
+      "slug": "sprav-698-novospasskiy-monastyr",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1twr604humrh8453uvnfn",
+      "slug": "sprav-373-patriarshee-podvore-pri-hramah-v-kitay-gorode",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1ttij02r5mrh8d2v8wf65",
+      "slug": "sprav-1566-ignatiya-bogonostsa-svyaschennomuchenika-v-novogireeve",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tpqb00wymrh8cxrqeh2j",
+      "slug": "sprav-338-andronikova-monastyrya-hramy",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1twsv04i4mrh8cirgbsje",
+      "slug": "sprav-388-patriarshee-podvore-hramov-v-zaryade",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tweu04bwmrh8gm32y39o",
+      "slug": "sprav-1209-nikolo-perervinskogo-monastyrya-hramy",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqmxx6fb0041mr6qxmang4th",
+      "slug": "pokrovskiy-stavropigialnyy-zhenskiy-monastyr",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecy1k0624mr3uljgmg5oe",
+      "slug": "sprav-713-pokrovskiy-monastyr-u-pokrovskoy-zastavy",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqmxwxkr002zmr6qvrii42zk",
+      "slug": "svyato-danilov-muzhskoy-monastyr",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmechid00x3mr3u48h36wgl",
+      "slug": "sprav-515-alekseevskogo-monastyrya-v-sokolnikah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tu68033pmrh8rbhzzj3v",
+      "slug": "sprav-372-kazanskiy-sobor-na-krasnoy-ploschadi",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tx3r04ohmrh8dy35q5or",
+      "slug": "sprav-1358-pokrova-presvyatoy-bogoroditsy-v-izmaylove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmed1wc07ctmr3u4stjaad5",
+      "slug": "sprav-924-sretenskiy-monastyr",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecspg04ejmr3u911fkbaa",
+      "slug": "sprav-658-marfo-mariinskaya-obitel-miloserdiya",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmed2ze07m0mr3u9mdpyhvg",
+      "slug": "sprav-929-troitse-odigitrievskiy-monastyr-zosimova-pustyn",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh4nbun00comr4vf8g2dfht",
+      "slug": "sprav-1539-mihaila-arhangela-v-kokoshkine",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tpm100unmrh8a7xh9qtb",
+      "slug": "sprav-1187-andreya-pervozvannogo-apostola-v-lyubline",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tpk700tqmrh888gzvk7v",
+      "slug": "sprav-1542-andreya-pervozvannogo-apostola-v-ptichnom",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tpl100u2mrh8a6ehzcf6",
+      "slug": "sprav-1332-andreya-pervozvannogo-apostola-v-metrogorodke",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmeci6d0144mr3ug9wwiedd",
+      "slug": "sprav-1062-andreya-pervozvannogo-apostola-na-territorii-ozdorovitelnogo-kompleksa-r",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmeci9o014xmr3ufvxl5l03",
+      "slug": "sprav-1350-andreya-pervozvannogo-apostola-pri-tsentralnom-klinicheskom-gospitale-ft",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1ttzm02zkmrh8j5rsej94",
+      "slug": "sprav-1511-ioanna-bogoslova-apostola-v-nizhegorodskom",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1ttwf02y1mrh87af288bz",
+      "slug": "sprav-333-ioanna-bogoslova-apostola-na-bronnoy",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1ttxr02yjmrh8kux77kv5",
+      "slug": "sprav-371-ioanna-bogoslova-apostola-pod-vyazom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tt4h02oimrh8x9ctpajj",
+      "slug": "sprav-429-iakova-zevedeeva-apostola-kazanskoy-ikony-bozhiey-materi-v-kazennoy-slob",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1ttyp02z1mrh8nrxos4fo",
+      "slug": "sprav-1424-ioanna-bogoslova-apostola-v-krasnom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecqh403mymr3u89io2uci",
+      "slug": "sprav-1271-ioanna-bogoslova-apostola-pri-pravoslavnoy-klassicheskoy-gimnazii-radone",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmed1yj07djmr3u8g8b81sy",
+      "slug": "sprav-1506-stefana-pervomuchenika-pri-ktsso-tsaritsyno",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1twxz04l6mrh8fxgp9man",
+      "slug": "sprav-462-petra-i-pavla-apostolov-znamenie-ikony-bozhiey-materi-u-yauzskih-vorot",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1twv304jdmrh8y4wbqsjm",
+      "slug": "sprav-1213-petra-i-pavla-apostolov-v-lefortove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1twu404irmrh8qu2hnywr",
+      "slug": "sprav-438-petra-i-pavla-apostolov-v-novoy-basmannoy-slobode",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1twvz04k2mrh8e7h2r5yv",
+      "slug": "sprav-994-petra-i-pavla-apostolov-v-tropareve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1twwx04kjmrh8bsce8t2v",
+      "slug": "sprav-1268-petra-i-pavla-apostolov-v-yaseneve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecwzt05nimr3ue1xp54v6",
+      "slug": "sprav-1215-petra-i-pavla-apostolov-pri-gvkg-im-n-n-burdenko",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecn5z02gnmr3up1q3495r",
+      "slug": "sprav-1326-gavriila-arhangela-na-hodynskom-pole",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh4nbvj00cxmr4vkmjcs37i",
+      "slug": "sprav-1551-mihaila-arhangela-na-territorii-27-y-omsbr",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tvdr03qymrh8pl0eitr8",
+      "slug": "sprav-490-mihaila-arhangela-pokrova-presvyatoy-bogoroditsy-v-ovchinnikah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tvay03pemrh8mooxljwp",
+      "slug": "sprav-934-mihaila-arhangela-v-kurkine",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tv7z03ntmrh8v5l5ncov",
+      "slug": "sprav-1432-mihaila-arhangela-v-belousove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecsyg04hqmr3ugkdzgqog",
+      "slug": "sprav-1562-mihaila-arhangela-v-zdanii-upravleniya-vnutrennih-del-yuzhnogo-administr",
+      "issues": [
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tv8y03obmrh8deuo6pr3",
+      "slug": "sprav-1433-mihaila-arhangela-v-letove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tva203oxmrh882lslnla",
+      "slug": "sprav-1435-mihaila-arhangela-v-stanislavle",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tvem03rgmrh8j46ur490",
+      "slug": "sprav-1436-mihaila-arhangela-i-chuda-ego-v-honeh-v-bylove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tvbs03plmrh8lqhvsjws",
+      "slug": "sprav-965-mihaila-arhangela-v-zelenograde",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmect1504i4mr3ucr2tlfc8",
+      "slug": "sprav-1573-mihaila-arhangela-v-parke-kultury",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tv7403namrh88tg9j87d",
+      "slug": "sprav-1118-mihaila-arhangela-v-tsaritsyne",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmectc904m3mr3uaw0d8gfi",
+      "slug": "sprav-979-mihaila-arhangela-pri-voennoy-akademii-genshtaba-vs-rf",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tv6903mpmrh8czehf5oo",
+      "slug": "sprav-340-mihaila-arhangela-pri-klinikah-na-devichem-pole",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tvcu03q5mrh8kr36j3la",
+      "slug": "sprav-983-mihaila-arhangela-v-tropareve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tvfh03rymrh8o48y8ysy",
+      "slug": "sprav-1514-mihaila-arhangela-i-chuda-ego-v-honeh-patriarshee-podvore-v-arhangelskom",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecrvq044ymr3udaxuwqcm",
+      "slug": "sprav-1320-kosmy-i-damiana-bessrebrenikov-pri-soldatenkovskoy-nyne-botkinskoy-bolni",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tupq03egmrh86nr1bmfa",
+      "slug": "sprav-376-kosmy-i-damiana-bessrebrenikov-blagovescheniya-presvyatoy-bogoroditsy-v-",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tuqm03f4mrh89nwxgg44",
+      "slug": "sprav-431-kosmy-i-damiana-bessrebrenikov-hrista-spasitelya-istselivshego-rasslable",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecryc045cmr3ufuqvrbp4",
+      "slug": "sprav-1267-kosmy-i-damiana-bessrebrenikov-pri-hospise-3-dzm",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tuo003dnmrh87hef8cf8",
+      "slug": "sprav-1303-kosmy-i-damiana-bessrebrenikov-v-kosmodemyanskom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tuov03e8mrh8assqtwid",
+      "slug": "sprav-1535-kosmy-i-damiana-bessrebrenikov-v-kuzminkah",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tp4h00lumrh8zp4rhun5",
+      "slug": "sprav-932-aleksandra-nevskogo-blagovernogo-v-horosheve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tp3e00l9mrh8jzs3ntda",
+      "slug": "sprav-931-aleksandra-nevskogo-blagovernogo-v-aleksandrovke",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecgwu00s4mr3u2ws7y3bi",
+      "slug": "sprav-1133-aleksandra-nevskogo-blagovernogo-v-kozhuhove",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecguz00rlmr3u188hrapa",
+      "slug": "sprav-609-aleksandra-nevskogo-blagovernogo-v-sosnovke",
+      "issues": [
+        "coordinates",
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tp6l00n4mrh86lq3nzdp",
+      "slug": "sprav-1525-aleksandra-nevskogo-blagovernogo-vblizi-d-staronikolskoe",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tp5k00mbmrh8r1eulmi6",
+      "slug": "sprav-974-aleksandra-nevskogo-blagovernogo-pri-mgimo",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1ts9o02bgmrh842zepqjo",
+      "slug": "sprav-1240-dimitriya-donskogo-blagovernogo-v-severnom-butove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmeco6k02t6mr3u6xr7fvz5",
+      "slug": "sprav-918-dimitriya-donskogo-blagovernogo-pri-154-m-otdelnom-komendantskom-preobra",
+      "issues": [
+        "coordinates",
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmeco7x02tdmr3uuo5mccsj",
+      "slug": "sprav-954-dimitriya-donskogo-blagovernogo-pri-omone-glavnogo-upravleniya-rosgvardi",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmeco9u02tvmr3up5sr12e8",
+      "slug": "sprav-1231-dimitriya-donskogo-blagovernogo-pri-gbu-pvv-konkovo",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tp1l00kfmrh8j7mplxsr",
+      "slug": "sprav-309-aleksandra-nevskogo-blagovernogo-pri-byvsh-komissarovskom-uchilische",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tp2h00krmrh8q7bkqdyw",
+      "slug": "sprav-1395-aleksandra-nevskogo-blagovernogo-v-pyhtine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecgvt00rrmr3uq9r0s4it",
+      "slug": "sprav-359-aleksandra-nevskogo-blagovernogo-na-territorii-byvsh-novo-ekaterininskoy",
+      "issues": [
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmech8a00u0mr3umjnpab48",
+      "slug": "sprav-435-aleksandra-nevskogo-blagovernogo-pri-byvsh-pokrovskoy-bogadelne",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmech3x00ttmr3ux1c4r8xz",
+      "slug": "sprav-1188-aleksandra-nevskogo-blagovernogo-pri-mvkou",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tpj900t3mrh8gk7zpi2n",
+      "slug": "sprav-1185-andreya-bogolyubskogo-blagovernogo-na-volzhskom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecnwz02ormr3u2hr5k0dt",
+      "slug": "sprav-1557-daniila-moskovskogo-blagovernogo-pri-glavnom-klinicheskom-gospitale-mvd-",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tsao02c6mrh8djlpqcua",
+      "slug": "sprav-1015-dimitriya-donskogo-blagovernogo-v-raeve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1ts8m02b2mrh883dr3t4m",
+      "slug": "sprav-1100-dimitriya-donskogo-blagovernogo-v-sadovnikah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1ts7m02a4mrh8h6tqztzs",
+      "slug": "sprav-481-dimitriya-blagovernogo-tsarevicha-pri-gkb-1-im-n-n-pirogova",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecj6601gxmr3utftjl6ub",
+      "slug": "sprav-314-borisa-i-gleba-blagovernyh-na-arbatskoy-ploschadi",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1twz104lqmrh885asdu1y",
+      "slug": "sprav-1216-petra-i-fevronii-blagovernyh-v-marine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tq3a014rmrh8gjh3mbpa",
+      "slug": "sprav-1568-borisa-i-gleba-blagovernyh-v-borisoglebskom",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tq2b0142mrh86h0esou5",
+      "slug": "sprav-1285-borisa-i-gleba-blagovernyh-v-degunine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecx5805ptmr3u2ydv2629",
+      "slug": "sprav-1516-petra-i-fevronii-blagovernyh-pri-ttsso-yasenevo",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmeciqm01a5mr3uaz4nbgu1",
+      "slug": "sprav-1312-blagovescheniya-presvyatoy-bogoroditsy-v-petrovskom-parke",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tpyb011pmrh8i9agcxt6",
+      "slug": "sprav-1009-blagovescheniya-presvyatoy-bogoroditsy-v-raeve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tpwd010jmrh8xjjm576t",
+      "slug": "sprav-1397-blagovescheniya-presvyatoy-bogoroditsy-v-salkove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tpxc0110mrh8ktdlx8cm",
+      "slug": "sprav-980-blagovescheniya-presvyatoy-bogoroditsy-v-fedosine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tpug00zdmrh8cjd1kf4x",
+      "slug": "sprav-1334-blagovescheniya-presvyatoy-bogoroditsy-v-sokolnikah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tuv303hemrh8uftye29u",
+      "slug": "sprav-1532-ksenii-peterburgskoy-blazhennoy-na-filatovom-lugu",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tutf03gkmrh8tt7qbfa5",
+      "slug": "sprav-1308-ksenii-peterburgskoy-blazhennoy-v-beskudnikove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tuua03h1mrh8phauvcll",
+      "slug": "sprav-1115-ksenii-peterburgskoy-blazhennoy-v-danilovskom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecs6y048imr3uxdyts40i",
+      "slug": "sprav-1194-ksenii-peterburgskoy-blazhennoy-na-kuzminskom-kladbische",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh4nbtt00chmr4vqh092z7o",
+      "slug": "sprav-1416-matrony-moskovskoy-blazhennoy-pri-troitskoy-gorodskoy-bolnitse",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecsrj04fomr3udywcllax",
+      "slug": "sprav-1377-matrony-moskovskoy-blazhennoy-pri-dome-veteranov-stseny-im-a-a-yablochki",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tv2a03kumrh8gz4td8wr",
+      "slug": "sprav-1309-matrony-moskovskoy-blazhennoy-v-dmitrovskom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tpz70129mrh8a6feawr0",
+      "slug": "sprav-360-bogoyavleniya-byvsh-bogoyavlenskogo-monastyrya",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tq08012umrh8hgm1awr5",
+      "slug": "sprav-1398-bogoyavleniya-v-s-bogoyavlenie",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecjou01ljmr3uq7gdt1x3",
+      "slug": "sprav-1493-vvedeniya-vo-hram-presvyatoy-bogoroditsy-pri-mfyua",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tq8p017amrh88p9xsygo",
+      "slug": "sprav-419-vvedeniya-vo-hram-presvyatoy-bogoroditsy-v-barashah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tq7t016omrh8cjy219fn",
+      "slug": "sprav-1336-vvedeniya-vo-hram-presvyatoy-bogoroditsy-v-veshnyakah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tq9m017pmrh8pqlcyqfl",
+      "slug": "sprav-1234-vvedeniya-vo-hram-presvyatoy-bogoroditsy-v-cherneve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecjmo01knmr3u9mrc3z1o",
+      "slug": "sprav-1204-vvedeniya-vo-hram-presvyatoy-bogoroditsy-u-saltykova-mosta",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecn7t02h0mr3uhqeuv9h1",
+      "slug": "sprav-1304-georgiya-pobedonostsa-velikomuchenika-pri-filiale-2-fgbu-3-tsvkg-im-a-a-",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1trzb0259mrh8os5zgkhr",
+      "slug": "sprav-478-georgiya-pobedonostsa-velikomuchenika-rozhdestva-presvyatoy-bogoroditsy-",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1trwf023rmrh8ijc8kqyn",
+      "slug": "sprav-938-georgiya-pobedonostsa-velikomuchenika-v-zelenograde",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1truk022mmrh8crv0eq0f",
+      "slug": "sprav-1403-georgiya-pobedonostsa-velikomuchenika-v-moskovskom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1trrp021amrh877vpefud",
+      "slug": "sprav-1541-georgiya-pobedonostsa-velikomuchenika-v-pervomayskom",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecnqh02llmr3ueu98s623",
+      "slug": "sprav-1515-georgiya-pobedonostsa-velikomuchenika-pri-akademii-gps-mchs-rossii",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1trth0223mrh80w5dteg3",
+      "slug": "sprav-322-georgiya-pobedonostsa-velikomuchenika-v-gruzinah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1try7024omrh81vfdt2or",
+      "slug": "sprav-1523-georgiya-pobedonostsa-velikomuchenika-v-kurkine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1trxb024bmrh8w6sragcr",
+      "slug": "sprav-1512-georgiya-pobedonostsa-velikomuchenika-v-marine",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1trvi0237mrh8o3yh02pl",
+      "slug": "sprav-426-georgiya-pobedonostsa-velikomuchenika-v-staryh-luchnikah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1trsk021imrh8jdouxwtb",
+      "slug": "sprav-1056-georgiya-pobedonostsa-velikomuchenika-na-poklonnoy-gore",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecnf502j8mr3uqfxs73nh",
+      "slug": "sprav-1193-georgiya-pobedonostsa-velikomuchenika-pri-gvv-2-dzm",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecnpe02lcmr3ucxdxv8i7",
+      "slug": "sprav-1001-georgiya-pobedonostsa-velikomuchenika-pri-tsentralnom-regionalnom-tsentr",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecnbd02i9mr3umrj944lr",
+      "slug": "sprav-1095-georgiya-pobedonostsa-velikomuchenika-v-kolomenskom",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tsfh02esmrh8y5kd4y8q",
+      "slug": "sprav-1343-dimitriya-solunskogo-velikomuchenika-v-p-vostochnom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tsgh02fcmrh8dyemi4hz",
+      "slug": "sprav-940-dimitriya-solunskogo-velikomuchenika-v-horosheve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tseh02e5mrh8izsjozf2",
+      "slug": "sprav-1342-dimitriya-solunskogo-velikomuchenika-na-blagushe",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecold02ypmr3u1qaja5sl",
+      "slug": "sprav-1489-dimitriya-solunskogo-velikomuchenika-pri-rossiyskom-detskom-fonde",
+      "issues": [
+        "coordinates",
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecwhp05ifmr3uer54scvm",
+      "slug": "sprav-345-panteleimona-tselitelya-velikomuchenika-pri-rntsh-im-b-v-petrovskogo",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecwcg05h6mr3udc915adi",
+      "slug": "sprav-1287-panteleimona-tselitelya-velikomuchenika-pri-fgbu-fb-mse-mintruda-rossii",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecwpo05k5mr3uf6io1mbr",
+      "slug": "sprav-1504-panteleimona-tselitelya-velikomuchenika-pri-klinicheskoy-bolnitse-4-sech",
+      "issues": [
+        "coordinates",
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecwfu05i0mr3uhnp9afb0",
+      "slug": "sprav-1068-panteleimona-tselitelya-velikomuchenika-pri-npts-detskoy-psihonevrologii",
+      "issues": [
+        "coordinates",
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecwr505kamr3u9pgm5dmr",
+      "slug": "sprav-1507-panteleimona-tselitelya-velikomuchenika-pri-gkb-im-v-m-buyanova",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecwjz05iumr3uddyf8p5i",
+      "slug": "sprav-1383-panteleimona-tselitelya-velikomuchenika-pri-gkb-15-im-o-m-filatova",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1twoc04grmrh8kxokdhiq",
+      "slug": "sprav-956-panteleimona-tselitelya-velikomuchenika-pri-nkts-oao-rzhd",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecwex05homr3ublmcbwk4",
+      "slug": "sprav-1569-panteleimona-tselitelya-velikomuchenika-pri-nkts-2-rntsh-im-akad-b-v-pet",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecwj205inmr3ueobo11q5",
+      "slug": "sprav-1113-panteleimona-tselitelya-velikomuchenika-pri-nmits-onkologii-im-n-n-blohi",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecwks05j1mr3uwa7i0rm2",
+      "slug": "sprav-405-panteleimona-tselitelya-velikomuchenika-pri-tskvg-fsb-rossii",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecto604qdmr3usoxr3ypv",
+      "slug": "sprav-432-nikity-velikomuchenika-vladimirskoy-ikony-bozhiey-materi-v-staroy-basman",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tvi803tdmrh8wfe3kd7n",
+      "slug": "sprav-458-nikity-velikomuchenika-na-shvivoy-gorke-za-yauzoy",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecwlk05j8mr3uz606hnpe",
+      "slug": "sprav-919-panteleimona-tselitelya-velikomuchenika-pri-fnkts-fmba-rossii",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tsmt02iwmrh8peob2k1x",
+      "slug": "sprav-483-ekateriny-velikomuchenitsy-na-vspole",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tu5c0338mrh8i17728ua",
+      "slug": "sprav-428-iriny-velikomuchenitsy-troitsy-zhivonachalnoy-v-pokrovskom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1twpa04h8mrh847pn8cct",
+      "slug": "sprav-1266-paraskevy-pyatnitsy-velikomuchenitsy-v-kachalove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tqpf01fwmrh8c1i4sggc",
+      "slug": "sprav-933-vladimirskoy-ikony-bozhiey-materi-v-kurkine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tquf01iomrh8lo38wqix",
+      "slug": "sprav-1192-vlahernskoy-ikony-bozhiey-materi-v-kuzminkah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tqxl01kdmrh8d3p51gp9",
+      "slug": "sprav-935-vozdvizheniya-kresta-gospodnya-v-mitine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tqyn01kymrh8gse378hr",
+      "slug": "sprav-1013-vozdvizheniya-kresta-gospodnya-v-altufeve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmeckzv01y8mr3uwdjdu46f",
+      "slug": "sprav-421-vozdvizheniya-kresta-gospodnya-v-krasnom-sele",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tqwi01jvmrh8ayqjlsar",
+      "slug": "sprav-1400-vozdvizheniya-kresta-gospodnya-v-krekshine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tqvi01jcmrh83o37e0n6",
+      "slug": "sprav-317-vozdvizheniya-kresta-gospodnya-na-chistom-vrazhke",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tr4x01o6mrh8qqhe7ker",
+      "slug": "sprav-313-vozneseniya-gospodnya-bolshoe-voznesenie-u-nikitskih-vorot",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tr5y01oxmrh8ilyslyyi",
+      "slug": "sprav-318-vozneseniya-gospodnya-maloe-voznesenie-na-bolshoy-nikitskoy-ulitse",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tqzq01llmrh874bsmq1d",
+      "slug": "sprav-1550-vozneseniya-gospodnya-v-bachurine",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tr0r01m3mrh83rbvdg7a",
+      "slug": "sprav-1094-vozneseniya-gospodnya-v-kolomenskom",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tr1n01mfmrh879ky3waw",
+      "slug": "sprav-1401-vozneseniya-gospodnya-v-satino-russkom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tr3t01nhmrh89tdbmd6f",
+      "slug": "sprav-472-vozneseniya-gospodnya-za-serpuhovskimi-vorotami",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tr2q01mumrh84bbmpczu",
+      "slug": "sprav-422-vozneseniya-gospodnya-na-gorohovom-pole",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1trb201s3mrh8uukrtmqj",
+      "slug": "sprav-423-voskreseniya-slovuschego-v-barashah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tr8z01qwmrh8w842h41m",
+      "slug": "sprav-1096-voskreseniya-slovuschego-v-danilovskoy-slobode",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1trbw01simrh858zsddba",
+      "slug": "sprav-1195-voskreseniya-slovuschego-v-marinskom-parke",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tr9v01rgmrh8woqwrv1r",
+      "slug": "sprav-356-voskreseniya-slovuschego-na-arbate",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tr6x01pkmrh8f0qe8wzc",
+      "slug": "sprav-319-voskreseniya-slovuschego-na-vagankovskom-kladbische",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tr7x01q5mrh8ffu3wgwz",
+      "slug": "sprav-321-voskreseniya-slovuschego-na-uspenskom-vrazhke",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecmbt026vmr3u9nf0wn0g",
+      "slug": "sprav-1214-voskreseniya-slovuschego-pri-gkb-29-im-n-e-baumana",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1trfr01usmrh8yaxyaa05",
+      "slug": "sprav-1402-voskreseniya-hristova-v-voskresenskom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1trhk01vkmrh805kr7qvv",
+      "slug": "sprav-474-voskreseniya-hristova-v-kadashah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1trij01w2mrh8y79d431d",
+      "slug": "sprav-1530-voskreseniya-hristova-v-popovke",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tres01u4mrh8hi9tb7ax",
+      "slug": "sprav-1340-voskreseniya-hristova-v-sokolnikah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1trcs01t1mrh8tzotsq3u",
+      "slug": "sprav-1055-voskreseniya-hristova-v-tolstopaltseve",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1trgl01v9mrh892tpa2o5",
+      "slug": "sprav-1423-voskreseniya-hristova-na-zapadnom-hovanskom-kladbische",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1trdr01tjmrh82jji84ro",
+      "slug": "sprav-1338-voskreseniya-hristova-na-semenovskom-kladbische",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecmor02ahmr3unxd79aoq",
+      "slug": "sprav-1269-voskreseniya-hristova-pri-sotsialnom-dome-obruchevskiy",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecmkg029hmr3uimhymqqo",
+      "slug": "sprav-411-voskreseniya-hristova-pri-nii-skoroy-pomoschi-im-n-v-sklifosovskogo",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tzrd05yumrh8u9s394or",
+      "slug": "sprav-362-spasa-vsemilostivogo-byvsh-skorbyaschenskogo-monastyrya",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tzse05zcmrh8skfrz98f",
+      "slug": "sprav-1438-spasa-vsemilostivogo-v-voronove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tzti05zvmrh8im4h1wxk",
+      "slug": "sprav-936-spasa-vsemilostivogo-v-mitine",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1trjj01wmmrh8gvfpvta1",
+      "slug": "sprav-1260-vseh-prepodobnyh-ottsev-kievo-pecherskih-v-staryh-cheremushkah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1trmb01yjmrh82p1ki2oi",
+      "slug": "sprav-937-vseh-svyatyh-v-mitine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecmyx02e6mr3ubcs967g2",
+      "slug": "sprav-1517-vseh-svyatyh-v-yaseneve",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1trkj01x6mrh8eglm7kdd",
+      "slug": "sprav-1291-vseh-svyatyh-vo-vsehsvyatskom-na-sokole",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1trn801yvmrh8a7zonf8c",
+      "slug": "sprav-453-vseh-svyatyh-na-kulishkah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1trlf01xzmrh827x8aptb",
+      "slug": "sprav-1060-vseh-svyatyh-na-filevskoy-poyme",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1trp60202mrh8bf9leonw",
+      "slug": "sprav-1341-vseh-svyatyh-v-zemle-russkoy-prosiyavshih-v-novokosine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1ts280274mrh8kvnwphts",
+      "slug": "sprav-1533-gruzinskoy-ikony-bozhiey-materi-v-marushkine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1ts440287mrh8x1gfluf2",
+      "slug": "sprav-1295-dvenadtsati-apostolov-v-hovrine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1ts5e028tmrh86u5pn46o",
+      "slug": "sprav-324-devyati-muchenikov-kizicheskih",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1ts6e029hmrh8yqzwyzx1",
+      "slug": "sprav-1099-derzhavnoy-ikony-bozhiey-materi-v-chertanove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u1n906n6mrh8tvfrqxtf",
+      "slug": "sprav-407-troitsy-zhivonachalnoy-podvore-troitse-sergievoy-lavry",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u2cs06tvmrh8po2ra2q3",
+      "slug": "sprav-1526-troitsy-zhivonachalnoy-v-rasskazovke",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u0ne06g4mrh8hb76mb9t",
+      "slug": "sprav-1102-troitsy-zhivonachalnoy-v-borisove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u0tf06j7mrh89spc9edq",
+      "slug": "sprav-1407-troitsy-zhivonachalnoy-v-vasyunine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmed4xu0843mr3u6bmt74ex",
+      "slug": "sprav-493-troitsy-zhivonachalnoy-v-vishnyakah",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1u29806s1mrh80t9n4gp1",
+      "slug": "sprav-1244-troitsy-zhivonachalnoy-v-vorontsove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u1x506p4mrh84l8iu4zf",
+      "slug": "sprav-1201-troitsy-zhivonachalnoy-v-karacharove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u0og06gqmrh81p6d3k5s",
+      "slug": "sprav-1103-troitsy-zhivonachalnoy-v-kozhevnikah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u2ao06smmrh8v8yv0ivi",
+      "slug": "sprav-1245-troitsy-zhivonachalnoy-v-konkove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u0md06fgmrh88bhrqbgu",
+      "slug": "sprav-1347-troitsy-zhivonachalnoy-v-kosine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u1jw06mkmrh8h4cm6q5g",
+      "slug": "sprav-406-troitsy-zhivonachalnoy-v-listah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u0yt06k0mrh86f3qf65n",
+      "slug": "sprav-1409-troitsy-zhivonachalnoy-v-mosrentgene",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u0sf06irmrh8jlxz9w5c",
+      "slug": "sprav-383-troitsy-zhivonachalnoy-v-nikitnikah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u13106kjmrh81tbuug0d",
+      "slug": "sprav-1411-troitsy-zhivonachalnoy-v-oznobishine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u0pj06h8mrh8h7bfn0il",
+      "slug": "sprav-1104-troitsy-zhivonachalnoy-v-orehove-borisove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u2fo06vhmrh8y1qlkinp",
+      "slug": "sprav-1020-troitsy-zhivonachalnoy-v-ostankine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u16k06l1mrh8w7dmzjdy",
+      "slug": "sprav-1412-troitsy-zhivonachalnoy-v-ostafeve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmed3li07n0mr3u2jjvl4tt",
+      "slug": "sprav-1549-troitsy-zhivonachalnoy-v-pleskove",
+      "issues": [
+        "coordinates",
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1u0hd06cjmrh87s0orzcq",
+      "slug": "sprav-1024-troitsy-zhivonachalnoy-v-sviblove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u27b06rmmrh8mhiiyf1r",
+      "slug": "sprav-467-troitsy-zhivonachalnoy-v-serebryanikah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u2bt06t6mrh86k5zbg8v",
+      "slug": "sprav-1246-troitsy-zhivonachalnoy-v-staryh-cheremushkah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u0kd06ecmrh84nqgpxfr",
+      "slug": "sprav-1064-troitsy-zhivonachalnoy-v-troitse-golenischeve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u19706llmrh8xjfblj0k",
+      "slug": "sprav-1414-troitsy-zhivonachalnoy-v-troitske",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u1fe06m5mrh8pstwehh0",
+      "slug": "sprav-1419-troitsy-zhivonachalnoy-v-filimonkah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u1u406ohmrh8f8jigg7k",
+      "slug": "sprav-942-troitsy-zhivonachalnoy-v-horosheve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u21v06qgmrh8jkle4s8b",
+      "slug": "sprav-444-troitsy-zhivonachalnoy-v-hohlah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u0qi06hrmrh8tico3r8s",
+      "slug": "sprav-1105-troitsy-zhivonachalnoy-v-chertanove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u0ja06dpmrh83arcsebm",
+      "slug": "sprav-1063-troitsy-zhivonachalnoy-na-vorobevyh-gorah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u24r06r2mrh8iurlbol0",
+      "slug": "sprav-445-troitsy-zhivonachalnoy-na-gryazeh-u-pokrovskih-vorot",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u2gr06w5mrh873j1bjqe",
+      "slug": "sprav-1023-troitsy-zhivonachalnoy-na-pyatnitskom-kladbische",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u2em06uwmrh828lbytse",
+      "slug": "sprav-508-troitsy-zhivonachalnoy-na-shabolovke",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmed4wz083vmr3u4eq2ybjq",
+      "slug": "sprav-1250-troitsy-zhivonachalnoy-na-scherbinskom-kladbische",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1u0id06d7mrh8yz3eylvi",
+      "slug": "sprav-1296-troitsy-zhivonachalnoy-pri-byvsh-cherkasskoy-bogadelne",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u2dq06udmrh8b6tmqu41",
+      "slug": "sprav-1019-troitsy-zhivonachalnoy-pri-byvshem-priyute-bahrushinyh",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmed3qo07otmr3u90926bao",
+      "slug": "sprav-1074-troitsy-zhivonachalnoy-pri-npts-im-v-f-voyno-yasenetskogo",
+      "issues": [
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmed4ng080pmr3uhm4n3p13",
+      "slug": "sprav-442-troitsy-zhivonachalnoy-pri-gup",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1u0vf06jomrh8tvg6dljt",
+      "slug": "sprav-1408-troitsy-zhivonachalnoy-pri-d-o-voskresenskoe-v-voskresenskom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u0lc06eymrh8o02ixms5",
+      "slug": "sprav-1346-troitsy-zhivonachalnoy-pri-dgkb-svyatogo-vladimira",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u1qt06nwmrh836rrlme2",
+      "slug": "sprav-410-troitsy-zhivonachalnoy-pri-nii-skoroy-pomoschi-im-n-v-sklifosovskogo",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u1zi06pqmrh8wz49c78f",
+      "slug": "sprav-1203-troitsy-zhivonachalnoy-u-saltykova-mosta",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1ttgn02q4mrh8774e67rr",
+      "slug": "sprav-1252-iverskoy-ikony-bozhiey-materi-v-belyaeve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tt8902p3mrh8o7qu9y2c",
+      "slug": "sprav-1067-iverskoy-ikony-bozhiey-materi-v-ochakove-matveevskom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1ttcm02pnmrh8y83b9a7b",
+      "slug": "sprav-484-iverskoy-ikony-bozhiey-materi-na-bolshoy-polyanke",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tthn02qnmrh8zyxyi2as",
+      "slug": "sprav-485-iverskoy-ikony-bozhiey-materi-na-vspole",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecps903dhmr3ulhept3eb",
+      "slug": "sprav-1273-iverskoy-ikony-bozhiey-materi-pri-fgbu-rntsrr-minzdrava-rossii",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1ttkh02rxmrh89z572v7i",
+      "slug": "sprav-455-ierusalimskoy-ikony-bozhiey-materi-za-pokrovskoy-zastavoy",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1t97b000nmrereflbu9wl",
+      "slug": "sprav-471-vzyskanie-pogibshih-ikony-bozhiey-materi-na-zatsepe-pri-reu-im-g-v-pleha",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1t9500001mrervzl9er1v",
+      "slug": "sprav-1494-vzyskanie-pogibshih-ikony-bozhiey-materi-v-perove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1t98x0010mrerv3h1fnp3",
+      "slug": "sprav-1196-vospitanie-ikony-bozhiey-materi-v-nekrasovke",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1t9f60034mrer2af71hry",
+      "slug": "sprav-477-vseh-skorbyaschih-radost-ikony-bozhiey-materi-spasa-preobrazheniya-na-bo",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecei8001kmr3ux6ztqrfb",
+      "slug": "sprav-1210-vseh-skorbyaschih-radost-ikony-bozhiey-materi-v-pechatnikah",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1t9ce002gmrerhz78wcgj",
+      "slug": "sprav-454-vseh-skorbyaschih-radost-ikony-bozhiey-materi-na-kalitnikovskom-kladbisc",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1t9bc0026mrertyhtumup",
+      "slug": "sprav-425-vseh-skorbyaschih-radost-ikony-bozhiey-materi-pri-blagotvoritelnyh-uchre",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1t9a9001nmreraevs942y",
+      "slug": "sprav-396-vseh-skorbyaschih-radost-ikony-bozhiey-materi-pri-bolnitse-moniki",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecelv0020mr3uiwbpb6mc",
+      "slug": "sprav-1136-vseh-skorbyaschih-radost-ikony-bozhiey-materi-pri-psihiatricheskoy-klini",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecevb004omr3u7brrcckf",
+      "slug": "sprav-367-vsetsaritsa-ikony-bozhiey-materi-pri-2-tskb-im-n-a-semashko-oao-rzhd",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecey7005amr3uhzx65h7l",
+      "slug": "sprav-705-vsetsaritsa-ikony-bozhiey-materi-pri-mnioi-im-p-a-gertsena",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh4narw000amr4vjga8vp4m",
+      "slug": "sprav-1553-vsetsaritsa-ikony-bozhiey-materi-v-scherbinke",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecez3005gmr3ubvlhk58d",
+      "slug": "sprav-1286-gerontissa-ikony-bozhiey-materi-pri-dome-sotsialnogo-obluzhivaniya-degun",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecezz005pmr3uhxa13w9c",
+      "slug": "sprav-325-derzhavnaya-ikony-bozhiey-materi-na-prechistenskoy-naberezhnoy",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecf0z005umr3u2hc2ar1h",
+      "slug": "sprav-607-derzhavnaya-ikony-bozhiey-materi-na-territorii-guebipk-mvd-rossii-po-g-m",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1t9g6003tmrerm20tljhe",
+      "slug": "sprav-1101-dostoyno-est-ikony-bozhiey-materi-v-biryuleve-vostochnom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1t9h7004amrerflqnyqgx",
+      "slug": "sprav-1027-zhivonosnyy-istochnik-ikony-bozhiey-materi-v-bibireve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1t9ib004omrermxhv493o",
+      "slug": "sprav-1108-zhivonosnyy-istochnik-ikony-bozhiey-materi-v-tsaritsyne",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecf4f006vmr3u8fqom563",
+      "slug": "sprav-1305-zhivonosnyy-istochnik-ikony-bozhiey-materi-pri-gerontologicheskom-tsentr",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecfik00cvmr3uasmiujtj",
+      "slug": "sprav-482-znamenie-ikony-bozhiey-materi-pri-gkb-1-im-n-i-pirogova",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1to9f005hmrh8cfiodzb2",
+      "slug": "sprav-1297-znamenie-ikony-bozhiey-materi-v-aksinine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1to8c0052mrh86and5480",
+      "slug": "sprav-1536-znamenie-ikony-bozhiey-materi-v-bykove",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tog30093mrh8gc0h5map",
+      "slug": "sprav-1249-znamenie-ikony-bozhiey-materi-v-zaharine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tobl006umrh8kle830i3",
+      "slug": "sprav-1065-znamenie-ikony-bozhiey-materi-v-kuntseve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tof0008fmrh8wfzv2pes",
+      "slug": "sprav-398-znamenie-ikony-bozhiey-materi-v-pereyaslavskoy-slobode",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecfd100ammr3ur615yvp8",
+      "slug": "sprav-1366-znamenie-ikony-bozhiey-materi-v-perove",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1toag0067mrh8hf8qzlxq",
+      "slug": "sprav-1299-znamenie-ikony-bozhiey-materi-v-hovrine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tods007wmrh8c0id8177",
+      "slug": "sprav-364-znamenie-ikony-bozhiey-materi-za-petrovskimi-vorotami",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tocq007hmrh8gnt919y1",
+      "slug": "sprav-329-znamenie-ikony-bozhiey-materi-na-sheremetevom-dvore",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecfgf00c3mr3ufivqp2aq",
+      "slug": "sprav-1247-znamenie-ikony-bozhiey-materi-pri-itef-im-a-i-alihanova",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecrbr03y6mr3usb77zj43",
+      "slug": "sprav-706-kazanskoy-ikony-bozhiey-materi-pri-tsvkg-im-p-v-mandryka",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecfmx00e6mr3uuctv9jc2",
+      "slug": "sprav-1212-neopalimaya-kupina-ikony-bozhiey-materi-pri-pravoslavnoy-gimnazii-im-mit",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tohz009ymrh8gduywfr9",
+      "slug": "sprav-1030-neopalimaya-kupina-ikony-bozhiey-materi-v-otradnom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1toiz00aimrh8x6iycw98",
+      "slug": "sprav-987-neopalimaya-kupina-ikony-bozhiey-materi-v-ochakove-matveevskom",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tojy00b0mrh8a9n1wle0",
+      "slug": "sprav-1439-neuvyadaemyy-tsvet-ikony-bozhiey-materi-v-moskovskom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tokw00bemrh8plht5ul8",
+      "slug": "sprav-989-neuvyadaemyy-tsvet-ikony-bozhiey-materi-v-rubleve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tolz00bzmrh8uvpugb6b",
+      "slug": "sprav-1440-neupivaemaya-chasha-ikony-bozhiey-materi-v-kievskom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecfrn00frmr3u3x34ypgr",
+      "slug": "sprav-1082-neupivaemaya-chasha-ikony-bozhiey-materi-pri-mnpts-narkologii-dzm",
+      "issues": [
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecftf00gemr3u30mo1041",
+      "slug": "sprav-1229-neupivaemaya-chasha-ikony-bozhiey-materi-pri-klinicheskom-filiale-2-mnts",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tomz00chmrh82c78csao",
+      "slug": "sprav-1032-nechayannaya-radost-ikony-bozhiey-materi-v-marinoy-rosche",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tonx00d5mrh8utwvun70",
+      "slug": "sprav-1119-nechayannaya-radost-ikony-bozhiey-materi-v-chertanove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecfyv00izmr3u1dohtrp3",
+      "slug": "sprav-1202-otrada-i-uteshenie-ikony-bozhiey-materi-pri-gkb-im-v-p-demihova",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tooy00dmmrh8przuzhzj",
+      "slug": "sprav-1035-otrada-i-uteshenie-ikony-bozhiey-materi-v-yaroslavskom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tor200evmrh8hme5kent",
+      "slug": "sprav-1264-otrada-i-uteshenie-ikony-bozhiey-materi-na-kahovke",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1toq200e6mrh8osbmxf2s",
+      "slug": "sprav-1319-otrada-i-uteshenie-ikony-bozhiey-materi-na-hodynskom-pole",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecg1200jrmr3u1ni5peod",
+      "slug": "sprav-1359-skoroposlushnitsa-ikony-bozhiey-materi-na-territorii-pvt-19",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1totw00gimrh8psi7uld1",
+      "slug": "sprav-971-skoroposlushnitsa-ikony-bozhiey-materi-v-zelenograde",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1torz00ffmrh8folsxmg8",
+      "slug": "sprav-1466-skoroposlushnitsa-ikony-bozhiey-materi-v-marine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tosw00fymrh8t0parv3l",
+      "slug": "sprav-969-skoroposlushnitsa-ikony-bozhiey-materi-na-hodynskom-pole",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1touq00gumrh84tkp5c30",
+      "slug": "sprav-1139-sporitelnitsa-hlebov-ikony-bozhiey-materi-v-biryuleve-vostochnom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tovr00h9mrh8gjn80eep",
+      "slug": "sprav-1379-sporuchnitsa-greshnyh-ikony-bozhiey-materi-v-kosine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1towp00hpmrh8a72qwkym",
+      "slug": "sprav-1143-troeruchitsa-ikony-bozhiey-materi-v-orehove-borisove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecga700momr3uw04sjgz4",
+      "slug": "sprav-1490-umilenie-ikony-bozhiey-materi-pri-nmts-psihiatrii-i-narkologii-im-v-p-se",
+      "issues": [
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecgc200n5mr3ufmtrigpg",
+      "slug": "sprav-1224-umyagchenie-zlyh-serdets-ikony-bozhiey-materi-pri-tssa-lyublino",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1toxo00i9mrh8mpu8yg4d",
+      "slug": "sprav-1476-umyagchenie-zlyh-serdets-ikony-bozhiey-materi-v-bachurine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1toyl00ilmrh8vze727e6",
+      "slug": "sprav-1279-umyagchenie-zlyh-serdets-ikony-bozhiey-materi-v-konkove",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecgd200nemr3uazqywxos",
+      "slug": "sprav-1014-umyagchenie-zlyh-serdets-ikony-bozhiey-materi-pri-sotsialnom-priyute-alt",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tozm00j2mrh8gyrmykg4",
+      "slug": "sprav-1225-utoli-moya-pechali-ikony-bozhiey-materi-v-marine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmed66908iamr3ut6hhi8bq",
+      "slug": "sprav-1111-feodorovskoy-ikony-bozhiey-materi-pri-dkb-mfba-rossii",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecgoh00phmr3u6c2nmznn",
+      "slug": "sprav-369-tselitelnitsa-ikony-bozhiey-materi-pri-obosoblennom-podrazdelenii-gbuz-g",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecgms00p0mr3ua3k3s9lu",
+      "slug": "sprav-1281-tselitelnitsa-ikony-bozhiey-materi-pri-gbu-tsspr-roza-vetrov",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecgqa00pymr3u38xp9cd7",
+      "slug": "sprav-1259-tselitelnitsa-ikony-bozhiey-materi-pri-mnogoprofilnom-meditsinskom-tsent",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecgpd00ppmr3uv7pm08qq",
+      "slug": "sprav-1226-tselitelnitsa-ikony-bozhiey-materi-pri-sotsialnom-zhilom-dome-marino",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecgno00pamr3uqq5s7vza",
+      "slug": "sprav-1127-tselitelnitsa-ikony-bozhiey-materi-pri-nauchnom-tsentre-psihicheskogo-zd",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tu76034amrh85kx87dhq",
+      "slug": "sprav-1353-kazanskoy-peschanskoy-ikony-bozhiey-materi-v-izmaylove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecrdc03ylmr3ug3sn8wki",
+      "slug": "sprav-1486-kazanskoy-ikony-bozhiey-materi-pri-detskom-dome-dlya-detey-invalidov-15",
+      "issues": [
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh4nbol00aomr4v0ufo2pvn",
+      "slug": "sprav-1548-kazanskoy-ikony-bozhiey-materi-v-borisovke",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tuaw036jmrh8r1lra8jn",
+      "slug": "sprav-1112-kazanskoy-ikony-bozhiey-materi-v-kolomenskom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tu85034ymrh8jnzwyhw9",
+      "slug": "sprav-1028-kazanskoy-ikony-bozhiey-materi-v-losinoostrovskoy",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tu93035jmrh8dkeakgt5",
+      "slug": "sprav-1072-kazanskoy-ikony-bozhiey-materi-v-mescherskom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tu9y0360mrh84z8eb2sn",
+      "slug": "sprav-1073-kazanskoy-ikony-bozhiey-materi-v-orlove",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tubs0374mrh8y2z0a0yf",
+      "slug": "sprav-1426-kazanskoy-ikony-bozhiey-materi-v-puchkove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tucp037nmrh8omoqkdrl",
+      "slug": "sprav-1429-kazanskoy-ikony-bozhiey-materi-v-sosenkah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tufb0395mrh8nt5msxka",
+      "slug": "sprav-1256-kazanskoy-ikony-bozhiey-materi-v-teplom-stane",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tudk0388mrh8g0osfdsj",
+      "slug": "sprav-1431-kazanskoy-ikony-bozhiey-materi-v-tovarischeve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tug7039qmrh8zbg7gstz",
+      "slug": "sprav-1258-kazanskoy-ikony-bozhiey-materi-v-uzkom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tuee038pmrh8hagr74l4",
+      "slug": "sprav-486-kazanskoy-ikony-bozhiey-materi-na-kaluzhskoy-ploschadi",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tuw003hvmrh8ukxy3n8h",
+      "slug": "sprav-1508-kursko-korennoy-ikony-bozhiey-materi-v-vyazovke",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tppe00wimrh8b5zeus4g",
+      "slug": "sprav-1190-andreya-stratilata-muchenika-v-lyubline",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecm2m023dmr3ucl36yonk",
+      "slug": "sprav-1315-vonifatiya-muchenika-pri-tskpb-im-f-a-usoltseva",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tu0i02zwmrh8n6et3bgc",
+      "slug": "sprav-357-ioanna-voina-muchenika-na-yakimanke",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecy35062hmr3ut0vxc4h7",
+      "slug": "sprav-505-porfiriya-efesskogo-muchenika-v-ttts-ostankino",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmed2w207lqmr3uy5j6yr89",
+      "slug": "sprav-399-trifona-muchenika-v-naprudnom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmed2u907ljmr3ua4bvy35v",
+      "slug": "sprav-1107-trifona-muchenika-pri-dome-sotsialnogo-obsluzhivaniya-chertanovo",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tp0n00jpmrh81k8mlmz6",
+      "slug": "sprav-1007-adriana-i-natalii-muchenikov-v-babushkine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tpib00sjmrh8rejjh9eg",
+      "slug": "sprav-1184-anatoliya-i-protoleona-muchenikov-v-marine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecrww0454mr3usqnfkxjp",
+      "slug": "sprav-1333-kosmy-i-damiana-bessrebrenikov-na-territorii-bolnitsy-tsentrosoyuza-rf",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tq490153mrh88ta6mnwt",
+      "slug": "sprav-1232-borisa-i-gleba-blagovernyh-v-zyuzine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u37l078dmrh83el3tyya",
+      "slug": "sprav-510-flora-i-lavra-muchenikov-vseh-skorbyaschih-radost-ikony-bozhiey-materi-n",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmed6ep08ktmr3ukixzt4e6",
+      "slug": "sprav-332-flora-i-lavra-muchenikov-pri-byvshem-ermakovskom-uchilische",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecjvk01msmr3uq1mrnyn1",
+      "slug": "sprav-1485-very-nadezhdy-lyubovi-i-sofii-muchenits-pri-sofiyskom-detskom-dome",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tqcw0199mrh8feyghext",
+      "slug": "sprav-1399-very-nadezhdy-lyubovi-i-sofii-muchenits-v-kokoshkine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tqbz018umrh82qpx6znq",
+      "slug": "sprav-1092-very-nadezhdy-lyubovi-i-sofii-muchenits-v-chertanove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tqdw019qmrh8ymf265t1",
+      "slug": "sprav-982-very-nadezhdy-lyubovi-i-sofii-muchenits-vo-vnukove",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tqf601a5mrh8y9lqgyi2",
+      "slug": "sprav-1010-very-nadezhdy-lyubovi-i-sofii-muchenits-na-miusskom-kladbische",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecjqy01lrmr3u0r95or6e",
+      "slug": "sprav-1080-very-nadezhdy-lyubovi-i-sofii-muchenits-pri-nmits-dgoi-im-dmitriya-rogac",
+      "issues": [
+        "coordinates",
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tzm305x3mrh8f8yhgb9o",
+      "slug": "sprav-349-sofii-i-tatiany-muchenits-pri-dkgkb-13-im-n-f-filatova",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecjd001i6mr3uc4v1usnn",
+      "slug": "sprav-704-valentiny-muchenitsy-pri-pni-18",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecpjx039qmr3u8sufxp6d",
+      "slug": "sprav-1294-zoi-muchenitsy-pri-nmits-to-im-n-n-priorova",
+      "issues": [
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1u04g065hmrh8vv48gk9n",
+      "slug": "sprav-350-tatiany-rimskoy-muchenitsy-pri-mgu-im-m-v-lomonosova",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u05f0666mrh847921zwb",
+      "slug": "sprav-1223-tatiany-rimskoy-muchenitsy-v-lyubline",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1twgu04d5mrh8pq9aoxwa",
+      "slug": "sprav-1448-novomuchenikov-i-ispovednikov-rossiyskih-v-kommunarke",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1twhr04dkmrh8zav9yo99",
+      "slug": "sprav-953-novomuchenikov-i-ispovednikov-rossiyskih-v-strogine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1twin04e9mrh8wi5s4l68",
+      "slug": "sprav-1449-novomuchenikov-podolskih-v-shishkinom-lesu",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh4ncbx00i9mr4vysxjnt8u",
+      "slug": "sprav-1442-petra-i-pavla-apostolov-v-dubovke",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmed1xq07dbmr3ulspthrh7",
+      "slug": "sprav-1572-stefana-pervomuchenika-pri-byvshey-dvoryanskoy-bogadelne-imeni-s-d-necha",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecxis05uamr3u8dcm3puh",
+      "slug": "sprav-1189-pokrova-presvyatoy-bogoroditsy-pri-pvt-17",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecy0d061pmr3ux0jy0c9u",
+      "slug": "sprav-1518-pokrova-presvyatoy-bogoroditsy-miluyuschaya-ikony-bozhiey-materi-pri-mor",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tx6o04qamrh88hfxcraz",
+      "slug": "sprav-1450-pokrova-presvyatoy-bogoroditsy-v-bolshom-pokrovskom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1txea04u5mrh8qmd0on4x",
+      "slug": "sprav-957-pokrova-presvyatoy-bogoroditsy-v-brattseve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tx7p04qqmrh8k79vvef4",
+      "slug": "sprav-1451-pokrova-presvyatoy-bogoroditsy-v-valueve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tx9l04rpmrh842qb56aw",
+      "slug": "sprav-1454-pokrova-presvyatoy-bogoroditsy-v-erine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1txd604tgmrh89deyieh5",
+      "slug": "sprav-441-pokrova-presvyatoy-bogoroditsy-v-krasnom-sele",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tx2q04ntmrh8aaotpv7f",
+      "slug": "sprav-1036-pokrova-presvyatoy-bogoroditsy-v-medvedkove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tx5q04pomrh8742ekyxg",
+      "slug": "sprav-1129-pokrova-presvyatoy-bogoroditsy-v-orehove-borisove-yuzhnom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1txfa04usmrh8n8qk4776",
+      "slug": "sprav-961-pokrova-presvyatoy-bogoroditsy-v-pokrovskom-streshneve",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1txag04s5mrh8avzazoof",
+      "slug": "sprav-1455-pokrova-presvyatoy-bogoroditsy-v-pokrovskom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1txc704t2mrh8wklnufro",
+      "slug": "sprav-440-pokrova-presvyatoy-bogoroditsy-v-rubtsove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecxac05rsmr3u9wyuqh2u",
+      "slug": "sprav-1540-pokrova-presvyatoy-bogoroditsy-v-tolstopaltseve",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1txi504wkmrh8ah6vfd6s",
+      "slug": "sprav-995-pokrova-presvyatoy-bogoroditsy-v-filyah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1txbc04skmrh8lk8ctfbg",
+      "slug": "sprav-1456-pokrova-presvyatoy-bogoroditsy-v-yakovleve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1txja04x4mrh8om2akz7a",
+      "slug": "sprav-1270-pokrova-presvyatoy-bogoroditsy-v-yaseneve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmql9nwiq04gkmr3yyw16flrw",
+      "slug": "sprav-1124-pokrova-presvyatoy-bogoroditsy-na-gorodne",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tx8l04r4mrh8hkbq38zt",
+      "slug": "sprav-1452-pokrova-presvyatoy-bogoroditsy-na-desne",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1txh604vwmrh89j9zhfo0",
+      "slug": "sprav-463-pokrova-presvyatoy-bogoroditsy-na-lyschikovoy-gore",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1txg704vbmrh86my9fnox",
+      "slug": "sprav-1218-pokrova-presvyatoy-bogoroditsy-na-lyuberetskih-polyah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1txks04xwmrh88f9rav2q",
+      "slug": "sprav-1128-pohvaly-presvyatoy-bogoroditsy-v-zyablikove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1txm904ydmrh8dw6qv15b",
+      "slug": "sprav-1130-pochaevskoy-ikony-bozhiey-materi-v-chertanove-yuzhnom",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tp9f00okmrh8bobhmztj",
+      "slug": "sprav-1331-aleksiya-mecheva-pravednogo-v-veshnyakah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tpd900qjmrh8heuheory",
+      "slug": "sprav-1283-aleksiya-moskovskogo-presvitera-pravednogo-v-timiryazevskom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecin8019fmr3u23vs8s9k",
+      "slug": "sprav-917-artemiya-verkolskogo-pravednogo-pri-tspsid-krasnoselskiy",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmed64108humr3uuo6icvyj",
+      "slug": "sprav-955-feodora-ushakova-pravednogo-pri-gimnazii-1619-im-m-i-tsvetaevoy",
+      "issues": [
+        "coordinates",
+        "photo",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u33f076emrh8iayuwt00",
+      "slug": "sprav-1328-feodora-ushakova-pravednogo-v-levoberezhnom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u34c076vmrh8ann45bmv",
+      "slug": "sprav-1147-feodora-ushakova-pravednogo-v-nagornom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u32a075umrh8olvnmz3k",
+      "slug": "sprav-1280-feodora-ushakova-pravednogo-v-yuzhnom-butove",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tu1f030mmrh8ed87jpar",
+      "slug": "sprav-1302-ioanna-kronshtadtskogo-pravednogo-v-golovine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tu3e031xmrh8seet7s0j",
+      "slug": "sprav-1070-ioanna-russkogo-pravednogo-v-kuntseve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecsan049smr3uu66l8wmp",
+      "slug": "sprav-981-lazarya-chetverodnevnogo-pravednogo-na-pyhtinskom-kladbische",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tzdg05t0mrh8rqt9zuea",
+      "slug": "sprav-1222-simeona-verhoturskogo-pravednogo-v-marine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecor20310mr3u41pxyqfi",
+      "slug": "sprav-1354-evgeniya-vracha-botkina-strastoterptsa-pravednogo-pri-gkb-im-d-d-pletnev",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmed6ap08jdmr3uocouhguv",
+      "slug": "sprav-336-filareta-milostivogo-pravednogo-pri-dgkb-9-im-g-n-speranskogo",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecqbb03ksmr3uubsf38wl",
+      "slug": "sprav-984-ioakima-i-anny-pravednyh-pri-gbu-tsssv-nash-dom",
+      "issues": [
+        "coordinates",
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tzcd05sjmrh8bdb9nw8h",
+      "slug": "sprav-1276-simeona-bogopriimtsa-i-anny-prorochitsy-pravednyh-v-cheremushkah",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecygu0669mr3uxwl33ewx",
+      "slug": "sprav-1206-preobrazheniya-gospodnya-pri-nauchno-prakticheskom-tsentre-narkologii",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1txtp052pmrh8y1r6pu8v",
+      "slug": "sprav-1509-preobrazheniya-gospodnya-v-lefortove",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1txn604ypmrh8kje2jr61",
+      "slug": "sprav-1361-preobrazheniya-gospodnya-v-bogorodskom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1txqn050tmrh8xhhfwd3w",
+      "slug": "sprav-1458-preobrazheniya-gospodnya-v-kommunarke",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1txpr050hmrh8jwf3p7eo",
+      "slug": "sprav-1131-preobrazheniya-gospodnya-v-nagatine-sadovnikah",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh4nckx00l8mr4vwoclgkl8",
+      "slug": "sprav-1463-preobrazheniya-gospodnya-v-rogove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1txv90537mrh8qtgnzdxj",
+      "slug": "sprav-1272-preobrazheniya-gospodnya-v-starom-belyaeve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1txrj051emrh8bxorw8ag",
+      "slug": "sprav-962-preobrazheniya-gospodnya-v-tushine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1txw7053umrh8ioka8maz",
+      "slug": "sprav-506-preobrazheniya-gospodnya-na-bolvanovke",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1txow04zymrh8kmvs118s",
+      "slug": "sprav-348-preobrazheniya-gospodnya-na-peskah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1txo104zemrh8gtorbf2l",
+      "slug": "sprav-1362-preobrazheniya-gospodnya-na-preobrazhenskoy-ploschadi",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tp8f00o2mrh8i4tffkg0",
+      "slug": "sprav-1510-aleksandra-svirskogo-prepodobnogo-v-grayvoronove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tp7i00njmrh8u20uqpyq",
+      "slug": "sprav-1330-aleksandra-svirskogo-prepodobnogo-na-sokolinoy-gore",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tpfu00rfmrh862yasq8l",
+      "slug": "sprav-416-aleksiya-cheloveka-bozhiya-prepodobnogo-v-krasnom-sele",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tpe600qymrh8v03ikvxh",
+      "slug": "sprav-1090-aleksiya-cheloveka-bozhiya-prepodobnogo-v-sadovnikah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tpob00vtmrh8rmgxznvh",
+      "slug": "sprav-978-andreya-rubleva-prepodobnogo-v-ramenkah",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tpn200v8mrh8yng6huna",
+      "slug": "sprav-1284-andreya-rubleva-prepodobnogo-na-verhney-maslovke",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tq5k015pmrh8wryu68bu",
+      "slug": "sprav-452-vasiliya-ispovednika-prepodobnogo-petra-i-pavla-apostolov-u-rogozhskoy-z",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tsbl02cqmrh8mtcndpwf",
+      "slug": "sprav-326-dimitriya-prilutskogo-prepodobnogo-na-devichem-pole",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1twji04epmrh8f9847i5q",
+      "slug": "sprav-1437-olega-bryanskogo-blagovernogo-v-minzage",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecqsn03r2mr3uzz6v1tbu",
+      "slug": "sprav-1137-ioanna-rylskogo-prepodobnogo-pri-psihiatricheskoy-klinicheskoy-bolnitse-",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tv0003jpmrh8pdtm6eh1",
+      "slug": "sprav-488-marona-pustynnika-prepodobnogo-blagovescheniya-presvyatoy-bogoroditsy-v-",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tvhc03sumrh833g2e0e5",
+      "slug": "sprav-1262-moiseya-murina-prepodobnogo-v-yuzhnom-butove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1twnh04gcmrh8kuwkby56",
+      "slug": "sprav-1217-paisiya-svyatogortsa-prepodobnogo-v-vyhine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tx1o04n5mrh8kccz4c8p",
+      "slug": "sprav-378-pimena-velikogo-prepodobnogo-troitsy-zhivonachalnoy-v-novyh-vorotnikah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tykd05gamrh82xj5lxzc",
+      "slug": "sprav-1220-savvy-osvyaschennogo-prepodobnogo-v-lyubline",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tyld05grmrh8tzd08pc9",
+      "slug": "sprav-1372-savvy-storozhevskogo-prepodobnogo-v-severnom-izmaylove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmeczwe06prmr3uxernbkno",
+      "slug": "sprav-1484-serafima-sarovskogo-prepodobnogo-pri-dimitrievskom-detskom-dome",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmeczp906o4mr3us3jb1e0t",
+      "slug": "sprav-1355-serafima-sarovskogo-prepodobnogo-pri-litsee-duhovnoy-kultury-vo-imya-pre",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmeczlq06mqmr3u689gk4ka",
+      "slug": "sprav-1288-serafima-sarovskogo-prepodobnogo-pri-niki-pediatrii-im-yu-e-veltischeva",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmeczx706pxmr3un4rkz8ig",
+      "slug": "sprav-1253-serafima-sarovskogo-prepodobnogo-pri-pvt-31",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1typ105ihmrh8m0mdj7th",
+      "slug": "sprav-1322-serafima-sarovskogo-prepodobnogo-v-degunine",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tyrh05jkmrh87qt8x2x0",
+      "slug": "sprav-1373-serafima-sarovskogo-prepodobnogo-v-kozhuhove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tysq05k1mrh83g2cmxyl",
+      "slug": "sprav-999-serafima-sarovskogo-prepodobnogo-v-kuntseve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tynq05hvmrh8vnprxgn1",
+      "slug": "sprav-1045-serafima-sarovskogo-prepodobnogo-v-raeve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmed00v06qxmr3upe6qus1g",
+      "slug": "sprav-1522-serafima-sarovskogo-prepodobnogo-v-shelepihe",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecztf06p7mr3u5tojzgng",
+      "slug": "sprav-1125-serafima-sarovskogo-prepodobnogo-na-pokrovskom-kladbische",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tyqb05j2mrh8kdnfz77w",
+      "slug": "sprav-347-serafima-sarovskogo-prepodobnogo-pri-ekspotsentre",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmeczz706qqmr3ushvjm1lo",
+      "slug": "sprav-1513-serafima-sarovskogo-prepodobnogo-pri-gask",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmeczvd06phmr3usrao3ycm",
+      "slug": "sprav-952-serafima-sarovskogo-prepodobnogo-pri-nmits-tio-im-ak-v-i-shumakova",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmed03r06s7mr3uygaedbua",
+      "slug": "sprav-8-sergiya-radonezhskogo-prepodobnogo-pri-schetnoy-palate-rf",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tzba05rzmrh848ppu6ru",
+      "slug": "sprav-363-sergiya-radonezhskogo-prepodobnogo-troitsy-zhivonachalnoy-v-rogozhskoy-s",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tyvg05ldmrh8k9ypk69j",
+      "slug": "sprav-1044-sergiya-radonezhskogo-prepodobnogo-v-bibireve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tyxv05mdmrh8q2ih24mt",
+      "slug": "sprav-1323-sergiya-radonezhskogo-prepodobnogo-v-businove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tz0g05njmrh88g6aizlw",
+      "slug": "sprav-1374-sergiya-radonezhskogo-prepodobnogo-v-golyanove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh4ncqh00n7mr4v0nkxkr8j",
+      "slug": "sprav-1434-sergiya-radonezhskogo-prepodobnogo-vo-vnukove",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tz1p05o3mrh8z96iqe83",
+      "slug": "sprav-380-sergiya-radonezhskogo-prepodobnogo-v-krapivnikah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tz2v05ommrh8thvtdrwo",
+      "slug": "sprav-1413-sergiya-radonezhskogo-prepodobnogo-v-novyh-vatutinkah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tz4205p1mrh8o3cyej5s",
+      "slug": "sprav-930-sergiya-radonezhskogo-prepodobnogo-v-solntseve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tz6f05qbmrh8t2h90541",
+      "slug": "sprav-1465-sergiya-radonezhskogo-prepodobnogo-v-tarasove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tza405rgmrh81jwlj357",
+      "slug": "sprav-967-sergiya-radonezhskogo-prepodobnogo-v-tushine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tywp05m4mrh8ppa0u1p4",
+      "slug": "sprav-1570-sergiya-radonezhskogo-prepodobnogo-v-chertanove",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tyz905mxmrh8gc98e5l9",
+      "slug": "sprav-1324-sergiya-radonezhskogo-prepodobnogo-na-hodynskom-pole",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tz5b05ptmrh8ied47nwb",
+      "slug": "sprav-1464-sergiya-radonezhskogo-prepodobnogo-pri-pravoslavnoy-shkole-pansione-ples",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh4ncsq00nxmr4vqm67h37o",
+      "slug": "sprav-966-sergiya-radonezhskogo-prepodobnogo-v-zelenograde",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tzfn05tzmrh8je6viqyz",
+      "slug": "sprav-920-simeona-stolpnika-prepodobnogo-vvedeniya-vo-hram-presvyatoy-bogoroditsy-",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tzem05tjmrh8in41hv5a",
+      "slug": "sprav-465-simeona-stolpnika-prepodobnogo-za-yauzoy",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u317075amrh87dce13dk",
+      "slug": "sprav-354-feodora-studita-prepodobnogo-smolenskoy-ikony-bozhiey-materi-u-nikitskih",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmeci0d012nmr3u4k60449x",
+      "slug": "sprav-1472-angeliny-serbskoy-prepodobnoy-v-kommunarke",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tslg02ifmrh898me1a3i",
+      "slug": "sprav-1059-evfrosinii-polotskoy-prepodobnoy-v-kuntseve",
+      "issues": [
+        "coordinates",
+        "photo",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tskg02hnmrh8vrly8b25",
+      "slug": "sprav-1242-evfrosinii-moskovskoy-prepodobnoy-v-kotlovke",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecp4c033kmr3u734hf8mp",
+      "slug": "sprav-1046-elisavety-feodorovny-prepodobnomuchenitsy-pri-nprts-v-altufeve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tsq502kmmrh8d0ihvyt1",
+      "slug": "sprav-939-elisavety-feodorovny-prepodobnomuchenitsy-v-pokrovskom-streshneve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecp56033umr3udot8wqks",
+      "slug": "sprav-1081-elisavety-feodorovny-prepodobnomuchenitsy-v-tsvsnp-gu-mvd-rossii-po-g-mo",
+      "issues": [
+        "coordinates",
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tsow02k1mrh82fcnjz02",
+      "slug": "sprav-1406-elisavety-feodorovny-prepodobnomuchenitsy-v-scherbinke",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecp3i033emr3u60wfgrj8",
+      "slug": "sprav-1521-elisavety-feodorvny-prepodobnomuchenitsy-na-hutorskoy",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecpal035pmr3uuez7spd2",
+      "slug": "sprav-1480-elisavety-feodorovny-prepodobnomuchenitsy-pri-gkb-1-im-n-i-pirogova",
+      "issues": [
+        "coordinates",
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tsnv02jgmrh8q3wemdi9",
+      "slug": "sprav-1344-elisavety-feodorovny-prepodobnomuchenitsy-v-vostochnom-izmaylove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecp03032xmr3upujmyl2f",
+      "slug": "sprav-1327-elisavety-prepodobnomuchenitsy-i-varvary-inokini-na-sokole",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh4nbiq008wmr4vg7nhg1vb",
+      "slug": "sprav-1415-elisavety-feodorovny-prepodobnomuchenitsy-pri-nkts-3-fgbnu-rntsh-im-akad",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecily0195mr3upcjypm19",
+      "slug": "sprav-1017-antoniya-i-feodosiya-kievo-pecherskih-prepodobnyh-v-bibireve",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tt1q02ntmrh8fjdp0qdo",
+      "slug": "sprav-1348-zosimy-i-savvatiya-solovetskih-prepodobnyh-v-golyanove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecris040smr3ueb1nsy6u",
+      "slug": "sprav-945-kirilla-i-marii-radonezhskih-prepodobnyh-v-tushine",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1txx4054imrh8dntw5bhy",
+      "slug": "sprav-1363-proishozhdeniya-chestnyh-drev-zhivotvoryaschego-kresta-gospodnya-vsemilo",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tts902w9mrh8yplhq5p2",
+      "slug": "sprav-1519-ilii-proroka-bozhiya-v-golovine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1ttpa02uymrh8k6h1gisp",
+      "slug": "sprav-1421-ilii-proroka-bozhiya-v-izvarine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1ttne02tpmrh80dxq6j0m",
+      "slug": "sprav-330-ilii-proroka-bozhiya-v-obydenskom-pereulke",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1ttr702vsmrh8vho0ioj0",
+      "slug": "sprav-1255-ilii-proroka-bozhiya-v-severnom-butove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tttb02wnmrh8fbbeci23",
+      "slug": "sprav-1534-ilii-proroka-bozhiya-v-solntseve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1ttmf02sxmrh8iqf7kkxp",
+      "slug": "sprav-1349-ilii-proroka-bozhiya-v-cherkizove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1ttq602vfmrh8xhrdxjn4",
+      "slug": "sprav-450-ilii-proroka-bozhiya-na-vorontsovom-pole",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1ttob02udmrh8n8tbndq2",
+      "slug": "sprav-370-ilii-proroka-bozhiya-na-novgorodskom-podvore",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecpxv03femr3uhje9ovr3",
+      "slug": "sprav-1335-ilii-proroka-bozhiya-pri-shtabe-vdv-v-sokolnikah",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1ts35027nmrh8xxbxrz1f",
+      "slug": "sprav-1098-daniila-proroka-fomy-apostola-na-kantemirovskoy",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmeckfm01rpmr3ug8kz7zsd",
+      "slug": "sprav-494-vladimira-ravnoapostolnogo-v-kuznetsah",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tqn501enmrh851o2l6v3",
+      "slug": "sprav-1524-vladimira-ravnoapostolnogo-v-tushine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tqiu01c6mrh87hg40ygw",
+      "slug": "sprav-1337-vladimira-ravnoapostolnogo-v-novogireeve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tqk001cumrh8xpptj8nw",
+      "slug": "sprav-420-vladimira-ravnoapostolnogo-v-staryh-sadeh",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmeck9e01pnmr3upto63z1u",
+      "slug": "sprav-1307-vladimira-ravnoapostolnogo-na-himkinskom-kladbische",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tqm101dwmrh8q0patqs1",
+      "slug": "sprav-495-vladimira-ravnoapostolnogo-pstbi-i-pstgu",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tqkx01dcmrh8ox3f5uyn",
+      "slug": "sprav-1191-vladimira-ravnoapostolnogo-pri-mpku-im-m-a-sholohova",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1twkd04f3mrh82vx21afo",
+      "slug": "sprav-1034-olgi-ravnoapostolnoy-v-ostankine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1twmo04fwmrh8vtut5tit",
+      "slug": "sprav-993-olgi-ravnoapostolnoy-v-solntseve",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1twlq04fjmrh85kka2upo",
+      "slug": "sprav-992-olgi-ravnoapostolnoy-pri-palomnicheskom-tsentre-moskovskoy-patriarhii",
+      "issues": [
+        "coordinates",
+        "photo",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecskb04chmr3ugwdf44mb",
+      "slug": "sprav-1368-marii-magdaliny-ravnoapostolnoy-v-sokolnikah",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecsl704crmr3u39s64769",
+      "slug": "sprav-1211-marii-magdaliny-ravnoapostolnoy-pri-sizo-6",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tuxr03irmrh8xkn1jpy9",
+      "slug": "sprav-1076-marii-magdaliny-ravnoapostolnoy-na-setuni",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tuyq03j7mrh8drgqhcp0",
+      "slug": "sprav-1261-marii-magdaliny-ravnoapostolnoy-v-yuzhnom-butove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecsjg04camr3uzruuy7iw",
+      "slug": "sprav-331-marii-magdaliny-ravnoapostolnoy-pri-mglu",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1twfx04clmrh8rpdqs2gn",
+      "slug": "sprav-1263-niny-ravnoapostolnoy-v-cheremushkah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecrkm041kmr3ungtt9uw2",
+      "slug": "sprav-1564-kirilla-i-mefodiya-ravnoapostolnyh-pri-oano-gimnaziya-ellada-vo-imya-svy",
+      "issues": [
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tujp03bhmrh8krizlan6",
+      "slug": "sprav-1075-kirilla-i-mefodiya-ravnoapostolnyh-pri-mgu-im-m-v-lomonosova",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tukj03bwmrh85axh1vvo",
+      "slug": "sprav-1207-kirilla-i-mefodiya-ravnoapostolnyh-na-dubrovke",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tqg601atmrh8fj7i0dtz",
+      "slug": "sprav-1237-vladimira-i-olgi-ravnoapostolnyh-v-cheremushkah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecrrg043omr3up6x4nq1c",
+      "slug": "sprav-430-konstantina-i-eleny-ravnoapostolnyh-pri-guz",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tun303d3mrh8bdiwvrt3",
+      "slug": "sprav-946-konstantina-i-eleny-ravnoapostolnyh-v-mitine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecrqf043gmr3ueulq6188",
+      "slug": "sprav-1567-konstantina-i-eleny-ravnoapostolnyh-v-fanagoriyskih-kazarmah",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tuit03awmrh8dplknnzt",
+      "slug": "sprav-1029-kirilla-i-mefodiya-ravnoapostolnyh-v-rostokine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tuld03camrh8vwfzj2zy",
+      "slug": "sprav-1527-kirilla-i-mefodiya-ravnoapostolnyh-v-degunine",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1txzx055hmrh8nj0xjtra",
+      "slug": "sprav-1126-rizopolozheniya-na-donskoy",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1txyj054umrh8q93cqsbv",
+      "slug": "sprav-1040-rizopolozheniya-v-leonove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecyqz06atmr3un9jl51op",
+      "slug": "sprav-1545-rozhdestva-ioanna-predtechi-v-moskovskom",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1ty21056vmrh809eula6y",
+      "slug": "sprav-1364-rozhdestva-ioanna-predtechi-v-ivanovskom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1ty31057nmrh8o08sbbs3",
+      "slug": "sprav-1367-rozhdestva-ioanna-predtechi-v-sokolnikah",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1ty0w0564mrh8lpjllwdv",
+      "slug": "sprav-335-rozhdestva-ioanna-predtechi-na-presne",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1ty3x0585mrh8s5n3wgbv",
+      "slug": "sprav-1042-rozhdestva-presvyatoy-bogoroditsy-v-butyrskoy-slobode",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1ty7m05acmrh8p09sayn3",
+      "slug": "sprav-1459-rozhdestva-presvyatoy-bogoroditsy-v-govorove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1ty9n05b9mrh8n5ttahs4",
+      "slug": "sprav-1219-rozhdestva-presvyatoy-bogoroditsy-v-kapotne",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tyce05camrh8m297nl3j",
+      "slug": "sprav-998-rozhdestva-presvyatoy-bogoroditsy-v-krylatskom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1ty6p059tmrh82p29pkii",
+      "slug": "sprav-379-rozhdestva-presvyatoy-bogoroditsy-v-putinkah",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1ty8i05asmrh8yjfgaku8",
+      "slug": "sprav-1460-rozhdestva-presvyatoy-bogoroditsy-v-rudneve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1ty5q0595mrh8ozfd5glf",
+      "slug": "sprav-1132-rozhdestva-presvyatoy-bogoroditsy-v-starom-simonove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1ty4t058kmrh85h44n05d",
+      "slug": "sprav-1043-rozhdestva-presvyatoy-bogoroditsy-vo-vladykine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tyb205bumrh8lmm6u684",
+      "slug": "sprav-464-rozhdestva-presvyatoy-bogoroditsy-na-kulishkah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tygg05e9mrh83ftta4r8",
+      "slug": "sprav-1461-rozhdestva-hristova-v-varvarine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tyfg05dimrh89ba4zcyn",
+      "slug": "sprav-1370-rozhdestva-hristova-v-izmaylove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tyic05f5mrh84giq40lu",
+      "slug": "sprav-963-rozhdestva-hristova-v-mitine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tyhd05ermrh8ntuh4l1a",
+      "slug": "sprav-1462-rozhdestva-hristova-v-rozhdestvenne",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tye305cymrh8b7wydka4",
+      "slug": "sprav-1321-rozhdestva-hristova-v-cherkizove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tyjc05frmrh871wgau66",
+      "slug": "sprav-1274-rozhdestva-hristova-v-cherneve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmectid04owmr3u2fm5oq4v",
+      "slug": "sprav-1561-mihaila-malena-prepodobnogo",
+      "issues": [
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tptc00yumrh81p7aiecw",
+      "slug": "sprav-311-afanasiya-i-kirilla-aleksandriyskih-patriarhov-svyatiteley-spasa-nerukot",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh4nc3z00fimr4vl16dbcyj",
+      "slug": "sprav-1487-moskovskih-svyatiteley-v-troitskom-podvore-troitse-sergievoy-lavry",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tx0s04momrh86vvxgzc6",
+      "slug": "sprav-439-petra-aleksiya-iony-i-filippa-moskovskih-svyatiteley-pri-byvsh-eparhialn",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tpca00q1mrh8rhi46guc",
+      "slug": "sprav-449-aleksiya-moskovskogo-mitropolita-svyatitelya-feodorovskoy-ikony-bozhiey-",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tpbd00pkmrh8m12wkggc",
+      "slug": "sprav-1228-aleksiya-moskovskogo-mitropolita-svyatitelya-v-severnom-butove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmechkc00xzmr3u6nhnszkx",
+      "slug": "sprav-1382-aleksiya-moskovskogo-mitropolita-svyatitelya-pri-sotsialnom-dome-veshnya",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecjey01icmr3u4qzmjkf2",
+      "slug": "sprav-1365-vasiliya-velikogo-svyatitelya-v-ivanovskom",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1ts1c026imrh8kotdmd2p",
+      "slug": "sprav-480-grigoriya-neokesariyskogo-svyatitelya-v-derbitsah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tsdf02dpmrh8sq65ge3i",
+      "slug": "sprav-1199-dimitriya-rostovskogo-svyatitelya-na-ryazanke",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tsci02d3mrh8e99g1yo8",
+      "slug": "sprav-1058-dimitriya-rostovskogo-mitropolita-svyatitelya-v-ochakove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecqaf03klmr3u5jt7uvkt",
+      "slug": "sprav-1265-innokentiya-penzenskogo-episkopa-svyatitelya-pri-mntsp-narkologii-klinic",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1ttuc02x3mrh8kbce062u",
+      "slug": "sprav-1301-innokentiya-moskovskogo-mitropolita-svyatitelya-v-beskudnikove",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1ttvf02xnmrh8i4yvclmq",
+      "slug": "sprav-1422-innokentiya-moskovskogo-mitropolita-svyatitelya-v-rakitkah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tu4f032mmrh8k23xc9so",
+      "slug": "sprav-1071-iova-moskovskogo-i-vseya-rusi-patriarha-svyatitelya-na-mozhayskom-shosse",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tuh903abmrh8s21x5gjr",
+      "slug": "sprav-1114-kipriana-moskovskogo-i-vsya-rusi-mitropolita-svyatitelya-v-chertanove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecsf604axmr3u5yky19ge",
+      "slug": "sprav-1248-luki-krymskogo-arhiepiskopa-svyatitelya-pri-gkb-im-v-v-vinogradova",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecscr04acmr3u6ar83xx1",
+      "slug": "sprav-1306-luki-krymskogo-arhiepiskopa-svyatitelya-pri-gerontologicheskom-tsentre-l",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecsbd049zmr3uz2njayl8",
+      "slug": "sprav-1483-luki-krymskogo-arhiepiskopa-svtitelya-pri-nmits-serdechno-sosudistoy-hir",
+      "issues": [
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecse804armr3uh6kyu69l",
+      "slug": "sprav-1495-luki-krymskogo-arhiepiskopa-svyatitelya-pri-rots-76",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecsg004b7mr3uk7l7yxjl",
+      "slug": "sprav-1257-lva-velikogo-svyatitelya-papy-rimskogo-v-teplom-stane",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tuww03icmrh8itmhyw5q",
+      "slug": "sprav-1528-makariya-moskovskogo-mitropolita-svyatitelya-v-butyrskom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tv1b03kbmrh8r1n9qto4",
+      "slug": "sprav-457-martina-ispovednika-svyatitelya-vozneseniya-gospodnya-v-alekseevskoy-nov",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tv4603lzmrh8mm5ztnz5",
+      "slug": "sprav-1311-mitrofana-voronezhskogo-svyatitelya-na-hutorskoy",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tv3603lkmrh83ptso0h3",
+      "slug": "sprav-1117-mitrofana-voronezhskogo-episkopa-svyatitelya-v-moskvoreche",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecu0w04sdmr3u6351x624",
+      "slug": "sprav-1083-nikolaya-mirlikiyskogo-svyatitelya-v-izmaylove",
+      "issues": [
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecutv04vkmr3udy9e29xj",
+      "slug": "sprav-1371-nikolaya-mirlikiyskogo-svyatitelya-pri-nmtsh-im-n-i-pirogova",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecv0204xtmr3u0hvxhrgv",
+      "slug": "sprav-382-nikolaya-mirlikiyskogo-svyatitelya-pri-rut-miit",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tw6h047nmrh823opocxy",
+      "slug": "sprav-328-nikolaya-mirlikiyskogo-svyatitelya-zhivonosnyy-istochnik-ikony-bozhiey-m",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1twag049ymrh8kl2e33w3",
+      "slug": "sprav-461-nikolaya-mirlikiyskogo-svyatitelya-kazanskoy-ikony-bozhiey-materi-v-stud",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tw9d049emrh8t4btf8lw",
+      "slug": "sprav-502-nikolaya-mirlikiyskogo-svyatitelya-duha-svyatogo-soshestviya-v-tolmachah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1twbi04abmrh87qmjwcw2",
+      "slug": "sprav-491-nikolaya-mirlikiyskogo-svyatitelya-spasa-preobrazheniya-v-zayaitskom",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tvpk03xjmrh8sj592ou3",
+      "slug": "sprav-1121-nikolaya-mirlikiyskogo-svyatitelya-v-biryuleve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tw5j0470mrh81szt21no",
+      "slug": "sprav-501-nikolaya-mirlikiyskogo-svyatitelya-v-golutvine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tvvg040imrh8xhihgcp6",
+      "slug": "sprav-433-nikolaya-mirlikiyskogo-svyatitelya-v-derbeneve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tvsp03z5mrh8t0j8xuzv",
+      "slug": "sprav-1441-nikolaya-mirlikiyskogo-svyatitelya-v-klenove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tw2w0457mrh8d3uo1yoy",
+      "slug": "sprav-460-nikolaya-mirlikiyskogo-svyatitelya-v-kotelnikah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tw4n0465mrh8i1kdni0p",
+      "slug": "sprav-492-nikolaya-mirlikiyskogo-svyatitelya-v-kuznetsah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tvuh0403mrh8l7397fyt",
+      "slug": "sprav-1446-nikolaya-mirlikiyskogo-svyatitelya-v-nikolskom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tvj603tumrh8l5kqap2l",
+      "slug": "sprav-1037-nikolaya-mirlikiyskogo-svyatitelya-v-otradnom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tvz7042ymrh89qt5l9od",
+      "slug": "sprav-437-nikolaya-mirlikiyskogo-svyatitelya-v-podkopayah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tvwe0412mrh8t0ql5gk4",
+      "slug": "sprav-434-nikolaya-mirlikiyskogo-svyatitelya-v-pokrovskom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecv6d04zbmr3u3g97wtqa",
+      "slug": "sprav-1447-nikolaya-mirlikiyskogo-svyatitelya-v-ryzhove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tvqu03y6mrh84snr6tmv",
+      "slug": "sprav-1122-nikolaya-mirlikiyskogo-svyatitelya-v-saburove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tvmt03vumrh8251ck7au",
+      "slug": "sprav-341-nikolaya-mirlikiyskogo-svyatitelya-v-starom-vagankove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tw3q045rmrh8udbzhcov",
+      "slug": "sprav-991-nikolaya-mirlikiyskogo-svyatitelya-v-troekurove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tw03043jmrh808bjwk9v",
+      "slug": "sprav-950-nikolaya-mirlikiyskogo-svyatitelya-v-tushine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tvnq03wcmrh86loc44s5",
+      "slug": "sprav-343-nikolaya-mirlikiyskogo-svyatitelya-v-hamovnikah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tw120441mrh8kifppng0",
+      "slug": "sprav-951-nikolaya-mirlikiyskogo-svyatitelya-v-schukine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tvly03vcmrh8penl5a3i",
+      "slug": "sprav-1357-nikolaya-mirlikiyskogo-svyatitelya-na-preobrazhenskom-kladbische",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tw21044nmrh8ou0dxlmn",
+      "slug": "sprav-1208-nikolaya-mirlikiyskogo-svyatitelya-na-rogozhskom-kladbische",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecu6504srmr3uhdaicowt",
+      "slug": "sprav-1085-nikolaya-mirlikiyskogo-svyatitelya-na-territorii-shtab-kvartiry-fosagro",
+      "issues": [
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tvom03x1mrh8j6jzprsv",
+      "slug": "sprav-344-nikolaya-mirlikiyskogo-svyatitelya-na-schepah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecvld056amr3uacruqnrx",
+      "slug": "sprav-1004-nikolaya-mirlikiyskogo-svyatitelya-pri-pansionate-dlya-veteranov-truda-2",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tvk603udmrh80xo5s8rm",
+      "slug": "sprav-1317-nikolaya-mirlikiyskogo-svyatitelya-u-solomennoy-storozhki",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tw7g048cmrh815hwxw1q",
+      "slug": "sprav-400-nikolaya-mirlikiyskogo-svyatitelya-blagovescheniya-presvyatoy-bogorodits",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tw8d048smrh8wn58h2pq",
+      "slug": "sprav-498-nikolaya-mirlikiyskogo-svyatitelya-blagovescheniya-presvyatoy-bogorodits",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecux504wymr3uy6knn9lp",
+      "slug": "sprav-368-nikolaya-mirlikiyskogo-svyatitelya-pri-nii-neyrohirurgii-im-n-n-burdenko",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecvm6056imr3uflttp0m6",
+      "slug": "sprav-1011-nikolaya-mirlikiyskogo-svyatitelya-pri-fgbu-nkts-otorinolaringologii-fmb",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1twco04avmrh8iqglarkx",
+      "slug": "sprav-499-nikolaya-mirlikiyskogo-svyatitelya-troitsy-zhivonachalnoy-na-bersenevke",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tvya042amrh8fxt6f1lr",
+      "slug": "sprav-436-nikolaya-mirlikiyskogo-svyatitelya-v-klennikah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tvtn03zlmrh8iowyiq4r",
+      "slug": "sprav-1445-nikolaya-mirlikiyskogo-svyatitelya-v-kuvekine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tvrs03ypmrh8piw5zk4y",
+      "slug": "sprav-377-nikolaya-mirlikiyskogo-svyatitelya-v-novoy-slobode",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecvid054umr3u0gbbq44d",
+      "slug": "sprav-469-nikolaya-mirlikiyskogo-svyatitelya-na-bolvanovke",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh4nc4v00fqmr4v9fxwok5z",
+      "slug": "sprav-1546-nikolaya-mirlikiyskogo-svyatitelya-na-hovanskom-severnom-kladbische",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecu3g04slmr3ubmwpyzv4",
+      "slug": "sprav-1084-nikolaya-mirlikiyskogo-svyatitelya-pri-1-m-otdelnom-strelkovom-semenovsk",
+      "issues": [
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tvl403v0mrh8q68u5u5a",
+      "slug": "sprav-1356-nikolaya-mirlikiyskogo-svyatitelya-pri-mnpts-borby-s-tuberkulezom",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecuy104x5mr3uv1hqfe6b",
+      "slug": "sprav-1141-nikolaya-mirlikiyskogo-svyatitelya-pri-ptso-svt-nikolaya-chudotvortsa-v-",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tvxb041nmrh8nlelvw0p",
+      "slug": "sprav-947-nikolaya-mirlikiyskogo-svyatitelya-v-zelenograde",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tzxh0629mrh8gxkph168",
+      "slug": "sprav-1047-spiridona-trimifuntskogo-svyatitelya-v-lianozove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tzzg0638mrh8tkmrqrr6",
+      "slug": "sprav-1002-spiridona-trimifuntskogo-svyatitelya-v-fili-davydkove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tzyf062omrh8miev250k",
+      "slug": "sprav-1138-spiridona-trimifuntskogo-svyatitelya-v-nagatinskom-zatone",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u00c063rmrh8awjrtui2",
+      "slug": "sprav-1277-spiridona-trimifuntskogo-svyatitelya-v-yuzhnom-butove",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u03i064ymrh8sf5kehed",
+      "slug": "sprav-1278-stefana-permskogo-svyatitelya-v-yuzhnom-butove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u0bd069imrh8zpsuv94v",
+      "slug": "sprav-1474-tihona-vserossiyskogo-patriarha-svyatitelya-v-moskovskom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u0cc06a0mrh864udq3b3",
+      "slug": "sprav-944-tihona-moskovskogo-i-vseya-rossii-patriarha-svyatitelya-v-severnom-tushi",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmed2bx07j8mr3unod859v2",
+      "slug": "sprav-1555-tihona-moskovskogo-i-vseya-rossii-patriarha-svyatitelya-i-ottsov-pomestn",
+      "issues": [
+        "coordinates",
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1u309074tmrh8iz5j0l04",
+      "slug": "sprav-1478-feodora-edesskogo-svyatitelya-v-uvarove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh4ndd100vvmr4vi1hb14va",
+      "slug": "sprav-972-filareta-moskovskogo-mitropolita-svyatitelya-v-zelenograde",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u36d077pmrh8e78vld2y",
+      "slug": "sprav-414-filippa-moskovskogo-mitropolita-svyatitelya-v-meschanskoy-slobode",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tshf02fymrh8sn3lkn7o",
+      "slug": "sprav-1404-duha-svyatogo-v-pervomayskom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tszt02n9mrh82tfqwks6",
+      "slug": "sprav-1200-zhen-mironosits-v-marine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecpg70380mr3ub6f7jr2f",
+      "slug": "sprav-1106-zhen-mironosits-pri-pervom-moskovskom-detskom-hospise",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqmxw85a0000mr6q5ykjzcj7",
+      "slug": "hram-antipy-pergamskogo-na-kolymazhnom-dvore",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tq6s0168mrh8xpb2payo",
+      "slug": "sprav-1233-vasiliya-moskovskogo-protoiereya-svyaschennomuchenika-v-konkove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tqam018bmrh8ub5uxjta",
+      "slug": "sprav-1235-veniamina-petrogradskogo-mitropolita-svyaschennomuchenika-v-zyuzine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmeck2q01nzmr3u0vh1fimt",
+      "slug": "sprav-1314-vladimira-ambartsumova-svyaschennomuchenika-pri-tszh-solomennaya-storozh",
+      "issues": [
+        "coordinates",
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmeck8201pfmr3une3qswr6",
+      "slug": "sprav-1313-vladimira-medvedyuka-svyaschennomuchenika-i-vseh-novomuchenikov-i-ispove",
+      "issues": [
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tqhx01btmrh8m8fyf5no",
+      "slug": "sprav-1026-vladimira-kievskogo-mitropolita-svyaschennomuchenika-patriarshee-podvore",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tqh101bbmrh8zwlhmqgf",
+      "slug": "sprav-1236-vladimira-kievskogo-mitropolita-svyaschennomuchenika-v-scherbinke",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tqtd01i4mrh8k3ctm2km",
+      "slug": "sprav-316-vlasiya-svyaschennomuchenika-v-staroy-konyushennoy-slobode",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tsty02lkmrh8u40q7wvm",
+      "slug": "sprav-1345-ermogena-moskovskogo-i-vseya-rusi-patriarha-svyaschennomuchenika-v-golya",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tsrt02kzmrh8a86uq46z",
+      "slug": "sprav-1061-ermogena-moskovskogo-i-vseya-rusi-patriarha-svyaschennomuchenika-v-kryla",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tsvz02m6mrh89o5c620z",
+      "slug": "sprav-941-ermogena-moskovskogo-i-vseya-rusi-patriarha-svyaschennomuchenika-v-yuzhn",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tsxv02mpmrh8yexkj3l0",
+      "slug": "sprav-1243-ermogena-moskovskogo-i-vseya-rusi-patriarha-svyaschennomuchenika-v-zyuzi",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1ttjg02rkmrh8cdgfye6n",
+      "slug": "sprav-1069-ignatiya-bogonostsa-svyaschennomuchenika-na-vereyskoy",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1ttlg02shmrh89gbztv1p",
+      "slug": "sprav-1254-ilariona-vereyskogo-arhiepiskopa-svyaschennomuchenika-v-cheremushkah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecqca03kzmr3uwtat82g3",
+      "slug": "sprav-1316-ioanna-artobolevskogo-svyaschennomuchenika-pri-rgau-msha-im-k-a-timiryaz",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecqqw03q7mr3us7rdvm5e",
+      "slug": "sprav-1300-ioanna-rizhskogo-svyaschennomuchenika-v-molzhaninovskom",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tum803cmmrh8w3mm5t59",
+      "slug": "sprav-487-klimenta-rimskogo-papy-svyaschennomuchennika-preobrazheniya-gospodnya-v-",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecx7605qfmr3unkrowho6",
+      "slug": "sprav-496-petra-krutitskogo-svyaschennomuchenika-pravoslavnoy-svyato-petrovskoy-sh",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1twzx04mamrh8ovu27en3",
+      "slug": "sprav-1520-petra-krutitskogo-mitropolita-svyaschennomuchenika-v-beskudnikove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tymd05hbmrh8fuv2mn5x",
+      "slug": "sprav-1275-serafima-petrogradskogo-mitropolita-svyaschennomuchenika-v-yuzhnom-butov",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tqsd01homrh857pigqam",
+      "slug": "sprav-1093-vlasiya-i-haralampiya-svyaschennomuchenikov-v-brateeve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmed01p06r8mr3uctbr56wx",
+      "slug": "sprav-1289-serafimo-diveevskoy-ikony-bozhiey-materi-umilenie-pri-gbu-tsspr-formula-",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tzgn05uhmrh8ujqr6jpo",
+      "slug": "sprav-1000-smolenskoy-ikony-bozhiey-materi-v-fili-davydkove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tzhr05v3mrh8cgemlfq9",
+      "slug": "sprav-403-sobora-diveevskih-svyatyh",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tzit05vjmrh86ka7zog2",
+      "slug": "sprav-1033-sobora-novomuchenikov-i-ispovednikov-rossiyskih-v-babushkine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tzjy05w1mrh83pw27dz4",
+      "slug": "sprav-1375-sobora-novomuchenikov-i-ispovednikov-tserkvi-russkoy-v-novokosine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmed11h073tmr3uumgardv2",
+      "slug": "sprav-1556-sobora-novomuchenikov-i-ispovednikov-tserkvi-russkoy-pri-pravoslavnoy-sv",
+      "issues": [
+        "coordinates",
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tzl005wlmrh8jtufmuh8",
+      "slug": "sprav-466-soroka-sevastiyskih-muchenikov-v-spasskoy-slobode",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tzq805y0mrh8zslw25sd",
+      "slug": "sprav-504-sofii-premudrosti-bozhiey-v-srednih-sadovnikah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tzn705ximrh8kwk43oyp",
+      "slug": "sprav-404-sofii-premudrosti-bozhiey-u-pushechnogo-dvora",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tsic02gimrh83fpxj6d2",
+      "slug": "sprav-1135-duha-svyatogo-soshestviya-na-danilovskom-kladbische",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tzvg0618mrh8nl93ta5w",
+      "slug": "sprav-1467-spasa-nerukotvornogo-obraza-v-bolshom-svinore",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tzuh060imrh8fw3q18rq",
+      "slug": "sprav-1376-spasa-nerukotvornogo-obraza-v-perove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tzwe061pmrh8vs6r1ysz",
+      "slug": "sprav-988-spasa-nerukotvornogo-obraza-na-setuni",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1txsh0521mrh8imvt0gon",
+      "slug": "sprav-996-preobrazheniya-gospodnya-v-peredelkine",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmed1vc07cnmr3ux26vaphr",
+      "slug": "sprav-1491-sreteniya-gospodnya-pri-teatre-shkola-dramaticheskogo-iskusstva",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1u02h064hmrh8dih82rjm",
+      "slug": "sprav-1396-sreteniya-gospodnya-v-moskovskom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u01c0643mrh8etn6x2kv",
+      "slug": "sprav-1140-sreteniya-gospodnya-v-biryuleve",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmed1sb07bmmr3urbbu0ckj",
+      "slug": "sprav-1351-sreteniya-gospodnya-na-territorii-ooo-fpk-satori",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmechst0104mr3uiufwtt2o",
+      "slug": "sprav-1146-aleksiya-strastoterptsa-tsarevicha-pri-pni-34",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmechtr010amr3ugi06uerf",
+      "slug": "sprav-1482-aleksiya-strastoterptsa-tsarevicha-pri-pni-11",
+      "issues": [
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1twdq04bamrh8y5hohf5j",
+      "slug": "sprav-1120-nikolaya-strastoterptsa-tsarya-v-yuzhnom-chertanove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u09i068mmrh86hy1pwuf",
+      "slug": "sprav-1471-tihvinskoy-ikony-bozhiey-materi-v-salareve",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1u06f066rmrh8xlwuyf4p",
+      "slug": "sprav-1048-tihvinskoy-ikony-bozhiey-materi-v-alekseevskom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u08g067zmrh86cm3mj9f",
+      "slug": "sprav-381-tihvinskoy-ikony-bozhiey-materi-v-suscheve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u0ae068xmrh8427thh8t",
+      "slug": "sprav-1473-tihvinskoy-ikony-bozhiey-materi-v-troitske",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u07h067gmrh8seflrl3n",
+      "slug": "sprav-1142-tihvinskoy-ikony-bozhiey-materi-simonova-monastyrya",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u0dc06ajmrh8v10ylh7o",
+      "slug": "sprav-1050-torzhestva-pravoslaviya-v-altufeve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmed2fq07jwmr3uhjwl121b",
+      "slug": "sprav-413-treh-svyatiteley-pri-klassicheskoy-gimnazii-gkl-yu-a-shichalina",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u0gc06bymrh8h0tcca5v",
+      "slug": "sprav-1005-treh-svyatiteley-v-ramenkah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u0ec06b2mrh8cftngna9",
+      "slug": "sprav-443-treh-svyatiteley-na-kulishkah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u0ff06blmrh87cqpuz6d",
+      "slug": "sprav-1475-treh-svyatiteley-pri-ok-arhangelskoe",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u2ho06womrh8vxdr623i",
+      "slug": "sprav-1051-useknoveniya-glavy-ioanna-predtechi-v-pos-severnyy",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u2im06x3mrh8rpwijeps",
+      "slug": "sprav-1144-useknoveniya-glavy-ioanna-predtechi-v-brateeve",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u2jk06xmmrh8o5doycbu",
+      "slug": "sprav-1145-useknoveniya-glavy-ioanna-predtechi-v-dyakove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmed591088gmr3uw0yh1d1a",
+      "slug": "sprav-1503-useknoveniya-glavy-ioanna-predtechi-na-luzhnetskom-proezde",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1u2t8072cmrh8ymqr2zr3",
+      "slug": "sprav-1477-uspeniya-presvyatoy-bogoroditsy-v-aleksandrove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u2ki06y3mrh8uxei955i",
+      "slug": "sprav-1052-uspeniya-presvyatoy-bogoroditsy-v-arhangelskom-tyurikove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u2mg06z3mrh8736dcpa2",
+      "slug": "sprav-1380-uspeniya-presvyatoy-bogoroditsy-v-veshnyakah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u2uu072tmrh89y01k4lz",
+      "slug": "sprav-468-uspeniya-presvyatoy-bogoroditsy-v-goncharah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u2z9074amrh8os7fsher",
+      "slug": "sprav-509-uspeniya-presvyatoy-bogoroditsy-v-kazachey-slobode",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u2w2073bmrh8rwtxs9l1",
+      "slug": "sprav-1003-uspeniya-presvyatoy-bogoroditsy-v-matveevskom",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u2y4073umrh8am2ungov",
+      "slug": "sprav-1529-uspeniya-presvyatoy-bogoroditsy-v-ostankine",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u2ry071umrh8b792zsl5",
+      "slug": "sprav-412-uspeniya-presvyatoy-bogoroditsy-v-pechatnikah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u2p5070emrh8ng15lot0",
+      "slug": "sprav-384-uspeniya-presvyatoy-bogoroditsy-v-putinkah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh4ndal00v8mr4vce77ae7y",
+      "slug": "sprav-1543-uspeniya-presvyatoy-bogoroditsy-v-filimonkah",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmed5cg089amr3uo9778dgi",
+      "slug": "sprav-1110-uspeniya-presvyatoy-bogoroditsy-na-kotlyakovskom-kladbische",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1u2lf06ymmrh8wtndirjo",
+      "slug": "sprav-351-uspeniya-presvyatoy-bogoroditsy-na-mogiltsah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u2q40710mrh8s4c3o8lj",
+      "slug": "sprav-386-uspeniya-presvyatoy-bogoroditsy-na-uspenskom-vrazhke",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u2r0071hmrh8oepjtol7",
+      "slug": "sprav-387-uspeniya-presvyatoy-bogoroditsy-na-chizhevskom-podvore",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1u35a0778mrh8ygvxmw8h",
+      "slug": "sprav-1479-feodorovskoy-ikony-bozhiey-materi-v-vorsine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmed65c08i2mr3ujfmq9ahx",
+      "slug": "sprav-1041-feodorovskoy-ikony-bozhiey-materi-pri-rgsu",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmed6nl08numr3uhwud202h",
+      "slug": "sprav-1427-tsarstvennyh-strastoterptsev-pri-troitskoy-pravoslavnoy-shkole",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1u3at07a8mrh8sfe3byc5",
+      "slug": "sprav-1329-tsarstvennyh-strastoterptsev-v-voykovskom-rayone",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u3bx07atmrh8z0oln5ge",
+      "slug": "sprav-1385-tsarstvennyh-strastoterptsev-v-yuzhnom-izmaylove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u39t079vmrh8uyzb0she",
+      "slug": "sprav-1282-tsarstvennyh-strastoterptsev-v-yaseneve",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tsje02h4mrh8ngoctmb4",
+      "slug": "sprav-397-duha-svyatogo-soshestviya-na-lazarevskom-kladbische",
+      "issues": [
+        "coordinates",
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecst604g3mr3uzk4zgsy9",
+      "slug": "sprav-968-matfeya-apostola-na-territorii-administrativno-hozyaystvennogo-kompleksa",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecn5602ghmr3ucianh7bf",
+      "slug": "sprav-1053-gavriila-arhangela-na-staro-markovskom-kladbische",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmect0104hvmr3u4qqmv94o",
+      "slug": "sprav-1057-mihaila-arhangela-bliz-kutuzovskoy-izby",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmectbf04lvmr3upug4jmsg",
+      "slug": "sprav-977-mihaila-arhangela-v-ekaterinovke",
+      "issues": [
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmeco4n02slmr3u44yhueuj",
+      "slug": "sprav-1318-dimitriya-donskogo-blagovernogo-pri-pervom-moskovskom-kadetskom-korpuse",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecnj802khmr3u1kczhnzm",
+      "slug": "sprav-943-georgiya-pobedonostsa-velikomuchenika-na-territorii-uchebno-metodichesko",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecnc702igmr3u4mp0lgfh",
+      "slug": "sprav-1352-georgiya-pobedonostsa-velikomuchenika-pri-upravlenii-shtaba-tsentralnogo",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecwgl05i6mr3ubwb1qi87",
+      "slug": "sprav-1339-panteleimona-tselitelya-velikomuchenika-pri-ikb-2",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh4nb6z004tmr4vk9l1gfa4",
+      "slug": "sprav-1453-vladimirskoy-ikony-bozhiey-materi-v-vatutinkah",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh4nbbw006dmr4v0wkbjp3c",
+      "slug": "sprav-948-vseh-svyatyh-v-zelenograde",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecf6f007qmr3uqhbdq3qc",
+      "slug": "sprav-1384-zhivonosnyy-istochnik-ikony-bozhiey-materi-na-svyatom-ozere",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecflx00dxmr3ubkkvx9cz",
+      "slug": "sprav-352-neopalimaya-kupina-ikony-bozhiey-materi-pri-glavnom-upravlenii-mchs-ross",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecgez00o0mr3uh8picoxy",
+      "slug": "sprav-1039-utoli-moya-pechali-ikony-bozhiey-materi-v-medvedkove",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmed67708ijmr3uebqbdf4n",
+      "slug": "sprav-1378-feodorovskoy-ikony-bozhiey-materi-v-perove",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh4nbmz00a7mr4va5vuoo3h",
+      "slug": "sprav-1420-ioanna-voina-muchenika-v-vatutinkah",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmed0le06zemr3ujb67cwv7",
+      "slug": "sprav-1008-sergiya-radonezhskogo-prepodobnogo-v-losinoostrovskom",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecp1o0336mr3utn4p21hw",
+      "slug": "sprav-990-elisavety-feodorvny-prepodobnomuchenitsy-na-rublevskom-kladbische",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecqo303pnmr3u0354afk2",
+      "slug": "sprav-985-ioanna-predtechi-na-vostryakovskom-kladbische",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh4nbnt00ahmr4vt0q7ifrt",
+      "slug": "sprav-986-ioanna-predtechi-na-hovanskom-kladbische",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmechoz00yzmr3u7za0gex2",
+      "slug": "sprav-1016-aleksiya-moskovskogo-mitropolita-svyatitelya-v-raeve",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmectpn04qmmr3ut3j732bc",
+      "slug": "sprav-1031-nikolaya-mirlikiyskogo-svyatitelya-v-otradnom",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmed2b307j1mr3u6hpto14w",
+      "slug": "sprav-497-tihona-moskovskogo-i-vseya-rossii-patriarha-svyatitelya-v-universitetstk",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmed0q60711mr3uv0nb81n3",
+      "slug": "sprav-1025-simeona-persidskogo-episkopa-svyaschennomuchenika-na-pyatnitskom-kladbis",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tro601zkmrh8r833434s",
+      "slug": "sprav-1239-vseh-svyatyh-v-zemle-rossiyskoy-prosiyavshih-v-cheremushkah",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tph700rzmrh8rgbcuta7",
+      "slug": "sprav-1230-anastasii-uzoreshitelnitsy-velikomuchenitsy-v-teplom-stane",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tqqd01ggmrh80czk0xe6",
+      "slug": "sprav-1238-vladimirskoy-ikony-bozhiey-materi-v-yuzhnom-butove",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tz7y05qsmrh8j0sapprb",
+      "slug": "sprav-1221-sergiya-radonezhskogo-prepodobnogo-na-ryazanke",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1u2nh06zsmrh8a19w2hxh",
+      "slug": "sprav-1381-uspeniya-presvyatoy-bogoroditsy-v-kosine",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecsc104a5mr3ud4m44ohu",
+      "slug": "sprav-507-luki-krymskogo-arhiepiskopa-svtitelya-fmbts-im-a-i-burnazyana-fmba-rossi",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1u3cy07bcmrh8bwoicgdf",
+      "slug": "sprav-1116-chuda-mihaila-arhangela-v-honeh-i-marii-egipetskoy-prepodobnoy-hramy-v-b",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1ts0a025rmrh8ulc0xryy",
+      "slug": "sprav-1293-georgiya-pobedonostsa-velikomuchenika-i-spiridona-trimifuntskogo-svyatit",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tvge03s4mrh880mczpcm",
+      "slug": "sprav-489-mihaila-i-feodora-chernigovskih-muchenikov-i-useknoveniya-glavy-ioanna-p",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tyu105kmmrh863d3mti6",
+      "slug": "sprav-365-sergiya-i-geramana-valaamskih-prepodobnyh-aleksandra-nevskogo-blagoverno",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1turl03fomrh84uz1x9jf",
+      "slug": "sprav-916-kremlya-moskovskogo-hramy",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1tu2f0319mrh8h3rpqr0l",
+      "slug": "sprav-1205-ioanna-kronshtadtskogo-pravednogo-i-sreteniya-gospodnya-hramy-v-zhulebin",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tpaf00p6mrh8tap96l86",
+      "slug": "sprav-1388-aleksiya-moskovskogo-mitropolita-svyatitelya-tskb",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh1tqoh01f9mrh8w1av3ptu",
+      "slug": "sprav-976-vladimira-ravnoapostolnogo-i-aleksiya-cheloveka-bozhiya-prepodobnogo-v-k",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh4ncb000i1mr4vkw3wdx37",
+      "slug": "sprav-1410-petra-i-pavla-apostolov-na-territorii-torgovo-stroitelnogo-kompleksa-tep",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh4nc0x00ebmr4v1vvyo9p1",
+      "slug": "sprav-1470-mihaila-arhangela-v-bolshom-svinore",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh4nc0400e4mr4vzkh7mjno",
+      "slug": "sprav-1444-mihaila-arhangela-v-nikonove",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmechdj00vmmr3u17v6l8hh",
+      "slug": "sprav-409-aleksandra-nevskogo-blagovernogo-i-ioanna-voina-muchenika-v-ekaterininsk",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmeco8x02tpmr3uknnv93c0",
+      "slug": "sprav-958-dimitriya-donskogo-blagovernogo-v-tushine",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh4nb1v0038mr4vsc0z09oh",
+      "slug": "sprav-1468-aleksandra-nevskogo-blagovernogo-v-bolshom-svinore",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmeciyu01e2mr3ujh94m7tp",
+      "slug": "sprav-1547-bogoyavleniya-v-puchkove",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh4nb520048mr4vasn4g7b6",
+      "slug": "sprav-1552-vvedeniya-vo-hram-presvyatoy-bogoroditsy-na-ivanovskom-kladbische",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecnm302kpmr3u0gn3dbn0",
+      "slug": "sprav-964-georgiya-pobedonostsa-velikomuchenika-v-mitine",
+      "issues": [
+        "coordinates",
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecnrd02lrmr3uzuywwffz",
+      "slug": "sprav-1006-georgiya-pobedonostsa-velikomuchenika-na-zolotyh-klyuchah",
+      "issues": [
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecnn202kvmr3u12bsiclm",
+      "slug": "sprav-1227-georgiya-pobedonostsa-velikomuchenika-na-territorii-federalnogo-agentstv",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecwdr05hfmr3u73chql5i",
+      "slug": "sprav-1290-panteleimona-tselitelya-velikomuchenika-pri-mtspp-filial-hospis-degunino",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecwno05jumr3u6brdec32",
+      "slug": "sprav-959-panteleimona-tselitelya-velikomuchenika-pri-dgkb-im-z-a-bashlyaevoy",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecwoo05k0mr3u3v16blm1",
+      "slug": "sprav-459-panteleimona-tselitelya-velikomuchenika-pri-msgi",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh4nbb10066mr4vybdd1wcs",
+      "slug": "sprav-1469-voskreseniya-hristova-v-ankudinove",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecmm7029tmr3u6d3n2ql1",
+      "slug": "sprav-975-voskreseniya-hristova-pri-fgbu-tskb-s-poliklinikoy-upravleniya-delami-pr",
+      "issues": [
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1u0ri06iemrh8ydvis4zn",
+      "slug": "sprav-358-troitsy-zhivonachalnoy-pri-pervom-moskovskom-hospise",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmqh4nbjp0095mr4vc0nqsmn9",
+      "slug": "sprav-1443-iverskoy-ikony-bozhiey-materi-v-chernetskom",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh4naq50001mr4v9i2y0idp",
+      "slug": "sprav-1571-vseh-skorbyaschih-radost-ikony-bozhiey-materi-na-territorii-gorodskogo-k",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecepy002zmr3uiobgdm90",
+      "slug": "sprav-1197-vseh-skorbyaschih-radost-ikony-bozhiey-materi-pri-filiale-3-gauz-mnpts-m",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecewb004vmr3ur62gxmc5",
+      "slug": "sprav-427-vsetsaritsa-ikony-bozhiey-materi-pri-nii-donts-na-kashirskom-shosse",
+      "issues": [
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecex70051mr3udck0svmf",
+      "slug": "sprav-1198-vsetsaritsa-ikony-bozhiey-materi-pri-filiale-mmtsp-dzm-hospis-nekrasovka",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh1toh1009mmrh8rv1bodwc",
+      "slug": "sprav-395-znamenie-ikony-bozhiey-materi-i-aleksandra-nevskogo-blagovernogo-pamyatn",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecpnv03bnmr3up29he1ll",
+      "slug": "sprav-361-iverskoy-ikony-bozhiey-materi-u-voskresenskih-vorot",
+      "issues": [
+        "verified-schedule"
+      ]
+    },
+    {
+      "id": "cmrmecrci03ydmr3u3t1jidl2",
+      "slug": "sprav-451-kazanskoy-ikony-bozhiey-materi-na-vorontsovom-pole",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecr5n03vvmr3uzvjucedt",
+      "slug": "sprav-1360-kazanskoy-ikony-bozhiey-materi-na-territorii-pvt-19",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmectj704p1mr3ujt2bem47",
+      "slug": "sprav-1492-mozhayskoy-ikony-svyatitelya-nikolaya-chudotvortsa-na-znamenke",
+      "issues": [
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecqlo03ormr3ufprll8bp",
+      "slug": "sprav-1310-ioanna-kronshtadtskogo-pravednogo-pri-gkb-im-v-v-veresaeva",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh4nbsz00camr4va0m8yrwy",
+      "slug": "sprav-949-lazarya-chetverodnevnogo-pravednogo-v-zelenograde",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecy7k063imr3usbo5obfr",
+      "slug": "sprav-1292-preobrazheniya-gospodnya-v-memorialno-parkovom-komplekse-bratskoe-kladbi",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmechwz011fmr3uwngd74mz",
+      "slug": "sprav-1428-amvrosiya-optinskogo-prepodobnogo-pri-dnp-tvorchestvo",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmed09a06urmr3u3vklsmgq",
+      "slug": "sprav-1134-sergiya-radonezhskogo-prepodobnogo-v-danilovskom",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmed0f506wvmr3uzhp1hpw9",
+      "slug": "sprav-1186-sergiya-radonezhskogo-prepodobnogo-na-byvshem-avtomobilnom-zavode-moskvi",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecpyn03flmr3u4c87p8de",
+      "slug": "sprav-1086-ilii-proroka-bozhiya-na-territorii-glavnogo-shtaba-vks-rossii",
+      "issues": [
+        "coordinates",
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecqq303q0mr3u0bxz0abe",
+      "slug": "sprav-1251-ioanna-predtechi-v-zaharine",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmeckbs01qhmr3undiqu4h1",
+      "slug": "sprav-327-vladimira-ravnoapostolnogo-na-luzhnetskoy-naberezhnoy",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecron042tmr3u1crkgjk9",
+      "slug": "sprav-1021-kirilla-i-mefodiya-ravnoapostolnyh-pri-mezhdunarodnom-slavyanskom-instit",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecyvd06cymr3uo0pslcwu",
+      "slug": "sprav-525-rozhdestva-presvyatoy-bogoroditsy-v-stoleshnikah",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmeczek06kcmr3u3he5cdtj",
+      "slug": "sprav-1241-rozhdestva-hristova-na-butovskom-kladbische",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecgkr00oumr3uyikkz9j3",
+      "slug": "sprav-1488-hristos-seyatel-mozaichnyy-obraz-na-vvedenskom-kladbische",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecsdj04akmr3ubj196ki1",
+      "slug": "sprav-970-luki-krymskogo-arhiepiskopa-svyatitelya-pri-gkb-52",
+      "issues": [
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmectvr04rlmr3u6ejzuuhq",
+      "slug": "sprav-1558-nikolaya-mirlikiyskogo-svyatitelya-na-territorii-aeroporta-vnukovo",
+      "issues": [
+        "coordinates",
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh4nc7u00gwmr4vxw4j65cg",
+      "slug": "sprav-1457-nikolaya-mirlikiyskogo-svyatitelya-v-yakovleve",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecvoi057bmr3uc1fmyoge",
+      "slug": "sprav-1018-nikolaya-mirlikiyskogo-svyatitelya-v-raeve",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmecusq04vbmr3u84gv1rtb",
+      "slug": "sprav-1369-nikolaya-mirlikiyskogo-svyatitelya-na-territorii-mosgorsuda",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmed0uu0725mr3u3ctqgbue",
+      "slug": "sprav-1405-smolenskoy-ikony-bozhiey-materi-v-pervomayskom",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmed5wg08fcmr3uhdq73uri",
+      "slug": "sprav-1022-uspeniya-presvyatoy-bogoroditsy-na-ostankinskom-kladbische",
+      "issues": [
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmrmed68e08ismr3uasjzl94w",
+      "slug": "sprav-960-feodorovskoy-ikony-bozhiey-materi-v-brattseve",
+      "issues": [
+        "photo",
+        "verified-schedule",
+        "website"
+      ]
+    },
+    {
+      "id": "cmqh4nde800wemr4vxpehvg7v",
+      "slug": "sprav-1425-chernigovskoy-ikony-bozhiey-materi-v-sofine",
+      "issues": [
+        "coordinates",
+        "verified-schedule",
+        "website"
+      ]
+    }
+  ]
+}

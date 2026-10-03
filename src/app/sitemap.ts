@@ -4,8 +4,7 @@ import { listPublishedTempleSitemapEntries } from "@/features/temples/repository
 
 const baseUrl = "https://hramgo.ru";
 
-export const revalidate = 3600;
-export const dynamic = "force-dynamic";
+export const dynamic = "force-static";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const temples = await listPublishedTempleSitemapEntries();
@@ -31,25 +30,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9
     },
     {
-      url: `${baseUrl}/support`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.4
-    },
-    {
       url: `${baseUrl}/legal/privacy`,
-      lastModified: now,
-      changeFrequency: "yearly",
-      priority: 0.2
-    },
-    {
-      url: `${baseUrl}/legal/support-terms`,
-      lastModified: now,
-      changeFrequency: "yearly",
-      priority: 0.2
-    },
-    {
-      url: `${baseUrl}/legal/payment-and-refund`,
       lastModified: now,
       changeFrequency: "yearly",
       priority: 0.2
