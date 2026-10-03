@@ -1,0 +1,38 @@
+[
+  {
+    "keptId": "cmqmxwxkr002zmr6qvrii42zk",
+    "removedId": "cmrmecnyx02pfmr3uykksmhwa",
+    "keptSlug": "svyato-danilov-muzhskoy-monastyr",
+    "removedSlug": "sprav-571-danilov-monastyr",
+    "evidence": [
+      "https://sprav.moseparh.ru/org/571",
+      "https://msdm.ru/"
+    ],
+    "reason": "Одноимённый монастырь с одним официальным сайтом и адресом: Даниловский Вал, 22.",
+    "coordinateSource": "https://sprav.moseparh.ru/org/571"
+  },
+  {
+    "keptId": "cmqmxx6fb0041mr6qxmang4th",
+    "removedId": "cmrmecy1k0624mr3uljgmg5oe",
+    "keptSlug": "pokrovskiy-stavropigialnyy-zhenskiy-monastyr",
+    "removedSlug": "sprav-713-pokrovskiy-monastyr-u-pokrovskoy-zastavy",
+    "evidence": [
+      "https://sprav.moseparh.ru/org/713",
+      "https://pokrov-monastir.ru/"
+    ],
+    "reason": "Один монастырь с совпадающими официальным сайтом и адресом.",
+    "coordinateSource": "https://sprav.moseparh.ru/org/713"
+  },
+  {
+    "keptId": "cmqmxx2oc003hmr6qhrjdk4b9",
+    "removedId": "cmrmecn3n02g2mr3umvm95x22",
+    "keptSlug": "vysoko-petrovskiy-muzhskoy-monastyr",
+    "removedSlug": "sprav-563-vysoko-petrovskiy-monastyr",
+    "evidence": [
+      "https://sprav.moseparh.ru/org/563",
+      "https://vpmon.ru/"
+    ],
+    "reason": "Один монастырь с совпадающими официальным сайтом и адресом.",
+    "coordinateSource": "https://sprav.moseparh.ru/org/563"
+  }
+]

@@ -11,8 +11,7 @@ export function sortTransitByWalkMinutes(transit: TempleTransitView[]) {
 }
 
 export function formatTransitShort(transit: TempleTransitView) {
-  if(transit.routeVerified && transit.walkMinutes>0)return `${transit.station} · ${transit.walkMinutes} мин пешком`;
-  return transit.distanceMeters>0?`${transit.station} · ${(transit.distanceMeters/1000).toLocaleString('ru',{maximumFractionDigits:1})} км по прямой`:transit.station;
+  return transit.station;
 }
 
 export function getNearestTransit(transit: TempleTransitView[]) {

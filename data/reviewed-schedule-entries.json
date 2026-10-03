@@ -1,0 +1,540 @@
+[
+  {
+    "primary": "https://sprav.moseparh.ru/org/1424",
+    "source": "http://ibogoslov.ru/",
+    "weekdays": [
+      7
+    ],
+    "time": "08:00",
+    "kind": "prayer",
+    "title": "Молебен",
+    "quote": "В воскресенье служится молебен, начало в 8:00",
+    "method": "html-manual",
+    "contentHash": "b920f774dc744627746f0a20bf2c32aaaee8948261d411fa443bb4e2203c7a58"
+  },
+  {
+    "primary": "https://sprav.moseparh.ru/org/1291",
+    "source": "https://hramsokol.ru/raspisanie-bogosluzhenij/",
+    "weekdays": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "time": "17:30",
+    "kind": "other",
+    "title": "Исповедь",
+    "quote": "ИСПОВЕДЬ: ежедневно в 17:30.",
+    "method": "html-manual",
+    "contentHash": "47562be955cedb89bfa70b5128aca83532ac9ba23a7b9ca998a051ecf7e34a66"
+  },
+  {
+    "primary": "https://sprav.moseparh.ru/org/1569",
+    "source": "https://evfrosinia.ru/about/hram-panteleimona",
+    "weekdays": [
+      4
+    ],
+    "time": "08:00",
+    "kind": "liturgy",
+    "title": "Божественная литургия",
+    "quote": "Божественная Литургия по четвергам в 08:00.",
+    "method": "html-manual",
+    "contentHash": "b6fea2d8782ec7d3b03edcd347f82545a30310ca50f94f7c6c4e168782fa330c"
+  },
+  {
+    "primary": "https://sprav.moseparh.ru/org/1338",
+    "source": "http://nasemenovs.com/",
+    "weekdays": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "time": "08:30",
+    "kind": "liturgy",
+    "title": "Божественная литургия",
+    "quote": "По будним дням и субботам начало Божественной Литургии – в 8:30.",
+    "method": "html-manual",
+    "contentHash": "69362dcb19e8ed5a75f19b111b2413f8dc74302982b5e29a7ceea9df2f5ac82b"
+  },
+  {
+    "primary": "https://sprav.moseparh.ru/org/1362",
+    "source": "http://www.hram-preobrajeniya.ru/",
+    "weekdays": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "time": "07:00",
+    "kind": "other",
+    "title": "Исповедь",
+    "quote": "Будние дни: 7:00 - Исповедь. Суббота: 7:00 - Исповедь.",
+    "method": "html-manual",
+    "contentHash": "26892b1cf6c82aa5106035c8709859e5b654732766a99558c10b5a245daaafcf"
+  },
+  {
+    "primary": "https://sprav.moseparh.ru/org/1362",
+    "source": "http://www.hram-preobrajeniya.ru/",
+    "weekdays": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "time": "07:30",
+    "kind": "liturgy",
+    "title": "Часы. Литургия",
+    "quote": "Будние дни: 7:30 - Часы. Литургия. Суббота: 7:30 - Часы. Литургия.",
+    "method": "html-manual",
+    "contentHash": "26892b1cf6c82aa5106035c8709859e5b654732766a99558c10b5a245daaafcf"
+  },
+  {
+    "primary": "https://sprav.moseparh.ru/org/1108",
+    "source": "https://spring-life.ru/raspisanie/1790438828063.jpg",
+    "date": "2026-10-04",
+    "time": "07:00",
+    "kind": "liturgy",
+    "title": "Божественная литургия",
+    "quote": "4 октября 2026, основной храм, средняя колонка: 7-00 Литургия",
+    "method": "image-visual-manual",
+    "contentHash": "fd28c8c2ffd80f9e4cdb74364ce0e1dd549ca35b9de632600a4afe5a7c5c502a"
+  },
+  {
+    "primary": "https://sprav.moseparh.ru/org/1108",
+    "source": "https://spring-life.ru/raspisanie/1790438828063.jpg",
+    "date": "2026-10-04",
+    "time": "10:00",
+    "kind": "liturgy",
+    "title": "Божественная литургия",
+    "quote": "4 октября 2026, основной храм, средняя колонка: 10-00 Литургия",
+    "method": "image-visual-manual",
+    "contentHash": "fd28c8c2ffd80f9e4cdb74364ce0e1dd549ca35b9de632600a4afe5a7c5c502a"
+  },
+  {
+    "primary": "https://sprav.moseparh.ru/org/1108",
+    "source": "https://spring-life.ru/raspisanie/1790438828063.jpg",
+    "date": "2026-10-04",
+    "time": "17:00",
+    "kind": "evening",
+    "title": "Великая вечерня",
+    "quote": "4 октября 2026, основной храм, средняя колонка: 17-00 Великая Вечерня",
+    "method": "image-visual-manual",
+    "contentHash": "fd28c8c2ffd80f9e4cdb74364ce0e1dd549ca35b9de632600a4afe5a7c5c502a"
+  },
+  {
+    "primary": "https://sprav.moseparh.ru/org/1110",
+    "source": "https://spring-life.ru/raspisanie/1790438828063.jpg",
+    "date": "2026-10-04",
+    "time": "10:00",
+    "kind": "liturgy",
+    "title": "Божественная литургия",
+    "quote": "4 октября 2026, правая колонка: Котляковское кладбище: 10-00 Литургия",
+    "method": "image-visual-manual",
+    "contentHash": "fd28c8c2ffd80f9e4cdb74364ce0e1dd549ca35b9de632600a4afe5a7c5c502a"
+  },
+  {
+    "primary": "https://sprav.moseparh.ru/org/1398",
+    "source": "http://theophany.ru/",
+    "weekdays": [
+      6
+    ],
+    "time": "15:00",
+    "kind": "evening",
+    "title": "Всенощное бдение",
+    "quote": "Всенощное Бдение – по субботам в 15:00",
+    "method": "html-manual",
+    "contentHash": "e117c786ac885ce65b09100be142efa6b611cdc59cd0cd2275af389cb679f6c7"
+  },
+  {
+    "primary": "https://sprav.moseparh.ru/org/1398",
+    "source": "http://theophany.ru/",
+    "weekdays": [
+      7
+    ],
+    "time": "09:00",
+    "kind": "liturgy",
+    "title": "Божественная литургия",
+    "quote": "Божественная Литургия – по воскресеньям в 9:00",
+    "method": "html-manual",
+    "contentHash": "e117c786ac885ce65b09100be142efa6b611cdc59cd0cd2275af389cb679f6c7"
+  },
+  {
+    "primary": "https://sprav.moseparh.ru/org/930",
+    "source": "https://xn----7sbhl3aejgelo7bv.xn--p1ai/raspisanie-bogosluzhenij",
+    "weekdays": [
+      1
+    ],
+    "time": "18:00",
+    "kind": "prayer",
+    "title": "Молебен Пресвятой Богородице перед иконой «Неупиваемая чаша»",
+    "quote": "В храме регулярно проходят службы: Понедельник 18:00 Молебен Пресвятой Богородице перед иконой «Неупиваемая чаша»",
+    "method": "html-manual",
+    "contentHash": "b6e83b6657f90ec3a3f59c3c90663a53e3bcfac9565579c163f3b18d56e233d0"
+  },
+  {
+    "primary": "https://sprav.moseparh.ru/org/930",
+    "source": "https://xn----7sbhl3aejgelo7bv.xn--p1ai/raspisanie-bogosluzhenij",
+    "weekdays": [
+      2
+    ],
+    "time": "18:00",
+    "kind": "prayer",
+    "title": "Молебен об Отечестве и воинстве",
+    "quote": "В храме регулярно проходят службы: Вторник 18:00 Молебен об Отечестве и воинстве",
+    "method": "html-manual",
+    "contentHash": "b6e83b6657f90ec3a3f59c3c90663a53e3bcfac9565579c163f3b18d56e233d0"
+  },
+  {
+    "primary": "https://sprav.moseparh.ru/org/930",
+    "source": "https://xn----7sbhl3aejgelo7bv.xn--p1ai/raspisanie-bogosluzhenij",
+    "weekdays": [
+      3
+    ],
+    "time": "18:00",
+    "kind": "prayer",
+    "title": "Молебен о семейном благополучии",
+    "quote": "В храме регулярно проходят службы: Среда 18:00 Молебен о семейном благополучии",
+    "method": "html-manual",
+    "contentHash": "b6e83b6657f90ec3a3f59c3c90663a53e3bcfac9565579c163f3b18d56e233d0"
+  },
+  {
+    "primary": "https://sprav.moseparh.ru/org/951",
+    "source": "http://nikola-schukino.moseparh.ru/",
+    "weekdays": [
+      6
+    ],
+    "time": "17:00",
+    "kind": "evening",
+    "title": "Всенощное бдение",
+    "quote": "В субботний день начало Всенощного бдения в 17:00.",
+    "method": "html-manual",
+    "contentHash": "d61c29c7ced53ce07c54052216bdf056687c2478122fffa4f17b2730ad801df6"
+  },
+  {
+    "primary": "https://sprav.moseparh.ru/org/951",
+    "source": "http://nikola-schukino.moseparh.ru/",
+    "weekdays": [
+      7
+    ],
+    "time": "09:00",
+    "kind": "liturgy",
+    "title": "Божественная литургия",
+    "quote": "Воскресная Божественная литургия начинается в 09:00 (исповедь 08:45).",
+    "method": "html-manual",
+    "contentHash": "d61c29c7ced53ce07c54052216bdf056687c2478122fffa4f17b2730ad801df6"
+  },
+  {
+    "primary": "https://sprav.moseparh.ru/org/951",
+    "source": "http://nikola-schukino.moseparh.ru/",
+    "weekdays": [
+      7
+    ],
+    "time": "08:45",
+    "kind": "other",
+    "title": "Исповедь",
+    "quote": "Воскресная Божественная литургия начинается в 09:00 (исповедь 08:45).",
+    "method": "html-manual",
+    "contentHash": "d61c29c7ced53ce07c54052216bdf056687c2478122fffa4f17b2730ad801df6"
+  },
+  {
+    "primary": "https://msdm.ru/hramy_monastyrya/sobor_v_chest_troicy_zhivonachalnoy/",
+    "source": "https://msdm.ru/raspisanie_bogosluzheniy/",
+    "weekdays": [
+      6
+    ],
+    "time": "08:45",
+    "kind": "liturgy",
+    "title": "Часы. Божественная литургия",
+    "quote": "В субботу: 8:45 Часы, Божественная литургия в Троицком соборе.",
+    "method": "html-manual",
+    "contentHash": "f03dd9ccbce7cf61a658e647319abc4c55587be39f5d2bcbc7c95070ea43af9a"
+  },
+  {
+    "primary": "https://msdm.ru/hramy_monastyrya/sobor_v_chest_troicy_zhivonachalnoy/",
+    "source": "https://msdm.ru/raspisanie_bogosluzheniy/",
+    "weekdays": [
+      7
+    ],
+    "time": "08:30",
+    "kind": "liturgy",
+    "title": "Часы. Божественная литургия",
+    "quote": "В воскресенье: 8:30 Часы, Божественная литургия в Троицком соборе.",
+    "method": "html-manual",
+    "contentHash": "f03dd9ccbce7cf61a658e647319abc4c55587be39f5d2bcbc7c95070ea43af9a"
+  },
+  {
+    "primary": "https://msdm.ru/hramy_monastyrya/sobor_v_chest_troicy_zhivonachalnoy/",
+    "source": "https://msdm.ru/raspisanie_bogosluzheniy/",
+    "weekdays": [
+      6
+    ],
+    "time": "17:00",
+    "kind": "evening",
+    "title": "Всенощное бдение",
+    "quote": "В субботу: 17:00 Всенощное бдение в Троицком соборе.",
+    "method": "html-manual",
+    "contentHash": "f03dd9ccbce7cf61a658e647319abc4c55587be39f5d2bcbc7c95070ea43af9a"
+  },
+  {
+    "primary": "https://msdm.ru/hramy_monastyrya/hram_v_chest_svyatyh_otcov_semi_vselenskih_soborov/",
+    "source": "https://msdm.ru/raspisanie_bogosluzheniy/",
+    "weekdays": [
+      6,
+      7
+    ],
+    "time": "06:45",
+    "kind": "liturgy",
+    "title": "Часы. Божественная литургия",
+    "quote": "В субботу и воскресенье: 6:45 Часы, Божественная литургия в храме Святых Отцов Семи Вселенских Соборов (верхний храм).",
+    "method": "html-manual",
+    "contentHash": "f03dd9ccbce7cf61a658e647319abc4c55587be39f5d2bcbc7c95070ea43af9a"
+  },
+  {
+    "primary": "https://sprav.moseparh.ru/org/954",
+    "source": "https://omonhram.ru/timetable/",
+    "weekdays": [
+      6
+    ],
+    "time": "12:00",
+    "kind": "prayer",
+    "title": "Молебен",
+    "quote": "По субботам в 12:00 в нашем храме проходит молебен о зависимых с последующим чаепитием.",
+    "method": "html-manual",
+    "contentHash": "2570098e8bc59a5403b0bbc89a0c730fbde30b3b7b0ad2e336f5c871d4128e7c"
+  },
+  {
+    "primary": "https://sprav.moseparh.ru/org/954",
+    "source": "https://omonhram.ru/timetable/",
+    "weekdays": [
+      3
+    ],
+    "time": "17:00",
+    "kind": "prayer",
+    "title": "Молебен",
+    "quote": "По средам в 17:00 в нашем храме проходит молебен и Панихида о воинах.",
+    "method": "html-manual",
+    "contentHash": "2570098e8bc59a5403b0bbc89a0c730fbde30b3b7b0ad2e336f5c871d4128e7c"
+  },
+  {
+    "primary": "https://sprav.moseparh.ru/org/1201",
+    "source": "https://hramvkaracharove.ru/raspisanie-bogosluzhenij.html",
+    "weekdays": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "time": "07:30",
+    "kind": "liturgy",
+    "title": "Утреннее богослужение: часы, Божественная литургия",
+    "quote": "7.30 — часы, Божественная литургия",
+    "method": "html-manual",
+    "contentHash": "d4f826585623b8b7548978999df5fe9d85e1d63d54c17110661635f3599ebad7"
+  },
+  {
+    "primary": "https://sprav.moseparh.ru/org/1201",
+    "source": "https://hramvkaracharove.ru/raspisanie-bogosluzhenij.html",
+    "weekdays": [
+      6
+    ],
+    "time": "08:00",
+    "kind": "liturgy",
+    "title": "Утреннее богослужение: часы, Божественная литургия",
+    "quote": "8.00 — часы, Божественная литургия",
+    "method": "html-manual",
+    "contentHash": "d4f826585623b8b7548978999df5fe9d85e1d63d54c17110661635f3599ebad7"
+  },
+  {
+    "primary": "https://sprav.moseparh.ru/org/1201",
+    "source": "https://hramvkaracharove.ru/raspisanie-bogosluzhenij.html",
+    "weekdays": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "time": "14:00",
+    "kind": "prayer",
+    "title": "Молебен",
+    "quote": "14.00 — водосвятный молебен",
+    "method": "html-manual",
+    "contentHash": "d4f826585623b8b7548978999df5fe9d85e1d63d54c17110661635f3599ebad7"
+  },
+  {
+    "primary": "https://sprav.moseparh.ru/org/1201",
+    "source": "https://hramvkaracharove.ru/raspisanie-bogosluzhenij.html",
+    "weekdays": [
+      6
+    ],
+    "time": "17:00",
+    "kind": "evening",
+    "title": "Всенощное бдение",
+    "quote": "17.00 — всенощное бдение.",
+    "method": "html-manual",
+    "contentHash": "d4f826585623b8b7548978999df5fe9d85e1d63d54c17110661635f3599ebad7"
+  },
+  {
+    "primary": "https://sprav.moseparh.ru/org/1426",
+    "source": "http://hram-puchkovo.me-ga.ru/",
+    "weekdays": [
+      6
+    ],
+    "time": "17:00",
+    "kind": "evening",
+    "title": "Всенощное бдение",
+    "quote": "В субботу – Всенощное бдение – в 17.00 час.",
+    "method": "html-manual",
+    "contentHash": "3538eee809735f5610d938589c4f59f1e5b13f6e9b59d1072bc4f8c7a1f63141"
+  },
+  {
+    "primary": "https://sprav.moseparh.ru/org/1398",
+    "source": "http://theophany.ru/",
+    "weekdays": [
+      6
+    ],
+    "time": "09:00",
+    "kind": "other",
+    "title": "Панихида",
+    "quote": "Богослужения в нашем храме совершаются еженедельно: Панихида — по субботам в 9:00",
+    "method": "html-manual",
+    "contentHash": "e117c786ac885ce65b09100be142efa6b611cdc59cd0cd2275af389cb679f6c7"
+  },
+  {
+    "primary": "https://sprav.moseparh.ru/org/1338",
+    "source": "http://nasemenovs.com/",
+    "weekdays": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "time": "17:00",
+    "kind": "evening",
+    "title": "Вечернее богослужение",
+    "quote": "Богослужения в храме совершаются ежедневно. Начало вечернего Богослужения — в 17:00.",
+    "method": "html-manual",
+    "contentHash": "69362dcb19e8ed5a75f19b111b2413f8dc74302982b5e29a7ceea9df2f5ac82b"
+  },
+  {
+    "primary": "https://sprav.moseparh.ru/org/1338",
+    "source": "http://nasemenovs.com/",
+    "weekdays": [
+      7
+    ],
+    "time": "07:30",
+    "kind": "liturgy",
+    "title": "Божественная литургия",
+    "quote": "По воскресным и праздничным дням служатся две Божественных Литургии: в 7:30 — ранняя, и в 10:00 — поздняя.",
+    "method": "html-manual",
+    "contentHash": "69362dcb19e8ed5a75f19b111b2413f8dc74302982b5e29a7ceea9df2f5ac82b"
+  },
+  {
+    "primary": "https://sprav.moseparh.ru/org/1338",
+    "source": "http://nasemenovs.com/",
+    "weekdays": [
+      7
+    ],
+    "time": "10:00",
+    "kind": "liturgy",
+    "title": "Божественная литургия",
+    "quote": "По воскресным и праздничным дням служатся две Божественных Литургии: в 7:30 — ранняя, и в 10:00 — поздняя.",
+    "method": "html-manual",
+    "contentHash": "69362dcb19e8ed5a75f19b111b2413f8dc74302982b5e29a7ceea9df2f5ac82b"
+  },
+  {
+    "primary": "https://sprav.moseparh.ru/org/1426",
+    "source": "http://hram-puchkovo.me-ga.ru/",
+    "weekdays": [
+      7
+    ],
+    "time": "07:30",
+    "kind": "liturgy",
+    "title": "Божественная литургия",
+    "quote": "В воскресенье: часы в 7.10 и в 9.10; Литургия — в 7.30 и 9.30.",
+    "method": "html-manual",
+    "contentHash": "3538eee809735f5610d938589c4f59f1e5b13f6e9b59d1072bc4f8c7a1f63141"
+  },
+  {
+    "primary": "https://sprav.moseparh.ru/org/1426",
+    "source": "http://hram-puchkovo.me-ga.ru/",
+    "weekdays": [
+      7
+    ],
+    "time": "09:30",
+    "kind": "liturgy",
+    "title": "Божественная литургия",
+    "quote": "В воскресенье: часы в 7.10 и в 9.10; Литургия — в 7.30 и 9.30.",
+    "method": "html-manual",
+    "contentHash": "3538eee809735f5610d938589c4f59f1e5b13f6e9b59d1072bc4f8c7a1f63141"
+  },
+  {
+    "primary": "https://sprav.moseparh.ru/org/1300",
+    "source": "https://znamenie-hovrino.ru/index.php/khram-sshchmch-ioanna/raspisanie-bogosluzhenij-pripisnogo-khrama-sshchmch-ioanna-rizhskogo",
+    "date": "2026-10-04",
+    "time": "08:30",
+    "kind": "liturgy",
+    "title": "Утреннее богослужение: Часы, Литургия - служит иерей Димитрий Туркин",
+    "quote": "8:30 - Часы, Литургия - служит иерей Димитрий Туркин",
+    "method": "html-manual",
+    "contentHash": "f0b12b3267ea2cd4386d59b134c1cff02da6d1add2b8536ea24f386fa7db7485"
+  },
+  {
+    "primary": "https://sprav.moseparh.ru/org/1300",
+    "source": "https://znamenie-hovrino.ru/index.php/khram-sshchmch-ioanna/raspisanie-bogosluzhenij-pripisnogo-khrama-sshchmch-ioanna-rizhskogo",
+    "date": "2026-10-11",
+    "time": "17:00",
+    "kind": "evening",
+    "title": "Всенощное бдение",
+    "quote": "17:00 - Всенощное бдение - служит иерей Димитрий Туркин",
+    "method": "html-manual",
+    "contentHash": "f0b12b3267ea2cd4386d59b134c1cff02da6d1add2b8536ea24f386fa7db7485"
+  },
+  {
+    "primary": "https://sprav.moseparh.ru/org/1300",
+    "source": "https://znamenie-hovrino.ru/index.php/khram-sshchmch-ioanna/raspisanie-bogosluzhenij-pripisnogo-khrama-sshchmch-ioanna-rizhskogo",
+    "date": "2026-10-12",
+    "time": "08:30",
+    "kind": "liturgy",
+    "title": "Утреннее богослужение: Часы, Литургия - служит иерей Димитрий Туркин",
+    "quote": "8:30 - Часы, Литургия - служит иерей Димитрий Туркин",
+    "method": "html-manual",
+    "contentHash": "f0b12b3267ea2cd4386d59b134c1cff02da6d1add2b8536ea24f386fa7db7485"
+  },
+  {
+    "primary": "https://sprav.moseparh.ru/org/1300",
+    "source": "https://znamenie-hovrino.ru/index.php/khram-sshchmch-ioanna/raspisanie-bogosluzhenij-pripisnogo-khrama-sshchmch-ioanna-rizhskogo",
+    "date": "2026-10-17",
+    "time": "08:30",
+    "kind": "liturgy",
+    "title": "Утреннее богослужение: Часы, Литургия - служит иерей Димитрий Туркин",
+    "quote": "8:30 - Часы, Литургия - служит иерей Димитрий Туркин",
+    "method": "html-manual",
+    "contentHash": "f0b12b3267ea2cd4386d59b134c1cff02da6d1add2b8536ea24f386fa7db7485"
+  },
+  {
+    "primary": "https://sprav.moseparh.ru/org/1300",
+    "source": "https://znamenie-hovrino.ru/index.php/khram-sshchmch-ioanna/raspisanie-bogosluzhenij-pripisnogo-khrama-sshchmch-ioanna-rizhskogo",
+    "date": "2026-10-25",
+    "time": "08:30",
+    "kind": "liturgy",
+    "title": "Утреннее богослужение: Часы, Литургия - служит иерей Димитрий Туркин",
+    "quote": "8:30 - Часы, Литургия - служит иерей Димитрий Туркин",
+    "method": "html-manual",
+    "contentHash": "f0b12b3267ea2cd4386d59b134c1cff02da6d1add2b8536ea24f386fa7db7485"
+  }
+]

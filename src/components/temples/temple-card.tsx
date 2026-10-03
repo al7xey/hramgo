@@ -1,23 +1,60 @@
-import Link from 'next/link';
-import { MapPinned } from 'lucide-react';
-import { TemplePhoto } from './temple-photo';
-import { TransitSummary } from './transit-chip';
-import type { TempleCardView, TempleSearchInput } from '@/features/temples/types';
-import { hasWorshipFilter, matchingServices, nextService, serviceDateLabel } from '@/features/temples/worship';
-import { moscowDate } from '@/features/temples/schedules';
-export function TempleCard({temple,input={},layout='row',selected,onSelect,distance}:{temple:TempleCardView;input?:TempleSearchInput;layout?:'row'|'photo';selected?:boolean;onSelect?:()=>void;distance?:number}) {
-  const next=hasWorshipFilter(input)?undefined:nextService(temple.scheduleEntries??[]);
-  const entry=next?.entry??matchingServices(temple.scheduleEntries??[],input)[0];
-  const photo=temple.photos[0];
-  return <article id={'result-'+temple.slug} className={layout==='photo'?'grid content-start gap-3':'grid grid-cols-[96px_minmax(0,1fr)] gap-4 border-b border-card-border py-5 sm:grid-cols-[140px_minmax(0,1fr)] '+(selected?'bg-primary-soft':'')}>
-    <Link href={'/temples/'+temple.slug+'/'} aria-label={'Открыть храм: '+temple.name} className={'block overflow-hidden rounded-2xl bg-muted '+(layout==='photo'?'aspect-[4/3]':'h-32 sm:h-36')}>
-      {photo?<TemplePhoto src={photo.imageUrl} alt={photo.alt} className="h-full w-full"/>:<span className="grid h-full place-items-center text-muted-foreground"><MapPinned className="size-6" aria-hidden/></span>}
-    </Link>
-    <div className="grid content-start gap-2"><h2 className="text-base font-semibold leading-6"><Link href={'/temples/'+temple.slug+'/'} className="hover:text-primary">{temple.name}</Link></h2>
-      <p className="text-xs leading-5 text-muted-foreground">{(temple.address??'').replace(/^\s*\d{6},?\s*/u,'').replace(/^(г\.?\s*)?Москва,?\s*/iu,'')}{distance!==undefined&&<> · {distance.toLocaleString('ru',{maximumFractionDigits:1})} км по прямой</>}</p>
-      {entry?<div className="border-l-2 border-primary pl-3"><p className="text-xs text-muted-foreground">{serviceDateLabel(next?.date??input.date??moscowDate())}</p><p className="mt-1 text-sm font-semibold text-primary">{entry.startsAt.slice(0,5)} — {entry.title}</p><a href={entry.sourceUrl} target="_blank" rel="noreferrer" className="mt-1 inline-block text-xs text-muted-foreground underline">Официальное расписание ↗</a></div>:<p className="text-xs text-muted-foreground">Расписание уточняется</p>}
-      <TransitSummary transit={temple.transit} limit={1}/>
-      {onSelect&&<button type="button" aria-pressed={Boolean(selected)} onClick={onSelect} className="w-fit min-h-11 text-xs font-semibold text-primary">{selected?'Выбран на карте':'Показать на карте'} ↗</button>}
-    </div>
-  </article>;
+import Link from "next/link";
+import { MapPinned } from "lucide-react";
+
+import { TemplePhoto } from "@/components/temples/temple-photo";
+import { TransitSummary } from "@/components/temples/transit-chip";
+import { LiquidGlassCard } from "@/components/ui/liquid-glass-card";
+import type { TempleCardView } from "@/features/temples/types";
+
+export function TempleCard({ temple }: { temple: TempleCardView }) {
+  const photo = temple.photos[0];
+  const detailsHref = `/temples/${temple.slug}/`;
+
+  return (
+    <LiquidGlassCard className="relative h-[176px] overflow-hidden">
+      <Link
+        href={detailsHref}
+        className="absolute inset-0 z-10 rounded-glass focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+        aria-label={`Открыть храм: ${temple.name}`}
+      />
+
+      <div className="pointer-events-none grid h-full grid-cols-[108px_1fr] gap-3 p-3 sm:grid-cols-[148px_1fr]">
+        <div className="relative h-full overflow-hidden rounded-[22px] bg-muted">
+          {photo ? (
+            <TemplePhoto
+              src={photo.imageUrl}
+              alt={photo.alt}
+              className="absolute inset-0"
+            />
+          ) : (
+            <div className="flex h-full items-center justify-center text-muted-foreground">
+              <MapPinned className="size-7" aria-hidden />
+            </div>
+          )}
+        </div>
+
+        <div className="grid min-w-0 grid-rows-[auto_auto_1fr] py-1">
+          <div className="min-h-10">
+            <h2 className="line-clamp-2 text-base font-semibold leading-5">
+              {temple.name}
+            </h2>
+          </div>
+
+          <div className="mt-3 min-h-8">
+            <TransitSummary transit={temple.transit} />
+          </div>
+          <p className="self-end pt-2 line-clamp-2 text-sm leading-5 text-muted-foreground">
+            {formatCardAddress(temple.address)}
+          </p>
+        </div>
+      </div>
+    </LiquidGlassCard>
+  );
+}
+
+function formatCardAddress(address?: string | null) {
+  return (address ?? "")
+    .replace(/^\s*\d{6},?\s*/u, "")
+    .replace(/^(г\.?\s*)?Москва,?\s*/iu, "")
+    .trim();
 }

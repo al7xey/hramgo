@@ -1,38 +1,66 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect,useRef,useState,type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 import { LiquidGlassCard } from "@/components/ui/liquid-glass-card";
 import type { TempleMapView } from "@/features/temples/types";
 
-const TempleMapDynamic = dynamic(() => import("@/components/map/temple-map").then((module) => module.TempleMap), {
-  ssr: false,
-  loading: () => (
-    <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
-      <LiquidGlassCard className="overflow-hidden p-2">
-        <div className="aspect-square w-full animate-pulse overflow-hidden rounded-[24px] bg-muted lg:aspect-auto lg:h-[640px]" />
-      </LiquidGlassCard>
-    </div>
-  )
-});
+const TempleMapDynamic = dynamic(
+  () =>
+    import("@/components/map/temple-map").then((module) => module.TempleMap),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
+        <LiquidGlassCard className="overflow-hidden p-2">
+          <div className="aspect-square w-full animate-pulse overflow-hidden rounded-[24px] bg-muted lg:aspect-auto lg:h-[640px]" />
+        </LiquidGlassCard>
+      </div>
+    )
+  }
+);
 
 export function LazyTempleMap({
   temples,
   activeSlug,
   sidebarTop,
-  showPreview = true,
-  onSelect,
-  onAreaChange
+  showPreview = true
 }: {
   temples: TempleMapView[];
   activeSlug?: string;
   sidebarTop?: ReactNode;
   showPreview?: boolean;
-  onSelect?: (slug:string)=>void;
-  onAreaChange?: (bounds:{south:number;west:number;north:number;east:number}|null)=>void;
 }) {
-  const node=useRef<HTMLDivElement>(null);const [visible,setVisible]=useState(false);
-  useEffect(()=>{const observer=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){setVisible(true);observer.disconnect();}},{rootMargin:'150px'});if(node.current)observer.observe(node.current);return ()=>observer.disconnect();},[]);
-  return <div ref={node}>{visible?<TempleMapDynamic temples={temples} activeSlug={activeSlug} sidebarTop={sidebarTop} showPreview={showPreview} onSelect={onSelect} onAreaChange={onAreaChange}/>:<div className="grid min-h-80 place-items-center rounded-2xl bg-muted"><button className="min-h-11 px-5 text-primary" onClick={()=>setVisible(true)}>Загрузить карту</button></div>}</div>;
+  const node = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "150px" }
+    );
+    if (node.current) observer.observe(node.current);
+    return () => observer.disconnect();
+  }, []);
+  return (
+    <div ref={node}>
+      {visible ? (
+        <TempleMapDynamic
+          temples={temples}
+          activeSlug={activeSlug}
+          sidebarTop={sidebarTop}
+          showPreview={showPreview}
+        />
+      ) : (
+        <LiquidGlassCard className="overflow-hidden p-2">
+          <div className="aspect-square w-full animate-pulse rounded-[24px] bg-muted lg:aspect-auto lg:h-[640px]" />
+        </LiquidGlassCard>
+      )}
+    </div>
+  );
 }

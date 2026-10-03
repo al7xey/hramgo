@@ -21,12 +21,12 @@ const config: Config = {
         surface: "var(--surface)"
       },
       borderRadius: {
-        glass: "16px",
-        shell: "16px"
+        glass: "28px",
+        shell: "32px"
       },
       boxShadow: {
-        glass: "0 2px 8px rgba(32, 46, 41, 0.06)",
-        "glass-dark": "0 2px 8px rgba(0, 0, 0, 0.12)"
+        glass: "0 20px 70px rgba(54, 122, 178, 0.14)",
+        "glass-dark": "0 24px 80px rgba(0, 0, 0, 0.28)"
       },
       fontFamily: {
         sans: ["var(--font-montserrat)", "Montserrat", "Arial", "sans-serif"]
