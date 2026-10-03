@@ -1,5 +1,9 @@
 export type SundaySchoolStatus = "YES" | "NO" | "UNKNOWN";
-export type TempleModerationStatus = "DRAFT" | "REVIEW" | "PUBLISHED" | "REJECTED";
+export type TempleModerationStatus =
+  | "DRAFT"
+  | "REVIEW"
+  | "PUBLISHED"
+  | "REJECTED";
 
 export type TemplePhotoView = {
   id: string;
@@ -24,6 +28,7 @@ export type TempleTransitView = {
   distanceMeters: number;
   walkMinutes: number;
   routeVerified?: boolean;
+  walkEstimated?: boolean;
 };
 
 export type TransitStationOptionView = {
@@ -71,6 +76,8 @@ export type TempleView = {
   slug: string;
   name: string;
   shortName?: string | null;
+  aliases?: string[];
+  mergedSlugs?: string[];
   description?: string | null;
   address?: string | null;
   district?: string | null;
@@ -104,7 +111,11 @@ export type TempleView = {
   hasParking?: boolean;
   childFriendly?: boolean;
   scheduleEntries?: ScheduleEntry[];
-  sources?: { url: string; sourceType: string; lastVerifiedAt?: string | null }[];
+  sources?: {
+    url: string;
+    sourceType: string;
+    lastVerifiedAt?: string | null;
+  }[];
 };
 
 export type ScheduleEntry = {
@@ -116,6 +127,7 @@ export type ScheduleEntry = {
   kind: "liturgy" | "evening" | "prayer" | "other";
   title: string;
   comment?: string | null;
+  scopeNote?: string | null;
   isSpecial: boolean;
   validFrom?: string | null;
   validUntil?: string | null;
@@ -165,7 +177,14 @@ export type TempleCardView = Pick<
 
 export type TempleMapView = Pick<
   TempleView,
-  "id" | "slug" | "name" | "address" | "latitude" | "longitude" | "websiteUrl" | "transit"
+  | "id"
+  | "slug"
+  | "name"
+  | "address"
+  | "latitude"
+  | "longitude"
+  | "websiteUrl"
+  | "transit"
 > & {
   photoUrl?: string | null;
 };

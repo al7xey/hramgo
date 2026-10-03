@@ -1,0 +1,37 @@
+{
+  "checkedAt": "2026-10-03T21:52:12.184Z",
+  "temples": 761,
+  "totalDatabaseObjects": 779,
+  "added": 0,
+  "updated": 761,
+  "coverage": {
+    "officialWebsite": 507,
+    "address": 761,
+    "coordinates": 632,
+    "photos": 720,
+    "contacts": 632,
+    "schedule": 43
+  },
+  "freshSchedules": 42,
+  "freshServiceEntries": 644,
+  "withoutFoundSchedule": 718,
+  "duplicateCandidates": 1,
+  "confirmedDuplicates": 3,
+  "correctedCoordinates": 3,
+  "storageBytes": 1962130,
+  "databaseBytes": 46053043,
+  "needsManualReview": 271,
+  "officialDirectory": {
+    "checkedAt": "2026-10-03T15:20:46.314Z",
+    "missing": 0
+  },
+  "problems": {
+    "NO_OFFICIAL_SITE": 254,
+    "NO_SCHEDULE": 718,
+    "SCHEDULE_STALE": 1,
+    "NO_PHOTO": 41,
+    "NO_COORDINATES": 129,
+    "SOURCE_DEAD": 139,
+    "NEEDS_MANUAL_REVIEW": 271
+  }
+}

@@ -1,0 +1,379 @@
+{
+  "checkedAt": "2026-10-03T21:08:18.347Z",
+  "selection": "30 objects ordered by a fixed random SHA-256 seed, plus 6 representative objects",
+  "randomSampleSize": 30,
+  "totalSampleSize": 36,
+  "nameAddressMatches": 36,
+  "photosVisuallyInspected": 32,
+  "issues": [
+    {
+      "templeId": "cmqmxwxkr002zmr6qvrii42zk",
+      "issue": "Clergy portrait used as main photograph",
+      "resolution": "Portrait rejected; official directory building photo selected"
+    }
+  ],
+  "productionChecked": true,
+  "records": [
+    {
+      "id": "cmrmecu6504srmr3uhdaicowt",
+      "slug": "sprav-1085-nikolaya-mirlikiyskogo-svyatitelya-na-territorii-shtab-kvartiry-fosagro",
+      "name": "Храм святителя Николая Мирликийского на территории штаб-квартиры «ФосАгро»",
+      "address": "119333, г. Москва, Ленинский проспект, д. 55/1",
+      "primary": "https://sprav.moseparh.ru/org/1085",
+      "sourceAddressPresent": true,
+      "photoStatus": "NO_PHOTO",
+      "productionChecked": true
+    },
+    {
+      "id": "cmqh1trqr020qmrh89l9ye9ak",
+      "slug": "sprav-1097-vhoda-gospodnya-v-ierusalim-v-biryuleve",
+      "name": "Храм Входа Господня в Иерусалим в Бирюлеве, Патриаршее подворье",
+      "address": "115547, г. Москва, Михневский пр-д, д. 2",
+      "primary": "https://sprav.moseparh.ru/org/1097",
+      "sourceAddressPresent": true,
+      "photoStatus": "DOWNLOADED_FOR_REVIEW",
+      "productionChecked": true
+    },
+    {
+      "id": "cmqh1u04g065hmrh8vv48gk9n",
+      "slug": "sprav-350-tatiany-rimskoy-muchenitsy-pri-mgu-im-m-v-lomonosova",
+      "name": "Храм мученицы Татианы (домовый) при Московском государственном университете им. М.В. Ломоносова, Патриаршее подворье",
+      "address": "119019, г. Москва, ул. Моховая, д. 9, стр. 2",
+      "primary": "https://sprav.moseparh.ru/org/350",
+      "sourceAddressPresent": true,
+      "photoStatus": "DOWNLOADED_FOR_REVIEW",
+      "productionChecked": true
+    },
+    {
+      "id": "cmrmecfyv00izmr3u1dohtrp3",
+      "slug": "sprav-1202-otrada-i-uteshenie-ikony-bozhiey-materi-pri-gkb-im-v-p-demihova",
+      "name": "Храм иконы Божией Матери «Отрада и Утешение» (домовый) при Городской клинической больнице имени В.П. Демихова (быв. ГКБ № 68)",
+      "address": "109263, г. Москва, ул. Шкулева, д. 4",
+      "primary": "https://sprav.moseparh.ru/org/1202",
+      "sourceAddressPresent": true,
+      "photoStatus": "DOWNLOADED_FOR_REVIEW",
+      "productionChecked": true
+    },
+    {
+      "id": "cmqh1u2em06uwmrh828lbytse",
+      "slug": "sprav-508-troitsy-zhivonachalnoy-na-shabolovke",
+      "name": "Храм Живоначальной Троицы на Шаболовке",
+      "address": "117049, г. Москва, ул. Шаболовка, д. 21, стр. 1",
+      "primary": "https://sprav.moseparh.ru/org/508",
+      "sourceAddressPresent": true,
+      "photoStatus": "DOWNLOADED_FOR_REVIEW",
+      "productionChecked": true
+    },
+    {
+      "id": "cmrmecse804armr3uh6kyu69l",
+      "slug": "sprav-1495-luki-krymskogo-arhiepiskopa-svyatitelya-pri-rots-76",
+      "name": "Храм святителя Луки, архиепископа Симферопольского и Крымского, в Реабилитационно-образовательном центре № 76 Департамента труда и социальной защиты населения г. Москвы",
+      "address": "125493, г. Москва, Кронштадтский бульв., 20А",
+      "primary": "https://sprav.moseparh.ru/org/1495",
+      "sourceAddressPresent": true,
+      "photoStatus": "DOWNLOADED_FOR_REVIEW",
+      "productionChecked": true
+    },
+    {
+      "id": "cmrmecjqy01lrmr3u0r95or6e",
+      "slug": "sprav-1080-very-nadezhdy-lyubovi-i-sofii-muchenits-pri-nmits-dgoi-im-dmitriya-rogac",
+      "name": "Храм мучениц Веры, Надежды, Любови и матери их Софии при ФГБУ «Национальный медицинский исследовательский центр детской гематологии, онкологии и иммунологии имени Дмитрия Рогачева» Минздрава России",
+      "address": "117513, г. Москва, Ленинский пр-т, д. 117",
+      "primary": "https://sprav.moseparh.ru/org/1080",
+      "sourceAddressPresent": true,
+      "photoStatus": "NO_PHOTO",
+      "productionChecked": true
+    },
+    {
+      "id": "cmqh1tug7039qmrh8zbg7gstz",
+      "slug": "sprav-1258-kazanskoy-ikony-bozhiey-materi-v-uzkom",
+      "name": "Храм Казанской иконы Божией Матери в Узком",
+      "address": "117647, Москва, ул. Профсоюзная, д. 123б",
+      "primary": "https://sprav.moseparh.ru/org/1258",
+      "sourceAddressPresent": true,
+      "photoStatus": "DOWNLOADED_FOR_REVIEW",
+      "productionChecked": true
+    },
+    {
+      "id": "cmrmecfrn00frmr3u3x34ypgr",
+      "slug": "sprav-1082-neupivaemaya-chasha-ikony-bozhiey-materi-pri-mnpts-narkologii-dzm",
+      "name": "Храм иконы Божией Матери «Неупиваемая Чаша» при ГБУЗ «Московский научно-практический центр наркологии Департамента здравоохранения г. Москвы»",
+      "address": "109390, г. Москва, ул. Люблинская, д. 37/18",
+      "primary": "https://sprav.moseparh.ru/org/1082",
+      "sourceAddressPresent": true,
+      "photoStatus": "NO_PHOTO",
+      "productionChecked": true
+    },
+    {
+      "id": "cmrmecp3i033emr3u60wfgrj8",
+      "slug": "sprav-1521-elisavety-feodorvny-prepodobnomuchenitsy-na-hutorskoy",
+      "name": "Храм преподобномученицы великой княгини Елисаветы Феодоровны (домовый) на Хуторской",
+      "address": "127287, г. Москва, ул. 2-я Хуторская, д. 40, стр. 3",
+      "primary": "https://sprav.moseparh.ru/org/1521",
+      "sourceAddressPresent": true,
+      "photoStatus": "DOWNLOADED_FOR_REVIEW",
+      "productionChecked": true
+    },
+    {
+      "id": "cmqh1tsdf02dpmrh8sq65ge3i",
+      "slug": "sprav-1199-dimitriya-rostovskogo-svyatitelya-na-ryazanke",
+      "name": "Храм святителя Димитрия Ростовского на Рязанке, Патриаршее подворье",
+      "address": "109456, г. Москва, ул. Вострухина, вл. 9",
+      "primary": "https://sprav.moseparh.ru/org/1199",
+      "sourceAddressPresent": true,
+      "photoStatus": "DOWNLOADED_FOR_REVIEW",
+      "productionChecked": true
+    },
+    {
+      "id": "cmrmed591088gmr3uw0yh1d1a",
+      "slug": "sprav-1503-useknoveniya-glavy-ioanna-predtechi-na-luzhnetskom-proezde",
+      "name": "Храм Усекновения главы Пророка, Предтечи и Крестителя Господня Иоанна на Лужнецком проезде",
+      "address": "119435, г. Москва, площадь Новодевичьего монастыря, вл. 1",
+      "primary": "https://sprav.moseparh.ru/org/1503",
+      "sourceAddressPresent": true,
+      "photoStatus": "DOWNLOADED_FOR_REVIEW",
+      "productionChecked": true
+    },
+    {
+      "id": "cmqh1u24r06r2mrh8iurlbol0",
+      "slug": "sprav-445-troitsy-zhivonachalnoy-na-gryazeh-u-pokrovskih-vorot",
+      "name": "Храм Живоначальной Троицы на Грязех у Покровских ворот",
+      "address": "101000, г. Москва, ул. Покровка, д. 13",
+      "primary": "https://sprav.moseparh.ru/org/445",
+      "sourceAddressPresent": true,
+      "photoStatus": "DOWNLOADED_FOR_REVIEW",
+      "productionChecked": true
+    },
+    {
+      "id": "cmqh1truk022mmrh8crv0eq0f",
+      "slug": "sprav-1403-georgiya-pobedonostsa-velikomuchenika-v-moskovskom",
+      "name": "Храм великомученика Георгия Победоносца (строящийся) в Московском",
+      "address": "108813, г. Москва, пос. Московский, мкр. Град Московский, ул. Радужная",
+      "primary": "https://sprav.moseparh.ru/org/1403",
+      "sourceAddressPresent": true,
+      "photoStatus": "DOWNLOADED_FOR_REVIEW",
+      "productionChecked": true
+    },
+    {
+      "id": "cmqh1tooy00dmmrh8przuzhzj",
+      "slug": "sprav-1035-otrada-i-uteshenie-ikony-bozhiey-materi-v-yaroslavskom",
+      "name": "Храм иконы Божией Матери «Отрада и Утешение» в Ярославском, Патриаршее подворье",
+      "address": "129347, г. Москва, Ярославское ш., вл. 147",
+      "primary": "https://sprav.moseparh.ru/org/1035",
+      "sourceAddressPresent": true,
+      "photoStatus": "DOWNLOADED_FOR_REVIEW",
+      "productionChecked": true
+    },
+    {
+      "id": "cmqh1tyfg05dimrh89ba4zcyn",
+      "slug": "sprav-1370-rozhdestva-hristova-v-izmaylove",
+      "name": "Храм Рождества Христова в Измайлове",
+      "address": "105122, г. Москва, Измайловский пр-д, д. 28",
+      "primary": "https://sprav.moseparh.ru/org/1370",
+      "sourceAddressPresent": true,
+      "photoStatus": "DOWNLOADED_FOR_REVIEW",
+      "productionChecked": true
+    },
+    {
+      "id": "cmrmecfmx00e6mr3uuctv9jc2",
+      "slug": "sprav-1212-neopalimaya-kupina-ikony-bozhiey-materi-pri-pravoslavnoy-gimnazii-im-mit",
+      "name": "Храм иконы Божией Матери «Неопалимая Купина» (домовый) при Православной гимназии им. митрополита Платона (Левшина)",
+      "address": "109383, г. Москва, ул. Шоссейная, д. 74",
+      "primary": "https://sprav.moseparh.ru/org/1212",
+      "sourceAddressPresent": true,
+      "photoStatus": "DOWNLOADED_FOR_REVIEW",
+      "productionChecked": true
+    },
+    {
+      "id": "cmqh1twfx04clmrh8rpdqs2gn",
+      "slug": "sprav-1263-niny-ravnoapostolnoy-v-cheremushkah",
+      "name": "Храм равноапостольной Нины в Черемушках",
+      "address": "117418, г. Москва, ул. Профсоюзная, д. 21/23",
+      "primary": "https://sprav.moseparh.ru/org/1263",
+      "sourceAddressPresent": true,
+      "photoStatus": "DOWNLOADED_FOR_REVIEW",
+      "productionChecked": true
+    },
+    {
+      "id": "cmqh1tzgn05uhmrh8ujqr6jpo",
+      "slug": "sprav-1000-smolenskoy-ikony-bozhiey-materi-v-fili-davydkove",
+      "name": "Храм Смоленской иконы Божией Матери в Фили-Давыдкове — главный храм МЧС России",
+      "address": "121352, г. Москва, ул. Давыдковская, д. 19",
+      "primary": "https://sprav.moseparh.ru/org/1000",
+      "sourceAddressPresent": true,
+      "photoStatus": "DOWNLOADED_FOR_REVIEW",
+      "productionChecked": true
+    },
+    {
+      "id": "cmrmecnn202kvmr3u12bsiclm",
+      "slug": "sprav-1227-georgiya-pobedonostsa-velikomuchenika-na-territorii-federalnogo-agentstv",
+      "name": "Часовня великомученика Георгия Победоносца на территории Федерального агентства по государственным резервам (Росрезерв)",
+      "address": "111033, г. Москва, ул. Волочаевская, д. 40",
+      "primary": "https://sprav.moseparh.ru/org/1227",
+      "sourceAddressPresent": true,
+      "photoStatus": "DOWNLOADED_FOR_REVIEW",
+      "productionChecked": true
+    },
+    {
+      "id": "cmrmed6nl08numr3uhwud202h",
+      "slug": "sprav-1427-tsarstvennyh-strastoterptsev-pri-troitskoy-pravoslavnoy-shkole",
+      "name": "Храм Царственных страстотерпцев (домовый) при Троицкой православной школе",
+      "address": "108807, г. Москва, пос. Первомайское, д. Пучково, стр. 6",
+      "primary": "https://sprav.moseparh.ru/org/1427",
+      "sourceAddressPresent": true,
+      "photoStatus": "DOWNLOADED_FOR_REVIEW",
+      "productionChecked": true
+    },
+    {
+      "id": "cmrmed2bx07j8mr3unod859v2",
+      "slug": "sprav-1555-tihona-moskovskogo-i-vseya-rossii-patriarha-svyatitelya-i-ottsov-pomestn",
+      "name": "Храм святителя Тихона, Патриарха Московского и всея Руси, и отцов Поместного Собора 1917–1918 годов в Московском епархиальном доме",
+      "address": "127051, г. Москва, Лихов пер., д. 6, стр. 1",
+      "primary": "https://sprav.moseparh.ru/org/1555",
+      "sourceAddressPresent": true,
+      "photoStatus": "NO_PHOTO",
+      "productionChecked": true
+    },
+    {
+      "id": "cmqh1tw120441mrh8kifppng0",
+      "slug": "sprav-951-nikolaya-mirlikiyskogo-svyatitelya-v-schukine",
+      "name": "Храм святителя Николая Мирликийского в Щукине, Патриаршее подворье",
+      "address": "123182, г. Москва, ул. Авиационная, вл. 30",
+      "primary": "https://sprav.moseparh.ru/org/951",
+      "sourceAddressPresent": true,
+      "photoStatus": "DOWNLOADED_FOR_REVIEW",
+      "productionChecked": true
+    },
+    {
+      "id": "cmqh1txks04xwmrh88f9rav2q",
+      "slug": "sprav-1128-pohvaly-presvyatoy-bogoroditsy-v-zyablikove",
+      "name": "Храм Похвалы Пресвятой Богородицы в Зябликове, Патриаршее подворье",
+      "address": "115573, г. Москва, Ореховый пр-д, д. 41",
+      "primary": "https://sprav.moseparh.ru/org/1128",
+      "sourceAddressPresent": true,
+      "photoStatus": "DOWNLOADED_FOR_REVIEW",
+      "productionChecked": true
+    },
+    {
+      "id": "cmqh1tvya042amrh8fxt6f1lr",
+      "slug": "sprav-436-nikolaya-mirlikiyskogo-svyatitelya-v-klennikah",
+      "name": "Храм святителя Николая Чудотворца в Кленниках",
+      "address": "101000, г. Москва, ул. Маросейка, д. 5, стр. 2",
+      "primary": "https://sprav.moseparh.ru/org/436",
+      "sourceAddressPresent": true,
+      "photoStatus": "DOWNLOADED_FOR_REVIEW",
+      "productionChecked": true
+    },
+    {
+      "id": "cmqh1ty9n05b9mrh8n5ttahs4",
+      "slug": "sprav-1219-rozhdestva-presvyatoy-bogoroditsy-v-kapotne",
+      "name": "Храм Рождества Пресвятой Богородицы в Капотне",
+      "address": "109429, г. Москва, 1-й Капотнинский пр-д. 10",
+      "primary": "https://sprav.moseparh.ru/org/1219",
+      "sourceAddressPresent": true,
+      "photoStatus": "DOWNLOADED_FOR_REVIEW",
+      "productionChecked": true
+    },
+    {
+      "id": "cmqh1tods007wmrh8c0id8177",
+      "slug": "sprav-364-znamenie-ikony-bozhiey-materi-za-petrovskimi-vorotami",
+      "name": "Храм иконы Божией Матери «Знамение» за Петровскими воротами при ГУ МВД России по г. Москве",
+      "address": "127051, г. Москва, 1-й Колобовский пер., д. 1, стр. 2",
+      "primary": "https://sprav.moseparh.ru/org/364",
+      "sourceAddressPresent": true,
+      "photoStatus": "DOWNLOADED_FOR_REVIEW",
+      "productionChecked": true
+    },
+    {
+      "id": "cmrmecrbr03y6mr3usb77zj43",
+      "slug": "sprav-706-kazanskoy-ikony-bozhiey-materi-pri-tsvkg-im-p-v-mandryka",
+      "name": "Храм иконы Божией Матери «Казанская» при 2-м Центральном военном клиническом госпитале им. П.В. Мандрыка",
+      "address": "107014, г. Москва, ул. Большая Оленья, д. 8а",
+      "primary": "https://sprav.moseparh.ru/org/706",
+      "sourceAddressPresent": true,
+      "photoStatus": "DOWNLOADED_FOR_REVIEW",
+      "productionChecked": true
+    },
+    {
+      "id": "cmqh1tvvg040imrh8xhihgcp6",
+      "slug": "sprav-433-nikolaya-mirlikiyskogo-svyatitelya-v-derbeneve",
+      "name": "Храм святителя Николая Мирликийского в Дербеневе",
+      "address": "101000, г. Москва, Уланский пер., д. 11, стр. 1",
+      "primary": "https://sprav.moseparh.ru/org/433",
+      "sourceAddressPresent": true,
+      "photoStatus": "DOWNLOADED_FOR_REVIEW",
+      "productionChecked": true
+    },
+    {
+      "id": "cmrmecspg04ejmr3u911fkbaa",
+      "slug": "sprav-658-marfo-mariinskaya-obitel-miloserdiya",
+      "name": "Ставропигиальный женский монастырь — Марфо-Мариинская обитель милосердия",
+      "address": "119017, г. Москва, ул. Б. Ордынка, д. 34",
+      "primary": "https://sprav.moseparh.ru/org/658",
+      "sourceAddressPresent": true,
+      "photoStatus": "DOWNLOADED_FOR_REVIEW",
+      "productionChecked": true
+    },
+    {
+      "id": "cmqh1u38r0794mrh8jxbysn5a",
+      "slug": "sprav-337-hrista-spasitelya-kafedralnyy-sobornyy-hram",
+      "name": "Кафедральный соборный Храм Христа Спасителя",
+      "address": "119019, г. Москва, ул. Волхонка, д. 15",
+      "primary": "https://sprav.moseparh.ru/org/337",
+      "sourceAddressPresent": true,
+      "photoStatus": "DOWNLOADED_FOR_REVIEW",
+      "productionChecked": true
+    },
+    {
+      "id": "cmqmxwxkr002zmr6qvrii42zk",
+      "slug": "svyato-danilov-muzhskoy-monastyr",
+      "name": "Данилов ставропигиальный мужской монастырь",
+      "address": "115191, г. Москва, Даниловский вал, вл. 22",
+      "primary": "https://sprav.moseparh.ru/org/571",
+      "sourceAddressPresent": true,
+      "photoStatus": "DOWNLOADED_FOR_REVIEW",
+      "productionChecked": true
+    },
+    {
+      "id": "cmqh1tq08012umrh8hgm1awr5",
+      "slug": "sprav-1398-bogoyavleniya-v-s-bogoyavlenie",
+      "name": "Храм Богоявления в с. Богоявление",
+      "address": "108830, г. Москва, пос. Вороновское, с. Богоявление",
+      "primary": "https://sprav.moseparh.ru/org/1398",
+      "sourceAddressPresent": true,
+      "photoStatus": "DOWNLOADED_FOR_REVIEW",
+      "productionChecked": true
+    },
+    {
+      "id": "cmrmecqqw03q7mr3us7rdvm5e",
+      "slug": "sprav-1300-ioanna-rizhskogo-svyaschennomuchenika-v-molzhaninovskom",
+      "name": "Храм священномученика Иоанна Рижского в Молжаниновском",
+      "address": "141400, Москва, Новосходненское ш., 166",
+      "primary": "https://sprav.moseparh.ru/org/1300",
+      "sourceAddressPresent": true,
+      "photoStatus": "DOWNLOADED_FOR_REVIEW",
+      "productionChecked": true
+    },
+    {
+      "id": "cmqh1t9ib004omrermxhv493o",
+      "slug": "sprav-1108-zhivonosnyy-istochnik-ikony-bozhiey-materi-v-tsaritsyne",
+      "name": "Храм иконы Божией Матери «Живоносный Источник» в Царицыне",
+      "address": "115569, г. Москва, ул. Дольская, вл. 2",
+      "primary": "https://sprav.moseparh.ru/org/1108",
+      "sourceAddressPresent": true,
+      "photoStatus": "DOWNLOADED_FOR_REVIEW",
+      "productionChecked": true
+    },
+    {
+      "id": "cmrmeco7x02tdmr3uuo5mccsj",
+      "slug": "sprav-954-dimitriya-donskogo-blagovernogo-pri-omone-glavnogo-upravleniya-rosgvardi",
+      "name": "Храм благоверного великого князя Димитрия Донского при ОМОНе Главного управления Росгвардии по г. Москве",
+      "address": "123458, г. Москва, ул. Твардовского, вл. 2",
+      "primary": "https://sprav.moseparh.ru/org/954",
+      "sourceAddressPresent": true,
+      "photoStatus": "DOWNLOADED_FOR_REVIEW",
+      "productionChecked": true
+    }
+  ],
+  "productionCatalogSha256": "4dd5e5ef2f5b0cc4c4fd2637f003e8e95bf73f9a2323618f17dda2fd23409513"
+}

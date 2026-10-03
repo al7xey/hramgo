@@ -5,6 +5,7 @@ node_modules
 
 # next
 .next
+.next-dev
 out
 
 # production
@@ -22,6 +23,7 @@ pnpm-debug.log*
 .next-dev*.log
 .next-build-debug.log
 tmp/
+.cache/
 
 # env
 .env

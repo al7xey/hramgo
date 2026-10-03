@@ -1,0 +1,15 @@
+{
+  "checkedAt": "2026-10-03T20:33:34.748Z",
+  "sourceUrl": "https://api.hh.ru/metro/1",
+  "sourceHash": "7cb8d4451085ed3b4e8947f0faae9c65ec98ba4e639932d31ad823110584c517",
+  "stations": 451,
+  "templesWithCoordinates": 632,
+  "templesChanged": 593,
+  "mode": "apply",
+  "distanceMethod": "haversine-straight-line",
+  "walkingTime": "estimate: distance * 1.3 / 80 metres per minute; route not verified",
+  "openingSources": [
+    "https://transport.mos.ru/mostrans/all_news/131519",
+    "https://transport.mos.ru/mostrans/all_news/126335"
+  ]
+}

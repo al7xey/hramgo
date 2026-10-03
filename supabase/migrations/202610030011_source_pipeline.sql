@@ -1,0 +1,17 @@
+begin;
+alter table public.temples add column if not exists aliases text[] not null default '{}';
+alter table public.temple_sources add column if not exists last_changed_at timestamptz;
+alter table public.temple_sources add column if not exists source_published_at timestamptz;
+alter table public.temple_sources add column if not exists priority smallint;
+alter table public.temple_sources add column if not exists is_official boolean not null default false;
+alter table public.temple_sources add column if not exists extraction_method text;
+alter table public.temple_sources add column if not exists robots_allowed boolean;
+alter table public.temple_schedule_entries add column if not exists last_checked_at timestamptz;
+alter table public.temple_schedule_entries add column if not exists source_published_at timestamptz;
+alter table public.temple_schedule_entries add column if not exists extraction_method text;
+alter table public.temple_schedule_entries add column if not exists scope_note text;
+alter table public.temple_photos add column if not exists source_page_url text;
+alter table public.temple_photos add column if not exists source_type text;
+create index if not exists source_recheck_idx on public.temple_sources(last_checked_at,http_status);
+create index if not exists temples_aliases_idx on public.temples using gin(aliases);
+commit;
