@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { Clock3 } from "lucide-react";
 import type { TempleView } from "@/features/temples/types";
-import { servicesForDate } from "@/features/temples/schedules";
+import { servicesForDate, regularServices } from "@/features/temples/schedules";
 import { formatDate } from "@/lib/utils";
 import { offsetMoscowDate, serviceDateLabel } from "@/features/temples/worship";
 
@@ -34,8 +34,68 @@ export function TempleSchedule({
       }).filter((group) => group.entries.length)
     : [];
   const source = temple.scheduleSourceUrl ?? temple.websiteUrl;
+  const weekly = regularServices(temple.scheduleEntries ?? []);
+  const weekdays = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
   return (
     <div className="grid gap-3">
+      {weekly.length > 0 && (
+        <section className="rounded-[22px] bg-muted/70 p-4">
+          <h3 className="font-semibold">Обычное расписание</h3>
+          <p className="mt-1 text-xs leading-5 text-muted-foreground">
+            В праздники и особые дни время может меняться. Справочные записи
+            уточняйте в приходе.
+          </p>
+          <div className="mt-3 grid gap-2">
+            {weekly.map((entry) => (
+              <div
+                key={entry.id}
+                className="rounded-[16px] bg-background/70 p-3 text-sm"
+              >
+                <p className="font-semibold">
+                  {entry.weekdays?.length === 7
+                    ? "Ежедневно"
+                    : entry.weekdays
+                        ?.map((day) => weekdays[day - 1])
+                        .join(", ") || "Дни уточняются"}
+                </p>
+                <p className="mt-1">
+                  <time className="mr-2 font-semibold">
+                    {entry.startsAt.slice(0, 5)}
+                  </time>
+                  {entry.title}
+                </p>
+                {entry.scopeNote && (
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    {entry.scopeNote}
+                  </p>
+                )}
+                {entry.comment && (
+                  <details className="mt-1 text-xs text-muted-foreground">
+                    <summary className="cursor-pointer">
+                      Примечание источника
+                    </summary>
+                    <p className="mt-1 leading-5">{entry.comment}</p>
+                  </details>
+                )}
+                <a
+                  href={entry.sourceUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-2 inline-block text-xs text-primary"
+                >
+                  {entry.status === "REVIEW"
+                    ? "Справочно · источник получен"
+                    : "Источник · проверено"}{" "}
+                  {formatDate(entry.verifiedAt)}
+                </a>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+      {groups.length > 0 && (
+        <h3 className="font-semibold">Ближайшие службы по датам</h3>
+      )}
       <div className="grid gap-3 md:grid-cols-2">
         {groups.length ? (
           groups.map((group) => (
@@ -76,7 +136,7 @@ export function TempleSchedule({
               </div>
             </div>
           ))
-        ) : (
+        ) : weekly.length ? null : (
           <div className="rounded-[22px] bg-muted/70 p-4">
             <p className="text-sm leading-6 text-muted-foreground">
               {now

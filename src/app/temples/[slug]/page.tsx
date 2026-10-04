@@ -159,6 +159,16 @@ export default async function TemplePage({
                 {templeDescription}
               </p>
             )}
+            {temple.descriptionSourceUrl && (
+              <a
+                href={temple.descriptionSourceUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="text-xs text-primary"
+              >
+                Источник сведений о храме
+              </a>
+            )}
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               <Button asChild>
                 <Link href={mapHref}>
@@ -446,18 +456,7 @@ function formatTempleAddress(address?: string | null) {
 }
 
 function getTempleDescription(temple: TempleView) {
-  const description = temple.description?.trim();
-  const hasActivityText = description
-    ? /воскресн|молод[её]ж|социальн|приходск|миссионер|катехиз|деятельност/i.test(
-        description
-      )
-    : false;
-
-  if (description && !hasActivityText) {
-    return description;
-  }
-
-  return temple.historySummary?.trim() || null;
+  return temple.description?.trim() || temple.historySummary?.trim() || null;
 }
 
 function getTempleStructuredData(temple: TempleView) {

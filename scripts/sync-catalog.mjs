@@ -85,7 +85,13 @@ const temples = rows.map((r) => ({
     lastVerifiedAt: s.last_verified_at
   })),
   scheduleEntries: r.temple_schedule_entries
-    .filter((e) => e.status === "VERIFIED")
+    .filter(
+      (e) =>
+        e.status === "VERIFIED" ||
+        (e.status === "REVIEW" &&
+          e.extraction_method === "regular-reference" &&
+          !e.service_date)
+    )
     .map((e) => ({
       id: e.id,
       templeId: e.temple_id,
@@ -108,7 +114,9 @@ const temples = rows.map((r) => ({
       sourceUrl: e.source_url,
       verifiedAt: e.verified_at,
       confidence: e.confidence,
-      status: e.status
+      status: e.status,
+      recurrenceUnspecified:
+        e.extraction_method === "regular-reference" && !e.weekdays?.length
     }))
 }));
 await writeCatalog(temples);

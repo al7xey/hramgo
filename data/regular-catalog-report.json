@@ -1,0 +1,16 @@
+{
+  "checkedAt": "2026-10-04T22:13:53.230Z",
+  "temples": 761,
+  "processed": 761,
+  "regularSchedules": 504,
+  "withoutNormalizedRegularSchedule": 257,
+  "referenceSchedules": 503,
+  "descriptions": 761,
+  "descriptionSources": 760,
+  "eveningAt18": 59,
+  "remainingProblems": [
+    "Ordinary service weekdays are unspecified in some sources",
+    "Holiday exceptions require checking the parish source",
+    "Some sources are inaccessible or have no published schedule"
+  ]
+}

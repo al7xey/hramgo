@@ -16,6 +16,8 @@ import type {
 import { cn } from "@/lib/utils";
 
 type FilterDefaults = {
+  scheduleMode?: "regular" | "date";
+  weekday?: number;
   query?: string;
   districts: string[];
   metros: string[];
@@ -83,6 +85,7 @@ export const TempleFilters = memo(function TempleFilters({
         defaultValues.objectType && defaultValues.objectType !== "all" ? 1 : 0,
         defaultValues.liturgyTime ? 1 : 0,
         defaultValues.eveningTime ? 1 : 0,
+        defaultValues.weekday ? 1 : 0,
         defaultValues.sundaySchool === "true" ? 1 : 0,
         defaultValues.hasSchedule === "true" ? 1 : 0,
         defaultValues.hasWebsite === "true" ? 1 : 0,
@@ -246,18 +249,68 @@ export const TempleFilters = memo(function TempleFilters({
             </FilterGroup>
 
             <FilterGroup title="Расписание">
+              <input type="hidden" name="scheduleMode" value="regular" />
+              <label className="grid gap-1 text-sm">
+                <span className="text-muted-foreground">День недели</span>
+                <select
+                  name="weekday"
+                  defaultValue={defaultValues.weekday ?? ""}
+                  className="h-10 rounded-[18px] border border-card-border bg-white px-3 dark:bg-[#0d1d2c]"
+                >
+                  <option value="">Любой день</option>
+                  {[
+                    "Понедельник",
+                    "Вторник",
+                    "Среда",
+                    "Четверг",
+                    "Пятница",
+                    "Суббота",
+                    "Воскресенье"
+                  ].map((day, index) => (
+                    <option key={day} value={index + 1}>
+                      {day}
+                    </option>
+                  ))}
+                </select>
+              </label>
               <Select
                 name="liturgyTime"
                 label="Литургия"
                 defaultValue={defaultValues.liturgyTime}
-                options={["", "7:00", "8:00", "9:00", "10:00"]}
+                options={[
+                  "",
+                  "6:00",
+                  "6:30",
+                  "7:00",
+                  "7:30",
+                  "8:00",
+                  "8:30",
+                  "9:00",
+                  "9:30",
+                  "10:00",
+                  "10:30",
+                  "11:00"
+                ]}
               />
               <Select
                 name="eveningTime"
                 label="Вечерняя служба"
                 defaultValue={defaultValues.eveningTime}
-                options={["", "17:00", "18:00"]}
+                options={[
+                  "",
+                  "16:00",
+                  "16:30",
+                  "17:00",
+                  "17:30",
+                  "18:00",
+                  "18:30",
+                  "19:00"
+                ]}
               />
+              <p className="text-xs leading-5 text-muted-foreground">
+                Обычное расписание, без привязки к сегодняшней дате. Справочные
+                сведения нужно уточнять перед поездкой.
+              </p>
             </FilterGroup>
 
             <div className="grid grid-cols-2 gap-2">

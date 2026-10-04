@@ -79,6 +79,7 @@ export type TempleView = {
   aliases?: string[];
   mergedSlugs?: string[];
   description?: string | null;
+  descriptionSourceUrl?: string | null;
   address?: string | null;
   district?: string | null;
   metro?: string | null;
@@ -135,9 +136,12 @@ export type ScheduleEntry = {
   verifiedAt: string;
   confidence: number;
   status: "REVIEW" | "VERIFIED" | "REJECTED";
+  recurrenceUnspecified?: boolean;
 };
 
 export type TempleSearchInput = {
+  scheduleMode?: "regular" | "date";
+  weekday?: number;
   date?: string;
   timeFrom?: string;
   timeTo?: string;
