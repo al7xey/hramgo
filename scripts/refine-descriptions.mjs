@@ -2,6 +2,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import pg from "pg";
 import { digest, decodeBody } from "./lib/http-cache.mjs";
 import { inspectPage } from "./lib/site-parser.mjs";
+import { factualSentences } from "./lib/factual-sentences.mjs";
 const db = new pg.Client({
   connectionString: process.env.SUPABASE_DATABASE_URL
 });
@@ -76,14 +77,12 @@ try {
         /* use preserved history */
       }
     }
-    const history = (t.details.historySummary ?? "")
-      .split(/(?<=[.!?])\s+(?=[А-ЯЁ«])/)
-      .filter(
-        (s) =>
-          s.length > 55 &&
-          s.length < 550 &&
-          !/^Точных сведений|^Косвенно это|^Это /i.test(s)
-      );
+    const history = factualSentences(t.details.historySummary ?? "").filter(
+      (s) =>
+        s.length > 55 &&
+        s.length < 550 &&
+        !/^Точных сведений|^Косвенно это|^Это /i.test(s)
+    );
     const interesting = history.filter((s) => features.test(s));
     const fallback = history.filter(
       (s) => !/основан|открытие|освящ[её]н|восстановительных работ/i.test(s)

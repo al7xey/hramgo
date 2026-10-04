@@ -1,5 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { factualSentences } from "../scripts/lib/factual-sentences.mjs";
 import { parseRegularReference } from "../scripts/lib/regular-schedules.mjs";
 import {
   regularServices,
@@ -12,6 +13,17 @@ const opts = {
   sourceUrl: "https://example.org",
   checkedAt: "2026-10-05T00:00:00Z"
 };
+test("descriptions retain saint names after abbreviated titles", () => {
+  assert.deepEqual(
+    factualSentences(
+      "Храм освящён во имя св. мч. Андрея Стратилата. Сохранился древний иконостас."
+    ),
+    [
+      "Храм освящён во имя св. мч. Андрея Стратилата.",
+      "Сохранился древний иконостас."
+    ]
+  );
+});
 test("ordinary rules retain weekdays and do not convert hours into liturgy", () => {
   const entries = parseRegularReference(
     "Ежедневно в 7:30 — часы, 8:00 — Литургия, 17:00 — вечернее богослужение.",
