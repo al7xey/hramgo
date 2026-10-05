@@ -16,8 +16,11 @@ export function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed inset-x-0 bottom-[max(8px,env(safe-area-inset-bottom))] z-50 px-4 md:hidden">
-      <div className="mx-auto grid h-[52px] w-full max-w-[264px] grid-cols-3 gap-1 rounded-[26px] border border-slate-200/90 bg-white/[0.98] p-1.5 text-[#172033] shadow-none backdrop-blur-md dark:border-white/10 dark:bg-[#071522]/95 dark:text-slate-200">
+    <nav
+      aria-label="Основная навигация"
+      className="fixed inset-x-0 bottom-[max(12px,env(safe-area-inset-bottom))] z-50 px-5 md:hidden"
+    >
+      <div className="mx-auto grid h-[68px] w-full max-w-[336px] grid-cols-3 gap-1 rounded-[34px] border border-card-border bg-white/95 p-1.5 text-[#172033] shadow-[0_8px_28px_rgba(39,103,151,0.14)] backdrop-blur-xl dark:border-white/10 dark:bg-[#071522]/95 dark:text-slate-200">
         {items.map((item) => {
           const isActive =
             pathname === item.href ||
@@ -29,15 +32,17 @@ export function BottomNav() {
               href={item.href}
               prefetch
               className={cn(
-                "flex h-10 touch-manipulation items-center justify-center rounded-[20px] transition-colors duration-100 hover:bg-[#edf6fd] dark:hover:bg-sky-400/10",
+                "flex h-14 touch-manipulation flex-col items-center justify-center gap-1 rounded-[28px] transition-colors duration-150 hover:bg-[#edf6fd] dark:hover:bg-sky-400/10",
                 isActive &&
                   "bg-[#dceefb] text-[#2d8ed8] hover:bg-[#dceefb] dark:bg-sky-400/15 dark:text-sky-300 dark:hover:bg-sky-400/15"
               )}
               aria-label={item.label}
               aria-current={isActive ? "page" : undefined}
             >
-              <item.icon className="size-5" aria-hidden />
-              <span className="sr-only">{item.label}</span>
+              <item.icon className="size-[22px]" aria-hidden />
+              <span className="text-[10px] font-medium leading-3">
+                {item.label}
+              </span>
             </Link>
           );
         })}

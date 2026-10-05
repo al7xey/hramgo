@@ -55,7 +55,10 @@ export function parseRegularReference(
     }
   }
   blocks.push(normalized.slice(blockStart));
-  for (const block of blocks) {
+  for (const rawBlock of blocks) {
+    // A following holiday-eve clause must not hide clearly stated morning rules.
+    // Its relative time remains excluded from the ordinary weekly schedule.
+    const block = rawBlock.split(/,\s*накануне(?=\s|$)/iu)[0];
     if (
       block.length > 1800 ||
       /\b20\d{2}\b|\d{1,2}[./]\d{1,2}[./]|\d{1,2}\s+(?:январ|феврал|март|апрел|ма[йя]|июн|июл|август|сентябр|октябр|ноябр|декабр)/i.test(

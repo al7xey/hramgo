@@ -1,4 +1,5 @@
 import { TrainFront } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 import {
   formatTransitShort,
@@ -9,13 +10,22 @@ import type {
   TransitLineView
 } from "@/features/temples/types";
 
-export function TransitChip({ transit }: { transit: TempleTransitView }) {
+export function TransitChip({
+  transit,
+  compact = false
+}: {
+  transit: TempleTransitView;
+  compact?: boolean;
+}) {
   const label = formatTransitShort(transit);
 
   return (
     <span
       title={`${label}${label !== transit.station && !label.includes("на машине") ? " пешком" : ""}${label.includes("≈") ? " (расчётная оценка, без проверки маршрута)" : ""}`}
-      className="inline-flex min-h-8 max-w-full items-center gap-1.5 rounded-[18px] border border-card-border bg-background/70 px-2.5 py-1.5 text-xs font-medium leading-4 text-foreground"
+      className={cn(
+        "inline-flex min-h-8 max-w-full items-center gap-1.5 rounded-[18px] border border-card-border bg-background/70 px-2.5 py-1.5 text-xs font-medium leading-4 text-foreground",
+        compact && "py-1 px-2"
+      )}
     >
       <LineDot line={transit.line} />
       <span>
@@ -46,10 +56,12 @@ export function LineDot({ line }: { line: TransitLineView }) {
 
 export function TransitSummary({
   transit,
-  limit = 3
+  limit = 3,
+  compact = false
 }: {
   transit: TempleTransitView[];
   limit?: number;
+  compact?: boolean;
 }) {
   const nearest = getNearestTransitList(transit, limit);
 
@@ -63,9 +75,18 @@ export function TransitSummary({
   }
 
   return (
-    <span className="flex flex-wrap gap-2">
+    <span
+      className={cn(
+        "flex flex-wrap gap-2",
+        compact && "flex-col items-start gap-1.5"
+      )}
+    >
       {nearest.map((item) => (
-        <TransitChip key={`${item.station}-${item.line.id}`} transit={item} />
+        <TransitChip
+          key={`${item.station}-${item.line.id}`}
+          transit={item}
+          compact={compact}
+        />
       ))}
     </span>
   );

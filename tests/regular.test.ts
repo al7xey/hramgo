@@ -2,6 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { factualSentences } from "../scripts/lib/factual-sentences.mjs";
 import { parseRegularReference } from "../scripts/lib/regular-schedules.mjs";
+import { parseParishRegularHtml } from "../scripts/lib/parish-regular.mjs";
 import {
   regularServices,
   servicesForDate
@@ -13,6 +14,31 @@ const opts = {
   sourceUrl: "https://example.org",
   checkedAt: "2026-10-05T00:00:00Z"
 };
+test("parish calendar rows do not become ordinary weekly rules", () => {
+  const html =
+    "<main><h1>Расписание на октябрь 2026</h1><p>Суббота по Воздвижении<br>9:00 — Литургия</p><div>Суббота. 18:00 — всенощное бдение, вынос Креста</div></main>";
+  assert.equal(parseParishRegularHtml(html, opts).length, 0);
+});
+test("parish recurrence requires explicit days and rejects relative communion times", () => {
+  const html =
+    "<main><p>По воскресеньям в 9:00 — Литургия</p><p>Исповедь, Литургия, Причастие — 10:20, молебен</p></main>";
+  assert.deepEqual(
+    parseParishRegularHtml(html, opts).map((r) => [r.starts_at, r.weekdays]),
+    [["09:00", [7]]]
+  );
+});
+test("a dedicated ordinary parish block retains its separate weekday rules", () => {
+  const html =
+    "<main><p>Расписание богослужений (общее кратко):Литургия — суббота и воскресенье 9:00<br>Вечернее богослужение — пятница 17:00<br>Всенощное бдение — суббота 17:00</p></main>";
+  assert.deepEqual(
+    parseParishRegularHtml(html, opts).map((r) => [r.starts_at, r.weekdays]),
+    [
+      ["09:00", [6, 7]],
+      ["17:00", [5]],
+      ["17:00", [6]]
+    ]
+  );
+});
 test("descriptions retain saint names after abbreviated titles", () => {
   assert.deepEqual(
     factualSentences(
@@ -44,6 +70,19 @@ test("a dated or seasonal schedule is not a perpetual weekly rule", () => {
     "Храм открыт ежедневно с 8:00"
   ])
     assert.equal(parseRegularReference(text, opts).length, 0);
+});
+test("holiday-eve clauses do not discard explicit morning rules", () => {
+  const entries = parseRegularReference(
+    "8:00 (по будням и в субботу), 9:00 (по воскресеньям и в праздники) — Литургия, накануне воскресных и праздничных дней в 17:00 — вечернее богослужение.",
+    opts
+  );
+  assert.deepEqual(
+    entries.map((r) => [r.starts_at, r.weekdays]),
+    [
+      ["08:00", [1, 2, 3, 4, 5, 6]],
+      ["09:00", [7]]
+    ]
+  );
 });
 test("several liturgy times preserve their own weekdays", () => {
   const entries = parseRegularReference(
@@ -89,6 +128,34 @@ const e: ScheduleEntry = {
   confidence: 0.7,
   status: "REVIEW"
 };
+test("parish rules take priority without removing other directory weekdays", () => {
+  const directory = { ...e, weekdays: [1, 2, 3, 4, 5, 6, 7] };
+  const parish = { ...e, id: "parish", startsAt: "09:00", confidence: 0.75 };
+  assert.deepEqual(
+    regularServices([directory, parish], 7).map((r) => r.startsAt),
+    ["09:00"]
+  );
+  assert.deepEqual(
+    regularServices([directory, parish], 1).map((r) => r.startsAt),
+    ["08:00"]
+  );
+  assert.deepEqual(
+    regularServices([directory, parish]).find((r) => r.id === "regular")
+      ?.weekdays,
+    [1, 2, 3, 4, 5, 6]
+  );
+});
+test("schedules of different buildings in a complex do not override each other", () => {
+  const one = { ...e, scopeNote: "Троицкий собор" };
+  const another = {
+    ...e,
+    id: "other-building",
+    startsAt: "09:00",
+    confidence: 0.75,
+    scopeNote: "Покровский храм"
+  };
+  assert.equal(regularServices([one, another], 7).length, 2);
+});
 test("reference schedules work in weekly filters but cannot claim a confirmed date", () => {
   const now = new Date("2026-10-05T20:00:00Z");
   assert.equal(regularServices([e], 7).length, 1);
