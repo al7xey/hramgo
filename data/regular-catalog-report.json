@@ -1,15 +1,19 @@
 {
-  "checkedAt": "2026-10-04T22:13:53.230Z",
+  "checkedAt": "2026-10-05T19:45:14.589Z",
   "temples": 761,
   "processed": 761,
-  "regularSchedules": 504,
-  "withoutNormalizedRegularSchedule": 257,
-  "referenceSchedules": 503,
+  "regularSchedules": 573,
+  "withoutNormalizedRegularSchedule": 188,
+  "referenceSchedules": 568,
   "descriptions": 761,
   "descriptionSources": 760,
-  "eveningAt18": 59,
+  "officialWebsites": 508,
+  "eveningAt18": 61,
+  "sundayEveningAt17": 73,
   "remainingProblems": [
+    "Some objects have no distinct parish website",
     "Ordinary service weekdays are unspecified in some sources",
+    "Dated/image schedules are not converted into perpetual weekly rules",
     "Holiday exceptions require checking the parish source",
     "Some sources are inaccessible or have no published schedule"
   ]

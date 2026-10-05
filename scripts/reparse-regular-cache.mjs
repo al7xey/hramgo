@@ -9,6 +9,7 @@ const db = new pg.Client({
 });
 await db.connect();
 const apply = process.argv.includes("--apply");
+const directoryOnly = process.argv.includes("--relative-clauses");
 try {
   const temples = (
     await db.query("select * from public.temples where status='PUBLISHED'")
@@ -40,6 +41,11 @@ try {
   for (const r of checkpoint.records) {
     const t = temples.find((t) => t.id === r.id);
     if (!t) continue;
+    if (
+      directoryOnly &&
+      !/,\s*накануне(?=\s|$)/iu.test(t.details.scheduleSummary ?? "")
+    )
+      continue;
     let entries = parseRegularReference(t.details.scheduleSummary ?? "", {
       templeId: t.id,
       sourceUrl: t.source_primary_url ?? t.website_url,
@@ -54,6 +60,7 @@ try {
         1;
     for (const source of r.sources.filter(
       (s) =>
+        !directoryOnly &&
         s.content_hash &&
         s.http_status < 400 &&
         !s.url.includes("sprav.moseparh.ru") &&
@@ -137,7 +144,10 @@ try {
       await db.query("begin");
       try {
         await db.query(
-          "delete from public.temple_schedule_entries where extraction_method='regular-reference' and id like 'regular-%' and temple_id=any($1::text[])",
+          "delete from public.temple_schedule_entries where extraction_method='regular-reference' and id like 'regular-%' and temple_id=any($1::text[])" +
+            (directoryOnly
+              ? " and source_url like 'https://sprav.moseparh.ru/%'"
+              : ""),
           [batch.map((r) => r.id)]
         );
         if (entries.length) {
@@ -161,7 +171,9 @@ try {
     httpRequests: 0
   };
   await writeFile(
-    "data/regular-reparse-report.json",
+    directoryOnly
+      ? "data/regular-clause-report.json"
+      : "data/regular-reparse-report.json",
     JSON.stringify(report, null, 2) + "\n"
   );
   console.log(JSON.stringify(report));

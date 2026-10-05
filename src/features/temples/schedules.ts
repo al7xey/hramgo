@@ -14,9 +14,32 @@ export function regularServices(entries: ScheduleEntry[], weekday?: number) {
         Number(b.status === "VERIFIED") - Number(a.status === "VERIFIED") ||
         b.confidence - a.confidence
     );
+  // Parish rules override directory references only for the days and service
+  // kinds they actually cover. Retain unmatched weekdays and building scopes.
+  const preferred = candidates.flatMap((entry) => {
+    const stronger = candidates.filter(
+      (other) =>
+        other.kind === entry.kind &&
+        (other.scopeNote === entry.scopeNote ||
+          (/^Общее/i.test(other.scopeNote ?? "") &&
+            /^Общее/i.test(entry.scopeNote ?? ""))) &&
+        (Number(other.status === "VERIFIED") >
+          Number(entry.status === "VERIFIED") ||
+          (other.status === entry.status &&
+            other.confidence > entry.confidence)) &&
+        other.weekdays?.length
+    );
+    if (!stronger.length) return [entry];
+    if (!entry.weekdays?.length) return [];
+    const weekdays = entry.weekdays.filter(
+      (day) => !stronger.some((other) => other.weekdays?.includes(day))
+    );
+    return weekdays.length ? [{ ...entry, weekdays }] : [];
+  });
   return [
     ...new Map(
-      candidates
+      preferred
+        .filter((entry) => !weekday || entry.weekdays?.includes(weekday))
         .reverse()
         .map((entry) => [
           JSON.stringify([

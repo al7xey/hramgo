@@ -17,7 +17,8 @@
     "preview": "node scripts/serve-static.mjs",
     "backend:verify": "node scripts/verify-catalog-backend.mjs",
     "temples:update": "node --env-file-if-exists=.env.local scripts/temples-update.mjs",
-    "temples:regular": "node --env-file-if-exists=.env.local scripts/enrich-regular-catalog.mjs"
+    "temples:regular": "node --env-file-if-exists=.env.local scripts/enrich-regular-catalog.mjs",
+    "temples:parish": "node --env-file-if-exists=.env.local scripts/refresh-parish-schedules.mjs"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",
