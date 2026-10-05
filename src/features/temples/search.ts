@@ -1,5 +1,5 @@
 import type { TempleSearchInput, TempleView } from "./types";
-import { servicesForDate } from "./schedules";
+import { servicesForDate, regularServices } from "./schedules";
 import { hasWorshipFilter, matchingServices } from "./worship";
 const normalize = (value: string) =>
   value
@@ -87,7 +87,12 @@ export function searchTemples(
       (input.objectType === "church" && monastery)
     )
       return false;
-    const entries = servicesForDate(t.scheduleEntries ?? [], input.date, now);
+    const regular =
+      input.scheduleMode === "regular" ||
+      (!input.date && Boolean(input.liturgyTime || input.eveningTime));
+    const entries = regular
+      ? regularServices(t.scheduleEntries ?? [], input.weekday)
+      : servicesForDate(t.scheduleEntries ?? [], input.date, now);
     if (
       hasWorshipFilter(input) &&
       !matchingServices(t.scheduleEntries ?? [], input, now).length

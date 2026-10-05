@@ -1,4 +1,14 @@
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, writeFile, rename, unlink } from "node:fs/promises";
+async function writeAtomically(path, content) {
+  const temporary = `${path}.${process.pid}.tmp`;
+  await writeFile(temporary, content);
+  try {
+    await rename(temporary, path);
+  } catch (error) {
+    await unlink(temporary).catch(() => undefined);
+    throw error;
+  }
+}
 export const safeUrl = (value) => {
   try {
     const u = new URL(value);
@@ -129,7 +139,7 @@ export async function writeCatalog(temples) {
   temples.sort((a, b) => a.name.localeCompare(b.name, "ru"));
   await mkdir("data", { recursive: true });
   await mkdir("public/data", { recursive: true });
-  await writeFile("data/temples.json", JSON.stringify(temples) + "\n");
+  await writeAtomically("data/temples.json", JSON.stringify(temples) + "\n");
   const compact = temples.map((t) => ({
     id: t.id,
     slug: t.slug,
@@ -155,7 +165,7 @@ export async function writeCatalog(temples) {
     moderationStatus: t.moderationStatus,
     lastVerifiedAt: t.lastVerifiedAt
   }));
-  await writeFile("public/data/catalog.json", JSON.stringify(compact) + "\n");
+  await writeAtomically("public/data/catalog.json", JSON.stringify(compact) + "\n");
   const metros = [
     ...new Map(
       temples
@@ -172,7 +182,7 @@ export async function writeCatalog(temples) {
         ])
     ).values()
   ].sort((a, b) => a.name.localeCompare(b.name, "ru"));
-  await writeFile(
+  await writeAtomically(
     "public/data/filter-options.json",
     JSON.stringify({ metros }) + "\n"
   );

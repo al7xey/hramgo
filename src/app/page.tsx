@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CalendarCheck, HeartHandshake } from "lucide-react";
+import { CalendarCheck, Clock3, HeartHandshake, Sunrise } from "lucide-react";
 
 import { MobileShell } from "@/components/layout/mobile-shell";
 import { TempleSearchBar } from "@/components/temples/temple-search-bar";
@@ -54,6 +54,36 @@ export default async function HomePage() {
             </p>
             <div className="mt-5">
               <TempleSearchBar />
+            </div>
+            <div
+              className="mt-4 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap"
+              aria-label="Быстрый поиск богослужений"
+            >
+              {[
+                { title: "Вечерняя в 17:00", kind: "evening", time: "17:00" },
+                { title: "Вечерняя в 18:00", kind: "evening", time: "18:00" },
+                { title: "Литургия в 8:00", kind: "liturgy", time: "08:00" },
+                { title: "Литургия в 9:00", kind: "liturgy", time: "09:00" }
+              ].map((scenario) => (
+                <Button
+                  key={scenario.title}
+                  asChild
+                  size="sm"
+                  variant="outline"
+                  className="gap-1.5 px-2 text-xs sm:px-3"
+                >
+                  <Link
+                    href={`/temples/?scheduleMode=regular&worship=${scenario.kind}&timeFrom=${scenario.time}&timeTo=${scenario.time}`}
+                  >
+                    {scenario.kind === "evening" ? (
+                      <Clock3 className="size-4" aria-hidden />
+                    ) : (
+                      <Sunrise className="size-4" aria-hidden />
+                    )}
+                    {scenario.title}
+                  </Link>
+                </Button>
+              ))}
             </div>
           </LiquidGlassCard>
 

@@ -16,7 +16,8 @@
     "db:migrate": "node scripts/apply-migrations.mjs",
     "preview": "node scripts/serve-static.mjs",
     "backend:verify": "node scripts/verify-catalog-backend.mjs",
-    "temples:update": "node --env-file-if-exists=.env.local scripts/temples-update.mjs"
+    "temples:update": "node --env-file-if-exists=.env.local scripts/temples-update.mjs",
+    "temples:regular": "node --env-file-if-exists=.env.local scripts/enrich-regular-catalog.mjs"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",

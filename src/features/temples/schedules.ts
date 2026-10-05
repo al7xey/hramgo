@@ -1,4 +1,35 @@
 import type { ScheduleEntry } from "./types";
+export function regularServices(entries: ScheduleEntry[], weekday?: number) {
+  const candidates = entries
+    .filter(
+      (entry) =>
+        !entry.isSpecial &&
+        !entry.serviceDate &&
+        entry.status !== "REJECTED" &&
+        Boolean(entry.weekdays?.length || entry.recurrenceUnspecified) &&
+        (!weekday || entry.weekdays?.includes(weekday))
+    )
+    .sort(
+      (a, b) =>
+        Number(b.status === "VERIFIED") - Number(a.status === "VERIFIED") ||
+        b.confidence - a.confidence
+    );
+  return [
+    ...new Map(
+      candidates
+        .reverse()
+        .map((entry) => [
+          JSON.stringify([
+            entry.weekdays,
+            entry.startsAt,
+            entry.kind,
+            entry.scopeNote
+          ]),
+          entry
+        ])
+    ).values()
+  ].sort((a, b) => a.startsAt.localeCompare(b.startsAt));
+}
 export function moscowDate(now = new Date()) {
   return new Intl.DateTimeFormat("en-CA", {
     timeZone: "Europe/Moscow",

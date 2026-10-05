@@ -1,22 +1,56 @@
 import { TrainFront } from "lucide-react";
 
-import { formatTransitShort, getNearestTransitList } from "@/features/temples/transit";
-import type { TempleTransitView, TransitLineView } from "@/features/temples/types";
+import {
+  formatTransitShort,
+  getNearestTransitList
+} from "@/features/temples/transit";
+import type {
+  TempleTransitView,
+  TransitLineView
+} from "@/features/temples/types";
 
 export function TransitChip({ transit }: { transit: TempleTransitView }) {
+  const label = formatTransitShort(transit);
+
   return (
-    <span className="inline-flex min-h-8 max-w-full items-center gap-2 rounded-full border border-card-border bg-background/70 px-2.5 text-xs font-medium text-foreground">
+    <span
+      title={`${label}${label !== transit.station && !label.includes("на машине") ? " пешком" : ""}${label.includes("≈") ? " (расчётная оценка, без проверки маршрута)" : ""}`}
+      className="inline-flex min-h-8 max-w-full items-center gap-1.5 rounded-[18px] border border-card-border bg-background/70 px-2.5 py-1.5 text-xs font-medium leading-4 text-foreground"
+    >
       <LineDot line={transit.line} />
-      <span className="truncate">{formatTransitShort(transit)}</span>
+      <span>
+        {transit.station}
+        {label !== transit.station ? (
+          <>
+            {" "}
+            ·{" "}
+            <span className="whitespace-nowrap">
+              {label.slice(transit.station.length + 3)}
+            </span>
+          </>
+        ) : null}
+      </span>
     </span>
   );
 }
 
 export function LineDot({ line }: { line: TransitLineView }) {
-  return <span className="inline-flex size-3.5 shrink-0 rounded-full shadow-sm" style={{ backgroundColor: line.color }} title={line.name} />;
+  return (
+    <span
+      className="inline-flex size-3.5 shrink-0 rounded-full shadow-sm"
+      style={{ backgroundColor: line.color }}
+      title={line.name}
+    />
+  );
 }
 
-export function TransitSummary({ transit, limit = 1 }: { transit: TempleTransitView[]; limit?: number }) {
+export function TransitSummary({
+  transit,
+  limit = 3
+}: {
+  transit: TempleTransitView[];
+  limit?: number;
+}) {
   const nearest = getNearestTransitList(transit, limit);
 
   if (nearest.length === 0) {

@@ -25,32 +25,62 @@ const stringArray = (max = 120) =>
     },
     z.array(z.string().trim().min(1).max(max)).optional()
   );
-const booleanParam = z.preprocess((value) => value === true || value === "true" || value === "1", z.boolean());
+const booleanParam = z.preprocess(
+  (value) => value === true || value === "true" || value === "1",
+  z.boolean()
+);
 
 export const templeSearchSchema = z.object({
-  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine(v => !Number.isNaN(Date.parse(v)) && new Date(v).toISOString().slice(0,10) === v).optional().catch(undefined),
-  timeFrom: z.string().regex(/^(?:[01]\d|2[0-3]):[0-5]\d$/).optional().catch(undefined),
-  timeTo: z.string().regex(/^(?:[01]\d|2[0-3]):[0-5]\d$/).optional().catch(undefined),
-  worship: z.enum(['liturgy','evening','vigil','confession','prayer']).optional().catch(undefined),
+  scheduleMode: z.enum(["regular", "date"]).optional().catch(undefined),
+  weekday: z.coerce.number().int().min(1).max(7).optional().catch(undefined),
+  date: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/)
+    .refine(
+      (v) =>
+        !Number.isNaN(Date.parse(v)) &&
+        new Date(v).toISOString().slice(0, 10) === v
+    )
+    .optional()
+    .catch(undefined),
+  timeFrom: z
+    .string()
+    .regex(/^(?:[01]\d|2[0-3]):[0-5]\d$/)
+    .optional()
+    .catch(undefined),
+  timeTo: z
+    .string()
+    .regex(/^(?:[01]\d|2[0-3]):[0-5]\d$/)
+    .optional()
+    .catch(undefined),
+  worship: z
+    .enum(["liturgy", "evening", "vigil", "confession", "prayer"])
+    .optional()
+    .catch(undefined),
   query: z.string().trim().max(120).optional().catch(undefined),
   district: stringArray(80).catch(undefined),
   metro: stringArray(80).catch(undefined),
   metroLine: stringArray(10).catch(undefined),
   service: z
-    .preprocess(
-      (value) => {
-        if (Array.isArray(value)) {
-          return value.filter(Boolean);
-        }
+    .preprocess((value) => {
+      if (Array.isArray(value)) {
+        return value.filter(Boolean);
+      }
 
-        return value ? [value] : undefined;
-      },
-      z.array(serviceKindSchema).optional()
-    )
+      return value ? [value] : undefined;
+    }, z.array(serviceKindSchema).optional())
     .catch(undefined),
   objectType: z.enum(["all", "church", "monastery"]).optional().catch("all"),
-  liturgyTime: z.string().regex(/^\d{1,2}:?\d{0,2}$/u).optional().catch(undefined),
-  eveningTime: z.string().regex(/^\d{1,2}:?\d{0,2}$/u).optional().catch(undefined),
+  liturgyTime: z
+    .string()
+    .regex(/^\d{1,2}:?\d{0,2}$/u)
+    .optional()
+    .catch(undefined),
+  eveningTime: z
+    .string()
+    .regex(/^\d{1,2}:?\d{0,2}$/u)
+    .optional()
+    .catch(undefined),
   sundaySchool: booleanParam,
   hasSchedule: booleanParam,
   hasWebsite: booleanParam,

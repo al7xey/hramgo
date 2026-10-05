@@ -9,7 +9,13 @@ import { TransitSummary } from "@/components/temples/transit-chip";
 import type { TempleMapView } from "@/features/temples/types";
 import { routeToYandexMaps } from "@/lib/utils";
 
-export const TempleMapBottomSheet = memo(function TempleMapBottomSheet({ temple, onClose }: { temple: TempleMapView; onClose?: () => void }) {
+export const TempleMapBottomSheet = memo(function TempleMapBottomSheet({
+  temple,
+  onClose
+}: {
+  temple: TempleMapView;
+  onClose?: () => void;
+}) {
   const templeHref = `/temples/${temple.slug}?returnTo=${encodeURIComponent(`/map?temple=${temple.slug}`)}`;
   const displayAddress = formatMapAddress(temple.address);
 
@@ -26,14 +32,22 @@ export const TempleMapBottomSheet = memo(function TempleMapBottomSheet({ temple,
         </button>
       ) : null}
       <div className="grid grid-cols-[72px_1fr] gap-2.5 pr-8">
-        <TemplePhoto src={temple.photoUrl} alt={temple.name} className="aspect-square rounded-[16px]" />
+        <TemplePhoto
+          src={temple.photoUrl}
+          alt={temple.name}
+          className="aspect-square rounded-[16px]"
+        />
         <div className="min-w-0">
-          <h2 className="line-clamp-2 text-sm font-semibold leading-5">{temple.name}</h2>
-          <p className="mt-1 line-clamp-2 text-sm leading-5 text-muted-foreground">{displayAddress}</p>
+          <h2 className="line-clamp-2 text-sm font-semibold leading-5">
+            {temple.name}
+          </h2>
+          <p className="mt-1 line-clamp-2 text-sm leading-5 text-muted-foreground">
+            {displayAddress}
+          </p>
         </div>
       </div>
       <div className="mt-2">
-        <TransitSummary transit={temple.transit} limit={1} />
+        <TransitSummary transit={temple.transit} />
       </div>
       {temple.websiteUrl ? (
         <a
@@ -54,7 +68,15 @@ export const TempleMapBottomSheet = memo(function TempleMapBottomSheet({ temple,
           </Link>
         </Button>
         <Button asChild variant="outline" size="sm">
-          <a href={routeToYandexMaps(temple.address, temple.latitude, temple.longitude)} target="_blank" rel="noreferrer">
+          <a
+            href={routeToYandexMaps(
+              temple.address,
+              temple.latitude,
+              temple.longitude
+            )}
+            target="_blank"
+            rel="noreferrer"
+          >
             <Navigation className="size-4" aria-hidden />
             Маршрут
           </a>
