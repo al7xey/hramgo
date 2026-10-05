@@ -4,23 +4,32 @@ import { MapPinned } from "lucide-react";
 import { TemplePhoto } from "@/components/temples/temple-photo";
 import { TransitSummary } from "@/components/temples/transit-chip";
 import { LiquidGlassCard } from "@/components/ui/liquid-glass-card";
+import { formatServiceDays, nextService } from "@/features/temples/worship";
 import type { TempleCardView, ScheduleEntry } from "@/features/temples/types";
 
 export function TempleCard({
   temple,
-  service
+  service: selectedService,
+  returnTo
 }: {
   temple: TempleCardView;
   service?: ScheduleEntry;
+  returnTo?: string;
 }) {
   const photo = temple.photos[0];
-  const detailsHref = `/temples/${temple.slug}/`;
+  const next = !selectedService
+    ? nextService(temple.scheduleEntries ?? [])
+    : undefined;
+  const service =
+    selectedService ??
+    (next ? { ...next.entry, serviceDate: next.date } : undefined);
+  const detailsHref = `/temples/${temple.slug}/${returnTo ? `?returnTo=${encodeURIComponent(returnTo)}` : ""}`;
 
   return (
     <LiquidGlassCard className="relative h-[320px] overflow-hidden sm:h-[296px]">
       <Link
         href={detailsHref}
-        className="block h-full rounded-glass focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+        className="block h-full rounded-glass focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action"
         aria-label={`Открыть храм: ${temple.name}`}
       >
         <div className="grid h-full grid-cols-[minmax(0,38%)_minmax(0,1fr)] gap-3 p-3 sm:grid-cols-[148px_minmax(0,1fr)]">
@@ -37,7 +46,8 @@ export function TempleCard({
               </div>
             )}
             {service && (
-              <div className="absolute inset-x-0 bottom-0 bg-primary px-2.5 py-2 text-xs leading-4 text-white">
+              <div className="absolute inset-x-0 bottom-0 bg-action px-2.5 py-2 text-xs leading-4 text-white">
+                <p>{formatServiceDays(service)}</p>
                 <p className="font-semibold">{service.startsAt.slice(0, 5)}</p>
                 <p className="line-clamp-2">{service.title}</p>
                 {service.status === "REVIEW" && (

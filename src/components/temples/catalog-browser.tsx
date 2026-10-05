@@ -3,7 +3,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { MapPinned } from "lucide-react";
 import { TempleSearchBar } from "./temple-search-bar";
-import { TempleFilters } from "./temple-filters";
+import { WorshipFilters } from "./worship-filters";
+import { NearbyButton } from "./nearby-button";
+import Link from "next/link";
 import { TempleCard } from "./temple-card";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -13,7 +15,6 @@ import { searchTemples } from "@/features/temples/search";
 import { matchingServices, hasWorshipFilter } from "@/features/temples/worship";
 import { templeSearchSchema } from "@/features/temples/validation";
 import { filterableParishServiceKinds } from "@/features/temples/parish-services";
-import { metroLines } from "@/features/temples/metro";
 import type { TempleView } from "@/features/temples/types";
 export function CatalogBrowser() {
   const params = useSearchParams(),
@@ -86,9 +87,16 @@ export function CatalogBrowser() {
             расписанию и приходской деятельности.
           </p>
         </div>
-        <TempleSearchBar key={key} defaultValue={input.query} autoFocus />
-        <TempleFilters
+        <TempleSearchBar
+          key={key}
+          defaultValue={input.query}
+          parameters={key}
+        />
+        <NearbyButton />
+        <WorshipFilters
           key={"filters:" + key}
+          input={input}
+          serviceKinds={filterableParishServiceKinds}
           districts={[
             ...new Set(
               temples
@@ -96,37 +104,31 @@ export function CatalogBrowser() {
                 .filter((v): v is string => Boolean(v))
             )
           ].sort()}
-          metros={[]}
-          metroLines={metroLines}
-          serviceKinds={filterableParishServiceKinds}
-          defaultValues={{
-            query: input.query,
-            scheduleMode: input.scheduleMode,
-            weekday: input.weekday,
-            districts: input.district ?? [],
-            metros: input.metro ?? [],
-            metroLines: input.metroLine ?? [],
-            services: input.service ?? [],
-            objectType: input.objectType,
-            liturgyTime: input.liturgyTime ?? (input.worship === "liturgy" && input.timeFrom === input.timeTo && input.timeFrom ? `${Number(input.timeFrom.slice(0,2))}:${input.timeFrom.slice(3)}` : undefined),
-            eveningTime: input.eveningTime ?? (input.worship === "evening" && input.timeFrom === input.timeTo && input.timeFrom ? `${Number(input.timeFrom.slice(0,2))}:${input.timeFrom.slice(3)}` : undefined),
-            sundaySchool: String(input.sundaySchool),
-            hasSchedule: String(input.hasSchedule),
-            hasWebsite: String(input.hasWebsite),
-            hasPhotos: String(input.hasPhotos),
-            childFriendly: String(input.childFriendly),
-            hasParking: String(input.hasParking)
-          }}
         />
       </aside>
       <section
         className="grid content-start gap-4 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto lg:pr-2"
         aria-label="Результаты поиска"
       >
-        {(input.scheduleMode === "regular" || input.liturgyTime || input.eveningTime) && <div className="rounded-[22px] border border-card-border bg-primary-soft p-4 text-sm">
-          <p className="font-semibold">Обычное расписание богослужений</p>
-          <p className="mt-1 text-muted-foreground">{input.worship === "evening" || input.eveningTime ? "Вечерняя служба" : input.worship === "liturgy" || input.liturgyTime ? "Литургия" : "Недельное расписание"}{input.timeFrom || input.eveningTime || input.liturgyTime ? ` · ${input.timeFrom ?? input.eveningTime ?? input.liturgyTime}` : ""}. Справочные сведения отмечены в карточках храмов. В праздники расписание может меняться.</p>
-        </div>}
+        {(input.scheduleMode === "regular" ||
+          input.liturgyTime ||
+          input.eveningTime) && (
+          <div className="rounded-[22px] border border-card-border bg-primary-soft p-4 text-sm">
+            <p className="font-semibold">Обычное расписание богослужений</p>
+            <p className="mt-1 text-muted-foreground">
+              {input.worship === "evening" || input.eveningTime
+                ? "Вечерняя служба"
+                : input.worship === "liturgy" || input.liturgyTime
+                  ? "Литургия"
+                  : "Недельное расписание"}
+              {input.timeFrom || input.eveningTime || input.liturgyTime
+                ? ` · ${input.timeFrom ?? input.eveningTime ?? input.liturgyTime}`
+                : ""}
+              . Справочные сведения отмечены в карточках храмов. В праздники
+              расписание может меняться.
+            </p>
+          </div>
+        )}
         {loading ? (
           <LoadingState label="Загрузка храмов" />
         ) : error ? (
@@ -139,11 +141,23 @@ export function CatalogBrowser() {
             <Button onClick={() => setRetry((v) => v + 1)}>Повторить</Button>
           </>
         ) : !results.length ? (
-          <EmptyState
-            icon={MapPinned}
-            title="Храмы не найдены"
-            description="Попробуйте убрать часть фильтров или изменить запрос."
-          />
+          <div className="grid gap-3">
+            <EmptyState
+              icon={MapPinned}
+              title="Храмы не найдены"
+              description="Попробуйте снять фильтры или изменить запрос. Отсутствие подтверждённых данных не означает, что богослужений нет."
+            />
+            <Button asChild variant="outline">
+              <Link
+                href={`/temples/?${new URLSearchParams(input.query ? { query: input.query } : {})}`}
+              >
+                Снять фильтры
+              </Link>
+            </Button>
+            <Button asChild variant="outline">
+              <Link href="/temples/">Все храмы</Link>
+            </Button>
+          </div>
         ) : (
           <>
             <p className="text-sm text-muted-foreground" aria-live="polite">
@@ -151,7 +165,16 @@ export function CatalogBrowser() {
             </p>
             <div className="grid gap-3">
               {results.slice(0, limit).map((temple) => (
-                <TempleCard key={temple.id} temple={temple} service={hasWorshipFilter(input) ? matchingServices(temple.scheduleEntries ?? [], input)[0] : undefined} />
+                <TempleCard
+                  key={temple.id}
+                  temple={temple}
+                  returnTo={`/temples/?${key}`}
+                  service={
+                    hasWorshipFilter(input)
+                      ? matchingServices(temple.scheduleEntries ?? [], input)[0]
+                      : undefined
+                  }
+                />
               ))}
             </div>
             {results.length > limit && (

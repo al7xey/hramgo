@@ -8,6 +8,7 @@ import { LiquidGlassCard } from "@/components/ui/liquid-glass-card";
 import type { TempleMapView } from "@/features/temples/types";
 
 type YMap = {
+  destroy: () => void;
   geoObjects: { add: (object: YObjectManager) => void };
   events: { add: (eventName: string, handler: () => void) => void };
   setBounds: (bounds: unknown, options: Record<string, unknown>) => void;
@@ -76,6 +77,8 @@ export const TempleMap = memo(function TempleMap({
   );
   const [selectedSlug, setSelectedSlug] = useState(activeSlug);
   const [mapReady, setMapReady] = useState(false);
+  const [mapError, setMapError] = useState(false);
+  const [attempt, setAttempt] = useState(0);
   const mapNodeRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<YMap | null>(null);
   const objectManagerRef = useRef<YObjectManager | null>(null);
@@ -97,6 +100,8 @@ export const TempleMap = memo(function TempleMap({
 
   useEffect(() => {
     let cancelled = false;
+    setMapError(false);
+    setMapReady(false);
 
     loadYmaps()
       .then((ymaps) => {
@@ -143,12 +148,23 @@ export const TempleMap = memo(function TempleMap({
         });
         setMapReady(true);
       })
-      .catch(() => setMapReady(false));
+      .catch(() => {
+        if (!cancelled) {
+          setMapReady(false);
+          setMapError(true);
+        }
+      });
 
     return () => {
       cancelled = true;
+      mapRef.current?.destroy();
+      mapRef.current = null;
+      objectManagerRef.current = null;
+      fittedPointsKeyRef.current = null;
     };
-  }, [activeTemple?.latitude, activeTemple?.longitude, points.length]);
+    // The SDK instance persists while selection/points change; effects below update it.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [attempt]);
 
   useEffect(() => {
     if (!mapReady || !objectManagerRef.current) {
@@ -205,14 +221,43 @@ export const TempleMap = memo(function TempleMap({
   }, [activeTemple?.latitude, activeTemple?.longitude, mapReady]);
 
   return (
-    <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
-      {sidebarTop ? <div className="lg:hidden">{sidebarTop}</div> : null}
+    <div
+      className={`grid gap-4 ${sidebarTop ? "xl:grid-cols-[minmax(0,1fr)_360px]" : ""} xl:items-start`}
+    >
+      {sidebarTop ? <div className="xl:hidden">{sidebarTop}</div> : null}
 
       <LiquidGlassCard className="relative overflow-hidden p-2">
         <div
           ref={mapNodeRef}
-          className="aspect-square w-full overflow-hidden rounded-[24px] bg-muted lg:aspect-auto lg:h-[640px]"
+          role="region"
+          aria-label="Карта храмов Москвы"
+          className="aspect-square w-full overflow-hidden rounded-[24px] bg-muted xl:aspect-auto xl:h-[640px]"
         />
+        {!mapReady && (
+          <div
+            className="absolute inset-2 grid place-content-center gap-3 rounded-[24px] bg-background/95 p-5 text-center"
+            role={mapError ? "alert" : "status"}
+          >
+            <p>
+              {mapError
+                ? "Карта не загрузилась. Храмы можно выбрать в списке."
+                : "Загрузка карты…"}
+            </p>
+            {mapError && (
+              <>
+                <button
+                  className="min-h-11 rounded-[18px] bg-action px-4 text-white"
+                  onClick={() => setAttempt((v) => v + 1)}
+                >
+                  Повторить
+                </button>
+                <a className="underline" href="/temples/">
+                  Смотреть списком
+                </a>
+              </>
+            )}
+          </div>
+        )}
         {showPreview && activeTemple ? (
           <div className="absolute inset-x-3 bottom-3 z-10 max-w-[340px] lg:left-4 lg:right-auto">
             <TempleMapBottomSheet
@@ -223,9 +268,11 @@ export const TempleMap = memo(function TempleMap({
         ) : null}
       </LiquidGlassCard>
 
-      <div className="hidden gap-4 self-start lg:sticky lg:top-24 lg:grid">
-        {sidebarTop}
-      </div>
+      {sidebarTop && (
+        <div className="hidden gap-4 self-start xl:sticky xl:top-24 xl:grid">
+          {sidebarTop}
+        </div>
+      )}
     </div>
   );
 });
@@ -242,15 +289,31 @@ function loadYmaps() {
       const script = document.createElement("script");
       script.src = "https://api-maps.yandex.ru/2.1/?lang=ru_RU";
       script.async = true;
+      const timeout = setTimeout(() => {
+        window.__hramgoYmapsPromise = undefined;
+        script.remove();
+        reject(new Error("MAP_TIMEOUT"));
+      }, 12000);
       script.onload = () => {
         if (!window.ymaps) {
+          clearTimeout(timeout);
+          window.__hramgoYmapsPromise = undefined;
+          script.remove();
           reject(new Error("Yandex Maps API is unavailable"));
           return;
         }
 
-        window.ymaps.ready(() => resolve(window.ymaps!));
+        window.ymaps.ready(() => {
+          clearTimeout(timeout);
+          resolve(window.ymaps!);
+        });
       };
-      script.onerror = reject;
+      script.onerror = () => {
+        clearTimeout(timeout);
+        window.__hramgoYmapsPromise = undefined;
+        script.remove();
+        reject(new Error("MAP_LOAD_FAILED"));
+      };
       document.head.appendChild(script);
     });
   }

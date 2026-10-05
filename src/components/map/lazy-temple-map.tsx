@@ -11,13 +11,7 @@ const TempleMapDynamic = dynamic(
     import("@/components/map/temple-map").then((module) => module.TempleMap),
   {
     ssr: false,
-    loading: () => (
-      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
-        <LiquidGlassCard className="overflow-hidden p-2">
-          <div className="aspect-square w-full animate-pulse overflow-hidden rounded-[24px] bg-muted lg:aspect-auto lg:h-[640px]" />
-        </LiquidGlassCard>
-      </div>
-    )
+    loading: () => <MapPlaceholder />
   }
 );
 
@@ -57,10 +51,24 @@ export function LazyTempleMap({
           showPreview={showPreview}
         />
       ) : (
-        <LiquidGlassCard className="overflow-hidden p-2">
-          <div className="aspect-square w-full animate-pulse rounded-[24px] bg-muted lg:aspect-auto lg:h-[640px]" />
-        </LiquidGlassCard>
+        <MapPlaceholder sidebarTop={sidebarTop} />
       )}
+    </div>
+  );
+}
+
+function MapPlaceholder({ sidebarTop }: { sidebarTop?: ReactNode }) {
+  return (
+    <div
+      className={`grid gap-4 ${sidebarTop ? "xl:grid-cols-[minmax(0,1fr)_360px]" : ""} xl:items-start`}
+      role="status"
+      aria-label="Загрузка карты"
+    >
+      {sidebarTop && <div className="xl:hidden">{sidebarTop}</div>}
+      <LiquidGlassCard className="overflow-hidden p-2">
+        <div className="aspect-square w-full animate-pulse rounded-[24px] bg-muted xl:aspect-auto xl:h-[640px]" />
+      </LiquidGlassCard>
+      {sidebarTop && <div className="hidden xl:block">{sidebarTop}</div>}
     </div>
   );
 }

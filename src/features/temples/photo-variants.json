@@ -1,0 +1,58 @@
+{
+  "https://ncoukvyfahsamqqegqou.supabase.co/storage/v1/object/public/temple-photos/cmqmxx2oc003hmr6qhrjdk4b9/ad49907c9c301d0823a5b97e.webp": [
+    {
+      "url": "/photos/ad49907c9c301d0823a5b97e-400.webp",
+      "width": 284,
+      "height": 400,
+      "bytes": 14866
+    },
+    {
+      "url": "/photos/ad49907c9c301d0823a5b97e-960.webp",
+      "width": 681,
+      "height": 960,
+      "bytes": 64374
+    }
+  ],
+  "https://ncoukvyfahsamqqegqou.supabase.co/storage/v1/object/public/temple-photos/cmqmxx6fb0041mr6qxmang4th/f247553ab5a46123f9330a01.webp": [
+    {
+      "url": "/photos/f247553ab5a46123f9330a01-400.webp",
+      "width": 375,
+      "height": 400,
+      "bytes": 19834
+    },
+    {
+      "url": "/photos/f247553ab5a46123f9330a01-960.webp",
+      "width": 900,
+      "height": 960,
+      "bytes": 84244
+    }
+  ],
+  "https://ncoukvyfahsamqqegqou.supabase.co/storage/v1/object/public/temple-photos/cmqmxw85a0000mr6q5ykjzcj7/355265b868d38200d0c527e6.webp": [
+    {
+      "url": "/photos/355265b868d38200d0c527e6-400.webp",
+      "width": 400,
+      "height": 365,
+      "bytes": 15984
+    },
+    {
+      "url": "/photos/355265b868d38200d0c527e6-960.webp",
+      "width": 960,
+      "height": 877,
+      "bytes": 71724
+    }
+  ],
+  "https://ncoukvyfahsamqqegqou.supabase.co/storage/v1/object/public/temple-photos/cmqh1u0ri06iemrh8ydvis4zn/65044148bbb7181bf9ef0223.webp": [
+    {
+      "url": "/photos/65044148bbb7181bf9ef0223-400.webp",
+      "width": 400,
+      "height": 400,
+      "bytes": 28154
+    },
+    {
+      "url": "/photos/65044148bbb7181bf9ef0223-960.webp",
+      "width": 960,
+      "height": 960,
+      "bytes": 126194
+    }
+  ]
+}

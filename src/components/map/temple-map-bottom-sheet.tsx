@@ -16,7 +16,11 @@ export const TempleMapBottomSheet = memo(function TempleMapBottomSheet({
   temple: TempleMapView;
   onClose?: () => void;
 }) {
-  const templeHref = `/temples/${temple.slug}?returnTo=${encodeURIComponent(`/map?temple=${temple.slug}`)}`;
+  const returnParams = new URLSearchParams(
+    typeof window !== "undefined" ? window.location.search : ""
+  );
+  returnParams.set("temple", temple.slug);
+  const templeHref = `/temples/${temple.slug}/?returnTo=${encodeURIComponent(`/map/?${returnParams}`)}`;
   const displayAddress = formatMapAddress(temple.address);
 
   return (

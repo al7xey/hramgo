@@ -97,6 +97,20 @@ test("several liturgy times preserve their own weekdays", () => {
     ]
   );
 });
+test("holiday liturgy on a weekday is not a weekday recurrence", () => {
+  const entries = parseRegularReference(
+    "8:00 (по будням, в Преображенской церкви) / 9:00 (в праздники, выпадающие на будни) / 10:00 (в воскресенья и праздники) — Литургия",
+    opts
+  );
+  assert.deepEqual(
+    entries.map((e) => [e.starts_at, e.weekdays]),
+    [
+      ["08:00", [1, 2, 3, 4, 5]],
+      ["10:00", [7]]
+    ]
+  );
+  assert.equal(entries[0].scope_note, "Преображенской церкви");
+});
 test("shared weekdays cover both services but seasonal exceptions remain separate", () => {
   const entries = parseRegularReference(
     "7:00 и 9:00 (по воскресеньям) — Литургия",

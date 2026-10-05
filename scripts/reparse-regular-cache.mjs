@@ -9,7 +9,9 @@ const db = new pg.Client({
 });
 await db.connect();
 const apply = process.argv.includes("--apply");
-const directoryOnly = process.argv.includes("--relative-clauses");
+const holidayConditions = process.argv.includes("--holiday-conditions");
+const directoryOnly =
+  process.argv.includes("--relative-clauses") || holidayConditions;
 try {
   const temples = (
     await db.query("select * from public.temples where status='PUBLISHED'")
@@ -43,7 +45,11 @@ try {
     if (!t) continue;
     if (
       directoryOnly &&
-      !/,\s*накануне(?=\s|$)/iu.test(t.details.scheduleSummary ?? "")
+      !(
+        holidayConditions
+          ? /\(\s*(?:в\s+)?(?:празд|двунадесят)/iu
+          : /,\s*накануне(?=\s|$)/iu
+      ).test(t.details.scheduleSummary ?? "")
     )
       continue;
     let entries = parseRegularReference(t.details.scheduleSummary ?? "", {
@@ -171,9 +177,11 @@ try {
     httpRequests: 0
   };
   await writeFile(
-    directoryOnly
-      ? "data/regular-clause-report.json"
-      : "data/regular-reparse-report.json",
+    process.argv.includes("--holiday-conditions")
+      ? "data/regular-holiday-report.json"
+      : directoryOnly
+        ? "data/regular-clause-report.json"
+        : "data/regular-reparse-report.json",
     JSON.stringify(report, null, 2) + "\n"
   );
   console.log(JSON.stringify(report));

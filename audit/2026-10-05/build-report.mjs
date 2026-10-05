@@ -1,0 +1,14 @@
+import {readFile,writeFile} from 'node:fs/promises';
+import {findings} from './findings.mjs';
+const escape=s=>String(s).replace(/\|/g,'/').replace(/\n/g,' ');
+let md=await readFile('audit/2026-10-05/report-base.md','utf8');
+const table=['| ID | Экран | Проблема | Mobile/Desktop | Severity | Что исправить | Статус |','|---|---|---|---|---|---|---|',...findings.map(f=>`| ${f.id} | ${escape(f.where)} | ${escape(f.title)} | ${/desktop|≥1024|≥768/.test(f.where)?'Указано в экране':'Обе версии'} | ${f.severity} | ${escape(f.recommendation)} | ${escape(f.status)} |`)].join('\n');
+const backlog=['P0','P1','P2','P3'].map(p=>`### ${p} — ${ {P0:'сделать немедленно',P1:'следующий этап',P2:'улучшения',P3:'polish'}[p]}\n\n| ID / Проблема | Предлагаемое решение | Ожидаемый эффект | Сложность |\n|---|---|---|---|\n`+findings.filter(f=>f.severity===p).map(f=>`| ${f.id} — ${escape(f.title)} | ${escape(f.implementation)} | ${escape(f.effect)} | ${f.size} |`).join('\n')).join('\n\n');
+const details=findings.map(f=>`### ${f.id} — ${f.title}\n\n**Где:** ${f.where}.\n\n**Проблема:** ${f.problem}\n\n**Почему это плохо:** ${f.impact}\n\n**Пример сценария:** ${f.scenario}\n\n**Severity:** ${f.severity} · **Сложность:** ${f.size} · **Статус:** ${f.status}.\n\n**Рекомендация:** ${f.recommendation}\n\n**Конкретная реализация:** ${f.implementation}\n\n**Ожидаемый эффект:** ${f.effect}\n\n**Доказательство:** ${f.evidence}.\n`).join('\n');
+md=md.replace('<!-- FINDINGS_TABLE -->',table).replace('<!-- BACKLOG_TABLES -->',backlog).replace('<!-- FINDINGS_DETAILS -->',details);
+await writeFile('audit/2026-10-05/HRAMGO-UI-UX-AUDIT.md',md);
+const fields=['id','title','where','severity','status','problem','impact','scenario','recommendation','implementation','effect','size','evidence'];
+const csv='\uFEFF'+[fields,...findings.map(f=>fields.map(k=>f[k]))].map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\r\n');
+await writeFile('audit/2026-10-05/backlog.csv',csv);
+await writeFile('audit/2026-10-05/backlog.json',JSON.stringify(findings,null,2));
+console.log(JSON.stringify({findings:findings.length,priorities:Object.fromEntries(['P0','P1','P2','P3'].map(p=>[p,findings.filter(f=>f.severity===p).length])),bytes:Buffer.byteLength(md)}));

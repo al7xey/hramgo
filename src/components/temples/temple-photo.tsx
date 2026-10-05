@@ -4,6 +4,7 @@ import { Church } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
 import { cn } from "@/lib/utils";
+import variants from "@/features/temples/photo-variants.json";
 
 export function TemplePhoto({
   src,
@@ -18,7 +19,10 @@ export function TemplePhoto({
   imageClassName?: string;
   priority?: boolean;
 }) {
-  const preferredSrc = useMemo(() => getHigherQualityImageUrl(src), [src]);
+  const preferredSrc = useMemo(
+    () => getHigherQualityImageUrl(src, priority),
+    [src, priority]
+  );
   const [currentSrc, setCurrentSrc] = useState(preferredSrc);
   const [failed, setFailed] = useState(false);
 
@@ -34,7 +38,7 @@ export function TemplePhoto({
           src={currentSrc}
           alt={alt}
           loading={priority ? "eager" : "lazy"}
-          fetchPriority={priority?'high':'auto'}
+          fetchPriority={priority ? "high" : "auto"}
           decoding="async"
           className={cn("h-full w-full object-cover", imageClassName)}
           onError={() => {
@@ -55,17 +59,26 @@ export function TemplePhoto({
           <span className="flex size-12 items-center justify-center rounded-full bg-background text-primary shadow-sm">
             <Church className="size-6" aria-hidden />
           </span>
-          <span className="text-sm font-medium text-foreground">Фото храма</span>
+          <span className="text-sm font-medium text-foreground">
+            {failed ? "Фото не загрузилось" : "Фото пока не добавлено"}
+          </span>
         </div>
       )}
     </div>
   );
 }
 
-function getHigherQualityImageUrl(src?: string | null) {
+function getHigherQualityImageUrl(src?: string | null, priority = false) {
   if (!src) {
     return null;
   }
 
-  return src.replace(/\/thumb_/u, "/").replace(/(^|\/)thumb_/u, "$1");
+  const own = (variants as Record<string, { url: string }[]>)[src];
+  if (own?.length) return own[priority ? own.length - 1 : 0].url;
+  if (
+    src.startsWith("https://sprav.moseparh.ru/uploads/") &&
+    !src.includes("/thumb_")
+  )
+    return src.replace(/\/([^/]+)$/, "/thumb_$1");
+  return src;
 }

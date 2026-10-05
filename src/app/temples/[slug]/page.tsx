@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import type { ReactNode } from "react";
 import {
   BookOpenText,
   ChevronDown,
   ExternalLink,
   History,
-  Map,
   ShieldCheck,
+  Navigation,
   UsersRound
 } from "lucide-react";
 import { notFound } from "next/navigation";
@@ -25,7 +24,8 @@ import type {
   TempleParishServiceView,
   TempleView
 } from "@/features/temples/types";
-import { formatDate } from "@/lib/utils";
+import { formatDate, routeToYandexMaps } from "@/lib/utils";
+import { NextServiceSummary } from "@/components/temples/next-service-summary";
 
 export const dynamicParams = false;
 export async function generateStaticParams() {
@@ -123,7 +123,6 @@ export default async function TemplePage({
     notFound();
   }
 
-  const mapHref = `/map/?temple=${temple.slug}`;
   const templeDescription = getTempleDescription(temple);
   const structuredData = getTempleStructuredData(temple);
   const displayAddress = formatTempleAddress(temple.address);
@@ -139,9 +138,11 @@ export default async function TemplePage({
       <section className="grid gap-5">
         <BackToSearchButton />
         <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1.08fr)_minmax(360px,0.92fr)]">
-          <TempleGallery photos={temple.photos} name={temple.name} />
+          <div className="order-2 lg:order-1">
+            <TempleGallery photos={temple.photos} name={temple.name} />
+          </div>
 
-          <LiquidGlassCard className="grid content-start gap-4 p-5">
+          <LiquidGlassCard className="order-1 grid content-start gap-4 p-5 lg:order-2">
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
                 <h1 className="break-words text-2xl font-semibold leading-tight md:text-3xl">
@@ -154,6 +155,7 @@ export default async function TemplePage({
             </div>
 
             <TransitSummary transit={temple.transit} limit={3} />
+            <NextServiceSummary entries={temple.scheduleEntries ?? []} />
             {templeDescription && (
               <p className="text-sm leading-7 text-muted-foreground">
                 {templeDescription}
@@ -164,17 +166,25 @@ export default async function TemplePage({
                 href={temple.descriptionSourceUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="text-xs text-primary"
+                className="text-xs text-action underline"
               >
                 Источник сведений о храме
               </a>
             )}
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               <Button asChild>
-                <Link href={mapHref}>
-                  <Map className="size-5" aria-hidden />
-                  Карта
-                </Link>
+                <a
+                  href={routeToYandexMaps(
+                    temple.address,
+                    temple.latitude,
+                    temple.longitude
+                  )}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Navigation className="size-5" aria-hidden />
+                  Построить маршрут
+                </a>
               </Button>
               {temple.websiteUrl && (
                 <Button asChild variant="outline">
@@ -191,6 +201,7 @@ export default async function TemplePage({
         <div className="grid gap-3">
           <DetailsCard
             title="Расписание"
+            defaultOpen
             icon={<BookOpenText className="size-5" aria-hidden />}
           >
             <TempleSchedule temple={temple} />
@@ -253,8 +264,8 @@ export default async function TemplePage({
             icon={<ExternalLink className="size-5" aria-hidden />}
           >
             <div className="grid gap-2 sm:grid-cols-2">
-              <MetaLine label="Телефон" value={temple.phone} />
-              <MetaLine label="Email" value={temple.email} />
+              <MetaLine label="Телефон" value={temple.phone} contact="phone" />
+              <MetaLine label="Email" value={temple.email} contact="email" />
             </div>
             {temple.socialLinks.length > 0 && (
               <div className="mt-3 flex flex-wrap gap-2">
@@ -322,10 +333,10 @@ function DetailsCard({
       open={defaultOpen}
     >
       <summary className="flex cursor-pointer items-center justify-between gap-3">
-        <span className="flex items-center gap-3 text-lg font-semibold">
+        <h2 className="flex items-center gap-3 text-lg font-semibold">
           <span className="text-primary">{icon}</span>
           {title}
-        </span>
+        </h2>
         <ChevronDown className="size-5 text-muted-foreground" aria-hidden />
       </summary>
       <div className="mt-4 grid gap-4">{children}</div>
@@ -342,13 +353,39 @@ function InfoBlock({ title, text }: { title: string; text: string }) {
   );
 }
 
-function MetaLine({ label, value }: { label: string; value?: string | null }) {
+function MetaLine({
+  label,
+  value,
+  contact
+}: {
+  label: string;
+  value?: string | null;
+  contact?: "phone" | "email";
+}) {
   return (
     <div className="rounded-[20px] bg-muted p-4">
       <p className="text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground">
         {label}
       </p>
-      <p className="mt-1 text-sm font-medium">{value ?? "не указано"}</p>
+      {value && contact ? (
+        <div className="mt-1 grid gap-1 text-sm font-medium">
+          {value.split(/[,;]/).map((item, i) => (
+            <a
+              key={i}
+              className="inline-flex min-h-11 items-center break-all text-action underline"
+              href={
+                contact === "phone"
+                  ? `tel:${item.replace(/[^+\d]/g, "")}`
+                  : `mailto:${item.trim()}`
+              }
+            >
+              {item.trim()}
+            </a>
+          ))}
+        </div>
+      ) : (
+        <p className="mt-1 text-sm font-medium">{value ?? "не указано"}</p>
+      )}
     </div>
   );
 }
@@ -427,7 +464,7 @@ function ParishServicesOverview({ temple }: { temple: TempleView }) {
                   href={sourceUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="mt-3 inline-flex text-sm font-medium text-primary"
+                  className="mt-3 inline-flex text-sm font-medium text-action underline"
                 >
                   Источник
                 </a>

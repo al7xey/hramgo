@@ -136,6 +136,13 @@ export function parseRegularReference(
       }
       if (parentheses && /летом|зимой|только|если|кроме/i.test(parentheses))
         continue;
+      // “в праздники, выпадающие на будни” is a holiday condition, not
+      // a Monday–Friday recurrence. Preserve ordinary clauses independently.
+      if (
+        parentheses &&
+        /^\(\s*(?:в\s+)?(?:празд|двунадесят)/iu.test(parentheses)
+      )
+        continue;
       const prefix =
         block
           .slice(
@@ -179,7 +186,10 @@ export function parseRegularReference(
         confidence,
         status: "REVIEW",
         extraction_method: "regular-reference",
-        scope_note: null
+        scope_note:
+          parentheses?.match(
+            /(?:^|[\s,(])(?:в|во)\s+([^,;)]+(?:храме|церкви|соборе))/iu
+          )?.[1] ?? null
       });
     }
   }

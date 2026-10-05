@@ -12,6 +12,7 @@ const config: Config = {
         card: "var(--card)",
         "card-border": "var(--card-border)",
         primary: "var(--primary)",
+        action: "var(--action)",
         "primary-soft": "var(--primary-soft)",
         muted: "var(--muted)",
         "muted-foreground": "var(--muted-foreground)",

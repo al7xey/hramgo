@@ -24,6 +24,7 @@ pnpm-debug.log*
 .next-build-debug.log
 tmp/
 .cache/
+audit/**/evidence/
 
 # env
 .env

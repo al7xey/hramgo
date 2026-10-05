@@ -8,6 +8,8 @@ import { LazyTempleMap } from "./lazy-temple-map";
 import { TempleSearchBar } from "@/components/temples/temple-search-bar";
 import { Button } from "@/components/ui/button";
 import { templeSearchSchema } from "@/features/temples/validation";
+import Link from "next/link";
+import { routeToYandexMaps } from "@/lib/utils";
 export function MapBrowser() {
   const params = useSearchParams();
   const [items, setItems] = useState<TempleView[]>([]),
@@ -49,12 +51,13 @@ export function MapBrowser() {
     [params]
   );
   const query = input.query ?? "";
+  const results = useMemo(() => searchTemples(items, input), [items, input]);
   const temples = useMemo(
     () =>
-      searchTemples(items, input)
+      results
         .filter((t) => t.latitude != null && t.longitude != null)
         .map((t) => ({ ...t, photoUrl: t.photos[0]?.imageUrl })),
-    [items, input]
+    [results]
   );
   return (
     <div className="grid gap-5">
@@ -63,7 +66,16 @@ export function MapBrowser() {
           Карта храмов Москвы
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          {loading ? "Загрузка…" : `Показано храмов: ${temples.length}`}
+          {loading
+            ? "Загрузка…"
+            : `На карте: ${temples.length} из ${results.length}`}
+          {!loading && results.length > temples.length && (
+            <>
+              {" "}
+              · У {results.length - temples.length} храмов координаты
+              уточняются; они доступны в списке.
+            </>
+          )}
         </p>
       </div>
       {error ? (
@@ -78,11 +90,63 @@ export function MapBrowser() {
           temples={temples}
           activeSlug={params.get("temple") ?? undefined}
           sidebarTop={
-            <TempleSearchBar
-              key={params.toString()}
-              action="/map/"
-              defaultValue={query}
-            />
+            <div className="grid gap-4">
+              <TempleSearchBar
+                key={params.toString()}
+                action="/map/"
+                defaultValue={query}
+                parameters={params.toString()}
+              />
+              {temples.length === 0 ? (
+                <p role="status">
+                  На карте нет совпадений. У части храмов уточняются координаты.{" "}
+                  <Link href={`/temples/?${params}`} className="underline">
+                    Смотреть все результаты списком
+                  </Link>
+                </p>
+              ) : (
+                <section
+                  aria-label="Храмы на карте"
+                  className="hidden max-h-[480px] gap-3 overflow-y-auto xl:grid"
+                >
+                  {temples.slice(0, 18).map((t) => (
+                    <article
+                      key={t.id}
+                      className="rounded-[20px] border border-card-border bg-background p-3"
+                    >
+                      <h2 className="text-sm font-semibold">
+                        <Link
+                          href={`/temples/${t.slug}/?returnTo=${encodeURIComponent(`/map/?${params}`)}`}
+                        >
+                          {t.name}
+                        </Link>
+                      </h2>
+                      <p className="mt-1 text-xs text-muted-foreground">
+                        {t.address}
+                      </p>
+                      <a
+                        className="mt-2 inline-flex min-h-11 items-center text-sm text-action underline"
+                        href={routeToYandexMaps(
+                          t.address,
+                          t.latitude,
+                          t.longitude
+                        )}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Построить маршрут
+                      </a>
+                    </article>
+                  ))}
+                </section>
+              )}
+              <Link
+                className="text-sm text-action underline"
+                href={`/temples/?${params}`}
+              >
+                Все результаты списком
+              </Link>
+            </div>
           }
         />
       )}

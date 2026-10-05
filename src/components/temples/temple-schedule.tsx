@@ -34,6 +34,7 @@ export function TempleSchedule({
       }).filter((group) => group.entries.length)
     : [];
   const source = temple.scheduleSourceUrl ?? temple.websiteUrl;
+  const sourceIsDirectory = Boolean(source?.includes("sprav.moseparh.ru"));
   const weekly = regularServices(temple.scheduleEntries ?? []);
   const weekdays = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
   return (
@@ -81,7 +82,7 @@ export function TempleSchedule({
                   href={entry.sourceUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="mt-2 inline-block text-xs text-primary"
+                  className="mt-2 inline-block text-xs text-action underline"
                 >
                   {entry.status === "REVIEW"
                     ? "Справочно · источник получен"
@@ -126,7 +127,7 @@ export function TempleSchedule({
                         href={entry.sourceUrl}
                         target="_blank"
                         rel="noreferrer"
-                        className="mt-1 inline-block text-xs text-primary"
+                        className="mt-1 inline-block text-xs text-action underline"
                       >
                         Источник · проверено {formatDate(entry.verifiedAt)}
                       </a>
@@ -157,9 +158,11 @@ export function TempleSchedule({
           href={source}
           target="_blank"
           rel="noreferrer"
-          className="inline-flex text-sm font-medium text-primary"
+          className="inline-flex text-sm font-medium text-action underline"
         >
-          Расписание на официальном сайте
+          {sourceIsDirectory
+            ? "Сведения в справочнике Московской епархии"
+            : "Расписание на сайте храма"}
         </a>
       )}
       {temple.scheduleSummary && (
@@ -171,8 +174,9 @@ export function TempleSchedule({
             {temple.scheduleSummary}
           </p>
           <p className="mt-3 text-xs text-muted-foreground">
-            Справочная запись может быть устаревшей. Время служб выше показано
-            только по подтверждённым источникам.
+            Справочные сведения могут быть устаревшими. Подтверждённые службы и
+            обычные справочные правила показаны отдельно; перед поездкой
+            сверяйте источник.
           </p>
         </details>
       )}

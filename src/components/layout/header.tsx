@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Map, MapPin, Search } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { ContextLink } from "./context-link";
 
 const navItems = [
   { href: "/temples", label: "Поиск", icon: Search },
@@ -28,10 +29,14 @@ export function Header() {
         >
           {navItems.map((item) => (
             <Button asChild key={item.href} variant="ghost" size="sm">
-              <Link href={item.href} prefetch={false}>
+              <ContextLink
+                href={item.href}
+                prefetch={false}
+                className="aria-[current=page]:bg-primary-soft"
+              >
                 <item.icon className="size-4" aria-hidden />
                 {item.label}
-              </Link>
+              </ContextLink>
             </Button>
           ))}
         </nav>

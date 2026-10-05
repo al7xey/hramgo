@@ -1,0 +1,41 @@
+{
+  "checkedAt": "2026-10-05T22:50:20.537Z",
+  "records": [
+    {
+      "templeId": "cmqh1tuov03e8mrh8assqtwid",
+      "name": "Храм бессребреников Космы и Дамиана в Кузьминках, Патриаршее подворье",
+      "status": "REMOVED_BROKEN_PLACEHOLDER",
+      "imageUrl": null
+    },
+    {
+      "templeId": "cmqh1totw00gimrh8psi7uld1",
+      "name": "Храм иконы Божией Матери «Скоропослушница» (строящийся) в Зеленограде, Патриаршее подворье",
+      "status": "REMOVED_BROKEN_PLACEHOLDER",
+      "imageUrl": null
+    },
+    {
+      "templeId": "cmqh4ncsq00nxmr4vqm67h37o",
+      "name": "Храм преподобного Сергия, игумена Радонежского, в Зеленограде",
+      "status": "REMOVED_BROKEN_PLACEHOLDER",
+      "imageUrl": null
+    },
+    {
+      "templeId": "cmqh1tu4f032mmrh8k23xc9so",
+      "name": "Храм святителя Иова, Патриарха Московского и всея Руси, на Можайском шоссе, Патриаршее подворье — представительство Успенского Старицкого монастыря",
+      "status": "REMOVED_BROKEN_PLACEHOLDER",
+      "imageUrl": null
+    },
+    {
+      "templeId": "cmqh4nb1v0038mr4vsc0z09oh",
+      "name": "Часовня благоверного князя Александра Невского в Большом Свинорье",
+      "status": "REMOVED_BROKEN_PLACEHOLDER",
+      "imageUrl": null
+    },
+    {
+      "templeId": "cmqh4nb520048mr4vasn4g7b6",
+      "name": "Часовня Введения во храм Пресвятой Богородицы на Ивановском кладбище",
+      "status": "REMOVED_BROKEN_PLACEHOLDER",
+      "imageUrl": null
+    }
+  ]
+}

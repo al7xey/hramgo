@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { ContextLink } from "./context-link";
 import { usePathname } from "next/navigation";
 import { Home, Map, Search } from "lucide-react";
 
@@ -27,14 +27,14 @@ export function BottomNav() {
             (item.href !== "/" && pathname.startsWith(item.href));
 
           return (
-            <Link
+            <ContextLink
               key={item.href}
               href={item.href}
               prefetch
               className={cn(
                 "flex h-14 touch-manipulation flex-col items-center justify-center gap-1 rounded-[28px] transition-colors duration-150 hover:bg-[#edf6fd] dark:hover:bg-sky-400/10",
                 isActive &&
-                  "bg-[#dceefb] text-[#2d8ed8] hover:bg-[#dceefb] dark:bg-sky-400/15 dark:text-sky-300 dark:hover:bg-sky-400/15"
+                  "bg-[#dceefb] text-[#225f8e] hover:bg-[#dceefb] dark:bg-sky-400/15 dark:text-sky-300 dark:hover:bg-sky-400/15"
               )}
               aria-label={item.label}
               aria-current={isActive ? "page" : undefined}
@@ -43,7 +43,7 @@ export function BottomNav() {
               <span className="text-[10px] font-medium leading-3">
                 {item.label}
               </span>
-            </Link>
+            </ContextLink>
           );
         })}
       </div>

@@ -11,7 +11,8 @@
   --primary: #4b9fe1;
   --primary-soft: rgba(75, 159, 225, 0.12);
   --muted: rgba(236, 243, 249, 0.72);
-  --muted-foreground: #66788a;
+  --muted-foreground: #607286;
+  --action: #2373a7;
   --success: #4daa7a;
   --warning: #e0a23b;
   --danger: #d95f5f;
@@ -32,6 +33,7 @@
   --warning: #f0bf5a;
   --danger: #ef7a7a;
   --surface: #102233;
+  --action: #2373a7;
 }
 
 * {
@@ -120,7 +122,7 @@ body {
 }
 
 :focus-visible {
-  outline: 2px solid var(--primary);
+  outline: 2px solid var(--action);
   outline-offset: 3px;
 }
 .skip-link {

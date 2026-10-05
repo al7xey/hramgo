@@ -5,23 +5,33 @@ import { Button } from "@/components/ui/button";
 export function TempleSearchBar({
   defaultValue,
   action = "/temples/",
-  autoFocus = false
+  autoFocus = false,
+  parameters = ""
 }: {
   defaultValue?: string;
   action?: string;
   autoFocus?: boolean;
+  parameters?: string;
 }) {
   return (
     <form action={action} className="grid min-w-0 gap-3">
+      {[...new URLSearchParams(parameters)]
+        .filter(([name]) => name !== "query")
+        .map(([name, value], i) => (
+          <input key={`${name}-${i}`} type="hidden" name={name} value={value} />
+        ))}
       <label className="relative block">
         <span className="sr-only">Поиск храма</span>
         <Search className="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-muted-foreground" />
         <input
           name="query"
+          type="search"
+          enterKeyHint="search"
+          maxLength={120}
           defaultValue={defaultValue}
           autoFocus={autoFocus}
           placeholder="Название, улица, метро или МЦД"
-          className="h-12 w-full min-w-0 rounded-[22px] border border-card-border bg-card px-12 text-base outline-none transition placeholder:text-muted-foreground focus:border-primary focus:ring-4 focus:ring-primary-soft"
+          className="h-12 w-full min-w-0 rounded-[22px] border border-card-border bg-card px-12 text-base outline-none transition placeholder:text-muted-foreground focus:border-action focus:ring-4 focus:ring-primary-soft"
         />
       </label>
       <Button type="submit" size="lg" className="w-full">

@@ -15,8 +15,11 @@ export function BackToSearchButton() {
       size="sm"
       className="w-fit rounded-full px-4 dark:border-white/15 dark:bg-[#102233] dark:hover:bg-[#102233]"
       onClick={() => {
-        if (window.history.length > 1) {
-          router.back();
+        const back = new URLSearchParams(window.location.search).get(
+          "returnTo"
+        );
+        if (back && /^\/(temples|map)\/?(?:\?|$)/.test(back)) {
+          router.push(back);
           return;
         }
 

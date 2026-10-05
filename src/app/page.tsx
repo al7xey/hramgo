@@ -14,6 +14,8 @@ import { MobileShell } from "@/components/layout/mobile-shell";
 import { TempleSearchBar } from "@/components/temples/temple-search-bar";
 import { Button } from "@/components/ui/button";
 import { LiquidGlassCard } from "@/components/ui/liquid-glass-card";
+import { NearbyButton } from "@/components/temples/nearby-button";
+import { TodayLink } from "@/components/temples/today-link";
 
 export const metadata: Metadata = {
   title:
@@ -66,6 +68,10 @@ export default async function HomePage() {
             </p>
             <div className="mt-5">
               <TempleSearchBar />
+              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                <NearbyButton />
+                <TodayLink />
+              </div>
             </div>
             <div
               className="mt-4 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap"
@@ -157,9 +163,9 @@ export default async function HomePage() {
                   </p>
                 </div>
               </div>
-              <Button asChild size="lg" className="mt-4 w-full">
-                <Link href="/support">Поддержать проект</Link>
-              </Button>
+              <p className="mt-4 text-sm text-muted-foreground">
+                Приём добровольной поддержки пока недоступен.
+              </p>
             </LiquidGlassCard>
           </section>
         </section>

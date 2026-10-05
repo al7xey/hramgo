@@ -8,6 +8,15 @@ export const worshipLabels = {
   confession: "Исповедь",
   prayer: "Молебен"
 };
+export function formatServiceDays(entry: ScheduleEntry) {
+  if (entry.serviceDate) return serviceDateLabel(entry.serviceDate);
+  if (entry.weekdays?.length === 7) return "Ежедневно";
+  return (
+    entry.weekdays
+      ?.map((day) => ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"][day - 1])
+      .join(", ") || "Дни уточняются"
+  );
+}
 export function hasWorshipFilter(input: TempleSearchInput) {
   return Boolean(
     input.date ||

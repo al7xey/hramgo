@@ -73,6 +73,16 @@ export function TempleGallery({
           </a>
           {photo.author && ` · ${photo.author}`}
           {photo.license && ` · ${photo.license} · размер и формат изменены`}
+          {photo.imageUrl && (
+            <a
+              href={photo.imageUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="ml-2 underline"
+            >
+              Полное разрешение
+            </a>
+          )}
         </p>
       )}
       {safePhotos.length > 1 ? (
