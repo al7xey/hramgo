@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { YandexMetrika } from "@/components/analytics/yandex-metrika";
 import { env } from "@/lib/env";
 const links = [
   { href: "/legal/contacts/", label: "Контакты" },
@@ -56,6 +57,7 @@ export function LegalFooter() {
           </a>
         </nav>
       </div>
+      <YandexMetrika />
     </footer>
   );
 }
