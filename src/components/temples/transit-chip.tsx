@@ -50,7 +50,9 @@ export function LineDot({ line }: { line: TransitLineView }) {
       className="inline-flex size-3.5 shrink-0 rounded-full shadow-sm"
       style={{ backgroundColor: line.color }}
       title={line.name}
-    />
+    >
+      <span className="sr-only">{line.name}: </span>
+    </span>
   );
 }
 

@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { Suspense } from "react";
 import { LiquidGlassCard } from "@/components/ui/liquid-glass-card";
-import { Button } from "@/components/ui/button";
+import { SupportPaymentForm } from "@/components/support/support-payment-form";
+import { PaymentStatus } from "@/components/support/payment-status";
 export const metadata: Metadata = {
   title: "Поддержать HramGo",
   description:
@@ -19,14 +22,40 @@ export default function SupportPage() {
           индивидуальной услуги и не предоставляет дополнительных преимуществ.
         </p>
       </div>
+      <Suspense fallback={null}>
+        <PaymentStatus />
+      </Suspense>
       <LiquidGlassCard className="grid gap-4 p-5">
         <h2 className="text-xl font-semibold">Добровольная поддержка</h2>
-        <div className="rounded-[20px] border border-card-border bg-muted p-3 text-sm leading-6 text-muted-foreground">
-          Приём платежей временно недоступен. Попробуйте позже.
+        <SupportPaymentForm />
+      </LiquidGlassCard>
+      <LiquidGlassCard className="grid gap-3 p-5">
+        <h2 className="text-xl font-semibold">Перед оплатой</h2>
+        <p className="text-sm leading-6 text-muted-foreground">
+          Выберите сумму и перейдите на страницу ЮKassa. Доступны банковские
+          карты, СБП и другие способы, которые предлагает платёжный сервис.
+          Поддержка добровольная и не даёт платного доступа к каталогу.
+        </p>
+        <div className="flex flex-wrap gap-3 text-sm text-primary underline">
+          <Link
+            className="inline-flex min-h-11 items-center"
+            href="/legal/support-terms/"
+          >
+            Условия поддержки
+          </Link>
+          <Link
+            className="inline-flex min-h-11 items-center"
+            href="/legal/payment-and-refund/"
+          >
+            Оплата и возврат
+          </Link>
+          <Link
+            className="inline-flex min-h-11 items-center"
+            href="/legal/contacts/"
+          >
+            Контакты и реквизиты
+          </Link>
         </div>
-        <Button size="lg" className="w-full" disabled>
-          Поддержать проект
-        </Button>
       </LiquidGlassCard>
     </div>
   );

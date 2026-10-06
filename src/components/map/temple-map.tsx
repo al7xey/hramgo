@@ -6,6 +6,7 @@ import type { ReactNode } from "react";
 import { TempleMapBottomSheet } from "@/components/map/temple-map-bottom-sheet";
 import { LiquidGlassCard } from "@/components/ui/liquid-glass-card";
 import type { TempleMapView } from "@/features/temples/types";
+import { readMapView, saveMapView } from "@/features/temples/view-state";
 
 type YMap = {
   destroy: () => void;
@@ -13,6 +14,12 @@ type YMap = {
   events: { add: (eventName: string, handler: () => void) => void };
   setBounds: (bounds: unknown, options: Record<string, unknown>) => void;
   panTo: (coords: [number, number], options: Record<string, unknown>) => void;
+  getCenter: () => [number, number];
+  getZoom: () => number;
+  behaviors: {
+    disable: (name: string) => void;
+    enable: (name: string) => void;
+  };
 };
 
 type YMapEvent = {
@@ -24,6 +31,7 @@ type YObjectManager = {
   removeAll: () => void;
   getBounds: () => unknown;
   objects: {
+    setObjectOptions: (id: string, options: Record<string, unknown>) => void;
     events: {
       add: (eventName: string, handler: (event: YMapEvent) => void) => void;
     };
@@ -49,17 +57,23 @@ declare global {
 
 const MOSCOW_CENTER: [number, number] = [55.751244, 37.618423];
 
-export const TempleMap = memo(function TempleMap({
-  temples,
-  activeSlug,
-  sidebarTop,
-  showPreview = true
-}: {
+export type TempleMapProps = {
   temples: TempleMapView[];
   activeSlug?: string;
   sidebarTop?: ReactNode;
   showPreview?: boolean;
-}) {
+  onSelect?: (slug: string | undefined) => void;
+  viewKey?: string;
+};
+
+export const TempleMap = memo(function TempleMap({
+  temples,
+  activeSlug,
+  sidebarTop,
+  showPreview = true,
+  onSelect,
+  viewKey
+}: TempleMapProps) {
   const points = useMemo(
     () => temples.filter((temple) => temple.latitude && temple.longitude),
     [temples]
@@ -79,6 +93,19 @@ export const TempleMap = memo(function TempleMap({
   const [mapReady, setMapReady] = useState(false);
   const [mapError, setMapError] = useState(false);
   const [attempt, setAttempt] = useState(0);
+  const [dragEnabled, setDragEnabled] = useState(false);
+  const selectionRef = useRef(onSelect);
+  const viewKeyRef = useRef(viewKey);
+  const restoredViewport = useRef(false);
+  const highlightedId = useRef<string | undefined>(undefined);
+  useEffect(() => {
+    selectionRef.current = onSelect;
+    viewKeyRef.current = viewKey;
+  }, [onSelect, viewKey]);
+  function select(slug: string | undefined) {
+    setSelectedSlug(slug);
+    selectionRef.current?.(slug);
+  }
   const mapNodeRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<YMap | null>(null);
   const objectManagerRef = useRef<YObjectManager | null>(null);
@@ -109,25 +136,39 @@ export const TempleMap = memo(function TempleMap({
           return;
         }
 
+        const restoredView = viewKeyRef.current
+          ? readMapView(viewKeyRef.current)
+          : undefined;
+        restoredViewport.current = Boolean(restoredView);
         const center: [number, number] =
-          activeTemple?.latitude && activeTemple.longitude
+          restoredView?.center ??
+          (activeTemple?.latitude && activeTemple.longitude
             ? [activeTemple.latitude, activeTemple.longitude]
-            : MOSCOW_CENTER;
+            : MOSCOW_CENTER);
         mapRef.current = new ymaps.Map(
           mapNodeRef.current,
           {
             center,
-            zoom: points.length > 1 ? 10 : 15,
+            zoom: restoredView?.zoom ?? (points.length > 1 ? 10 : 15),
             controls: ["zoomControl", "geolocationControl", "fullscreenControl"]
           },
           { suppressMapOpenBlock: true }
         );
+        mapRef.current.behaviors.disable("scrollZoom");
+        if (window.matchMedia("(max-width: 767px)").matches)
+          mapRef.current.behaviors.disable("drag");
+        mapRef.current.events.add("boundschange", () => {
+          const map = mapRef.current,
+            key = viewKeyRef.current;
+          if (map && key) saveMapView(key, map.getCenter(), map.getZoom());
+        });
         objectManagerRef.current = new ymaps.ObjectManager({
           clusterize: true,
           gridSize: 48,
           clusterDisableClickZoom: false,
           geoObjectOpenBalloonOnClick: false,
-          clusterOpenBalloonOnClick: false
+          clusterOpenBalloonOnClick: false,
+          clusterPreset: "islands#darkBlueClusterIcons"
         });
         objectManagerRef.current.objects.events.add("click", (event) => {
           const objectId = String(event.get("objectId") ?? "");
@@ -135,7 +176,7 @@ export const TempleMap = memo(function TempleMap({
 
           if (slug) {
             suppressMapClickUntilRef.current = Date.now() + 250;
-            setSelectedSlug(slug);
+            select(slug);
           }
         });
         mapRef.current.geoObjects.add(objectManagerRef.current);
@@ -144,7 +185,7 @@ export const TempleMap = memo(function TempleMap({
             return;
           }
 
-          setSelectedSlug(undefined);
+          select(undefined);
         });
         setMapReady(true);
       })
@@ -182,16 +223,30 @@ export const TempleMap = memo(function TempleMap({
           coordinates: [temple.latitude, temple.longitude]
         },
         properties: {
-          hintContent: temple.name,
+          hintContent: temple.name.replace(
+            /[&<>"']/g,
+            (char) =>
+              ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;"
+              })[char]!
+          ),
           balloonContent: ""
         },
         options: {
-          preset: "islands#blueIcon",
-          iconColor: "#4b9fe1"
+          preset: "islands#icon",
+          iconColor: "#244b78"
         }
       }))
     });
 
+    if (restoredViewport.current) {
+      fittedPointsKeyRef.current = pointsKey;
+      restoredViewport.current = false;
+    }
     if (points.length > 1 && fittedPointsKeyRef.current !== pointsKey) {
       const bounds = objectManagerRef.current.getBounds();
       if (bounds && mapRef.current) {
@@ -216,9 +271,29 @@ export const TempleMap = memo(function TempleMap({
 
     mapRef.current.panTo([activeTemple.latitude, activeTemple.longitude], {
       flying: false,
-      duration: 220
+      duration: 0
     });
   }, [activeTemple?.latitude, activeTemple?.longitude, mapReady]);
+  useEffect(() => {
+    const manager = objectManagerRef.current;
+    if (!mapReady || !manager) return;
+    if (
+      highlightedId.current &&
+      points.some((t) => t.id === highlightedId.current)
+    )
+      manager.objects.setObjectOptions(highlightedId.current, {
+        preset: "islands#icon",
+        iconColor: "#244b78",
+        zIndex: 1
+      });
+    if (activeTemple)
+      manager.objects.setObjectOptions(activeTemple.id, {
+        preset: "islands#dotIcon",
+        iconColor: "#244b78",
+        zIndex: 2000
+      });
+    highlightedId.current = activeTemple?.id;
+  }, [mapReady, activeTemple, pointsKey, points]);
 
   return (
     <div
@@ -231,8 +306,22 @@ export const TempleMap = memo(function TempleMap({
           ref={mapNodeRef}
           role="region"
           aria-label="Карта храмов Москвы"
-          className="aspect-square w-full overflow-hidden rounded-[24px] bg-muted xl:aspect-auto xl:h-[640px]"
+          className="h-[420px] w-full overflow-hidden rounded-[24px] bg-muted md:h-[520px] xl:h-[640px]"
         />
+        {mapReady && (
+          <button
+            type="button"
+            className="absolute left-4 top-4 z-10 min-h-11 rounded-[18px] border border-card-border bg-background px-3 text-sm text-primary md:hidden"
+            aria-pressed={dragEnabled}
+            onClick={() => {
+              if (dragEnabled) mapRef.current?.behaviors.disable("drag");
+              else mapRef.current?.behaviors.enable("drag");
+              setDragEnabled(!dragEnabled);
+            }}
+          >
+            {dragEnabled ? "Прокрутка страницы" : "Управлять картой"}
+          </button>
+        )}
         {!mapReady && (
           <div
             className="absolute inset-2 grid place-content-center gap-3 rounded-[24px] bg-background/95 p-5 text-center"
@@ -251,7 +340,10 @@ export const TempleMap = memo(function TempleMap({
                 >
                   Повторить
                 </button>
-                <a className="underline" href="/temples/">
+                <a
+                  className="underline"
+                  href={`/temples/${typeof window !== "undefined" ? window.location.search : ""}`}
+                >
                   Смотреть списком
                 </a>
               </>
@@ -259,10 +351,10 @@ export const TempleMap = memo(function TempleMap({
           </div>
         )}
         {showPreview && activeTemple ? (
-          <div className="absolute inset-x-3 bottom-3 z-10 max-w-[340px] lg:left-4 lg:right-auto">
+          <div className="mt-3 xl:absolute xl:inset-x-3 xl:bottom-3 xl:z-10 xl:mt-0 xl:max-w-[340px]">
             <TempleMapBottomSheet
               temple={activeTemple}
-              onClose={() => setSelectedSlug(undefined)}
+              onClose={() => select(undefined)}
             />
           </div>
         ) : null}
@@ -279,9 +371,13 @@ export const TempleMap = memo(function TempleMap({
 
 function loadYmaps() {
   if (window.ymaps) {
-    return new Promise<YMapsApi>((resolve) =>
-      window.ymaps?.ready(() => resolve(window.ymaps!))
-    );
+    return new Promise<YMapsApi>((resolve, reject) => {
+      const timeout = setTimeout(() => reject(new Error("MAP_TIMEOUT")), 12000);
+      window.ymaps?.ready(() => {
+        clearTimeout(timeout);
+        resolve(window.ymaps!);
+      });
+    });
   }
 
   if (!window.__hramgoYmapsPromise) {

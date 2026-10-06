@@ -1,41 +1,61 @@
 import Link from "next/link";
-
-const legalLinks = [
-  { href: "/legal/privacy", label: "Политика ПДн" },
-  { href: "/legal/contacts", label: "Контакты и реквизиты" }
+import { env } from "@/lib/env";
+const links = [
+  { href: "/legal/contacts/", label: "Контакты" },
+  { href: "/sources/", label: "Источники" },
+  { href: "/support/", label: "Поддержать проект" }
 ];
-
-const serviceLinks = [
-  { href: "/legal/terms", label: "Условия сайта" },
-  { href: "/legal/cookies", label: "Cookies" }
-];
-
 export function LegalFooter() {
   return (
-    <footer className="mx-auto w-full max-w-7xl px-4 pb-28 pt-8 text-xs text-muted-foreground sm:px-6 md:pb-8 lg:px-8">
-      <div className="grid gap-3 md:grid-cols-[1.2fr_1fr]">
+    <footer className="site-container pb-28 pt-8 text-sm text-muted-foreground md:pb-8">
+      <div className="grid grid-cols-2 items-start gap-4 border-t border-card-border pt-6 md:grid-cols-[1fr_auto]">
         <div>
-          <p className="font-semibold text-foreground">Правовая информация</p>
-          <div className="mt-2 flex flex-wrap gap-x-4 gap-y-2">
-            {legalLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="hover:text-primary">
-                {link.label}
-              </Link>
-            ))}
+          <p className="font-semibold text-foreground">HramGo</p>
+          <p className="mt-2 max-w-xs text-xs leading-5">
+            Храмы Москвы: адреса, богослужения и маршруты.
+          </p>
+          <p className="mt-2 text-xs">© {new Date().getFullYear()} HramGo</p>
+          <div className="mt-2 grid gap-1 text-xs">
+            <Link
+              href="/legal/privacy/"
+              className="inline-flex min-h-11 items-center hover:text-primary"
+            >
+              Политика данных
+            </Link>
+            <Link
+              href="/legal/terms/"
+              className="inline-flex min-h-11 items-center hover:text-primary"
+            >
+              Условия сайта
+            </Link>
           </div>
         </div>
-        <div>
-          <p className="font-semibold text-foreground">Документы сайта</p>
-          <div className="mt-2 flex flex-wrap gap-x-4 gap-y-2">
-            {serviceLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="hover:text-primary">
-                {link.label}
-              </Link>
-            ))}
-          </div>
-        </div>
+        <nav
+          aria-label="О проекте"
+          className="grid justify-items-end gap-1 text-right md:grid-cols-2 md:gap-x-6"
+        >
+          {links.map((link) => (
+            <Link
+              className="inline-flex min-h-11 items-center hover:text-primary"
+              key={link.href}
+              href={link.href}
+            >
+              {link.label}
+            </Link>
+          ))}
+          <a
+            className="inline-flex min-h-11 items-center hover:text-primary"
+            href={
+              "mailto:" +
+              env.SUPPORT_EMAIL +
+              "?subject=" +
+              encodeURIComponent("Исправление сведений HramGo")
+            }
+          >
+            Сообщить об ошибке
+          </a>
+        </nav>
       </div>
-      <p className="mt-3">HramGo хранит только легкие справочные данные и ссылки на официальные источники.</p>
     </footer>
   );
 }

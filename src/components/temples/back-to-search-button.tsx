@@ -19,7 +19,7 @@ export function BackToSearchButton() {
           "returnTo"
         );
         if (back && /^\/(temples|map)\/?(?:\?|$)/.test(back)) {
-          router.push(back);
+          router.push(back, { scroll: false });
           return;
         }
 

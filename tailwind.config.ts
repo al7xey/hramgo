@@ -26,7 +26,7 @@ const config: Config = {
         shell: "32px"
       },
       boxShadow: {
-        glass: "0 20px 70px rgba(54, 122, 178, 0.14)",
+        glass: "0 12px 36px rgba(36, 75, 120, 0.10)",
         "glass-dark": "0 24px 80px rgba(0, 0, 0, 0.28)"
       },
       fontFamily: {

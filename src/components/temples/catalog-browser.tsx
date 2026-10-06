@@ -5,6 +5,9 @@ import { MapPinned } from "lucide-react";
 import { TempleSearchBar } from "./temple-search-bar";
 import { WorshipFilters } from "./worship-filters";
 import { NearbyButton } from "./nearby-button";
+import { ActiveFilters } from "./active-filters";
+import { ContextLink } from "@/components/layout/context-link";
+import { readListView, saveListView } from "@/features/temples/view-state";
 import Link from "next/link";
 import { TempleCard } from "./temple-card";
 import { Button } from "@/components/ui/button";
@@ -59,7 +62,22 @@ export function CatalogBrowser() {
       active = false;
     };
   }, [retry]);
-  useEffect(() => setLimit(18), [key]);
+  useEffect(
+    () => setLimit(readListView(`/temples/?${key}`)?.limit ?? 18),
+    [key]
+  );
+  const restored = useRef<string | null>(null);
+  useEffect(() => {
+    if (loading || restored.current === key) return;
+    const state = readListView(`/temples/?${key}`);
+    if (state && limit >= state.limit) {
+      const frame = requestAnimationFrame(() => {
+        window.scrollTo({ top: state.scrollY, behavior: "instant" });
+        restored.current = key;
+      });
+      return () => cancelAnimationFrame(frame);
+    }
+  }, [key, loading, limit]);
   const results = useMemo(
     () => searchTemples(temples, input),
     [temples, input]
@@ -79,12 +97,10 @@ export function CatalogBrowser() {
     <div className="grid gap-5 lg:grid-cols-[320px_1fr]">
       <aside className="grid gap-4 lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:self-start lg:overflow-y-auto lg:pr-1">
         <div>
-          <h1 className="text-2xl font-semibold md:text-3xl">
-            Поиск храмов Москвы
-          </h1>
+          <h1 className="page-title">Поиск храмов Москвы</h1>
           <p className="mt-2 text-sm leading-6 text-muted-foreground">
-            Ищите по названию, улице, району, метро, МЦД, ветке метро,
-            расписанию и приходской деятельности.
+            Ищите по названию, адресу, метро, МЦД, ветке метро, расписанию и
+            приходской деятельности.
           </p>
         </div>
         <TempleSearchBar
@@ -93,21 +109,34 @@ export function CatalogBrowser() {
           parameters={key}
         />
         <NearbyButton />
+        <div className="flex gap-2" aria-label="Режим результатов">
+          <Button asChild variant="secondary">
+            <ContextLink href="/temples/">Список</ContextLink>
+          </Button>
+          <Button asChild variant="outline">
+            <ContextLink href="/map/">Карта</ContextLink>
+          </Button>
+        </div>
+        <ActiveFilters input={input} parameters={key} />
         <WorshipFilters
           key={"filters:" + key}
           input={input}
           serviceKinds={filterableParishServiceKinds}
-          districts={[
-            ...new Set(
-              temples
-                .map((t) => t.district)
-                .filter((v): v is string => Boolean(v))
-            )
-          ].sort()}
+          districts={
+            temples.filter((t) => t.district).length >= temples.length * 0.5
+              ? [
+                  ...new Set(
+                    temples
+                      .map((t) => t.district)
+                      .filter((v): v is string => Boolean(v))
+                  )
+                ].sort()
+              : []
+          }
         />
       </aside>
       <section
-        className="grid content-start gap-4 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto lg:pr-2"
+        className="grid content-start gap-4"
         aria-label="Результаты поиска"
       >
         {(input.scheduleMode === "regular" ||
@@ -162,6 +191,9 @@ export function CatalogBrowser() {
           <>
             <p className="text-sm text-muted-foreground" aria-live="polite">
               Найдено: {results.length}
+              {input.latitude != null && input.longitude != null
+                ? ` · до ${input.radiusKm ?? 5} км от точки поиска по прямой`
+                : " · по всей Москве"}
             </p>
             <div className="grid gap-3">
               {results.slice(0, limit).map((temple) => (
@@ -169,6 +201,8 @@ export function CatalogBrowser() {
                   key={temple.id}
                   temple={temple}
                   returnTo={`/temples/?${key}`}
+                  selected={params.get("temple") === temple.slug}
+                  onOpen={() => saveListView(`/temples/?${key}`, limit)}
                   service={
                     hasWorshipFilter(input)
                       ? matchingServices(temple.scheduleEntries ?? [], input)[0]

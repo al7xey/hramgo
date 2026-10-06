@@ -39,6 +39,8 @@ prisma/dev.db
 
 # local object storage
 .minio
+__pycache__/
+*.pyc
 
 # typescript
 *.tsbuildinfo

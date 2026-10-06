@@ -40,6 +40,7 @@ export function TemplePhoto({
           loading={priority ? "eager" : "lazy"}
           fetchPriority={priority ? "high" : "auto"}
           decoding="async"
+          draggable={false}
           className={cn("h-full w-full object-cover", imageClassName)}
           onError={() => {
             if (src && currentSrc !== src) {

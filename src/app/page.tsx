@@ -1,12 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import {
-  CalendarCheck,
-  Clock3,
-  HeartHandshake,
-  Map,
-  Sunrise
-} from "lucide-react";
+import { CalendarCheck, HeartHandshake, Map, Sunrise } from "lucide-react";
 import { readCatalog } from "@/features/temples/repository";
 import { regularServices } from "@/features/temples/schedules";
 
@@ -15,7 +9,6 @@ import { TempleSearchBar } from "@/components/temples/temple-search-bar";
 import { Button } from "@/components/ui/button";
 import { LiquidGlassCard } from "@/components/ui/liquid-glass-card";
 import { NearbyButton } from "@/components/temples/nearby-button";
-import { TodayLink } from "@/components/temples/today-link";
 
 export const metadata: Metadata = {
   title:
@@ -56,21 +49,18 @@ export default async function HomePage() {
   ).length;
   return (
     <MobileShell>
-      <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start xl:grid-cols-[minmax(0,1fr)_390px]">
-        <section className="grid gap-5">
-          <LiquidGlassCard className="p-5 md:p-7 lg:p-8">
-            <h1 className="max-w-4xl break-words text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl">
-              Найдите храм в Москве
-            </h1>
-            <p className="mt-4 max-w-2xl text-base leading-7 text-muted-foreground lg:text-lg">
-              Введите название, улицу, район, станцию метро или МЦД. HramGo
-              покажет ближайшие храмы, адреса, расписания и маршрут.
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start xl:grid-cols-[minmax(0,1fr)_390px]">
+        <section className="grid gap-6">
+          <LiquidGlassCard className="p-4 md:p-6">
+            <h1 className="page-title">Найдите храм в Москве</h1>
+            <p className="mt-3 max-w-2xl text-base leading-6 text-muted-foreground">
+              Адреса, ближайшее метро, расписания богослужений и маршрут к
+              храмам Москвы.
             </p>
             <div className="mt-5">
               <TempleSearchBar />
-              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+              <div className="mt-3">
                 <NearbyButton />
-                <TodayLink />
               </div>
             </div>
             <div
@@ -78,8 +68,6 @@ export default async function HomePage() {
               aria-label="Быстрый поиск богослужений"
             >
               {[
-                { title: "Вечерняя в 17:00", kind: "evening", time: "17:00" },
-                { title: "Вечерняя в 18:00", kind: "evening", time: "18:00" },
                 { title: "Литургия в 8:00", kind: "liturgy", time: "08:00" },
                 { title: "Литургия в 9:00", kind: "liturgy", time: "09:00" }
               ].map((scenario) => (
@@ -93,11 +81,7 @@ export default async function HomePage() {
                   <Link
                     href={`/temples/?scheduleMode=regular&worship=${scenario.kind}&timeFrom=${scenario.time}&timeTo=${scenario.time}`}
                   >
-                    {scenario.kind === "evening" ? (
-                      <Clock3 className="size-4" aria-hidden />
-                    ) : (
-                      <Sunrise className="size-4" aria-hidden />
-                    )}
+                    <Sunrise className="size-4" aria-hidden />
                     {scenario.title}
                   </Link>
                 </Button>
@@ -105,8 +89,8 @@ export default async function HomePage() {
             </div>
           </LiquidGlassCard>
 
-          <section className="px-1 py-2 md:px-3" aria-labelledby="visit-guide">
-            <h2 id="visit-guide" className="text-xl font-semibold">
+          <section className="p-4 md:p-6" aria-labelledby="visit-guide">
+            <h2 id="visit-guide" className="section-title">
               Куда пойти на богослужение
             </h2>
             <p className="mt-3 text-sm leading-6 text-muted-foreground">
@@ -142,13 +126,13 @@ export default async function HomePage() {
             <Button asChild className="mt-4 gap-2">
               <Link href="/map/">
                 <Map className="size-4" aria-hidden />
-                Храмы на карте Москвы
+                Показать на карте
               </Link>
             </Button>
           </section>
 
           <section>
-            <LiquidGlassCard className="p-5">
+            <LiquidGlassCard className="p-4 md:p-6">
               <div className="flex items-start gap-3">
                 <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-primary-soft text-primary">
                   <HeartHandshake className="size-5" aria-hidden />
@@ -163,15 +147,18 @@ export default async function HomePage() {
                   </p>
                 </div>
               </div>
-              <p className="mt-4 text-sm text-muted-foreground">
-                Приём добровольной поддержки пока недоступен.
-              </p>
+              <Button asChild size="lg" className="mt-4 w-full">
+                <Link href="/support/">
+                  <HeartHandshake className="size-5" aria-hidden />
+                  Поддержать проект
+                </Link>
+              </Button>
             </LiquidGlassCard>
           </section>
         </section>
 
         <aside className="grid gap-4 lg:sticky lg:top-24">
-          <LiquidGlassCard className="p-5">
+          <LiquidGlassCard className="p-4 md:p-6">
             <div className="flex items-start gap-3">
               <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-primary-soft text-primary">
                 <CalendarCheck className="size-5" aria-hidden />
@@ -186,7 +173,7 @@ export default async function HomePage() {
             </div>
           </LiquidGlassCard>
 
-          <LiquidGlassCard className="p-5">
+          <LiquidGlassCard className="p-4 md:p-6">
             <h2 className="font-semibold">О проекте</h2>
             <div className="mt-3 grid gap-3 text-base leading-7 text-muted-foreground">
               <p>

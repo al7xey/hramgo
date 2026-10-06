@@ -12,7 +12,7 @@ const navItems = [
 export function Header() {
   return (
     <header className="relative inset-x-0 top-0 z-20 bg-background/94 backdrop-blur-xl md:fixed md:z-[1000]">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="site-container flex h-16 items-center justify-between">
         <Link
           href="/"
           className="flex items-center gap-2 rounded-full font-semibold hover:no-underline active:scale-100"

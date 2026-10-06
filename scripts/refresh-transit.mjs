@@ -1,6 +1,7 @@
-import { writeFile } from "node:fs/promises";
+import { writeFile, readFile } from "node:fs/promises";
 import pg from "pg";
 import { fetchCached, digest } from "./lib/http-cache.mjs";
+import { nearestStations } from "./lib/transit.mjs";
 
 const sourceUrl = "https://api.hh.ru/metro/1";
 const source = await fetchCached(sourceUrl, { maxAgeDays: 30 });
@@ -19,32 +20,45 @@ const canonical = {
   137: "16",
   171: "17"
 };
+const evidence = JSON.parse(
+  await readFile("scripts/data/mcd-coordinates.json", "utf8")
+);
 const stations = network.lines
-  .filter((line) => line.id !== "11")
+  .filter((line) => line.id !== "11" && !line.name.startsWith("МЦД"))
   .flatMap((line) =>
     line.stations.map((s) => ({
-      station: s.name,
+      station: s.name.trim(),
       latitude: s.lat,
       longitude: s.lng,
       line_id: canonical[line.id] ?? line.id,
       line_name: line.name.trim(),
       line_color: "#" + line.hex_color,
-      system: line.name.startsWith("МЦД")
-        ? "mcd"
-        : line.id === "95"
-          ? "mcc"
-          : "metro"
+      source_url: sourceUrl,
+      system: line.id === "95" ? "mcc" : "metro"
     }))
   )
   .filter((s) => Number.isFinite(s.latitude) && Number.isFinite(s.longitude));
-function distance(a, b) {
-  const rad = (n) => (n * Math.PI) / 180;
-  const h =
-    Math.sin(rad(b.latitude - a.latitude) / 2) ** 2 +
-    Math.cos(rad(a.latitude)) *
-      Math.cos(rad(b.latitude)) *
-      Math.sin(rad(b.longitude - a.longitude) / 2) ** 2;
-  return Math.round(6371000 * 2 * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h)));
+for (const s of evidence.stations) {
+  if (
+    !["D1", "D2", "D3", "D4"].includes(s.line) ||
+    s.latitude < 54 ||
+    s.latitude > 57 ||
+    s.longitude < 35 ||
+    s.longitude > 40
+  )
+    throw new Error("Invalid MCD station evidence");
+  stations.push({
+    station: s.name,
+    latitude: s.latitude,
+    longitude: s.longitude,
+    line_id: s.line,
+    line_name: "МЦД-" + s.line.slice(1),
+    line_color: { D1: "#F6A800", D2: "#E74683", D3: "#EA5B04", D4: "#00CC66" }[
+      s.line
+    ],
+    system: "mcd",
+    source_url: s.sourceUrl
+  });
 }
 const db = new pg.Client({
   connectionString: process.env.SUPABASE_DATABASE_URL
@@ -53,38 +67,21 @@ await db.connect();
 try {
   const temples = (
     await db.query(
-      "select id,latitude,longitude from public.temples where status='PUBLISHED' and latitude is not null and longitude is not null"
+      "select id,slug,name,latitude,longitude from public.temples where status='PUBLISHED' and latitude is not null and longitude is not null"
     )
   ).rows;
   const old = (await db.query("select * from public.temple_transit")).rows;
   const rows = [],
-    changed = [];
+    changed = [],
+    diffs = [];
   for (const temple of temples) {
-    const candidates = stations
-      .map((s) => ({ ...s, distance_meters: distance(temple, s) }))
-      .sort((a, b) => a.distance_meters - b.distance_meters);
-    const unique = (items) => [
-      ...new Map(items.map((s) => [s.station, s])).values()
-    ];
-    const nearest = [
-      ...unique(
-        candidates.filter(
-          (s) => s.system !== "mcd" && s.distance_meters <= 10000
-        )
-      ).slice(0, 2),
-      ...unique(
-        candidates.filter(
-          (s) => s.system === "mcd" && s.distance_meters <= 5000
-        )
-      ).slice(0, 1)
-    ];
+    const nearest = nearestStations(temple, stations);
     const next = nearest.map(({ latitude: _lat, longitude: _lng, ...s }) => ({
       ...s,
       id: "transit-" + digest(temple.id + s.station + s.line_id).slice(0, 24),
       temple_id: temple.id,
       walk_minutes: Math.ceil((s.distance_meters * 1.3) / 80),
-      route_verified: false,
-      source_url: sourceUrl
+      route_verified: false
     }));
     const comparable = (items) =>
       JSON.stringify(
@@ -100,15 +97,30 @@ try {
           .sort()
       );
     if (
-      next.length &&
       comparable(next) !==
-        comparable(old.filter((s) => s.temple_id === temple.id))
+      comparable(old.filter((s) => s.temple_id === temple.id))
     ) {
       changed.push(temple.id);
+      diffs.push({
+        slug: temple.slug,
+        name: temple.name,
+        before: old
+          .filter((s) => s.temple_id === temple.id)
+          .map((s) => ({
+            station: s.station,
+            line: s.line_id,
+            minutes: s.walk_minutes
+          })),
+        after: next.map((s) => ({
+          station: s.station,
+          line: s.line_id,
+          minutes: s.walk_minutes
+        }))
+      });
       rows.push(...next);
     }
   }
-  if (process.argv.includes("--apply") && rows.length) {
+  if (process.argv.includes("--apply") && changed.length) {
     await writeFile(
       "tmp/backups/transit-before-refresh-" + Date.now() + ".json",
       JSON.stringify(old)
@@ -135,10 +147,16 @@ try {
     }
   }
   const report = {
-    checkedAt: source.last_checked_at,
+    checkedAt: new Date().toISOString(),
+    metroSourceCheckedAt: source.last_checked_at,
+    mcdSourceCheckedAt: evidence.checkedAt,
     sourceUrl,
     sourceHash: source.content_hash,
     stations: stations.length,
+    mcdStations: evidence.stations.length,
+    stationEvidence: "scripts/data/mcd-coordinates.json",
+    selectionMethod:
+      "three geographically closest distinct stations within 5 km; no artificial metro/MCD quotas",
     templesWithCoordinates: temples.length,
     templesChanged: changed.length,
     mode: process.argv.includes("--apply") ? "apply" : "dry-run",
@@ -150,6 +168,12 @@ try {
       "https://transport.mos.ru/mostrans/all_news/126335"
     ]
   };
+  await writeFile(
+    process.argv.includes("--apply")
+      ? "data/transit-refresh-diff.json"
+      : "tmp/transit-refresh-dry-run.json",
+    JSON.stringify(diffs, null, 2) + "\n"
+  );
   if (process.argv.includes("--apply"))
     await writeFile(
       "data/transit-refresh-report.json",

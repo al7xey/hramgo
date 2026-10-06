@@ -59,7 +59,7 @@ const temples = rows.map((r) => ({
     distanceMeters: s.distance_meters,
     walkMinutes: s.walk_minutes ?? 0,
     routeVerified: s.route_verified,
-    walkEstimated: s.source_url === "https://api.hh.ru/metro/1"
+    walkEstimated: !s.route_verified
   })),
   parishServices: r.temple_services.map((s) => ({
     id: s.id,

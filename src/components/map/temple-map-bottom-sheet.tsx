@@ -29,20 +29,20 @@ export const TempleMapBottomSheet = memo(function TempleMapBottomSheet({
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-2 top-2 z-10 flex size-8 items-center justify-center rounded-full bg-background/90 text-muted-foreground shadow-sm transition hover:text-foreground"
+          className="absolute right-2 top-2 z-10 flex size-11 items-center justify-center rounded-full bg-background/90 text-muted-foreground shadow-sm transition-colors hover:text-foreground"
           aria-label="Закрыть карточку"
         >
           <X className="size-4" aria-hidden />
         </button>
       ) : null}
-      <div className="grid grid-cols-[72px_1fr] gap-2.5 pr-8">
+      <div className="grid grid-cols-[72px_1fr] gap-3 pr-11">
         <TemplePhoto
           src={temple.photoUrl}
           alt={temple.name}
           className="aspect-square rounded-[16px]"
         />
         <div className="min-w-0">
-          <h2 className="line-clamp-2 text-sm font-semibold leading-5">
+          <h2 className="break-words text-base font-semibold leading-6">
             {temple.name}
           </h2>
           <p className="mt-1 line-clamp-2 text-sm leading-5 text-muted-foreground">
@@ -51,14 +51,14 @@ export const TempleMapBottomSheet = memo(function TempleMapBottomSheet({
         </div>
       </div>
       <div className="mt-2">
-        <TransitSummary transit={temple.transit} />
+        <TransitSummary transit={temple.transit} limit={1} />
       </div>
       {temple.websiteUrl ? (
         <a
           href={temple.websiteUrl}
           target="_blank"
           rel="noreferrer"
-          className="mt-2 inline-flex items-center gap-2 text-sm font-medium text-primary"
+          className="mt-2 inline-flex min-h-11 items-center gap-2 text-sm font-medium text-primary"
         >
           Официальный сайт
           <ExternalLink className="size-4" aria-hidden />
@@ -67,8 +67,7 @@ export const TempleMapBottomSheet = memo(function TempleMapBottomSheet({
       <div className="mt-3 grid grid-cols-2 gap-2">
         <Button asChild size="sm">
           <Link href={templeHref}>
-            <ExternalLink className="size-4" aria-hidden />
-            Перейти к храму
+            <ExternalLink className="size-4" aria-hidden />О храме
           </Link>
         </Button>
         <Button asChild variant="outline" size="sm">
@@ -82,7 +81,7 @@ export const TempleMapBottomSheet = memo(function TempleMapBottomSheet({
             rel="noreferrer"
           >
             <Navigation className="size-4" aria-hidden />
-            Маршрут
+            Построить маршрут
           </a>
         </Button>
       </div>

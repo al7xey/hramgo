@@ -8,11 +8,11 @@ export function LoadingState({ label = "Загрузка" }: { label?: string })
     >
       <p className="text-sm text-muted-foreground">{label}…</p>
       <div
-        className="h-[296px] animate-pulse rounded-glass bg-muted"
+        className="h-[224px] animate-pulse rounded-glass bg-muted"
         aria-hidden
       />
       <div
-        className="h-[296px] animate-pulse rounded-glass bg-muted"
+        className="h-[224px] animate-pulse rounded-glass bg-muted"
         aria-hidden
       />
     </div>

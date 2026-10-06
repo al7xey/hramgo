@@ -13,18 +13,26 @@ export const ThemeContext = React.createContext<{
 });
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<ThemePreference>("light");
+  const [theme, setTheme] = useState<ThemePreference | undefined>(undefined);
 
   useEffect(() => {
-    const savedTheme = (localStorage.getItem("hramgo-theme") as ThemePreference | null) ?? "light";
-    setTheme(savedTheme);
+    try {
+      const savedTheme = localStorage.getItem("hramgo-theme");
+      setTheme(
+        savedTheme === "dark" || savedTheme === "system" ? savedTheme : "light"
+      );
+    } catch {
+      setTheme("light");
+    }
   }, []);
 
   useEffect(() => {
+    if (!theme) return;
     const root = document.documentElement;
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
     const prefersDark = mediaQuery.matches;
-    const shouldUseDark = theme === "dark" || (theme === "system" && prefersDark);
+    const shouldUseDark =
+      theme === "dark" || (theme === "system" && prefersDark);
 
     root.classList.toggle("dark", shouldUseDark);
     root.dataset.theme = theme;
@@ -44,5 +52,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     };
   }, [theme]);
 
-  return <ThemeContext.Provider value={{ theme, setTheme }}>{children}</ThemeContext.Provider>;
+  return (
+    <ThemeContext.Provider value={{ theme: theme ?? "light", setTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  );
 }

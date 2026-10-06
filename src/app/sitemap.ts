@@ -47,9 +47,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "yearly",
       priority: 0.2
     },
+    ...[
+      "sources/",
+      "support/",
+      "legal/support-terms/",
+      "legal/payment-and-refund/"
+    ].map((path) => ({
+      url: `${baseUrl}/${path}`,
+      lastModified: now,
+      changeFrequency: "yearly" as const,
+      priority: 0.2
+    })),
     ...temples.map((temple) => ({
       url: `${baseUrl}/temples/${temple.slug}`,
-      lastModified: temple.lastVerifiedAt ? new Date(temple.lastVerifiedAt) : now,
+      lastModified: temple.lastVerifiedAt
+        ? new Date(temple.lastVerifiedAt)
+        : now,
       changeFrequency: "weekly" as const,
       priority: 0.75
     }))

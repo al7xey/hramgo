@@ -36,7 +36,7 @@ export function matchingServices(
 ) {
   const regular =
     input.scheduleMode === "regular" ||
-    (!input.date && Boolean(input.liturgyTime || input.eveningTime));
+    (input.scheduleMode !== "date" && !input.date);
   const date = input.date ?? moscowDate(now);
   const currentTime = new Intl.DateTimeFormat("en-GB", {
     timeZone: "Europe/Moscow",

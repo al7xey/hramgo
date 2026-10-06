@@ -17,17 +17,6 @@ export function formatTransitShort(transit: TempleTransitView) {
 
   const approximation =
     transit.walkEstimated && !transit.routeVerified ? "≈ " : "";
-  if (
-    transit.walkMinutes > 40 &&
-    transit.distanceMeters > 0 &&
-    !transit.routeVerified
-  ) {
-    const carMinutes = Math.max(
-      3,
-      Math.round((transit.distanceMeters / 1000 / 25) * 60)
-    );
-    return `${transit.station} · ≈ ${carMinutes} мин на машине`;
-  }
   return `${transit.station} · ${approximation}${Math.round(transit.walkMinutes)} мин`;
 }
 

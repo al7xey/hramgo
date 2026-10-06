@@ -1,0 +1,28 @@
+[Unit]
+Description=HramGo guest support payments
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+DynamicUser=yes
+StateDirectory=hramgo-support
+StateDirectoryMode=0700
+EnvironmentFile=/etc/hramgo-support.env
+Environment=SUPPORT_DATABASE=/var/lib/hramgo-support/payments.sqlite3
+Environment=SUPPORT_BIND_HOST=172.18.0.1
+ExecStart=/usr/bin/python3 /opt/hramgo-support/support_api.py
+Restart=on-failure
+RestartSec=5
+UMask=0077
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+MemoryMax=96M
+TasksMax=32
+LimitNOFILE=128
+
+[Install]
+WantedBy=multi-user.target

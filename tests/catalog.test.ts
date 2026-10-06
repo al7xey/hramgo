@@ -6,6 +6,11 @@ import {templeSearchSchema} from '../src/features/temples/validation';
 import {servicesForDate,moscowDate} from '../src/features/temples/schedules';
 import type {TempleView,ScheduleEntry} from '../src/features/temples/types';
 const catalog:TempleView[]=JSON.parse(readFileSync('data/temples.json','utf8'));
+test('unverified transit minutes remain visibly approximate after catalog synchronization',()=>{
+  const t=catalog.find(t=>t.slug==='sprav-1124-pokrova-presvyatoy-bogoroditsy-na-gorodne')!;
+  assert.equal(t.transit[0].station,'Покровское');
+  for(const row of t.transit)assert.equal(row.walkEstimated,!row.routeVerified);
+});
 test('snapshot preserves unique routes and coordinates inside the Earth',()=>{assert.ok(catalog.length>=725);assert.equal(new Set(catalog.map(t=>t.id)).size,catalog.length);assert.equal(new Set(catalog.map(t=>t.slug)).size,catalog.length);for(const t of catalog){assert.match(t.slug,/^[a-z0-9][a-z0-9-]*$/);assert.equal(t.moderationStatus,'PUBLISHED');assert.ok(t.latitude==null||Math.abs(t.latitude)<=90);assert.ok(t.longitude==null||Math.abs(t.longitude)<=180);}});
 test('catalog contains no visitor reviews, ratings or account references',()=>{for(const file of ['data/temples.json','public/data/catalog.json']){const rows=JSON.parse(readFileSync(file,'utf8'));for(const row of rows)for(const key of ['reviews','reviewsCount','approvedReviewsCount','averageHelpfulnessRating','userId','user_id'])assert.ok(!(key in row),`${key} remains in ${file}`);}assert.equal(templeSearchSchema.parse({sort:'impressions'}).sort,'relevance');});
 test('query boolean false does not enable filters',()=>{const input=templeSearchSchema.parse({hasPhotos:'false',sundaySchool:'0',hasWebsite:'true'});assert.equal(input.hasPhotos,false);assert.equal(input.sundaySchool,false);assert.equal(input.hasWebsite,true);});

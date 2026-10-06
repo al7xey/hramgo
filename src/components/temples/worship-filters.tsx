@@ -63,11 +63,6 @@ export function WorshipFilters({
   const initialWorship =
     d.worship ?? (d.eveningTime ? "evening" : d.liturgyTime ? "liturgy" : "");
   const initialTime = d.timeFrom ?? d.eveningTime ?? d.liturgyTime;
-  const selected =
-    [...(d.metro ?? []), ...(d.district ?? []), ...(d.service ?? [])].length +
-    Number(Boolean(d.date || d.weekday)) +
-    Number(Boolean(initialWorship)) +
-    Number(Boolean(initialTime || d.timeTo));
   return (
     <div className="grid gap-3">
       <Button
@@ -79,13 +74,26 @@ export function WorshipFilters({
         onClick={() => setOpen(!open)}
       >
         <SlidersHorizontal className="size-4" aria-hidden />
-        Фильтры{selected > 0 && <span>{selected}</span>}
+        Фильтры
         <span aria-hidden>{open ? "−" : "+"}</span>
       </Button>
       {open && (
         <LiquidGlassCard id="worship-filter-panel" className="p-4">
           <form action="/temples/" className="grid gap-4">
             <input type="hidden" name="query" value={d.query ?? ""} />
+            {!districts.length &&
+              d.district?.map((value) => (
+                <input
+                  key={value}
+                  type="hidden"
+                  name="district"
+                  value={value}
+                />
+              ))}
+            {(busy || error) &&
+              d.metro?.map((value) => (
+                <input key={value} type="hidden" name="metro" value={value} />
+              ))}
             {d.latitude != null && d.longitude != null && (
               <>
                 <input type="hidden" name="latitude" value={d.latitude} />
@@ -187,7 +195,13 @@ export function WorshipFilters({
                       className={field}
                       type="time"
                       name={name}
-                      defaultValue={value?.padStart(5, "0")}
+                      defaultValue={
+                        value
+                          ? value.includes(":")
+                            ? value.padStart(5, "0")
+                            : value.padStart(2, "0") + ":00"
+                          : undefined
+                      }
                     />
                   </label>
                 ))}
@@ -226,25 +240,30 @@ export function WorshipFilters({
                     </button>
                   </div>
                 )}
-                <div className="grid max-h-56 gap-2 overflow-y-auto">
-                  {metros
-                    .filter(
-                      (m) =>
-                        (d.metro ?? []).includes(m.name) ||
-                        m.name
-                          .toLocaleLowerCase("ru")
-                          .includes(station.toLocaleLowerCase("ru"))
-                    )
-                    .map((m) => (
-                      <Check
-                        key={`${m.name}-${m.lineId}`}
-                        name="metro"
-                        value={m.name}
-                        label={`${m.name} · ${m.lineName}`}
-                        checked={d.metro?.includes(m.name)}
-                      />
-                    ))}
-                </div>
+                <label className="grid gap-1 text-sm">
+                  Станция
+                  <select
+                    name="metro"
+                    className={field}
+                    defaultValue={d.metro?.[0] ?? ""}
+                    disabled={busy || error}
+                  >
+                    <option value="">Любая станция</option>
+                    {metros
+                      .filter(
+                        (m) =>
+                          (d.metro ?? []).includes(m.name) ||
+                          m.name
+                            .toLocaleLowerCase("ru")
+                            .includes(station.toLocaleLowerCase("ru"))
+                      )
+                      .map((m) => (
+                        <option key={`${m.name}-${m.lineId}`} value={m.name}>
+                          {m.name} · {m.lineName}
+                        </option>
+                      ))}
+                  </select>
+                </label>
               </div>
             </details>
             <details className="details-panel rounded-[22px] border border-card-border p-3">
@@ -278,26 +297,28 @@ export function WorshipFilters({
                     />
                   ))}
                 </fieldset>
-                <details>
-                  <summary className="cursor-pointer text-sm font-semibold">
-                    Районы Москвы
-                  </summary>
-                  <p className="mt-2 text-xs text-muted-foreground">
-                    Район указан не у всех храмов. Для полного поиска
-                    используйте станцию, улицу или карту.
-                  </p>
-                  <div className="mt-2 grid gap-2">
-                    {districts.map((x) => (
-                      <Check
-                        key={x}
-                        name="district"
-                        value={x}
-                        label={x}
-                        checked={d.district?.includes(x)}
-                      />
-                    ))}
-                  </div>
-                </details>
+                {districts.length > 0 && (
+                  <details>
+                    <summary className="cursor-pointer text-sm font-semibold">
+                      Районы Москвы
+                    </summary>
+                    <p className="mt-2 text-xs text-muted-foreground">
+                      Район указан не у всех храмов. Для полного поиска
+                      используйте станцию, улицу или карту.
+                    </p>
+                    <div className="mt-2 grid gap-2">
+                      {districts.map((x) => (
+                        <Check
+                          key={x}
+                          name="district"
+                          value={x}
+                          label={x}
+                          checked={d.district?.includes(x)}
+                        />
+                      ))}
+                    </div>
+                  </details>
+                )}
                 {[
                   ["hasSchedule", "Есть расписание", d.hasSchedule],
                   ["hasWebsite", "Есть сайт", d.hasWebsite],

@@ -6,15 +6,20 @@ export function TempleSearchBar({
   defaultValue,
   action = "/temples/",
   autoFocus = false,
-  parameters = ""
+  parameters = "",
+  compact = false
 }: {
   defaultValue?: string;
   action?: string;
   autoFocus?: boolean;
   parameters?: string;
+  compact?: boolean;
 }) {
   return (
-    <form action={action} className="grid min-w-0 gap-3">
+    <form
+      action={action}
+      className={`grid min-w-0 gap-3 ${compact ? "grid-cols-[minmax(0,1fr)_auto] xl:grid-cols-1" : ""}`}
+    >
       {[...new URLSearchParams(parameters)]
         .filter(([name]) => name !== "query")
         .map(([name, value], i) => (
@@ -30,7 +35,7 @@ export function TempleSearchBar({
           maxLength={120}
           defaultValue={defaultValue}
           autoFocus={autoFocus}
-          placeholder="Название, улица, метро или МЦД"
+          placeholder="Название храма, адрес или метро"
           className="h-12 w-full min-w-0 rounded-[22px] border border-card-border bg-card px-12 text-base outline-none transition placeholder:text-muted-foreground focus:border-action focus:ring-4 focus:ring-primary-soft"
         />
       </label>

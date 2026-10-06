@@ -25,6 +25,7 @@ import type {
   TempleView
 } from "@/features/temples/types";
 import { formatDate, routeToYandexMaps } from "@/lib/utils";
+import { env } from "@/lib/env";
 import { NextServiceSummary } from "@/components/temples/next-service-summary";
 
 export const dynamicParams = false;
@@ -128,26 +129,24 @@ export default async function TemplePage({
   const displayAddress = formatTempleAddress(temple.address);
 
   return (
-    <div className="mx-auto grid max-w-6xl gap-5">
+    <div className="mx-auto grid max-w-6xl gap-6">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(structuredData).replace(/</g, "\\u003c")
         }}
       />
-      <section className="grid gap-5">
+      <section className="grid gap-6">
         <BackToSearchButton />
         <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1.08fr)_minmax(360px,0.92fr)]">
           <div className="order-2 lg:order-1">
             <TempleGallery photos={temple.photos} name={temple.name} />
           </div>
 
-          <LiquidGlassCard className="order-1 grid content-start gap-4 p-5 lg:order-2">
+          <LiquidGlassCard className="order-1 grid content-start gap-4 p-4 md:p-6 lg:order-2">
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
-                <h1 className="break-words text-2xl font-semibold leading-tight md:text-3xl">
-                  {temple.name}
-                </h1>
+                <h1 className="page-title">{temple.name}</h1>
                 <p className="mt-3 text-sm leading-6 text-muted-foreground">
                   {displayAddress}
                 </p>
@@ -155,22 +154,6 @@ export default async function TemplePage({
             </div>
 
             <TransitSummary transit={temple.transit} limit={3} />
-            <NextServiceSummary entries={temple.scheduleEntries ?? []} />
-            {templeDescription && (
-              <p className="text-sm leading-7 text-muted-foreground">
-                {templeDescription}
-              </p>
-            )}
-            {temple.descriptionSourceUrl && (
-              <a
-                href={temple.descriptionSourceUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="text-xs text-action underline"
-              >
-                Источник сведений о храме
-              </a>
-            )}
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               <Button asChild>
                 <a
@@ -195,12 +178,33 @@ export default async function TemplePage({
                 </Button>
               )}
             </div>
+            <NextServiceSummary entries={temple.scheduleEntries ?? []} />
+            <Button asChild variant="ghost" className="justify-start px-0">
+              <a
+                href={
+                  "mailto:" +
+                  env.SUPPORT_EMAIL +
+                  "?subject=" +
+                  encodeURIComponent("Ошибка в данных: " + temple.name) +
+                  "&body=" +
+                  encodeURIComponent(
+                    "Храм: " +
+                      temple.name +
+                      "\nСтраница: https://hramgo.ru/temples/" +
+                      temple.slug +
+                      "/\n\nЧто нужно исправить:\n"
+                  )
+                }
+              >
+                Сообщить об ошибке
+              </a>
+            </Button>
           </LiquidGlassCard>
         </div>
 
         <div className="grid gap-3">
           <DetailsCard
-            title="Расписание"
+            title="Расписание богослужений"
             defaultOpen
             icon={<BookOpenText className="size-5" aria-hidden />}
           >
@@ -208,9 +212,48 @@ export default async function TemplePage({
           </DetailsCard>
 
           <DetailsCard
+            title="Социальные сети и контакты"
+            icon={<ExternalLink className="size-5" aria-hidden />}
+          >
+            <div className="grid gap-2 sm:grid-cols-2">
+              <MetaLine label="Телефон" value={temple.phone} contact="phone" />
+              <MetaLine label="Email" value={temple.email} contact="email" />
+            </div>
+            {temple.socialLinks.length > 0 && (
+              <div className="mt-3 flex flex-wrap gap-2">
+                {temple.socialLinks.map((link, index) => (
+                  <a
+                    key={`${link.type}-${link.label}-${link.url}-${index}`}
+                    href={link.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex min-h-11 items-center gap-2 rounded-[18px] border border-transparent bg-primary-soft px-4 text-sm font-semibold text-primary transition-colors hover:bg-primary/10"
+                  >
+                    <ExternalLink className="size-4" aria-hidden />
+                    {link.label}
+                  </a>
+                ))}
+              </div>
+            )}
+          </DetailsCard>
+
+          <DetailsCard
             title="История, святыни и фото"
             icon={<History className="size-5" aria-hidden />}
           >
+            {templeDescription && (
+              <InfoBlock title="О храме" text={templeDescription} />
+            )}
+            {temple.descriptionSourceUrl && (
+              <a
+                href={temple.descriptionSourceUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="text-sm text-primary underline"
+              >
+                Источник сведений о храме
+              </a>
+            )}
             <InfoBlock
               title="История"
               text={
@@ -259,32 +302,6 @@ export default async function TemplePage({
             )}
           </DetailsCard>
 
-          <DetailsCard
-            title="Социальные сети и контакты"
-            icon={<ExternalLink className="size-5" aria-hidden />}
-          >
-            <div className="grid gap-2 sm:grid-cols-2">
-              <MetaLine label="Телефон" value={temple.phone} contact="phone" />
-              <MetaLine label="Email" value={temple.email} contact="email" />
-            </div>
-            {temple.socialLinks.length > 0 && (
-              <div className="mt-3 flex flex-wrap gap-2">
-                {temple.socialLinks.map((link, index) => (
-                  <a
-                    key={`${link.type}-${link.label}-${link.url}-${index}`}
-                    href={link.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex min-h-11 items-center gap-2 rounded-[18px] border border-transparent bg-primary-soft px-4 text-sm font-semibold text-primary transition-colors hover:bg-primary/10"
-                  >
-                    <ExternalLink className="size-4" aria-hidden />
-                    {link.label}
-                  </a>
-                ))}
-              </div>
-            )}
-          </DetailsCard>
-
           <ParishServicesOverview temple={temple} />
 
           <DetailsCard
@@ -305,7 +322,7 @@ export default async function TemplePage({
         </div>
       </section>
       <section className="grid gap-3">
-        <h2 className="text-xl font-semibold">Карта</h2>
+        <h2 className="section-title">Как добраться</h2>
         <LazyTempleMap
           temples={[temple]}
           activeSlug={temple.slug}
@@ -329,7 +346,7 @@ function DetailsCard({
 }) {
   return (
     <details
-      className="details-panel glass rounded-glass p-5"
+      className="details-panel glass rounded-glass p-4 md:p-6"
       open={defaultOpen}
     >
       <summary className="flex cursor-pointer items-center justify-between gap-3">
@@ -339,7 +356,7 @@ function DetailsCard({
         </h2>
         <ChevronDown className="size-5 text-muted-foreground" aria-hidden />
       </summary>
-      <div className="mt-4 grid gap-4">{children}</div>
+      <div className="mt-4 grid max-w-[880px] gap-4">{children}</div>
     </details>
   );
 }

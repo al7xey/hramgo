@@ -10,7 +10,10 @@ export function ContextLink({
   const router = useRouter();
   const pathname = usePathname();
   const target = String(href);
-  const active = pathname.replace(/\/$/, "") === target.replace(/\/$/, "");
+  const active =
+    pathname.replace(/\/$/, "") === target.replace(/\/$/, "") ||
+    (target.replace(/\/$/, "") === "/temples" &&
+      pathname.startsWith("/temples/"));
   return (
     <Link
       {...props}
@@ -33,7 +36,6 @@ export function ContextLink({
           : new URLSearchParams(
               current.searchParams.get("returnTo")?.split("?")[1] ?? ""
             );
-        params.delete("temple");
         params.delete("returnTo");
         event.preventDefault();
         router.push(target + (params.size ? `?${params}` : ""));
