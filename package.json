@@ -20,7 +20,8 @@
     "temples:regular": "node --env-file-if-exists=.env.local scripts/enrich-regular-catalog.mjs",
     "temples:parish": "node --env-file-if-exists=.env.local scripts/refresh-parish-schedules.mjs",
     "photos:prepare": "node scripts/prepare-photo-variants.mjs",
-    "transit:refresh": "node --env-file-if-exists=.env.local scripts/refresh-transit.mjs"
+    "transit:refresh": "node --env-file-if-exists=.env.local scripts/refresh-transit.mjs",
+    "seo:notify": "node scripts/notify-indexnow.mjs"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",
