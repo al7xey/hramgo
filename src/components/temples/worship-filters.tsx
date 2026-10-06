@@ -21,7 +21,7 @@ const days = [
   "Воскресенье"
 ];
 const field =
-  "min-h-11 w-full rounded-[18px] border border-card-border bg-background px-3 text-sm focus-visible:outline-2 focus-visible:outline-action";
+  "h-11 min-w-0 w-full max-w-full rounded-[18px] border border-card-border bg-background px-3 text-base focus-visible:outline-2 focus-visible:outline-action";
 export function WorshipFilters({
   input: d,
   districts,
@@ -189,10 +189,10 @@ export function WorshipFilters({
                     d.timeTo ?? d.eveningTime ?? d.liturgyTime
                   ]
                 ].map(([name, label, value]) => (
-                  <label key={name} className="grid gap-1 text-sm">
+                  <label key={name} className="grid min-w-0 gap-1 text-sm">
                     {label}
                     <input
-                      className={field}
+                      className={`${field} time-field`}
                       type="time"
                       name={name}
                       defaultValue={

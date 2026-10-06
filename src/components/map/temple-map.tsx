@@ -2,6 +2,8 @@
 
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 import type { ReactNode } from "react";
+import { LocateFixed } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 import { TempleMapBottomSheet } from "@/components/map/temple-map-bottom-sheet";
 import { LiquidGlassCard } from "@/components/ui/liquid-glass-card";
@@ -94,6 +96,73 @@ export const TempleMap = memo(function TempleMap({
   const [mapError, setMapError] = useState(false);
   const [attempt, setAttempt] = useState(0);
   const [dragEnabled, setDragEnabled] = useState(false);
+  const [locating, setLocating] = useState(false);
+  const [position, setPosition] = useState<{
+    coords: [number, number];
+    accuracy: number;
+  }>();
+  const [locationError, setLocationError] = useState("");
+  const locationWatch = useRef<number | null>(null);
+  const locationActive = useRef(false);
+  const locationManager = useRef<YObjectManager | null>(null);
+  function stopLocation() {
+    if (locationWatch.current !== null)
+      navigator.geolocation.clearWatch(locationWatch.current);
+    locationWatch.current = null;
+    locationActive.current = false;
+    locationManager.current?.removeAll();
+    setPosition(undefined);
+    setLocating(false);
+  }
+  function toggleLocation() {
+    setLocationError("");
+    if (locationActive.current) {
+      stopLocation();
+      return;
+    }
+    if (!navigator.geolocation) {
+      setLocationError(
+        "Геопозиция недоступна. Найдите храм по адресу или метро."
+      );
+      return;
+    }
+    locationActive.current = true;
+    setLocating(true);
+    let first = true;
+    locationWatch.current = navigator.geolocation.watchPosition(
+      (result) => {
+        if (!locationActive.current) return;
+        const coords: [number, number] = [
+          result.coords.latitude,
+          result.coords.longitude
+        ];
+        setPosition({ coords, accuracy: result.coords.accuracy });
+        setLocating(false);
+        setLocationError("");
+        if (first)
+          mapRef.current?.panTo(coords, { flying: false, duration: 0 });
+        first = false;
+      },
+      (error) => {
+        if (!locationActive.current) return;
+        stopLocation();
+        setLocationError(
+          error.code === 1
+            ? "Доступ к геопозиции запрещён. Разрешите его в настройках браузера или ищите по адресу и метро."
+            : "Не удалось определить геопозицию. Попробуйте ещё раз или ищите по адресу и метро."
+        );
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 30000 }
+    );
+  }
+  useEffect(
+    () => () => {
+      locationActive.current = false;
+      if (locationWatch.current !== null)
+        navigator.geolocation.clearWatch(locationWatch.current);
+    },
+    []
+  );
   const selectionRef = useRef(onSelect);
   const viewKeyRef = useRef(viewKey);
   const restoredViewport = useRef(false);
@@ -150,7 +219,7 @@ export const TempleMap = memo(function TempleMap({
           {
             center,
             zoom: restoredView?.zoom ?? (points.length > 1 ? 10 : 15),
-            controls: ["zoomControl", "geolocationControl", "fullscreenControl"]
+            controls: ["zoomControl", "fullscreenControl"]
           },
           { suppressMapOpenBlock: true }
         );
@@ -160,7 +229,8 @@ export const TempleMap = memo(function TempleMap({
         mapRef.current.events.add("boundschange", () => {
           const map = mapRef.current,
             key = viewKeyRef.current;
-          if (map && key) saveMapView(key, map.getCenter(), map.getZoom());
+          if (map && key && !locationActive.current)
+            saveMapView(key, map.getCenter(), map.getZoom());
         });
         objectManagerRef.current = new ymaps.ObjectManager({
           clusterize: true,
@@ -180,6 +250,10 @@ export const TempleMap = memo(function TempleMap({
           }
         });
         mapRef.current.geoObjects.add(objectManagerRef.current);
+        locationManager.current = new ymaps.ObjectManager({
+          clusterize: false
+        });
+        mapRef.current.geoObjects.add(locationManager.current);
         mapRef.current.events.add("click", () => {
           if (Date.now() < suppressMapClickUntilRef.current) {
             return;
@@ -201,11 +275,38 @@ export const TempleMap = memo(function TempleMap({
       mapRef.current?.destroy();
       mapRef.current = null;
       objectManagerRef.current = null;
+      locationManager.current = null;
       fittedPointsKeyRef.current = null;
     };
     // The SDK instance persists while selection/points change; effects below update it.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [attempt]);
+
+  useEffect(() => {
+    if (!mapReady || !locationManager.current) return;
+    locationManager.current.removeAll();
+    if (position)
+      locationManager.current.add({
+        type: "FeatureCollection",
+        features: [
+          {
+            type: "Feature",
+            id: "user-position",
+            geometry: { type: "Point", coordinates: position.coords },
+            properties: {
+              iconCaption: "Вы здесь",
+              hintContent: `Ваша геопозиция · точность около ${Math.ceil(position.accuracy)} м`
+            },
+            options: {
+              preset: "islands#circleDotIcon",
+              iconColor: "#244b78",
+              zIndex: 3000,
+              openBalloonOnClick: false
+            }
+          }
+        ]
+      });
+  }, [mapReady, position]);
 
   useEffect(() => {
     if (!mapReady || !objectManagerRef.current) {
@@ -302,26 +403,52 @@ export const TempleMap = memo(function TempleMap({
       {sidebarTop ? <div className="xl:hidden">{sidebarTop}</div> : null}
 
       <LiquidGlassCard className="relative overflow-hidden p-2">
+        <div className="flex min-h-[104px] flex-wrap items-center gap-2 px-2 pb-2 md:min-h-[52px]">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            disabled={!mapReady}
+            aria-pressed={Boolean(position) || locating}
+            onClick={toggleLocation}
+          >
+            <LocateFixed className="size-4" aria-hidden />
+            {locating
+              ? "Отменить определение"
+              : position
+                ? "Выключить геопозицию"
+                : "Включить геопозицию"}
+          </Button>
+          {mapReady && (
+            <button
+              type="button"
+              className="min-h-11 rounded-[18px] border border-card-border bg-background px-3 text-sm text-primary md:hidden"
+              aria-pressed={dragEnabled}
+              onClick={() => {
+                if (dragEnabled) mapRef.current?.behaviors.disable("drag");
+                else mapRef.current?.behaviors.enable("drag");
+                setDragEnabled(!dragEnabled);
+              }}
+            >
+              {dragEnabled ? "Прокрутка страницы" : "Управлять картой"}
+            </button>
+          )}
+
+          <p className="text-xs text-muted-foreground" role="status">
+            {locationError ||
+              (locating
+                ? "Определяем местоположение…"
+                : position
+                  ? `Вы на карте · точность ≈ ${Math.ceil(position.accuracy)} м`
+                  : "")}
+          </p>
+        </div>
         <div
           ref={mapNodeRef}
           role="region"
           aria-label="Карта храмов Москвы"
           className="h-[420px] w-full overflow-hidden rounded-[24px] bg-muted md:h-[520px] xl:h-[640px]"
         />
-        {mapReady && (
-          <button
-            type="button"
-            className="absolute left-4 top-4 z-10 min-h-11 rounded-[18px] border border-card-border bg-background px-3 text-sm text-primary md:hidden"
-            aria-pressed={dragEnabled}
-            onClick={() => {
-              if (dragEnabled) mapRef.current?.behaviors.disable("drag");
-              else mapRef.current?.behaviors.enable("drag");
-              setDragEnabled(!dragEnabled);
-            }}
-          >
-            {dragEnabled ? "Прокрутка страницы" : "Управлять картой"}
-          </button>
-        )}
         {!mapReady && (
           <div
             className="absolute inset-2 grid place-content-center gap-3 rounded-[24px] bg-background/95 p-5 text-center"

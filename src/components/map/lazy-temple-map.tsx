@@ -49,6 +49,7 @@ export function LazyTempleMap(props: TempleMapProps) {
             <div className="xl:hidden">{props.sidebarTop}</div>
           )}
           <LiquidGlassCard className="relative overflow-hidden p-2">
+            <div className="min-h-[104px] md:min-h-[52px]" aria-hidden />
             <div
               className="h-[420px] w-full rounded-[24px] bg-muted md:h-[520px] xl:h-[640px]"
               role={error ? "alert" : "status"}

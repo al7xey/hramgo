@@ -19,6 +19,40 @@ const base: ScheduleEntry = {
   confidence: 1,
   status: "VERIFIED"
 };
+test("early and exact-hour shortcuts select weekly liturgies rather than evening services", () => {
+  const entries = ["07:30", "08:00", "09:00", "10:00"].map((startsAt) => ({
+    ...base,
+    startsAt,
+    kind: "liturgy" as const,
+    title: "Божественная литургия"
+  }));
+  const early = templeSearchSchema.parse({
+    scheduleMode: "regular",
+    worship: "liturgy",
+    timeFrom: "00:00",
+    timeTo: "07:59"
+  });
+  assert.deepEqual(
+    matchingServices(
+      [...entries, { ...base, startsAt: "07:00" }],
+      early,
+      now
+    ).map((entry) => entry.startsAt),
+    ["07:30"]
+  );
+  for (const time of ["08:00", "09:00", "10:00"]) {
+    const input = templeSearchSchema.parse({
+      scheduleMode: "regular",
+      worship: "liturgy",
+      timeFrom: time,
+      timeTo: time
+    });
+    assert.deepEqual(
+      matchingServices(entries, input, now).map((entry) => entry.startsAt),
+      [time]
+    );
+  }
+});
 test("undated service filters use weekly rules, explicit dates use the selected day", () => {
   const sunday = { ...base, weekdays: [7] };
   assert.equal(

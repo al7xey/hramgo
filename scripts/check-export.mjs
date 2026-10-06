@@ -47,12 +47,10 @@ for (const file of files) {
 }
 for (let start = 0; start < pathChecks.length; start += 30) {
   const contents = await Promise.all(
-    pathChecks
-      .slice(start, start + 30)
-      .map(async (file) => ({
-        file,
-        content: await readFile("out/" + file, "utf8")
-      }))
+    pathChecks.slice(start, start + 30).map(async (file) => ({
+      file,
+      content: await readFile("out/" + file, "utf8")
+    }))
   );
   for (const { file, content } of contents) {
     if (
@@ -77,8 +75,13 @@ for (let start = 0; start < pathChecks.length; start += 30) {
 const home = await readFile("out/index.html", "utf8");
 if (/service_role|SUPABASE_SECRET_KEY|YOOKASSA_SECRET_KEY/.test(home))
   throw new Error("Private key name in exported HTML");
-if (/Вечерняя в (17|18):00|Сегодня вечером/.test(home))
-  throw new Error("Removed evening shortcut remains on homepage");
+if (
+  !home.includes('id="quick-services"') ||
+  !home.includes("Литургия в 10:00") ||
+  !home.includes("Есть ранняя литургия") ||
+  !home.includes("Вечернее богослужение в 18:00")
+)
+  throw new Error("Separate quick-service section is missing");
 const sources = await readFile("out/sources/index.html", "utf8");
 if (!sources.includes("Wikidata (CC0)"))
   throw new Error("Missing transit source attribution");

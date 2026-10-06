@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CalendarCheck, HeartHandshake, Map, Sunrise } from "lucide-react";
+import {
+  CalendarCheck,
+  HeartHandshake,
+  Map,
+  Sunrise,
+  Sunset
+} from "lucide-react";
 import { readCatalog } from "@/features/temples/repository";
 import { regularServices } from "@/features/temples/schedules";
 
@@ -63,31 +69,81 @@ export default async function HomePage() {
                 <NearbyButton />
               </div>
             </div>
+          </LiquidGlassCard>
+
+          <section className="px-4 md:px-6" aria-labelledby="quick-services">
+            <h2 id="quick-services" className="section-title">
+              Выберите время службы
+            </h2>
+            <p className="mt-2 text-sm leading-6 text-muted-foreground">
+              По обычному расписанию храмов. День недели можно уточнить в
+              фильтрах.
+            </p>
             <div
-              className="mt-4 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap"
+              className="mt-4 grid gap-2 sm:grid-cols-2"
               aria-label="Быстрый поиск богослужений"
             >
               {[
-                { title: "Литургия в 8:00", kind: "liturgy", time: "08:00" },
-                { title: "Литургия в 9:00", kind: "liturgy", time: "09:00" }
+                {
+                  title: "Вечернее богослужение в 17:00",
+                  kind: "evening",
+                  from: "17:00",
+                  to: "17:00"
+                },
+                {
+                  title: "Вечернее богослужение в 18:00",
+                  kind: "evening",
+                  from: "18:00",
+                  to: "18:00"
+                },
+                {
+                  title: "Есть ранняя литургия",
+                  kind: "liturgy",
+                  from: "00:00",
+                  to: "07:59"
+                },
+                {
+                  title: "Литургия в 8:00",
+                  kind: "liturgy",
+                  from: "08:00",
+                  to: "08:00"
+                },
+                {
+                  title: "Литургия в 9:00",
+                  kind: "liturgy",
+                  from: "09:00",
+                  to: "09:00"
+                },
+                {
+                  title: "Литургия в 10:00",
+                  kind: "liturgy",
+                  from: "10:00",
+                  to: "10:00"
+                }
               ].map((scenario) => (
                 <Button
                   key={scenario.title}
                   asChild
-                  size="sm"
                   variant="outline"
-                  className="gap-1.5 px-2 text-xs sm:px-3"
+                  className="h-auto min-h-12 justify-start gap-2 whitespace-normal px-3 py-3 text-left text-sm"
                 >
                   <Link
-                    href={`/temples/?scheduleMode=regular&worship=${scenario.kind}&timeFrom=${scenario.time}&timeTo=${scenario.time}`}
+                    href={`/temples/?scheduleMode=regular&worship=${scenario.kind}&timeFrom=${scenario.from}&timeTo=${scenario.to}`}
+                    title={
+                      scenario.from === "00:00" ? "Литургия до 8:00" : undefined
+                    }
                   >
-                    <Sunrise className="size-4" aria-hidden />
+                    {scenario.kind === "evening" ? (
+                      <Sunset className="size-4 shrink-0" aria-hidden />
+                    ) : (
+                      <Sunrise className="size-4 shrink-0" aria-hidden />
+                    )}
                     {scenario.title}
                   </Link>
                 </Button>
               ))}
             </div>
-          </LiquidGlassCard>
+          </section>
 
           <section className="p-4 md:p-6" aria-labelledby="visit-guide">
             <h2 id="visit-guide" className="section-title">
@@ -99,7 +155,7 @@ export default async function HomePage() {
               странице храма — расписание, контакты и ссылка для построения
               маршрута.
             </p>
-            <ol className="mt-4 grid gap-3 border-y border-card-border py-4 text-sm sm:grid-cols-3">
+            <ol className="mt-5 grid gap-0 text-sm">
               {[
                 [
                   "Найдите храм",
@@ -114,12 +170,25 @@ export default async function HomePage() {
                   "Откройте страницу храма, сверяйте источник расписания и переходите в карты."
                 ]
               ].map(([title, text], index) => (
-                <li key={title}>
-                  <p className="font-semibold">
-                    <span className="mr-2 text-primary">{index + 1}.</span>
-                    {title}
-                  </p>
-                  <p className="mt-1 leading-6 text-muted-foreground">{text}</p>
+                <li
+                  key={title}
+                  className="relative grid grid-cols-[32px_minmax(0,1fr)] gap-3 pb-5 last:pb-0"
+                >
+                  {index < 2 && (
+                    <span
+                      className="absolute bottom-0 left-[15px] top-8 w-px bg-card-border"
+                      aria-hidden
+                    />
+                  )}
+                  <span className="relative flex size-8 items-center justify-center rounded-full bg-primary-soft font-semibold text-primary">
+                    {index + 1}
+                  </span>
+                  <div>
+                    <p className="font-semibold">{title}</p>
+                    <p className="mt-1 leading-6 text-muted-foreground">
+                      {text}
+                    </p>
+                  </div>
                 </li>
               ))}
             </ol>
@@ -182,7 +251,7 @@ export default async function HomePage() {
               </p>
               <p>Информация обновляется из официальных источников.</p>
             </div>
-            <dl className="mt-4 grid grid-cols-2 gap-4 border-t border-card-border pt-4">
+            <dl className="mt-4 grid grid-cols-2 gap-4">
               <div>
                 <dt className="text-xs leading-5 text-muted-foreground">
                   Храмов в каталоге

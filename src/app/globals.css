@@ -159,3 +159,17 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+/* Safari time controls must fit their grid track instead of using intrinsic width. */
+.time-field {
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  appearance: none;
+}
+.time-field::-webkit-date-and-time-value {
+  min-width: 0;
+  text-align: left;
+}
+.time-field::-webkit-datetime-edit {
+  padding: 0;
+}

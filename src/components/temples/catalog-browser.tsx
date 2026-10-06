@@ -6,7 +6,6 @@ import { TempleSearchBar } from "./temple-search-bar";
 import { WorshipFilters } from "./worship-filters";
 import { NearbyButton } from "./nearby-button";
 import { ActiveFilters } from "./active-filters";
-import { ContextLink } from "@/components/layout/context-link";
 import { readListView, saveListView } from "@/features/temples/view-state";
 import Link from "next/link";
 import { TempleCard } from "./temple-card";
@@ -109,14 +108,6 @@ export function CatalogBrowser() {
           parameters={key}
         />
         <NearbyButton />
-        <div className="flex gap-2" aria-label="Режим результатов">
-          <Button asChild variant="secondary">
-            <ContextLink href="/temples/">Список</ContextLink>
-          </Button>
-          <Button asChild variant="outline">
-            <ContextLink href="/map/">Карта</ContextLink>
-          </Button>
-        </div>
         <ActiveFilters input={input} parameters={key} />
         <WorshipFilters
           key={"filters:" + key}

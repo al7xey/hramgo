@@ -40,8 +40,8 @@ export function TempleCard({
         className="block rounded-glass focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action"
         aria-label={`Открыть храм: ${temple.name}`}
       >
-        <div className="grid grid-cols-[minmax(0,38%)_minmax(0,1fr)] gap-3 p-3 sm:grid-cols-[148px_minmax(0,1fr)]">
-          <div className="relative overflow-hidden rounded-[22px] bg-muted">
+        <div className="grid grid-cols-[minmax(0,34%)_minmax(0,1fr)] gap-3 p-3 sm:grid-cols-[148px_minmax(0,1fr)]">
+          <div className="relative overflow-hidden rounded-[20px] bg-muted">
             {photo ? (
               <TemplePhoto
                 src={photo.imageUrl}
@@ -53,29 +53,28 @@ export function TempleCard({
                 <MapPinned className="size-7" aria-hidden />
               </div>
             )}
-            {service && (
-              <div className="absolute inset-x-0 bottom-0 bg-action px-2.5 py-2 text-xs leading-4 text-white">
-                <p>
-                  {formatServiceDays(service)} ·{" "}
-                  <strong>{service.startsAt.slice(0, 5)}</strong>
-                </p>
-                <p className="line-clamp-2">{service.title}</p>
-                {service.status === "REVIEW" && (
-                  <p className="mt-0.5 text-[10px]">Справочное расписание</p>
-                )}
-              </div>
-            )}
           </div>
 
-          <div className="flex min-w-0 flex-col py-1">
+          <div className="flex min-w-0 flex-col">
             <div>
               <h2
                 title={temple.name}
-                className="break-words text-base font-semibold leading-6"
+                className="break-words text-base font-semibold leading-5"
               >
                 {temple.name}
               </h2>
             </div>
+            {service && (
+              <div className="mt-2 text-xs leading-4 text-primary">
+                <p>
+                  <strong>{service.startsAt.slice(0, 5)}</strong> ·{" "}
+                  {formatServiceDays(service)} · {service.title}
+                </p>
+                {service.status === "REVIEW" && (
+                  <p className="text-muted-foreground">Справочное расписание</p>
+                )}
+              </div>
+            )}
 
             <div className="mt-2">
               <TransitSummary transit={temple.transit} compact />

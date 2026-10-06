@@ -8,7 +8,6 @@ import type { TempleView } from "@/features/temples/types";
 import { LazyTempleMap } from "./lazy-temple-map";
 import { TempleSearchBar } from "@/components/temples/temple-search-bar";
 import { ActiveFilters } from "@/components/temples/active-filters";
-import { ContextLink } from "@/components/layout/context-link";
 import { Button } from "@/components/ui/button";
 import { templeSearchSchema } from "@/features/temples/validation";
 import { routeToYandexMaps } from "@/lib/utils";
@@ -95,22 +94,11 @@ export function MapBrowser() {
             : `${temples.length} на карте${results.length > temples.length ? ` · ${results.length - temples.length} без координат — доступны в списке` : ""}`}
         </p>
       </div>
-      <div
-        className="flex flex-wrap items-center gap-2"
-        aria-label="Режим результатов"
-      >
-        <Button asChild variant="outline">
-          <ContextLink href="/temples/">Список</ContextLink>
-        </Button>
-        <Button asChild variant="secondary">
-          <ContextLink href="/map/">Карта</ContextLink>
-        </Button>
-        <span className="text-sm text-muted-foreground">
-          {input.latitude != null && input.longitude != null
-            ? `До ${input.radiusKm ?? 5} км от точки поиска по прямой`
-            : "По всей Москве"}
-        </span>
-      </div>
+      <p className="text-sm text-muted-foreground">
+        {input.latitude != null && input.longitude != null
+          ? `До ${input.radiusKm ?? 5} км от точки поиска по прямой`
+          : "По всей Москве"}
+      </p>
       <ActiveFilters
         input={input}
         parameters={params.toString()}
@@ -206,12 +194,6 @@ export function MapBrowser() {
                   )}
                 </section>
               )}
-              <Link
-                className="inline-flex min-h-11 items-center text-sm text-primary underline"
-                href={`/temples/?${params}`}
-              >
-                Все результаты списком
-              </Link>
             </div>
           }
         />
