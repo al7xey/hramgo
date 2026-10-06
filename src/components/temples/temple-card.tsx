@@ -32,15 +32,15 @@ export function TempleCard({
 
   return (
     <LiquidGlassCard
-      className={`relative overflow-hidden ${selected ? "ring-2 ring-primary" : ""}`}
+      className={`relative h-[244px] overflow-hidden ${selected ? "ring-2 ring-primary" : ""}`}
     >
       <Link
         href={detailsHref}
         onClick={onOpen}
-        className="block rounded-glass focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action"
+        className="block h-full rounded-glass focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-action"
         aria-label={`Открыть храм: ${temple.name}`}
       >
-        <div className="grid grid-cols-[minmax(0,34%)_minmax(0,1fr)] gap-3 p-3 sm:grid-cols-[148px_minmax(0,1fr)]">
+        <div className="grid h-full grid-cols-[minmax(0,34%)_minmax(0,1fr)] gap-3 p-3 sm:grid-cols-[148px_minmax(0,1fr)]">
           <div className="relative overflow-hidden rounded-[20px] bg-muted">
             {photo ? (
               <TemplePhoto
@@ -55,32 +55,54 @@ export function TempleCard({
             )}
           </div>
 
-          <div className="flex min-w-0 flex-col">
+          <div className="grid min-w-0 grid-rows-[60px_32px_80px_32px] gap-1">
             <div>
               <h2
                 title={temple.name}
-                className="break-words text-base font-semibold leading-5"
+                className="line-clamp-3 break-words text-base font-semibold leading-5"
               >
                 {temple.name}
               </h2>
             </div>
-            {service && (
-              <div className="mt-2 text-xs leading-4 text-primary">
-                <p>
-                  <strong>{service.startsAt.slice(0, 5)}</strong> ·{" "}
-                  {formatServiceDays(service)} · {service.title}
+            <div className="min-w-0 text-xs leading-4 text-primary">
+              {service ? (
+                <>
+                  <p
+                    className="flex gap-1.5"
+                    title={`${service.startsAt.slice(0, 5)} · ${service.title}`}
+                  >
+                    <strong className="shrink-0">
+                      {service.startsAt.slice(0, 5)}
+                    </strong>
+                    <span className="truncate">{service.title}</span>
+                  </p>
+                  <p
+                    className="flex gap-1 text-muted-foreground"
+                    title={`${formatServiceDays(service)}${service.status === "REVIEW" ? " · Справочное расписание" : ""}`}
+                  >
+                    <span className="truncate">
+                      {formatServiceDays(service)}
+                    </span>
+                    {service.status === "REVIEW" && (
+                      <span className="shrink-0">· Справочное</span>
+                    )}
+                  </p>
+                </>
+              ) : (
+                <p className="line-clamp-2 text-muted-foreground">
+                  Актуальное расписание уточняется
                 </p>
-                {service.status === "REVIEW" && (
-                  <p className="text-muted-foreground">Справочное расписание</p>
-                )}
-              </div>
-            )}
-
-            <div className="mt-2">
-              <TransitSummary transit={temple.transit} compact />
+              )}
             </div>
-            <p className="mt-2 line-clamp-2 text-sm leading-5 text-muted-foreground">
-              {formatCardAddress(temple.address)}
+
+            <div className="min-w-0">
+              <TransitSummary transit={temple.transit} compact singleLine />
+            </div>
+            <p
+              title={temple.address ?? undefined}
+              className="line-clamp-2 text-sm leading-4 text-muted-foreground"
+            >
+              {formatCardAddress(temple.address) || "Адрес уточняется"}
             </p>
           </div>
         </div>

@@ -12,10 +12,12 @@ import type {
 
 export function TransitChip({
   transit,
-  compact = false
+  compact = false,
+  singleLine = false
 }: {
   transit: TempleTransitView;
   compact?: boolean;
+  singleLine?: boolean;
 }) {
   const label = formatTransitShort(transit);
 
@@ -24,22 +26,34 @@ export function TransitChip({
       title={`${label}${label !== transit.station && !label.includes("на машине") ? " пешком" : ""}${label.includes("≈") ? " (расчётная оценка, без проверки маршрута)" : ""}`}
       className={cn(
         "inline-flex min-h-8 max-w-full items-center gap-1.5 rounded-[18px] border border-card-border bg-background/70 px-2.5 py-1.5 text-xs font-medium leading-4 text-foreground",
-        compact && "py-1 px-2"
+        compact && "py-1 px-2",
+        singleLine && "h-6 min-h-6 py-0"
       )}
     >
       <LineDot line={transit.line} />
-      <span>
-        {transit.station}
-        {label !== transit.station ? (
-          <>
-            {" "}
-            ·{" "}
-            <span className="whitespace-nowrap">
-              {label.slice(transit.station.length + 3)}
+      {singleLine ? (
+        <>
+          <span className="truncate">{transit.station}</span>
+          {label !== transit.station && (
+            <span className="shrink-0 whitespace-nowrap">
+              · {label.slice(transit.station.length + 3)}
             </span>
-          </>
-        ) : null}
-      </span>
+          )}
+        </>
+      ) : (
+        <span>
+          {transit.station}
+          {label !== transit.station ? (
+            <>
+              {" "}
+              ·{" "}
+              <span className="whitespace-nowrap">
+                {label.slice(transit.station.length + 3)}
+              </span>
+            </>
+          ) : null}
+        </span>
+      )}
     </span>
   );
 }
@@ -59,11 +73,13 @@ export function LineDot({ line }: { line: TransitLineView }) {
 export function TransitSummary({
   transit,
   limit = 3,
-  compact = false
+  compact = false,
+  singleLine = false
 }: {
   transit: TempleTransitView[];
   limit?: number;
   compact?: boolean;
+  singleLine?: boolean;
 }) {
   const nearest = getNearestTransitList(transit, limit);
 
@@ -80,7 +96,8 @@ export function TransitSummary({
     <span
       className={cn(
         "flex flex-wrap gap-2",
-        compact && "flex-col items-start gap-1.5"
+        compact && "flex-col items-start gap-1.5",
+        singleLine && "gap-1"
       )}
     >
       {nearest.map((item) => (
@@ -88,6 +105,7 @@ export function TransitSummary({
           key={`${item.station}-${item.line.id}`}
           transit={item}
           compact={compact}
+          singleLine={singleLine}
         />
       ))}
     </span>
