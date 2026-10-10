@@ -49,7 +49,6 @@ export const metadata: Metadata = {
     "карта храмов Москвы"
   ],
   alternates: {
-    canonical: siteUrl,
     types: {
       "application/rss+xml": `${siteUrl}/rss.xml`
     }
@@ -120,7 +119,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         description: siteDescription,
         potentialAction: {
           "@type": "SearchAction",
-          target: `${siteUrl}/temples?query={search_term_string}`,
+          target: `${siteUrl}/temples/?query={search_term_string}`,
           "query-input": "required name=search_term_string"
         }
       },

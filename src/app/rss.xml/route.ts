@@ -19,7 +19,7 @@ export async function GET() {
   const items = temples
     .map((temple) => {
       const title = temple.shortName ?? temple.name;
-      const link = `${siteUrl}/temples/${temple.slug}`;
+      const link = `${siteUrl}/temples/${temple.slug}/`;
       const description = [
         temple.description,
         temple.address ? `Адрес: ${temple.address}.` : null,

@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "Условия добровольной поддержки проекта",
   description:
     "Условия добровольной поддержки бесплатного информационного сервиса HramGo.",
-  alternates: { canonical: "/legal/support-terms" }
+  alternates: { canonical: "/legal/support-terms/" }
 };
 
 export default function SupportTermsPage() {

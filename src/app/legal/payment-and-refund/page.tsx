@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: "Оплата, отказ и возврат средств",
   description:
     "Порядок оплаты добровольной поддержки HramGo через ЮKassa и обращения за возвратом.",
-  alternates: { canonical: "/legal/payment-and-refund" }
+  alternates: { canonical: "/legal/payment-and-refund/" }
 };
 
 export default function PaymentAndRefundPage() {
