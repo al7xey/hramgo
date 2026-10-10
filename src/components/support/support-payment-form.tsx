@@ -55,7 +55,7 @@ export function SupportPaymentForm() {
     amountNumber <= supportConfig.MAX_SUPPORT_AMOUNT_RUB;
   return (
     <form
-      className="grid gap-4"
+      className="ym-hide-content grid gap-4"
       onSubmit={async (event) => {
         event.preventDefault();
         if (
