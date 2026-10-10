@@ -56,9 +56,9 @@ export function YandexMetrika() {
     if (!initialized.current) {
       window.ym(METRIKA_COUNTER_ID, "init", {
         defer: true,
-        webvisor: false,
-        clickmap: false,
-        trackLinks: false,
+        webvisor: true,
+        clickmap: true,
+        trackLinks: true,
         accurateTrackBounce: true,
         url,
         referrer: document.referrer ? analyticsPageUrl(document.referrer) : ""
@@ -110,8 +110,8 @@ export function YandexMetrika() {
           className="fixed inset-x-4 bottom-28 z-[70] mx-auto max-w-xl rounded-2xl border border-card-border bg-card p-4 shadow-glass md:bottom-6"
         >
           <p className="text-sm leading-6">
-            Разрешить Яндекс Метрике собирать статистику посещений? Без записи
-            форм и действий на экране.{" "}
+            Разрешить Яндекс Метрике собирать статистику посещений, включая
+            запись действий на страницах? Данные платёжной формы скрыты.{" "}
             <Link href="/legal/privacy/" className="text-primary underline">
               Подробнее
             </Link>
