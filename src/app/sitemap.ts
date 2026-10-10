@@ -12,37 +12,37 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     {
-      url: baseUrl,
+      url: `${baseUrl}/`,
       lastModified: now,
       changeFrequency: "daily",
       priority: 1
     },
     {
-      url: `${baseUrl}/temples`,
+      url: `${baseUrl}/temples/`,
       lastModified: now,
       changeFrequency: "daily",
       priority: 0.95
     },
     {
-      url: `${baseUrl}/map`,
+      url: `${baseUrl}/map/`,
       lastModified: now,
       changeFrequency: "weekly",
       priority: 0.9
     },
     {
-      url: `${baseUrl}/legal/privacy`,
+      url: `${baseUrl}/legal/privacy/`,
       lastModified: now,
       changeFrequency: "yearly",
       priority: 0.2
     },
     {
-      url: `${baseUrl}/legal/contacts`,
+      url: `${baseUrl}/legal/contacts/`,
       lastModified: now,
       changeFrequency: "yearly",
       priority: 0.2
     },
     {
-      url: `${baseUrl}/legal/terms`,
+      url: `${baseUrl}/legal/terms/`,
       lastModified: now,
       changeFrequency: "yearly",
       priority: 0.2
@@ -59,7 +59,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.2
     })),
     ...temples.map((temple) => ({
-      url: `${baseUrl}/temples/${temple.slug}`,
+      url: `${baseUrl}/temples/${temple.slug}/`,
       lastModified: temple.lastVerifiedAt
         ? new Date(temple.lastVerifiedAt)
         : now,

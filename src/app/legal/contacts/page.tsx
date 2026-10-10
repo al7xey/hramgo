@@ -7,7 +7,7 @@ import { env } from "@/lib/env";
 export const metadata: Metadata = {
   title: "Контакты и реквизиты",
   description: "Контакты и публичные реквизиты владельца проекта HramGo.",
-  alternates: { canonical: "/legal/contacts" }
+  alternates: { canonical: "/legal/contacts/" }
 };
 
 export default function LegalContactsPage() {

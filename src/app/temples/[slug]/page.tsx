@@ -78,12 +78,12 @@ export async function generateMetadata({
         .map((item) => `храм рядом с ${item.station}`)
     ],
     alternates: {
-      canonical: `/temples/${temple.slug}`
+      canonical: `/temples/${temple.slug}/`
     },
     openGraph: {
       title: `${templeTitle} — адрес, расписание и контакты | HramGo`,
       description: seoDescription,
-      url: `https://hramgo.ru/temples/${temple.slug}`,
+      url: `https://hramgo.ru/temples/${temple.slug}/`,
       type: "article",
       images: temple.photos[0]?.imageUrl
         ? [
@@ -522,11 +522,11 @@ function getTempleStructuredData(temple: TempleView) {
     "@graph": [
       {
         "@type": "Church",
-        "@id": `https://hramgo.ru/temples/${temple.slug}#church`,
+        "@id": `https://hramgo.ru/temples/${temple.slug}/#church`,
         name: temple.name,
         alternateName: temple.shortName ?? undefined,
         description: description ?? undefined,
-        url: `https://hramgo.ru/temples/${temple.slug}`,
+        url: `https://hramgo.ru/temples/${temple.slug}/`,
         image: temple.photos.map((photo) => photo.imageUrl).slice(0, 8),
         telephone: temple.phone ?? undefined,
         email: temple.email ?? undefined,
@@ -550,7 +550,7 @@ function getTempleStructuredData(temple: TempleView) {
       },
       {
         "@type": "BreadcrumbList",
-        "@id": `https://hramgo.ru/temples/${temple.slug}#breadcrumb`,
+        "@id": `https://hramgo.ru/temples/${temple.slug}/#breadcrumb`,
         itemListElement: [
           {
             "@type": "ListItem",
@@ -562,13 +562,13 @@ function getTempleStructuredData(temple: TempleView) {
             "@type": "ListItem",
             position: 2,
             name: "Храмы Москвы",
-            item: "https://hramgo.ru/temples"
+            item: "https://hramgo.ru/temples/"
           },
           {
             "@type": "ListItem",
             position: 3,
             name: temple.shortName ?? temple.name,
-            item: `https://hramgo.ru/temples/${temple.slug}`
+            item: `https://hramgo.ru/temples/${temple.slug}/`
           }
         ]
       }

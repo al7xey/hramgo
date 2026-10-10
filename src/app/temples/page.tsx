@@ -22,11 +22,11 @@ export const metadata: Metadata = {
     "церкви Москвы",
     "московские храмы"
   ],
-  alternates: { canonical: "/temples" },
+  alternates: { canonical: "/temples/" },
   openGraph: {
     title: "Поиск храмов Москвы — адреса, метро, МЦД и расписания | HramGo",
     description: "Найдите храм Москвы по названию, улице, району, станции метро, МЦД или ветке: адреса, расписания богослужений, контакты и фото.",
-    url: "https://hramgo.ru/temples",
+    url: "https://hramgo.ru/temples/",
     type: "website",
     images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Каталог храмов Москвы" }]
   },
