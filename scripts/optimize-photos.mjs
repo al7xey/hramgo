@@ -26,7 +26,7 @@ for(const photo of candidates){
   const response=await fetch(url,{headers:{'user-agent':'HramGo/1.0 (+https://hramgo.ru)'},signal:AbortSignal.timeout(30000)});
   if(!response.ok){report.push({id:photo.id,status:'FAILED',httpStatus:response.status});continue;}
   const original=Buffer.from(await response.arrayBuffer());if(original.length>15000000)throw new Error('Photo exceeds import size limit');
-  buffer=await sharp(original).rotate().resize({width:1280,height:1280,fit:'inside',withoutEnlargement:true}).webp({quality:78}).toBuffer();
+  buffer=await sharp(original).rotate().resize({width:1280,height:1280,fit:'inside',withoutEnlargement:true}).webp({quality:72,effort:6}).toBuffer();
   if(buffer.length>524288)buffer=await sharp(buffer).webp({quality:62}).toBuffer();
   if(buffer.length>524288){report.push({id:photo.id,status:'SKIPPED',reason:'Optimized file exceeds bucket limit'});continue;}
   await writeFile(file,buffer);

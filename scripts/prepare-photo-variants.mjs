@@ -57,7 +57,7 @@ await Promise.all(
                   fit: "inside",
                   withoutEnlargement: true
                 })
-                .webp({ quality: 78 })
+                .webp({ quality: 72, effort: 6 })
                 .toBuffer();
               await writeFile("public/photos/" + file, bytes);
             }
