@@ -104,7 +104,7 @@ export function YandexMetrika() {
           Настройки аналитики
         </button>
       </div>
-      {ready && (consent === null || settingsOpen) && (
+      {ready && settingsOpen && (
         <section
           aria-label="Настройки аналитики"
           className="fixed inset-x-4 bottom-28 z-[70] mx-auto max-w-xl rounded-2xl border border-card-border bg-card p-4 shadow-glass md:bottom-6"
