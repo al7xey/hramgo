@@ -1,0 +1,44 @@
+hramgo.ru {
+    encode zstd gzip
+    header X-Content-Type-Options nosniff
+    header Referrer-Policy strict-origin-when-cross-origin
+    @immutable path /_next/static/* /photos/*
+
+    handle /api/support/* {
+        reverse_proxy 172.18.0.1:8788 {
+            header_up X-Real-IP {http.request.remote.host}
+        }
+    }
+
+    handle @immutable {
+        root * /srv/hramgo/releases/20261006-audit-photo
+        header Cache-Control "public, max-age=31536000, immutable"
+        file_server {
+            precompressed br gzip
+        }
+    }
+
+    handle /data/* {
+        root * /srv/hramgo/releases/20261006-audit-photo
+        header Cache-Control "public, max-age=300, stale-while-revalidate=86400"
+        file_server {
+            precompressed br gzip
+        }
+    }
+
+    handle {
+        root * /srv/hramgo/releases/20261006-audit-photo
+        header Cache-Control "public, max-age=0, must-revalidate"
+        file_server {
+            precompressed br gzip
+        }
+    }
+
+    handle_errors {
+        root * /srv/hramgo/releases/20261006-audit-photo
+        rewrite * /404.html
+        file_server {
+            precompressed br gzip
+        }
+    }
+}

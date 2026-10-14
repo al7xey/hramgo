@@ -8,7 +8,7 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
-    "build": "next build",
+    "build": "next build && node scripts/compress-static-export.mjs",
     "test": "tsx --test tests/*.test.ts",
     "catalog:sync": "node scripts/sync-catalog.mjs",
     "catalog:refresh": "node scripts/refresh-official.mjs",
