@@ -21,6 +21,6 @@ On 7 October 2026 the existing sitemap was submitted again through Google Search
 
 Counter `113502041` belongs to HramGo (`hramgo.ru`, Moscow time). It is linked to the HTTPS property in Webmaster, with crawling through the counter enabled.
 
-`src/components/analytics/yandex-metrika.tsx` mounts in the common app shell. The external script is not requested before explicit visitor consent. The saved choice can be changed through “Настройки аналитики” in the footer. Declining stops the counter. There is deliberately no noscript tracking pixel, which would bypass consent.
+`src/components/analytics/yandex-metrika.tsx` mounts in the common app shell. The counter loads for every visitor; there is no consent popup or settings link. There is deliberately no noscript tracking pixel.
 
-SPA navigation sends one manual page hit per changed pathname. Search parameters, hash fragments, location coordinates, payment identifiers and form contents are excluded. Webvisor, clickmap and automatic link tracking are disabled. No ecommerce data layer is configured. The privacy page explains the counter and the saved browser preference. `tests/analytics.test.ts` verifies URL sanitization.
+SPA navigation sends one manual page hit per changed pathname. Search parameters, hash fragments, location coordinates, payment identifiers and form contents are excluded. Webvisor, clickmap and automatic link tracking are disabled. No ecommerce data layer is configured. The privacy page explains the counter. `tests/analytics.test.ts` verifies URL sanitization.

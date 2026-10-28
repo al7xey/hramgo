@@ -1,5 +1,4 @@
 export const METRIKA_COUNTER_ID = 113502041;
-export const ANALYTICS_CONSENT_KEY = "hramgo-analytics-consent";
 
 /** Never transmit search, location, payment identifiers, or URL fragments. */
 export function analyticsPageUrl(input: string): string {
